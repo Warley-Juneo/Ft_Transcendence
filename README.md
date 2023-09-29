@@ -113,6 +113,10 @@ Last project of 42School
 	                            sudo apt install nodejs
 	                            sudo apt install npm
 
+  ### Axios (A libary to make HTTP Requests) https://docs.nestjs.com/techniques/http-module#using-axios-directly
+  
+  install:                   npm i --save @nestjs/axios axios
+
 ## Commands
 
   ### Prisma
@@ -128,3 +132,5 @@ Last project of 42School
     run application:                npm run start:dev
     lint and autofix with eslint:   npm run lint
     format with prettier:           npm run format
+
+  ### Axios
