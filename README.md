@@ -117,7 +117,7 @@ Last project of 42School
 
     init:                     npx prisma init --datasource-provider sqlite
     tables migration:         npx prisma migrate dev --name init
-    init prisma (browser):    npx studio
+    init prisma (browser):    npx prisma studio
 
   ### Nestjs
 
