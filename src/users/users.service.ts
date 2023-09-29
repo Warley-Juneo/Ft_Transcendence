@@ -2,18 +2,25 @@ import { Injectable } from "@nestjs/common";
 import { Users } from "@prisma/client";
 import { PrismaService } from "src/database/prisma.service";
 import { LoginUserDto } from "src/dtos/user.dtos";
+import { UsersRepository } from "./users.repository";
+import { randomUUID } from "crypto";
 
 @Injectable()
 export class UsersService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(private readonly repository: UsersRepository) {}
 
-    async createUser(data: LoginUserDto): Promise<Users> {
-        return this.prisma.users.create({
-            data,
-        })
-    }
+    async createUser(dto: LoginUserDto): Promise<Users> {
 
-    async getAllUsers() {
-        return this.prisma.users.findMany();
+        var newUser: UserEntity = {
+            id: randomUUID(),
+            name: dto.name,
+            email: dto.email,
+        }
+        
+        //Validade Dto
+
+        var promise = await this.repository.createUser(newUser);
+
+        return promise;
     }
 };
