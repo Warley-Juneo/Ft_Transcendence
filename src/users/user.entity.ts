@@ -16,7 +16,7 @@ abstract class UserEntity {
 }
 
 abstract class UserHistory {
-    wins?:  number;
-    loses?: number;
-    draws?: number;
+    wins:  number;
+    loses: number;
+    draws: number;
 }

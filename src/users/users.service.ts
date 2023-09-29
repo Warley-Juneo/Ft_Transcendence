@@ -10,18 +10,13 @@ export class UsersService {
     constructor(private readonly repository: UsersRepository) {}
 
     async createUser(dto: LoginUserDto): Promise<User> {
-        var history = {
-            wins: 0,
-            loses: 0,
-            draws: 0,
-        }
-
+        
         var newUser: UserEntity = {
             id: randomUUID(),
             name: dto.name,
             email: dto.email,
         }
-        
+
         //Validade Dto
 
         var promise = await this.repository.createUser(newUser);

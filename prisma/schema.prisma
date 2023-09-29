@@ -11,31 +11,31 @@ datasource db {
 }
 
 model User {
-  id    String @id @default(uuid())
-  name  String @unique
-  email String @unique
+  id            String        @id @default(uuid())
+  name          String        @unique
+  email         String        @unique
 
-  avatar   String?
-  nickname String?
+  avatar        String?
+  nickname      String?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  is_active Boolean  @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  is_active     Boolean       @default(true)
 
-  history       UserHistory @relation(fields: [userHistoryId], references: [id])
-  userHistoryId String      @unique
+  history       UserHistory   @relation(fields: [userHistoryId], references: [id])
+  userHistoryId String        @unique
 
   @@map("users")
 }
 
 model UserHistory {
-  id    String @id @default(uuid())
+  id      String    @id @default(uuid())
   
-  wins  Int    @default(0)
-  loses Int    @default(0)
-  draws Int    @default(0)
+  wins    Int       @default(0)
+  loses   Int       @default(0)
+  draws   Int       @default(0)
 
-  User User?
+  User    User?
 
   @@map("users_history")
 }
