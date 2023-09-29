@@ -9,7 +9,7 @@ export class UsersController {
 
     @Get()
     getAllUsers(): any {
-        return "All users";
+        return this.service.getAllUsers();
     }
 
     @Post()
