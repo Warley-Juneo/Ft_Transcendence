@@ -77,20 +77,52 @@ Nest is [MIT licensed](LICENSE).
 Last project of 42School
 
 
-#Objetivos
-    Salvar um usuario no banco de dados
+## Objetivos
+
+  - Salvar um usuario no banco de dados:                                29/09
+  - CRUD (rotas) module User
+      - create
+      - update
+      - 
+  - Tratamento de erros e validação do json para o Módulo User
+  - Connectar com API 42
+  - Frontend Login
+
+
+
 
 1 - Criar Projeto - nest [new name_project]
 
-#Errors
+## Errors
+   
     Caso seu node de problema de versão use esse comando
     `nvm install 20`
 
 
-#Anotações
-    #Prisma
-        install: npm install prisma --save-dev
-        iniciar prisma: npx prisma init --datasource-provider sqlite
-        migrar tables of the bd: npx prisma migrate dev --name init
+## Install
+  
+  ### Prisma
+    
+    install:                  npm install prisma --save-dev
 
-        iniciar prisma browser: npx studio
+  ### Nestjs
+
+  install:                    sudo apt update
+	                            sudo apt install nodejs
+	                            sudo apt install npm
+
+## Commands
+
+  ### Prisma
+
+    init:                     npx prisma init --datasource-provider sqlite
+    tables migration:         npx prisma migrate dev --name init
+    init prisma (browser):    npx studio
+
+  ### Nestjs
+
+    create new project:             nest new [directory]
+                                    sudo npm -g @nestjs/cli
+    run application:                npm run start:dev
+    lint and autofix with eslint:   npm run lint
+    format with prettier:           npm run format
