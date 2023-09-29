@@ -11,37 +11,31 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(uuid())
-  name          String          @unique
-  email         String          @unique
-  
-  avatar        String?
-  nickname      String?
+  id    String @id @default(uuid())
+  name  String @unique
+  email String @unique
 
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  is_active     Boolean         @default(true)
+  avatar   String?
+  nickname String?
 
-  //RELATION WITH FRIENDS
-  meId          String
-  me            User            @relation("friendship", fields: [meId], references: [id])
-  userFriends   User[]          @relation("friendship")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  is_active Boolean  @default(true)
 
-  //USERHISTORY AND USERHISTORYID ARE MANDATORY
-  //REFERENCES: HAS TO BE UNIQUE
-  userHistoryId   String        @unique
-  userHistory     UserHistory   @relation(fields: [userHistoryId], references: [id])
+  history       UserHistory @relation(fields: [userHistoryId], references: [id])
+  userHistoryId String      @unique
 
   @@map("users")
 }
 
 model UserHistory {
-  id              String        @id @default(uuid())
-  wins            Int           @default(0)
-  loses           Int           @default(0)
-  draws           Int           @default(0)
+  id    String @id @default(uuid())
+  
+  wins  Int    @default(0)
+  loses Int    @default(0)
+  draws Int    @default(0)
 
-  user            User?
+  User User?
 
   @@map("users_history")
 }
