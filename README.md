@@ -83,7 +83,7 @@ Last project of 42School
   - CRUD (rotas) module User
       - create
       - update
-      - 
+      - getUser
   - Tratamento de erros e validação do json para o Módulo User
   - Connectar com API 42
   - Frontend Login

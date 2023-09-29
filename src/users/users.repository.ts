@@ -15,7 +15,6 @@ export class UsersRepository implements UsersRepositoryInterface {
 				draws: 0,
 			}
 		})
-
 		return history;
 	}
 
@@ -35,7 +34,6 @@ export class UsersRepository implements UsersRepositoryInterface {
 				}
 			 }
 		})
-
 		return  response;
 	}
 }

@@ -1,4 +1,4 @@
 export class LoginUserDto {
-    name: string;
-    email: string;
+    name:   string;
+    email:  string;
 }
