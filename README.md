@@ -106,7 +106,7 @@ Last project of 42School
   ### Prisma
     
     install:                  npm install prisma --save-dev
-
+                              npm install prisma @prisma/client
   ### Nestjs
 
   install:                    sudo apt update
@@ -117,13 +117,15 @@ Last project of 42School
   
   install:                   npm i --save @nestjs/axios axios
 
-## Commands
+## Terminal Commands
 
   ### Prisma
 
-    init:                     npx prisma init --datasource-provider sqlite
-    tables migration:         npx prisma migrate dev --name init
-    init prisma (browser):    npx prisma studio
+    init prisma schema:                          npx prisma init --datasource-provider sqlite
+    init prisma (browser):                       npx prisma studio
+    push table to db from schema(Migration):     npx prisma migrate dev --name <name>
+    pull a db table to schema(Introspection):    npx prisma db pull
+
 
   ### Nestjs
 
@@ -134,3 +136,14 @@ Last project of 42School
     format with prettier:           npm run format
 
   ### Axios
+
+
+  ## Directives
+
+  ### Prisma
+    @id                     primary key. Every model must have 
+    @@id([field, field])    combination of more than one field will be unique. Primary key
+    @@map("name")           change the name of the db table
+    @map("name")            change name of the field in db table
+    @default                set a default value for the field
+    @?                      field can be empty
