@@ -1,4 +1,5 @@
 import { User } from "@prisma/client";
+import { UserEntity } from "../user.entity";
 
 export abstract class UsersRepositoryInterface {
 

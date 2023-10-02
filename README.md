@@ -102,9 +102,9 @@ Last project of 42School
 
 
 ## Install
-  
+
   ### Prisma
-    
+
     install:                  npm install prisma --save-dev
                               npm install prisma @prisma/client
   ### Nestjs
@@ -114,7 +114,7 @@ Last project of 42School
 	                            sudo apt install npm
 
   ### Axios (A libary to make HTTP Requests) https://docs.nestjs.com/techniques/http-module#using-axios-directly
-  
+
   install:                   npm i --save @nestjs/axios axios
 
 ## Terminal Commands

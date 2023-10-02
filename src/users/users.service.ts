@@ -6,16 +6,16 @@ import { UsersRepository } from "./users.repository";
 import { randomUUID } from "crypto";
 import { HttpService } from "@nestjs/axios"; //Make HTTP Requests
 import { Observable, last, lastValueFrom } from "rxjs";
-
+import { UserEntity } from "./user.entity";
 
 @Injectable()
 export class UsersService {
-    // constructor(private readonly repository: UsersRepository) {}
-    constructor(private readonly httpService: HttpService) {}
+    constructor(
+        private readonly httpService: HttpService,
+        private readonly userRepository: UsersRepository) {}
 
     async createUser(dto: LoginUserDto): Promise<any> {
 
-        //Validade Dto
         const clientId = process.env.UID;
         const secret = process.env.SECRET;
 
@@ -45,11 +45,19 @@ export class UsersService {
 
         // TRANSFORM FROM OBSERVABLE TO PROMISE
         const  userInfoResolved = await lastValueFrom(userInfo);
+       
+        console.log(userInfoResolved);
         
-        console.log(userInfoResolved.data.email);
+        // SET USER_ENTITY
+        const newUser = new UserEntity();
+        newUser.login = userInfoResolved.data.login,
+        newUser.email = userInfoResolved.data.email,
+        newUser.nickname =  userInfoResolved.data.usual_full_name,
+        newUser.statusConnection = true,
 
-        // var promise = await this.repository.createUser(newUser);
-        
-        // return promise;
+        console.log(newUser);
+
+        var promise = await this.userRepository.createUser(newUser);
+        return promise;
     }
 };

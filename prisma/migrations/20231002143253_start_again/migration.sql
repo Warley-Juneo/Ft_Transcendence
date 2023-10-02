@@ -1,10 +1,11 @@
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "name" TEXT NOT NULL,
+    "login" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "avatar" TEXT,
     "nickname" TEXT,
+    "avatar" TEXT,
+    "statusConnection" BOOLEAN,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     "is_active" BOOLEAN NOT NULL DEFAULT true,
@@ -21,7 +22,7 @@ CREATE TABLE "users_history" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_name_key" ON "users"("name");
+CREATE UNIQUE INDEX "users_login_key" ON "users"("login");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
