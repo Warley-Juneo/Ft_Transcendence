@@ -79,16 +79,14 @@ Last project of 42School
 
 ## Objetivos
 
+  ### Login
   1- Salvar um usuario no banco de dados:                                29/09
   2- Connectar com API 42
-      Preencher dados do Dto
-
-  - CRUD (rotas) module User
-      - create
-      - update
-      - getUser
-  - Tratamento de erros e validação do json para o Módulo User
-  - Frontend Login
+      Preencher dados do Dto                                             02/10
+  3- CRUD (rotas) module User
+      - create                                                           02/10
+      - findUser                                                         02/10
+  4- Frontend Login
 
 
 
