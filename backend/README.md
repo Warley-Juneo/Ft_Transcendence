@@ -113,8 +113,15 @@ Last project of 42School
 
   ### Axios (A libary to make HTTP Requests) https://docs.nestjs.com/techniques/http-module#using-axios-directly
 
-  install:                   npm i --save @nestjs/axios axios
+  install:                    npm i --save @nestjs/axios axios
 
+  ### React
+
+  install:                      npx create-react-app <name> --template typescript
+
+  ### Bootstrap
+
+    install:                    npm install react-bootstrap bootstrap
 ## Terminal Commands
 
   ### Prisma
@@ -135,6 +142,9 @@ Last project of 42School
 
   ### Axios
 
+  ### React
+
+    init project:                   npm start
 
   ## Directives
 
