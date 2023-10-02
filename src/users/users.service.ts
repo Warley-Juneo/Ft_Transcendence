@@ -45,19 +45,24 @@ export class UsersService {
 
         // TRANSFORM FROM OBSERVABLE TO PROMISE
         const  userInfoResolved = await lastValueFrom(userInfo);
-       
-        console.log(userInfoResolved);
-        
-        // SET USER_ENTITY
-        const newUser = new UserEntity();
-        newUser.login = userInfoResolved.data.login,
-        newUser.email = userInfoResolved.data.email,
-        newUser.nickname =  userInfoResolved.data.usual_full_name,
-        newUser.statusConnection = true,
 
-        console.log(newUser);
-
-        var promise = await this.userRepository.createUser(newUser);
+        //CHECK IF ALREADY EXISTS
+        var promise: User = await this.userRepository.findUser(userInfoResolved.data.email);
+        console.log(promise);
+        if (!promise)
+        {
+            // SET USER_ENTITY
+            const newUser = new UserEntity();
+            newUser.login = userInfoResolved.data.login,
+            newUser.email = userInfoResolved.data.email,
+            newUser.nickname = userInfoResolved.data.usual_full_name,
+            // console.log(newUser);
+            promise = await this.userRepository.createUser(newUser);
+        }
+        else {
+            console.log("USER ALREADY EXISTS")
+            promise = await this.userRepository.findUser(userInfoResolved.data.email)
+        }
         return promise;
     }
 };

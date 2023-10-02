@@ -14,7 +14,6 @@ export class UsersRepository implements UsersRepositoryInterface {
 			 data: {
 				login : user.login,
 				email: user.email,
-				statusConnection: user.statusConnection,
 				nickname: user.nickname,
 
 				history: {
@@ -27,5 +26,15 @@ export class UsersRepository implements UsersRepositoryInterface {
 			 }
 		})
 		return  response;
+	}
+
+	async findUser(email: string): Promise<User> {
+
+		var response = this.prisma.user.findUnique({
+			where: {
+				email: email
+			}
+		})
+		return response;
 	}
 }
