@@ -13,5 +13,4 @@ export class UsersController {
         return await this.service.createUser(dto)
     }
 
-    
 }

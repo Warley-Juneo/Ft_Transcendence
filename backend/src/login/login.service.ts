@@ -2,12 +2,15 @@ import { Injectable } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { lastValueFrom } from "rxjs";
 import { HttpService } from "@nestjs/axios";
+import { UsersService } from "src/users/users.service";
+import { LoginUserDto } from "src/dtos/user.dtos";
 
 @Injectable()
 export class LoginService {
-	constructor(private readonly httpService: HttpService) {}
+	constructor(private readonly httpService: HttpService,
+                private readonly usersService: UsersService) {}
 
-	async Login(authCode: String): Promise<any> {
+	async Login(authCode: LoginUserDto): Promise<any> {
 		const clientId = process.env.UID;
         const secret = process.env.SECRET;
 
@@ -15,7 +18,7 @@ export class LoginService {
             grant_type: "authorization_code",
             client_id: clientId,
             client_secret: secret,
-            code: authCode,
+            code: authCode.authCode,
             redirect_uri: "http://localhost:3000"
         }
 
@@ -38,6 +41,9 @@ export class LoginService {
         // TRANSFORM FROM OBSERVABLE TO PROMISE
         const  userInfoResolved = await lastValueFrom(userInfo);
 		
-		return userInfoResolved;
+        // RESOLVE USER
+        const user = this.usersService.createUser(userInfoResolved);
+
+        return user;
 	}
 }

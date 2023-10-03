@@ -14,12 +14,9 @@ import { LoginService } from "src/login/login.service";
 export class UsersService {
     constructor(
         private readonly httpService: HttpService,
-        private readonly userRepository: UsersRepository,
-        private readonly loginService: LoginService) {}
+        private readonly userRepository: UsersRepository) {}
 
-    async createUser(dto: LoginUserDto): Promise<any> {
-
-        var userInfoResolved = await this.loginService.Login(dto.authCode);
+    async createUser(userInfoResolved: any): Promise<any> {
 
         //CHECK IF ALREADY EXISTS
         var promise: User = await this.userRepository.findUser(userInfoResolved.data.email);

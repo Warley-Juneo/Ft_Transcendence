@@ -7,8 +7,9 @@ import { HttpModule } from '@nestjs/axios';
 import { LoginModule } from 'src/login/login.module';
 
 @Module({
-  imports: [HttpModule, LoginModule],
+  imports: [HttpModule],
   controllers: [UsersController],
   providers: [UsersService, PrismaService, UsersRepository],
+  exports: [UsersService],
 })
 export class UsersModule {}
