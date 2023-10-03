@@ -9,6 +9,6 @@ export class LoginController {
 
 	@Post()
 	async login(@Body() code: LoginUserDto): Promise<any> {
-		return await this.service.Login(code)
+		return await this.service.mainLogin(code)
 	}
 }

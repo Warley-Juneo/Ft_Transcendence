@@ -11,7 +11,7 @@ export class LoginService {
 	constructor(private readonly httpService: HttpService,
                 private readonly usersService: UsersService) {}
 
-	async Login(authCode: LoginUserDto): Promise<User> {
+	async mainLogin(authCode: LoginUserDto): Promise<User> {
 		const clientId = process.env.UID;
         const secret = process.env.SECRET;
 
