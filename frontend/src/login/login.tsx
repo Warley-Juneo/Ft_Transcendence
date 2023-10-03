@@ -1,16 +1,50 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
-
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Form from 'react-bootstrap/Form';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './style.css';
 
 export function Login() {
     return (
-        <div className='Login'>
-            <header className='Login-header'>
-                <h1>Olá Fausto</h1>
-				<Button variant="primary" size="lg">
-         			Large button
-        		</Button>
-            </header>
+        <div className="template">
+          <div className="title">
+            <h1>FT_TRANSCENDENCE</h1>
+          </div>
+          <div className="form_container">
+            <form>
+              <h3 className="text-center">Sign in</h3>
+              <div className="mb-2">
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="Email address"
+                  className="login_email"
+                >
+                <Form.Control type="email" placeholder="name@example.com" />
+                </FloatingLabel>
+              </div>
+              <div className="mb-2">
+                <FloatingLabel 
+                  controlId="floatingPassword"
+                  label="Password"
+                  className="login_password"
+                >
+                <Form.Control type="password" placeholder="Password" />
+                </FloatingLabel>
+              </div>
+              <div className='mb-2'>
+                <input type="checkbox" className='custom-control custom-checkbox' id='check'/>
+                <label htmlFor="check" className="custom-input-label ms-2">
+                  Remember me
+                </label>
+              </div>
+              <div className="d-grid">
+                <button className="btn btn-primary">Sign in</button>
+              </div>
+              <p className="text-end mt-2">
+                Forgot <a href=""> Password?</a><a href="" className="ms-2">Sign up</a>
+              </p>
+            </form>
+          </div>
         </div>
     );
 }
