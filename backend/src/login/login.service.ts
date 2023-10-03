@@ -4,13 +4,14 @@ import { lastValueFrom } from "rxjs";
 import { HttpService } from "@nestjs/axios";
 import { UsersService } from "src/users/users.service";
 import { LoginUserDto } from "src/dtos/user.dtos";
+import { User } from "@prisma/client";
 
 @Injectable()
 export class LoginService {
 	constructor(private readonly httpService: HttpService,
                 private readonly usersService: UsersService) {}
 
-	async Login(authCode: LoginUserDto): Promise<any> {
+	async Login(authCode: LoginUserDto): Promise<User> {
 		const clientId = process.env.UID;
         const secret = process.env.SECRET;
 
@@ -42,7 +43,7 @@ export class LoginService {
         const  userInfoResolved = await lastValueFrom(userInfo);
 		
         // RESOLVE USER
-        const user = this.usersService.createUser(userInfoResolved);
+        const user = this.usersService.login(userInfoResolved);
 
         return user;
 	}

@@ -8,7 +8,7 @@ import { UserEntity } from "./user.entity";
 export class UsersRepository implements UsersRepositoryInterface {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async createUser(user: UserEntity): Promise<User> {
+	async createUser(user: UserEntity): Promise<any> {
 
 		var response = this.prisma.user.create({
 			 data: {
