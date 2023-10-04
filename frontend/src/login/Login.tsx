@@ -3,13 +3,9 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
+import { AuthLogin } from './AuthLogin';
 
 export function Login() {
-
-  const AuthLogin = ()=> {
-		console.log("Hello Raoni and John");
-  }
-
     return (
         <div className="template">
           <div className="title">
@@ -43,7 +39,7 @@ export function Login() {
                 </label>
               </div>
               <div className="d-grid">
-                <button className="btn_signIn" onClick={AuthLogin}>Sign in</button>
+                <button onClick={AuthLogin}>Sign in</button>
               </div>
               {/* <p className="text-end mt-2">
                 Forgot <a href=""> Password?</a><a href="" className="ms-2">Sign up</a>

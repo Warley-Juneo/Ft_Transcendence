@@ -80,13 +80,14 @@ Last project of 42School
 ## Objetivos
 
   ### Login
-  1- Salvar um usuario no banco de dados:                                29/09
+  1- Salvar um usuario no banco de dados:                              29/09
   2- Connectar com API 42
-      Preencher dados do Dto                                             02/10
+      Preencher dados do Dto                                           02/10
   3- CRUD (rotas) module User
-      - create                                                           02/10
-      - findUser                                                         02/10
-  4- Frontend Login
+      - create                                                         02/10
+      - findUser                                                       02/10
+  4- Frontend Login                                                    03/10
+  5- Connectar FrontendLogin com Backend login                         
 
 
 
@@ -117,11 +118,13 @@ Last project of 42School
 
   ### React
 
-  install:                      npx create-react-app <name> --template typescript
+  install:                    npx create-react-app <name> --template typescript
+                              npm init react-app <name>
 
   ### Bootstrap
 
     install:                    npm install react-bootstrap bootstrap
+
 ## Terminal Commands
 
   ### Prisma
@@ -155,3 +158,10 @@ Last project of 42School
     @map("name")            change name of the field in db table
     @default                set a default value for the field
     @?                      field can be empty
+
+
+  ##Links
+
+  ### React
+
+  create-react-app            https://create-react-app.dev/

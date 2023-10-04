@@ -8,7 +8,7 @@ export class LoginController {
 	constructor(private readonly service: LoginService) {}
 
 	@Post()
-	async login(@Body() code: LoginUserDto): Promise<any> {
+	async mainLogin(@Body() code: LoginUserDto): Promise<any> {
 		return await this.service.mainLogin(code)
 	}
 }
