@@ -5,6 +5,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
 
 export function Login() {
+
+  const AuthLogin = ()=> {
+		console.log("Hello Raoni and John");
+  }
+
     return (
         <div className="template">
           <div className="title">
@@ -38,11 +43,11 @@ export function Login() {
                 </label>
               </div>
               <div className="d-grid">
-                <button className="btn btn-primary">Sign in</button>
+                <button className="btn_signIn" onClick={AuthLogin}>Sign in</button>
               </div>
-              <p className="text-end mt-2">
+              {/* <p className="text-end mt-2">
                 Forgot <a href=""> Password?</a><a href="" className="ms-2">Sign up</a>
-              </p>
+              </p> */}
             </form>
           </div>
         </div>
