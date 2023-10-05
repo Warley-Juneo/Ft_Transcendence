@@ -83,12 +83,16 @@ Last project of 42School
   1- Salvar um usuario no banco de dados:                              29/09
   2- Connectar com API 42
       Preencher dados do Dto                                           02/10
+
   3- CRUD (rotas) module User
       - create                                                         02/10
       - findUser                                                       02/10
-  4- Frontend Login                                                    03/10
-  5- Connectar FrontendLogin com Backend login                         
-  6- Abrir a página princiipal perfil do usuário                       
+
+  4- Frontend Auth(login)                                              03/10
+
+  5- Connectar FrontendLogin com BackendLogin Auth                     05/10
+
+  6- Se User Autenticado Renderizar estado pagina para perfil usuário  
 
 
 
@@ -165,3 +169,8 @@ Last project of 42School
   ### React
 
   create-react-app            https://create-react-app.dev/
+
+
+  ### Problemas
+
+  - 

@@ -9,15 +9,18 @@ import anime from '../../images/anime.png';
 import axios from 'axios';
 
 export function Login() {
-  useEffect(() => {
+  
+  //ACCESS BACKEND AFTER GET THE CODE AT API42
+  async function axios_connect(): Promise<any> {
     let paramters = new URLSearchParams(window.location.search);
-	  let code = paramters.get('code');
+    let code = paramters.get('code');
     if (code) {
-      let response = axios.post('http://localhost:3000/login', {
+      var response = await axios.post('http://localhost:3000/login', {
         authCode: code,
       })
       .then((response)=> {
-        if (response.status === 200) {
+        console.log(response);
+        if (response.status === 201) {
           console.log('SUCESSO!!!!');
         }
         else {
@@ -25,6 +28,12 @@ export function Login() {
         }
       })
     }
+    return response;
+  }
+
+  //THIS FUNCTION IS EXECUTED EVERY TIME THE PAGE IS LOADED
+  useEffect(() => {
+    axios_connect();
   }, []);
 
   return (

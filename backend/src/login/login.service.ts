@@ -20,7 +20,7 @@ export class LoginService {
             client_id: clientId,
             client_secret: secret,
             code: authCode.authCode,
-            redirect_uri: "http://localhost:3000"
+            redirect_uri: "http://localhost:3001" //PAGINA INICIAL
         }
         
         console.log(authCode.authCode);
