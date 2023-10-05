@@ -1,3 +1,4 @@
+
 .template {
 	font-size: 14px;
 	height: 100vh;
@@ -5,18 +6,7 @@
 	flex-direction: column;
 	justify-content: center;
 	background-color: darkslategrey;
-	
-}
-
-.title {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-bottom: 6vh;
-}
-
-.title h1 {
-	font-size: 6vw;
+	background-image: URL(../../images/anime.png);
 }
 
 .form_container {

@@ -1,12 +1,20 @@
 import './App.css';
-import { Login } from './login/Login';
+import { Head } from './components/head/Head';
+import { Login } from './components/login/Login';
+import { Foot } from './components/foot/Foot';
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <Login />
+    <div className="app">
+      <div className='appHead'>
+        <Head />
+      </div>
+      <div className='appBody'>
+        <Login />
+      </div>
+      <div className='appFoot'>
+        <Foot />
+      </div>
     </div>
   );
 }
-
-export default App;

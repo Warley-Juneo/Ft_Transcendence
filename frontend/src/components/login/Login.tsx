@@ -1,16 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
-import { AuthLogin } from './AuthLogin';
+import { AuthLogin } from './authLogin';
+import { Head } from '../head/Head';
+import anime from '../../images/anime.png';
+import axios from 'axios';
 
 export function Login() {
-    return (
+  useEffect(() => {
+    let paramters = new URLSearchParams(window.location.search);
+	  let code = paramters.get('code');
+    if (code) {
+      let response = axios.post('http://localhost:3000/login', {
+        authCode: code,
+      })
+      .then((response)=> {
+        if (response.status === 200) {
+          console.log('SUCESSO!!!!');
+        }
+        else {
+          console.log('FALHA NO LOGIN!!!!');
+        }
+      })
+    }
+  }, []);
+
+  return (
         <div className="template">
-          <div className="title">
-            <h1>FT_TRANSCENDENCE</h1>
-          </div>
+          {/* <img src={anime} /> */}
           <div className="form_container">
             <form>
               <h3 className="text-center">Sign in</h3>
@@ -44,6 +63,7 @@ export function Login() {
               {/* <p className="text-end mt-2">
                 Forgot <a href=""> Password?</a><a href="" className="ms-2">Sign up</a>
               </p> */}
+              
             </form>
           </div>
         </div>

@@ -88,7 +88,7 @@ Last project of 42School
       - findUser                                                       02/10
   4- Frontend Login                                                    03/10
   5- Connectar FrontendLogin com Backend login                         
-
+  6- Abrir a página princiipal perfil do usuário                       
 
 
 

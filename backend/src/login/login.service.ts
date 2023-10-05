@@ -22,6 +22,8 @@ export class LoginService {
             code: authCode.authCode,
             redirect_uri: "http://localhost:3000"
         }
+        
+        console.log(authCode.authCode);
 
         const authResponsePromise: Observable<any> = this.httpService
         .post(process.env.API42_USER_AUTH, authRequest);
@@ -31,6 +33,7 @@ export class LoginService {
 
         //GET ACCESS TOKEN TO ACCESS USER INFORMATION THROUGH 42 API
         const accessToken: String = authResponseResolved.data.access_token;
+
 
         const userInfo: Observable<any> = this.httpService
         .get(process.env.API42_USER_INFO, {
