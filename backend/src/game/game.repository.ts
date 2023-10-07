@@ -7,20 +7,30 @@ import { PrismaService } from "src/database/prisma.service";
 export class GameRepository {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async numberOfMatchWins(userId: string): Promise<number> {
+	async numberOfUserMatchWins(userId: string): Promise<number> {
 		var wins = this.prisma.match.count({
 			where: {
 				winner_id: userId,
-				}
+			}
 		})
 		return wins;
 	}
 
-	async numberOfMatchLoses(userId: string): Promise<number> {
+	async numberOfUserMatchLoses(userId: string): Promise<number> {
 		var loses = this.prisma.match.count({
 			where: {
 				loser_id: userId,
-				}
+			}
+		})
+		return loses;
+	}
+
+	async numberOfUserMatchDraws(userId: string): Promise<number> {
+		var loses = this.prisma.match.count({
+			where: {
+				loser_id: userId,
+				draw: true,
+			}
 		})
 		return loses;
 	}

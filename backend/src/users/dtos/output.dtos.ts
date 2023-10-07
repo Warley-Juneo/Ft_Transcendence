@@ -10,7 +10,7 @@ export class UserLoginDto {
 
 	_wins:				 number;
 	_loses:				 number;
-	_draws:				 number
+	_draws:				 number;
 
 	// _statusConnection?:  boolean; // podemos colocar um enum aqui para ter mais status de conexão
 }

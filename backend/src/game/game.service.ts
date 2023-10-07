@@ -9,13 +9,18 @@ import { GameRepository } from "./game.repository";
 export class GameService {
 	constructor(private readonly gameRepository: GameRepository) {}
 
-	async numberOfMatchWins(email: string): Promise<number> {
+	async numberOfUserMatchWins(email: string): Promise<number> {
 		
-		return this.gameRepository.numberOfMatchWins(email);
+		return this.gameRepository.numberOfUserMatchWins(email);
 	}
 
-	async numberOfMatchLoses(email: string): Promise<number> {
+	async numberOfUserMatchLoses(email: string): Promise<number> {
 		
-		return this.gameRepository.numberOfMatchLoses(email);
+		return this.gameRepository.numberOfUserMatchLoses(email);
+	}
+
+	async numberOfUserMatchDraws(email: string): Promise<number> {
+		
+		return this.gameRepository.numberOfUserMatchDraws(email);
 	}
 }

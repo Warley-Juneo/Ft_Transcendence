@@ -38,6 +38,7 @@ export class UsersService {
         newUser.email = authLoginDto.email;
         newUser.first_name = authLoginDto.first_name;
         newUser.last_name = authLoginDto.last_name;
+        newUser.nickname = authLoginDto.nickname;
 
         return await this.userRepository.createUser(newUser);
     }
