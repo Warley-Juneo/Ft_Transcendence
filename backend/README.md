@@ -92,7 +92,9 @@ Last project of 42School
 
   5- Connectar FrontendLogin com BackendLogin Auth                     05/10
 
-  6- Se User Autenticado Renderizar estado pagina para perfil usuário  
+  6- Se User Autenticado Renderizar estado pagina para perfil usuário  07/10
+
+  7- Download do avatar para savar no perfil do usuário                
 
 
  ### TO DO LIST
