@@ -56,11 +56,19 @@ export class AuthService {
         authLoginDto.avatar = userApiInfoResolved.data.avatar;
         
         // RESOLVE USER
-        let userLoginDto = await this.usersService.login(authLoginDto);
-
-        userLoginDto._wins = await this.gameService.numberOfUserMatchWins(userLoginDto._email);
-        userLoginDto._loses = await this.gameService.numberOfUserMatchLoses(userLoginDto._email);
-        userLoginDto._draws = await this.gameService.numberOfUserMatchDraws(userLoginDto._email);
+        let user = await this.usersService.login(authLoginDto);
+        
+        //CREATE USER_LOGIN_DTO
+        const userLoginDto = new UserLoginDto();
+        userLoginDto._login = user.login;
+        userLoginDto._email = user.email;
+        userLoginDto._first_name = user.first_name;
+        userLoginDto._last_name = user.last_name;
+        userLoginDto._nickname = user.nickname;
+        userLoginDto._avatar = user.avatar;
+        userLoginDto._wins = await this.gameService.numberOfUserMatchWins(user.id);
+        userLoginDto._loses = await this.gameService.numberOfUserMatchLoses(user.id);
+        userLoginDto._draws = await this.gameService.numberOfUserMatchDraws(user.id);
         
         console.log(userLoginDto);
         return userLoginDto;

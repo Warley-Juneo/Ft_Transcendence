@@ -11,23 +11,23 @@ import { AuthLoginDto } from "src/auth/dtos/input.dtos";
 export class UsersService {
     constructor(private readonly userRepository: UsersRepository) {}
 
-    async login(authLoginDto: AuthLoginDto): Promise<UserLoginDto> {
+    async login(authLoginDto: AuthLoginDto): Promise<User> {
         //CHECK IF ALREADY EXISTS
         var user: User = await this.findUser(authLoginDto.email);
         if (!user) {
             user = await this.createUser(authLoginDto);
         }
         
-        const newDto = new UserLoginDto();
-        newDto._login = user.login;
-        newDto._email = user.email;
-        newDto._first_name = user.first_name;
-        newDto._last_name = user.last_name;
-        newDto._nickname = user.nickname;
-        newDto._avatar = user.avatar;
+        // const newDto = new UserLoginDto();
+        // newDto._login = user.login;
+        // newDto._email = user.email;
+        // newDto._first_name = user.first_name;
+        // newDto._last_name = user.last_name;
+        // newDto._nickname = user.nickname;
+        // newDto._avatar = user.avatar;
         
 
-        return newDto;
+        return user;
     }
 
     async createUser(authLoginDto: AuthLoginDto): Promise<User> {

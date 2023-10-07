@@ -1,5 +1,4 @@
 export class UserLoginDto {
-
     _login:              string;
     _email:              string;
 
