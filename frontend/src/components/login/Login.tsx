@@ -15,7 +15,7 @@ export function Login() {
     let paramters = new URLSearchParams(window.location.search);
     let code = paramters.get('code');
     if (code) {
-      var response = await axios.post('http://localhost:3000/login', {
+      var response = await axios.post('http://localhost:3000/auth', {
         authCode: code,
       })
       .then((response)=> {

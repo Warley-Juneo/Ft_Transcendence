@@ -8,24 +8,16 @@ import { UserEntity } from "./user.entity";
 export class UsersRepository implements UsersRepositoryInterface {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async createUser(user: UserEntity): Promise<any> {
+	async createUser(user: UserEntity): Promise<User> {
 
 		var response = this.prisma.user.create({
 			 data: {
 				login : user.login,
 				email: user.email,
+				first_name: user.first_name,
+				last_name: user.last_name,
 				nickname: user.nickname,
-
-				wins: {
-					
-				}
-				// history: {
-				// 	create: {
-				// 		wins: 0,
-				// 		loses: 0,
-				// 		draws: 0,
-				// 	}
-				// }
+				// avatar: user.avatar,
 			 }
 		})
 		return  response;

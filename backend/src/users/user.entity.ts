@@ -1,18 +1,22 @@
-export class UserEntity {
+// A ENTITY HAS TO REPRESENT A MODEL INTO THE DATABASE
+// IT WILL BE USED TO VALIDATE THE DTO BEFORE CALL THE DATABASE
+export class UserEntity { 
+    
     private _id?:                string;
     private _login:              string;
     private _email:              string;
 
+    private _first_name?:        string;
+    private _last_name?:         string;
     private _nickname?:          string;
     private _avatar?:            string; //trocar aqui para o tipo File
-    private _statusConnection?:  boolean; // podemos colocar um enum aqui para ter mais status de conexão
+    // private _statusConnection?:  boolean; // podemos colocar um enum aqui para ter mais status de conexão
 
-    private _history?:           UserHistory;
     private _friends?:           Array<UserEntity>;
 
     private _created_at?:        Date;
     private _updated_at?:        Date;
-    private _is_active?:         boolean;
+    // private _is_active?:         boolean;
 
     public get id() {
         return this._id;
@@ -32,6 +36,20 @@ export class UserEntity {
         this._email = theEmail;
     }
 
+    public get first_name() {
+        return this._first_name;
+    }
+    public set first_name(the_first_name: any) {
+        this._first_name = the_first_name;
+    }
+
+    public get last_name() {
+        return this._last_name;
+    }
+    public set last_name(the_last_name: any) {
+        this._last_name = the_last_name;
+    }
+
     public get nickname() {
         return this._nickname;
     }
@@ -46,16 +64,12 @@ export class UserEntity {
         this._avatar = theAvatar;
     }
 
-    public get statusConnection() {
-        return this._statusConnection;
-    }
-    public set statusConnection(theStatus: boolean) {
-        this._statusConnection = theStatus;
-    }
-
-    public get history() {
-        return this._history;
-    }
+    // public get statusConnection() {
+    //     return this._statusConnection;
+    // }
+    // public set statusConnection(theStatus: boolean) {
+    //     this._statusConnection = theStatus;
+    // }
     
     public get friends() {
         return this._friends;
@@ -69,12 +83,12 @@ export class UserEntity {
         return this._updated_at;
     }
 
-    public get is_active() {
-        return this._is_active;
-    }
-    public set is_active(theActive: boolean) {
-        this._is_active = theActive
-    }
+    // public get is_active() {
+    //     return this._is_active;
+    // }
+    // public set is_active(theActive: boolean) {
+    //     this._is_active = theActive
+    // }
 }
 
 abstract class UserHistory {

@@ -4,7 +4,7 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { UsersRepository } from './users.repository';
 import { HttpModule } from '@nestjs/axios';
-import { LoginModule } from 'src/login/login.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [HttpModule],
