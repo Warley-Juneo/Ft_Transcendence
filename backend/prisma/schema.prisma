@@ -14,7 +14,7 @@ model User {
   id       String  @id @default(uuid())
   login    String  @unique
   email    String  @unique
-  nickname String?
+  nickname String  @unique
 
   avatar           String?
 
@@ -22,44 +22,44 @@ model User {
   updatedAt DateTime @updatedAt
   is_active Boolean  @default(true)
 
-  history       UserHistory @relation(fields: [userHistoryId], references: [id])
-  userHistoryId String      @unique
+  // history       UserHistory @relation(fields: [userHistoryId], references: [id])
+  // userHistoryId String      @unique
 
-  // match_as_player_1   Match[]  @relation(name: "player_1")
-  // match_as_player_2   Match[]  @relation(name: "player_2")
+  match_as_player_1   Match[]  @relation(name: "player_1")
+  match_as_player_2   Match[]  @relation(name: "player_2")
   
-  // wins                Match[]  @relation(name: "winner")
-  // loses               Match[]  @relation(name: "loser")
+  wins                Match[]  @relation(name: "winner")
+  loses               Match[]  @relation(name: "loser")
 
   @@map("users")
 }
 
-// model Match {
-//   id        String  @id @default(uuid())
+model Match {
+  id        String  @id @default(uuid())
 
-//   player1_id  String
-//   player_1    User?   @relation(name: "player_1", fields: [player1_id], references: [id])
-//   score_p1    Int     @default(0)
+  player1_id  String
+  player_1    User?   @relation(name: "player_1", fields: [player1_id], references: [id])
+  score_p1    Int     @default(0)
 
-//   player2_id  String
-//   player_2    User?   @relation(name: "player_2", fields: [player2_id], references: [id])
-//   score_p2    Int     @default(0)
+  player2_id  String
+  player_2    User?   @relation(name: "player_2", fields: [player2_id], references: [id])
+  score_p2    Int     @default(0)
 
-//   winner_id   String
-//   winner      User?  @relation(name: "winner", fields: [winner_id], references: [id])
+  winner_id   String
+  winner      User?  @relation(name: "winner", fields: [winner_id], references: [id])
 
-//   loser_id   String
-//   loser      User?  @relation(name: "loser", fields: [loser_id], references: [id])
-// }
-
-model UserHistory {
-  id String @id @default(uuid())
-
-  wins  Int @default(0)
-  loses Int @default(0)
-  draws Int @default(0)
-
-  User User?
-
-  @@map("users_history")
+  loser_id   String
+  loser      User?  @relation(name: "loser", fields: [loser_id], references: [id])
 }
+
+// model UserHistory {
+//   id String @id @default(uuid())
+
+//   wins  Int @default(0)
+//   loses Int @default(0)
+//   draws Int @default(0)
+
+//   User User?
+
+//   @@map("users_history")
+// }

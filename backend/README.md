@@ -95,6 +95,15 @@ Last project of 42School
   6- Se User Autenticado Renderizar estado pagina para perfil usuário  
 
 
+ ### TO DO LIST
+
+  1-  Como é guardado o histórico de conversas?
+      Salvar menssagens do chat no cache do navegador (REDIS).
+
+
+
+
+
 
 1 - Criar Projeto - nest [new name_project]
 
@@ -169,7 +178,7 @@ Last project of 42School
   ### React
 
   create-react-app            https://create-react-app.dev/
-
+  icons for react             https://react-icons.github.io/react-icons/search?q=chats
 
   ### Problemas
 

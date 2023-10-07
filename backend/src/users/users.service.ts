@@ -16,7 +16,7 @@ export class UsersService {
         if (!promise) {
             promise = await this.createUser(userInfoResolved);
         }
-        return promise;
+        return await this.userRepository.findUser(userInfoResolved.data.email);
     }
 
     async createUser(userInfoResolved: any): Promise<User> {
