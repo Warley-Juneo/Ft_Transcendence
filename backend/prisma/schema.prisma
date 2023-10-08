@@ -45,10 +45,10 @@ model Match {
   player_2    User?   @relation(name: "player_2", fields: [player2_id], references: [id])
   score_p2    Int     @default(0)
 
-  winner_id   String
+  winner_id   String?
   winner      User?  @relation(name: "winner", fields: [winner_id], references: [id])
 
-  loser_id    String
+  loser_id    String?
   loser       User?  @relation(name: "loser", fields: [loser_id], references: [id])
 
   draw        Boolean

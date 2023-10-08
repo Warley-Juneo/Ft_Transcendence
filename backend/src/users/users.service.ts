@@ -4,7 +4,7 @@ import { UsersRepository } from "./users.repository";
 import { UserEntity } from "./user.entity";
 import { userInfo } from "os";
 import { AuthService } from "src/auth/auth.service";
-import { UserLoginDto } from "./dtos/output.dtos";
+import { UserPerfilDto } from "./dtos/output.dtos";
 import { AuthLoginDto } from "src/auth/dtos/input.dtos";
 
 @Injectable()
@@ -17,16 +17,6 @@ export class UsersService {
         if (!user) {
             user = await this.createUser(authLoginDto);
         }
-        
-        // const newDto = new UserLoginDto();
-        // newDto._login = user.login;
-        // newDto._email = user.email;
-        // newDto._first_name = user.first_name;
-        // newDto._last_name = user.last_name;
-        // newDto._nickname = user.nickname;
-        // newDto._avatar = user.avatar;
-        
-
         return user;
     }
 

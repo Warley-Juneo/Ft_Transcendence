@@ -26,12 +26,20 @@ export class GameRepository {
 	}
 
 	async numberOfUserMatchDraws(userId: string): Promise<number> {
-		var loses = this.prisma.match.count({
+		var asPlayer1 = await this.prisma.match.count({
 			where: {
-				loser_id: userId,
+				player1_id: userId,
 				draw: true,
 			}
 		})
+		var asPlayer2 = await this.prisma.match.count({
+			where: {
+				player2_id: userId,
+				draw: true,
+			}
+		})
+		var loses = asPlayer1 + asPlayer2;
+
 		return loses;
 	}
 }

@@ -1,4 +1,4 @@
-export class UserLoginDto {
+export class UserPerfilDto {
     _login:              string;
     _email:              string;
 

@@ -5,7 +5,7 @@ import { HttpService } from "@nestjs/axios";
 import { UsersService } from "src/users/users.service";
 import { AuthLoginDto } from "src/auth/dtos/input.dtos";
 import { User } from "@prisma/client";
-import { UserLoginDto } from "src/users/dtos/output.dtos";
+import { UserPerfilDto } from "src/users/dtos/output.dtos";
 import { privateDecrypt } from "crypto";
 import { GameService } from "src/game/game.service";
 
@@ -15,7 +15,7 @@ export class AuthService {
                 private readonly usersService: UsersService,
                 private readonly gameService: GameService) {}
 
-	async mainLogin(authLoginDto: AuthLoginDto): Promise<UserLoginDto> {
+	async mainLogin(authLoginDto: AuthLoginDto): Promise<UserPerfilDto> {
 		const clientId = process.env.UID;
         const secret = process.env.SECRET;
 
@@ -59,7 +59,7 @@ export class AuthService {
         let user = await this.usersService.login(authLoginDto);
         
         //CREATE USER_LOGIN_DTO
-        const userLoginDto = new UserLoginDto();
+        const userLoginDto = new UserPerfilDto();
         userLoginDto._login = user.login;
         userLoginDto._email = user.email;
         userLoginDto._first_name = user.first_name;
