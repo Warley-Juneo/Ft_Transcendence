@@ -1,5 +1,15 @@
 
-.template {
+.login {
+	font-size: 14px;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	background-color: darkslategrey;
+	background-image: URL(../../images/anime.png);
+}
+
+.sign_up {
 	font-size: 14px;
 	height: 100vh;
 	display: flex;

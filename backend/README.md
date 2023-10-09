@@ -96,6 +96,10 @@ Last project of 42School
 
   7- Download do avatar para savar no perfil do usuário                
 
+  8- Backend deve enviar token de autenticação para cada usuário logado.
+
+  9- Permissões
+
 
  ### TO DO LIST
 
@@ -182,6 +186,14 @@ Last project of 42School
   create-react-app            https://create-react-app.dev/
   icons for react             https://react-icons.github.io/react-icons/search?q=chats
 
+
+
+  ### Prisma
+  - documentation:            https://www.prisma.io/docs
+  - db normalization:         https://www.alura.com.br/artigos/normalizacao-banco-de-dados-estrutura
+
+
+
   ### Problemas
 
-  - 
+  Docker 

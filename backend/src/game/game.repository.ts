@@ -1,45 +1,84 @@
 import { Injectable } from "@nestjs/common";
-import { Match } from "@prisma/client";
+import { Ladder, Match } from "@prisma/client";
+import e from "express";
 import { PrismaService } from "src/database/prisma.service";
-
 
 @Injectable()
 export class GameRepository {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async numberOfUserMatchWins(userId: string): Promise<number> {
-		var wins = this.prisma.match.count({
+	async numberOfUserMatchs(userId: string): Promise<Match[]> {
+		let asPalyer1 = this.prisma.match.findMany({
 			where: {
-				winner_id: userId,
+				player1_id: userId
+			}
+		})
+		let asPalyer2 = this.prisma.match.findMany({
+			where: {
+				player2_id: userId
+			}
+		})
+		let matchs = asPalyer1;
+		return matchs;
+	}
+
+	async numberOfUserMatchWins(userId: string): Promise<number> {
+		let wins = await this.prisma.match.count({
+			where: {
+				winner_id: userId
 			}
 		})
 		return wins;
 	}
 
 	async numberOfUserMatchLoses(userId: string): Promise<number> {
-		var loses = this.prisma.match.count({
+		let loses = await this.prisma.match.count({
 			where: {
-				loser_id: userId,
+				loser_id: userId
 			}
 		})
 		return loses;
 	}
 
 	async numberOfUserMatchDraws(userId: string): Promise<number> {
-		var asPlayer1 = await this.prisma.match.count({
+		let as_Player1 = await this.prisma.match.count({
 			where: {
-				player1_id: userId,
-				draw: true,
+				player1_id: userId
+			},
+			select: {
+				draws: true,
 			}
 		})
-		var asPlayer2 = await this.prisma.match.count({
+		let as_Player2 = await this.prisma.match.count({
 			where: {
-				player2_id: userId,
-				draw: true,
+				player2_id: userId
+			},
+			select: {
+				draws: true,
 			}
 		})
-		var loses = asPlayer1 + asPlayer2;
+		let response = as_Player1.draws + as_Player2.draws;
+		return response;
+	}
 
-		return loses;
+	async defineLadder() {
+
+	}
+	
+	async ladder(): Promise<Ladder[]> {
+		let ladder = await this.prisma.ladder.findMany({
+			orderBy: [
+				{
+					points: 'asc'
+				},
+			]
+		});
+		return ladder;
+	}
+
+	async UserLadder(userId: string): Promise<number> {
+		let ladder = await this.ladder();
+		let response = ladder.findIndex(item => item.id === userId);
+		return response;
 	}
 }

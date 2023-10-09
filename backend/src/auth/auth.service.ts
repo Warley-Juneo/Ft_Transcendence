@@ -36,6 +36,10 @@ export class AuthService {
         //GET ACCESS TOKEN TO ACCESS USER INFORMATION THROUGH 42 API
         const accessToken: String = authResponseResolved.data.access_token;
 
+        //GET JWT TOKEN AUTHENTICATION
+
+
+
 
         const userApiInfo: Observable<any> = this.httpService
         .get(process.env.API42_USER_INFO, {
@@ -69,7 +73,8 @@ export class AuthService {
         userLoginDto._wins = await this.gameService.numberOfUserMatchWins(user.id);
         userLoginDto._loses = await this.gameService.numberOfUserMatchLoses(user.id);
         userLoginDto._draws = await this.gameService.numberOfUserMatchDraws(user.id);
-        
+        userLoginDto._ladder = await this.gameService.UserLadder(user.id);
+
         console.log(userLoginDto);
         return userLoginDto;
 	}

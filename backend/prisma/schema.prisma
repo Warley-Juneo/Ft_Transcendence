@@ -28,8 +28,8 @@ model User {
   match_as_player_1   Match[]  @relation(name: "player_1")
   match_as_player_2   Match[]  @relation(name: "player_2")
 
-  match_wins                Match[]  @relation(name: "winner")
-  math_loses               Match[]  @relation(name: "loser")
+  match_wins          Match[]  @relation(name: "winner")
+  math_loses          Match[]  @relation(name: "loser")
 
   @@map("users")
 }
@@ -45,13 +45,20 @@ model Match {
   player_2    User?   @relation(name: "player_2", fields: [player2_id], references: [id])
   score_p2    Int     @default(0)
 
-  winner_id   String?
+  winner_id   String? @unique
   winner      User?  @relation(name: "winner", fields: [winner_id], references: [id])
 
-  loser_id    String?
+  loser_id    String? @unique
   loser       User?  @relation(name: "loser", fields: [loser_id], references: [id])
 
-  draw        Boolean
+  draws        Boolean @default(false)
+}
+
+model Ladder {
+  id          String    @id @default(uuid())
+
+  points        Int       @default(0)
+  player_name   String    @unique
 }
 
 // model chat  {

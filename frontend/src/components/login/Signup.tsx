@@ -1,49 +1,30 @@
-import React from 'react';
+import React from "react";
 import { useEffect } from 'react';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
-import { AuthLogin } from './authLogin';
+import { AuthLogin } from "./authLogin";
 import { Head } from '../head/Head';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-export function Login() {
-  
-  //ACCESS BACKEND AFTER GET THE CODE AT API42
-  async function axios_connect(): Promise<any> {
-    let paramters = new URLSearchParams(window.location.search);
-    let code = paramters.get('code');
-    if (code) {
-      var response = await axios.post('http://localhost:3000/auth', {
-        authCode: code,
-      })
-      .then((response)=> {
-        console.log(response);
-        if (response.status === 201) {
-          console.log('SUCESSO!!!!');
-        }
-        else {
-          console.log('FALHA NO LOGIN!!!!');
-        }
-      })
-    }
-    return response;
-  }
-
-  //THIS FUNCTION IS EXECUTED EVERY TIME THE PAGE IS LOADED
-  useEffect(() => {
-    axios_connect();
-  }, []);
-
-  return (
-        <div className="login  ">
-          {/* <img src={anime} /> */}
+export function Signup() {
+	return (
+		<div className="sign_up">
           <div className="form_container">
             <form>
               <h3 className="text-center">Sign in</h3>
               <div className="mb-2">
+                <FloatingLabel
+                  controlId="floatingInput"
+                  label="Nickname"
+                  className="nickname"
+                >
+                <Form.Control type="string" placeholder="nickname" />
+                </FloatingLabel>
+              </div>
+			  <div className="mb-2">
                 <FloatingLabel
                   controlId="floatingInput"
                   label="Email address"
@@ -71,11 +52,11 @@ export function Login() {
                 <button onClick={AuthLogin}>Sign in</button>
               </div>
               <p className="text-end mt-2">
-                Forgot <a href=""> Password?</a><Link to="/signup" className="ms-2">Sign up</Link>
+                Forgot <a href=""> Password?</a><Link to="/" className="ms-2">Sign in</Link>
               </p>
               
             </form>
           </div>
         </div>
-    );
+	)
 }

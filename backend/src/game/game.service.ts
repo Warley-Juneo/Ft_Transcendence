@@ -4,23 +4,34 @@ import { AuthLoginDto } from "src/auth/dtos/input.dtos";
 import { UserEntity } from "src/users/user.entity";
 import { MatchHistory } from "./entities/match.entity";
 import { GameRepository } from "./game.repository";
+import { userInfo } from "os";
+import { UserPerfilDto } from "src/users/dtos/output.dtos";
 
 @Injectable()
 export class GameService {
 	constructor(private readonly gameRepository: GameRepository) {}
 
-	async numberOfUserMatchWins(email: string): Promise<number> {
-		
-		return this.gameRepository.numberOfUserMatchWins(email);
+	async numberOfUserMatchs(userId: string): Promise<Match[]> {
+		return this.gameRepository.numberOfUserMatchs(userId)
 	}
 
-	async numberOfUserMatchLoses(email: string): Promise<number> {
+	async numberOfUserMatchWins(userId: string): Promise<number> {
 		
-		return this.gameRepository.numberOfUserMatchLoses(email);
+		return this.gameRepository.numberOfUserMatchWins(userId);
 	}
 
-	async numberOfUserMatchDraws(email: string): Promise<number> {
+	async numberOfUserMatchLoses(userId: string): Promise<number> {
 		
-		return this.gameRepository.numberOfUserMatchDraws(email);
+		return this.gameRepository.numberOfUserMatchLoses(userId);
+	}
+
+	async numberOfUserMatchDraws(userId: string): Promise<number> {
+		
+		return this.gameRepository.numberOfUserMatchDraws(userId);
+	}
+
+	async UserLadder(userId: string): Promise<number> {
+		
+		return this.gameRepository.UserLadder(userId);
 	}
 }

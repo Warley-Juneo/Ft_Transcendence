@@ -1,3 +1,5 @@
+import { Match } from "@prisma/client";
+
 export class UserPerfilDto {
     _login:              string;
     _email:              string;
@@ -10,6 +12,6 @@ export class UserPerfilDto {
 	_wins:				 number;
 	_loses:				 number;
 	_draws:				 number;
-
+    _ladder:             number;
 	// _statusConnection?:  boolean; // podemos colocar um enum aqui para ter mais status de conexão
 }

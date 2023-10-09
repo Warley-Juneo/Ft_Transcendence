@@ -9,8 +9,8 @@ export class UsersRepository implements UsersRepositoryInterface {
 	constructor(private readonly prisma: PrismaService) {}
 
 	async createUser(user: UserEntity): Promise<User> {
-
-		var response = this.prisma.user.create({
+		//CREATE USER INTO USER MODEL
+		var response = await this.prisma.user.create({
 			 data: {
 				login : user.login,
 				email: user.email,
@@ -18,7 +18,14 @@ export class UsersRepository implements UsersRepositoryInterface {
 				last_name: user.last_name,
 				nickname: user.nickname,
 				// avatar: user.avatar,
-			 }
+			},
+		})
+		//CREATE USER INTO LADDER MODEL
+		this.prisma.ladder.create({
+			data: {
+				player_name: response.login,
+				points: 0,
+			},
 		})
 		return  response;
 	}
