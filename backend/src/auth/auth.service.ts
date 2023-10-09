@@ -73,7 +73,7 @@ export class AuthService {
         userLoginDto._wins = await this.gameService.numberOfUserMatchWins(user.id);
         userLoginDto._loses = await this.gameService.numberOfUserMatchLoses(user.id);
         userLoginDto._draws = await this.gameService.numberOfUserMatchDraws(user.id);
-        userLoginDto._ladder = await this.gameService.UserLadder(user.id);
+        userLoginDto._ladder = await this.gameService.UserLadder(user.login);
 
         console.log(userLoginDto);
         return userLoginDto;
