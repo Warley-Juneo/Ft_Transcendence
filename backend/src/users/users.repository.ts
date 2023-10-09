@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/database/prisma.service";
 import { UsersRepositoryInterface } from "./interface/users.repository.interface";
-import { User, Match } from "@prisma/client";
+import { User, Match, Ladder } from "@prisma/client";
 import { UserEntity } from "./user.entity";
 
 @Injectable()
@@ -10,7 +10,7 @@ export class UsersRepository implements UsersRepositoryInterface {
 
 	async createUser(user: UserEntity): Promise<User> {
 		//CREATE USER INTO USER MODEL
-		var response = await this.prisma.user.create({
+		let response = await this.prisma.user.create({
 			 data: {
 				login : user.login,
 				email: user.email,
@@ -21,12 +21,12 @@ export class UsersRepository implements UsersRepositoryInterface {
 			},
 		})
 		//CREATE USER INTO LADDER MODEL
-		this.prisma.ladder.create({
+		let a = await this.prisma.ladder.create({
 			data: {
 				player_name: response.login,
-				points: 0,
-			},
+			}
 		})
+		console.log(a);
 		return  response;
 	}
 
