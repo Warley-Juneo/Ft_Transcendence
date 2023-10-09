@@ -144,6 +144,8 @@ Last project of 42School
 
     install:                    npm install react-bootstrap bootstrap
 
+  ### JWT
+    intall:                     npm install --save @nestjs/jwt
 ## Terminal Commands
 
   ### Prisma

@@ -9,7 +9,10 @@ export class AuthController {
 	constructor(private readonly service: AuthService) {}
 
 	@Post()
-	async mainLogin(@Body() code: AuthLoginDto): Promise<UserPerfilDto> {
+	async mainLogin(@Body() code: AuthLoginDto): Promise<String> {
 		return await this.service.mainLogin(code)
+	
 	}
+
+
 }

@@ -8,14 +8,16 @@ import { User } from "@prisma/client";
 import { UserPerfilDto } from "src/users/dtos/output.dtos";
 import { privateDecrypt } from "crypto";
 import { GameService } from "src/game/game.service";
+import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
 export class AuthService {
 	constructor(private readonly httpService: HttpService,
                 private readonly usersService: UsersService,
-                private readonly gameService: GameService) {}
+                private readonly gameService: GameService,
+                private readonly jwtService: JwtService) {}
 
-	async mainLogin(authLoginDto: AuthLoginDto): Promise<UserPerfilDto> {
+	async mainLogin(authLoginDto: AuthLoginDto): Promise<String> {
 		const clientId = process.env.UID;
         const secret = process.env.SECRET;
 
@@ -32,24 +34,22 @@ export class AuthService {
 
         // TRANSFORM FROM OBSERVABLE TO PROMISE
         const  authResponseResolved = await lastValueFrom(authResponsePromise);
-
+        
         //GET ACCESS TOKEN TO ACCESS USER INFORMATION THROUGH 42 API
         const accessToken: String = authResponseResolved.data.access_token;
-
-        //GET JWT TOKEN AUTHENTICATION
-
-
-
-
+        
+        
+        
         const userApiInfo: Observable<any> = this.httpService
         .get(process.env.API42_USER_INFO, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
-
+        
         // TRANSFORM FROM OBSERVABLE TO PROMISE
         const  userApiInfoResolved = await lastValueFrom(userApiInfo);
+        
 
         //Fill AUTH_DTO
         authLoginDto.login = userApiInfoResolved.data.login;
@@ -62,20 +62,23 @@ export class AuthService {
         // RESOLVE USER
         let user = await this.usersService.login(authLoginDto);
         
+        //CREATE JWT TOKEN AUTHENTICATION
+        const payload = { sub: user.id, username: user.login };
+        return this.jwtService.signAsync(payload);
+        
         //CREATE USER_LOGIN_DTO
-        const userLoginDto = new UserPerfilDto();
-        userLoginDto._login = user.login;
-        userLoginDto._email = user.email;
-        userLoginDto._first_name = user.first_name;
-        userLoginDto._last_name = user.last_name;
-        userLoginDto._nickname = user.nickname;
-        userLoginDto._avatar = user.avatar;
-        userLoginDto._wins = await this.gameService.numberOfUserMatchWins(user.id);
-        userLoginDto._loses = await this.gameService.numberOfUserMatchLoses(user.id);
-        userLoginDto._draws = await this.gameService.numberOfUserMatchDraws(user.id);
-        userLoginDto._ladder = await this.gameService.userLadder(user.login);
-
-        console.log(userLoginDto);
-        return userLoginDto;
-	}
+        // const userLoginDto = new UserPerfilDto();
+        // userLoginDto._login = user.login;
+        // userLoginDto._email = user.email;
+        // userLoginDto._first_name = user.first_name;
+        // userLoginDto._last_name = user.last_name;
+        // userLoginDto._nickname = user.nickname;
+        // userLoginDto._avatar = user.avatar;
+        // userLoginDto._wins = await this.gameService.numberOfUserMatchWins(user.id);
+        // userLoginDto._loses = await this.gameService.numberOfUserMatchLoses(user.id);
+        // userLoginDto._draws = await this.gameService.numberOfUserMatchDraws(user.id);
+        // userLoginDto._ladder = await this.gameService.userLadder(user.login);
+        
+        // console.log(userLoginDto);
+ 	}
 }

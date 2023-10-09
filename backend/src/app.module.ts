@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { GameModule } from './game/game.module';
+import { JwtMiddleware } from './auth/auth.middleware';
 
 
 @Module({
@@ -9,4 +10,11 @@ import { GameModule } from './game/game.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+      consumer
+        .apply(JwtMiddleware)
+        .exclude({path: 'auth', method: RequestMethod.POST})
+        .forRoutes('*');
+    }
+}

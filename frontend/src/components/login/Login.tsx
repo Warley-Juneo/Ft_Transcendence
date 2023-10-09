@@ -22,10 +22,10 @@ export function Login() {
       .then((response)=> {
         console.log(response);
         if (response.status === 201) {
-          console.log('SUCESSO!!!!');
+          console.log('RENDERIZAR A PÀGINA DO GAME');
         }
         else {
-          console.log('FALHA NO LOGIN!!!!');
+          console.log("RENDERIZAR PAGINA LOGIN INFORMANDO O ERRO");
         }
       })
     }
