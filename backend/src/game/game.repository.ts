@@ -76,10 +76,11 @@ export class GameRepository {
 		return ladder;
 	}
 	
-	async UserLadder(userLogin: string): Promise<number> {
+	async userLadder(userLogin: string): Promise<number> {
 		let ladder = await this.ladder();
 		console.log(ladder);
 		let response = ladder.findIndex(item => item.player_name === userLogin);
+		response = response + 1;
 		return response;
 	}
 }

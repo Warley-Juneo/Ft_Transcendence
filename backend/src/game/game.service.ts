@@ -30,8 +30,8 @@ export class GameService {
 		return this.gameRepository.numberOfUserMatchDraws(userId);
 	}
 
-	async UserLadder(userLogin: string): Promise<number> {
+	async userLadder(userLogin: string): Promise<number> {
 		
-		return this.gameRepository.UserLadder(userLogin);
+		return this.gameRepository.userLadder(userLogin);
 	}
 }
