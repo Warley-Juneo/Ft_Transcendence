@@ -9,6 +9,7 @@ import { UserPerfilDto } from "src/users/dtos/output.dtos";
 import { privateDecrypt } from "crypto";
 import { GameService } from "src/game/game.service";
 import { JwtService } from "@nestjs/jwt";
+import { OutputLoginDto } from "./dtos/output.dtos";
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,7 @@ export class AuthService {
                 private readonly gameService: GameService,
                 private readonly jwtService: JwtService) {}
 
-	async mainLogin(authLoginDto: AuthLoginDto): Promise<String> {
+	async mainLogin(authLoginDto: AuthLoginDto): Promise<OutputLoginDto> {
 		const clientId = process.env.UID;
         const secret = process.env.SECRET;
 
@@ -64,21 +65,23 @@ export class AuthService {
         
         //CREATE JWT TOKEN AUTHENTICATION
         const payload = { sub: user.id, username: user.login };
-        return this.jwtService.signAsync(payload);
+        let jwt_token = await this.jwtService.signAsync(payload);
         
-        //CREATE USER_LOGIN_DTO
-        // const userLoginDto = new UserPerfilDto();
-        // userLoginDto._login = user.login;
-        // userLoginDto._email = user.email;
-        // userLoginDto._first_name = user.first_name;
-        // userLoginDto._last_name = user.last_name;
-        // userLoginDto._nickname = user.nickname;
-        // userLoginDto._avatar = user.avatar;
-        // userLoginDto._wins = await this.gameService.numberOfUserMatchWins(user.id);
-        // userLoginDto._loses = await this.gameService.numberOfUserMatchLoses(user.id);
-        // userLoginDto._draws = await this.gameService.numberOfUserMatchDraws(user.id);
-        // userLoginDto._ladder = await this.gameService.userLadder(user.login);
+        // CREATE USER_LOGIN_DTO
+        const outputLoginDto = new OutputLoginDto();
+        outputLoginDto._login = user.login;
+        outputLoginDto._email = user.email;
+        outputLoginDto._first_name = user.first_name;
+        outputLoginDto._last_name = user.last_name;
+        outputLoginDto._nickname = user.nickname;
+        outputLoginDto._avatar = user.avatar;
+        outputLoginDto._wins = await this.gameService.numberOfUserMatchWins(user.id);
+        outputLoginDto._loses = await this.gameService.numberOfUserMatchLoses(user.id);
+        outputLoginDto._draws = await this.gameService.numberOfUserMatchDraws(user.id);
+        outputLoginDto._ladder = await this.gameService.userLadder(user.login);
+        outputLoginDto._access_token = jwt_token;  
         
-        // console.log(userLoginDto);
+        console.log(outputLoginDto);
+        return outputLoginDto
  	}
 }
