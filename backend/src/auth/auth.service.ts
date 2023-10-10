@@ -51,14 +51,15 @@ export class AuthService {
         // TRANSFORM FROM OBSERVABLE TO PROMISE
         const  userApiInfoResolved = await lastValueFrom(userApiInfo);
         
-
+        // console.log(userApiInfoResolved);
+        
         //Fill AUTH_DTO
         authLoginDto.login = userApiInfoResolved.data.login;
         authLoginDto.email = userApiInfoResolved.data.email;
         authLoginDto.first_name = userApiInfoResolved.data.first_name;
         authLoginDto.last_name = userApiInfoResolved.data.last_name;
         authLoginDto.nickname = userApiInfoResolved.data.login; //must be unique
-        authLoginDto.avatar = userApiInfoResolved.data.avatar;
+        authLoginDto.avatar = userApiInfoResolved.data.image.link;
         
         // RESOLVE USER
         let user = await this.usersService.login(authLoginDto);
@@ -74,12 +75,12 @@ export class AuthService {
         outputLoginDto._first_name = user.first_name;
         outputLoginDto._last_name = user.last_name;
         outputLoginDto._nickname = user.nickname;
-        outputLoginDto._avatar = user.avatar;
+        outputLoginDto.avatar = user.avatar;
         outputLoginDto._wins = await this.gameService.numberOfUserMatchWins(user.id);
         outputLoginDto._loses = await this.gameService.numberOfUserMatchLoses(user.id);
         outputLoginDto._draws = await this.gameService.numberOfUserMatchDraws(user.id);
         outputLoginDto._ladder = await this.gameService.userLadder(user.login);
-        outputLoginDto._access_token = jwt_token;  
+        outputLoginDto._access_token = jwt_token;
         
         console.log(outputLoginDto);
         return outputLoginDto

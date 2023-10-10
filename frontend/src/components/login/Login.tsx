@@ -8,6 +8,7 @@ import { AuthLogin } from './authLogin';
 import { Head } from '../head/Head';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Signup } from './Signup';
 
 export function Login() {
   

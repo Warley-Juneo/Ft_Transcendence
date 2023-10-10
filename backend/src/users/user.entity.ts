@@ -61,6 +61,8 @@ export class UserEntity {
         return this._avatar;
     }
     public set avatar(theAvatar: string) {
+        if (!theAvatar)
+            theAvatar = "../user/default_avatar.jpg";
         this._avatar = theAvatar;
     }
 

@@ -17,16 +17,23 @@ export class UsersRepository implements UsersRepositoryInterface {
 				first_name: user.first_name,
 				last_name: user.last_name,
 				nickname: user.nickname,
-				// avatar: user.avatar,
 			},
 		})
 		//CREATE USER INTO LADDER MODEL
-		let a = await this.prisma.ladder.create({
+		let ladder = await this.prisma.ladder.create({
 			data: {
 				player_name: response.login,
 			}
 		})
-		console.log(a);
+		console.log(ladder);
+		//CREATE USER INTO AVATAR MODEL
+		let avatar = await this.prisma.avatar.create({
+			data: {
+				player_name: user.login,
+				url: user.avatar,
+			}
+		})
+		console.log(avatar)
 		return  response;
 	}
 

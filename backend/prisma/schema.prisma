@@ -61,6 +61,15 @@ model Ladder {
   player_name   String    @unique
 }
 
+model Avatar {
+  id      String  @id @default(uuid())
+
+  player_name   String
+  height        Int    @default(200)
+  width         Int    @default(100)
+  url           String
+}
+
 // model chat  {
 
 //   id            String    @id @default(uuid())

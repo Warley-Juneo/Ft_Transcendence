@@ -35,6 +35,15 @@ CREATE TABLE "Ladder" (
     "player_name" TEXT NOT NULL
 );
 
+-- CreateTable
+CREATE TABLE "Avatar" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "player_name" TEXT NOT NULL,
+    "height" INTEGER NOT NULL DEFAULT 200,
+    "width" INTEGER NOT NULL DEFAULT 100,
+    "url" TEXT NOT NULL
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "users_login_key" ON "users"("login");
 
