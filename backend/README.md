@@ -146,6 +146,10 @@ Last project of 42School
 
   ### JWT
     intall:                     npm install --save @nestjs/jwt
+
+  ### Multer (download Files)
+    install:                    npm i -D @types/multer
+    
 ## Terminal Commands
 
   ### Prisma
