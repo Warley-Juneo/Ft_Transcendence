@@ -6,7 +6,6 @@
 	flex-direction: column;
 	justify-content: center;
 	background-color: darkslategrey;
-	background-image: URL(../../images/anime.png);
 }
 
 .sign_up {
@@ -16,7 +15,6 @@
 	flex-direction: column;
 	justify-content: center;
 	background-color: darkslategrey;
-	background-image: URL(../../images/anime.png);
 }
 
 .form_container {
