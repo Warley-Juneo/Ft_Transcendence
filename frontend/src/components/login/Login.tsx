@@ -1,17 +1,14 @@
-import React from 'react';
 import { useEffect } from 'react';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
 import { AuthLogin } from './authLogin';
-import { Head } from '../head/Head';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Signup } from './Signup';
 
 export function Login() {
-  
+
   //ACCESS BACKEND AFTER GET THE CODE AT API42
   async function axios_connect(): Promise<any> {
     let paramters = new URLSearchParams(window.location.search);
@@ -54,7 +51,7 @@ export function Login() {
                 </FloatingLabel>
               </div>
               <div className="mb-2">
-                <FloatingLabel 
+                <FloatingLabel
                   controlId="floatingPassword"
                   label="Password"
                   className="login_password"
@@ -74,7 +71,7 @@ export function Login() {
               <p className="text-end mt-2">
                 Forgot <a href=""> Password?</a><Link to="/signup" className="ms-2">Sign up</Link>
               </p>
-              
+
             </form>
           </div>
         </div>

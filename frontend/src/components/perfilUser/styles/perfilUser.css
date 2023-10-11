@@ -1,0 +1,14 @@
+.perfil-user {
+	height: 10vh;
+}
+
+.div-foto-perfil {
+	height: 90px;
+	width: 90px;
+}
+
+.div-foto-perfil img {
+	height: 100%;
+	width: 100%;
+	border-radius: 50%;
+}

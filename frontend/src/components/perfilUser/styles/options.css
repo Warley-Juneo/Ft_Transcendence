@@ -1,0 +1,7 @@
+.options {
+	margin-left: 10px;
+}
+
+.options:hover {
+	cursor: pointer;
+}

@@ -94,7 +94,7 @@ Last project of 42School
 
   6- Se User Autenticado Renderizar estado pagina para perfil usuário  07/10
 
-  7- Download do avatar para savar no perfil do usuário                
+  7- Download do avatar para savar no perfil do usuário
 
   8- Backend deve enviar token de autenticação para cada usuário logado.
 
@@ -114,7 +114,7 @@ Last project of 42School
 1 - Criar Projeto - nest [new name_project]
 
 ## Errors
-   
+
     Caso seu node de problema de versão use esse comando
     `nvm install 20`
 
@@ -139,6 +139,7 @@ Last project of 42School
 
   install:                    npx create-react-app <name> --template typescript
                               npm init react-app <name>
+							  npm install react-icons
 
   ### Bootstrap
 
@@ -149,7 +150,7 @@ Last project of 42School
 
   ### Multer (download Files)
     install:                    npm i -D @types/multer
-    
+
 ## Terminal Commands
 
   ### Prisma
@@ -177,7 +178,7 @@ Last project of 42School
   ## Directives
 
   ### Prisma
-    @id                     primary key. Every model must have 
+    @id                     primary key. Every model must have
     @@id([field, field])    combination of more than one field will be unique. Primary key
     @@map("name")           change the name of the db table
     @map("name")            change name of the field in db table
@@ -202,4 +203,4 @@ Last project of 42School
 
   ### Problemas
 
-  Docker 
+  Docker
