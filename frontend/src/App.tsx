@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Login } from './components/login/Login';
 import InicialPage from './components/InitialPage/InitialPage';
 
-function App() {
+export default function App() {
 	const [page, setPage] = useState('login');
   const [backRes, setBackRes] = useState({});
 
@@ -20,5 +20,3 @@ function App() {
 		</div>
 	);
 }
-
-export default App;
