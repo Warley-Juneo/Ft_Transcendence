@@ -1,6 +1,6 @@
 import './styles/listFriends.css';
 
-function ListFriends({chat}) {
+function ListFriends(chat: any) {
 	return (
 		<div className='p-2'>
 			<div className='d-flex friend' onClick={chat}>
