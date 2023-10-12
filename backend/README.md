@@ -140,6 +140,10 @@ Last project of 42School
                               npm init react-app <name>
 							  npm install react-icons
 
+  ### React-router-dom
+
+  install:                    npm install react-router-dom
+
   ### Bootstrap
 
     install:                    npm install react-bootstrap bootstrap
