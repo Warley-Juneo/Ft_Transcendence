@@ -4,7 +4,7 @@ import './rank.css'
 function ProfileScreen() {
 	console.log("SCREEN PROFILE!!!!!");
 	return (
-		<div className="perfil-rank m-5 row">
+		<div className="perfil-rank row">
 			<div className='d-flex flex-column col-lg-3 col-md-4 m-5'>
 				<div className='d-flex flex-column align-items-center'>
 					<div className='perfil-rank-foto '>
