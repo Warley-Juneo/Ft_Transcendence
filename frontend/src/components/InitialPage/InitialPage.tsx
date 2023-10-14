@@ -29,7 +29,7 @@ export default function InicialPage() {
 		setCurrentChat(currentChat === false ? true : false );
 	}
 
-	const pageInfo = useCallback( async () => {
+	const axios_connect = useCallback( async () => {
 		const res = await axios.post('http://localhost:3000/landing-page', {
 			jwt_auth: email,})
 		setInfo(res.data);
@@ -37,10 +37,6 @@ export default function InicialPage() {
 	},[])
 	
 		//THIS FUNCTION IS EXECUTED EVERY TIME THE PAGE IS LOADED
-	useMemo(() => {
-		pageInfo();
-	}, []);
-
 		// 	.then((r) => {
 		// 		console.log("AXIOS RESPONSE: ", r);
 		// 		if (r.status === 201) {
@@ -54,10 +50,12 @@ export default function InicialPage() {
 		// 	}
 		// )
 
-
-	console.log("INITIAL PAGE INFO2: ", info);
-	console.log("INITIAL PAGE INFO2: ", currentScreen);
-	console.log("INITIAL PAGE INFO2: ", currentChat);
+	//THIS FUNCTION IS EXECUTED EVERY TIME THE PAGE IS LOADED
+	useEffect(() => {
+		axios_connect();
+	}, []);
+	
+	console.log("INITIAL PAGE INFO: ", info);
 
 	return (
 		<div className='d-flex' id='home-screen'>
@@ -70,7 +68,7 @@ export default function InicialPage() {
 				</div>
 				<hr className='m-0 text-white'></hr>
 
-				<div className='m-5' id='dynamic-screen'>
+				<div className='m-5 h-100' id='dynamic-screen'>
 					{currentScreen === 'listChats' ? <ListChats /> : null}
 					{currentScreen === 'profileScreen' ? <ProfileScreen /> : null}
 				</div>

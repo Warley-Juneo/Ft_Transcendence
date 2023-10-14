@@ -10,7 +10,9 @@ export default function App() {
 			<BrowserRouter>
 				<Routes>
 					<Route path='/' element={< Login /> } />
-					<Route path='/game' element={< InicialPage /> } />
+					<Route path='/game' element={< InicialPage /> } >
+						
+					</Route>
 				</Routes>
 			</BrowserRouter>
 		</div>
