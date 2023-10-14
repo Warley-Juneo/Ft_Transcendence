@@ -1,5 +1,5 @@
-import { Controller, Get, Req } from '@nestjs/common';
-import { LandingPageService } from './landing-page.service';
+import { Controller, Post, Get, Req, Param, Body } from '@nestjs/common';
+import { LandingPageService } from './landingPage.service';
 
 @Controller('landing-page')
 export class LandingPageController {
@@ -10,9 +10,10 @@ export class LandingPageController {
   //   return this.landingPageService.create(createLandingPageDto);
   // }
 
-  @Get()
-  landinPage(@Req() request) {
-    return this.landingPageService.landingPage(request);
+  @Post()
+  async landinPage(@Body() data: string) {
+    console.log("LANDING PAGE CONTROLLER DATA: ", data);
+    return this.landingPageService.landingPage(data);
   }
 
   // @Get(':id')

@@ -1,3 +1,3 @@
 export class InputDto {
-	email:	string
+	jwt_auth:	string
 }

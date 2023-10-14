@@ -10,14 +10,15 @@ import { JwtConstants } from 'src/auth/constants';
 export class LandingPageService {
   constructor(private readonly jwtService: JwtService,
               private readonly prisma: PrismaService,
-              private readonly userService: UsersRepository) {}
+              private readonly userRepository: UsersRepository) {}
 
-  async landingPage(@Req() request): Promise<void>{
+  async landingPage(email: string): Promise<void>{
 
-    let jwt = this.jwtService.decode(request.headers.autorization);
+    // let jwt = this.jwtService.decode(request.headers.autorization);
     //GET JWT INFORMATION
 
-    console.log("landingPage", jwt);
+    let user = this.userRepository.findUser(email);
+    console.log("USER: ", user);
 
   }
 }

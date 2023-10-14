@@ -75,7 +75,7 @@ export class AuthService {
         outputLoginDto._first_name = user.first_name;
         outputLoginDto._last_name = user.last_name;
         outputLoginDto._nickname = user.nickname;
-        outputLoginDto.avatar = user.avatar;
+        outputLoginDto._avatar = user.avatar;
         outputLoginDto._wins = await this.gameService.numberOfUserMatchWins(user.id);
         outputLoginDto._loses = await this.gameService.numberOfUserMatchLoses(user.id);
         outputLoginDto._draws = await this.gameService.numberOfUserMatchDraws(user.id);

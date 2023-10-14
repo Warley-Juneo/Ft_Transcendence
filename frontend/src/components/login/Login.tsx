@@ -20,8 +20,10 @@ export function Login() {
 				.then((response) => {
 					console.log(response);
 					if (response.status === 201) {
-						console.log('RENDERIZAR A PÀGINA DO GAME');
+						console.log('Response Axios Login: ', response.data);
 						Cookies.set('login', response.data);// set expires time
+						let p = Cookies.get('login');
+						console.log("Cookie: ", p);
 						setAuth(true);
 					}
 					else {

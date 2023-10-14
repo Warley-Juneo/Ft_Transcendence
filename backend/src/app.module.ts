@@ -3,10 +3,11 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { GameModule } from './game/game.module';
 import { JwtMiddleware } from './auth/auth.middleware';
+import { LandingPageModule } from './landing-page/landingPage.module';
 
 
 @Module({
-  imports: [UsersModule, AuthModule, GameModule],
+  imports: [UsersModule, AuthModule, GameModule, LandingPageModule],
   controllers: [],
   providers: [],
 })

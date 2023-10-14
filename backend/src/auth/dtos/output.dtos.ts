@@ -1,12 +1,5 @@
 export class OutputLoginDto {
-    authCode:    string;
-    login:       string;
-    email:       string;
-    first_name:  string;
-    last_name:   string;
-    nickname:    string;
-    avatar:      string;
-    _login:              string;
+    _login:       string;
     _email:              string;
 
     _first_name:        string;
