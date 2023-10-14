@@ -53,10 +53,7 @@ export default function InicialPage() {
 	useEffect(() => {
 		axios_connect();
 	}, []);
-
-	console.log("INITIAL PAGE INFO2: ", info);
-	console.log("INITIAL PAGE INFO2: ", currentScreen);
-	console.log("INITIAL PAGE INFO2: ", currentChat);
+	console.log("INITIAL PAGE INFO: ", info);
 
 	return (
 		<div className='d-flex' id='home-screen'>
@@ -69,7 +66,7 @@ export default function InicialPage() {
 				</div>
 				<hr className='m-0 text-white'></hr>
 
-				<div className='m-5' id='dynamic-screen'>
+				<div className='m-5 h-100' id='dynamic-screen'>
 					{currentScreen === 'listChats' ? <ListChats /> : null}
 					{currentScreen === 'profileScreen' ? <ProfileScreen /> : null}
 				</div>
