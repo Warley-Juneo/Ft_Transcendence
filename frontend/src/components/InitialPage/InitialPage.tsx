@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import MiniPerfil from '../perfilUser/MiniPerfil';
 import ChatPrivate from '../chat/chatPrivate';
 import BarOptions from '../barOptions/BarOptions';
-import ListChats from '../listGroups/ListChats';
+import ListChats from '../listChats/ListChats';
 import ProfileScreen from '../profileScreen/ProfileScreen';
 import Cookies from 'js-cookie';
 
@@ -38,7 +38,7 @@ export default function InicialPage() {
 				</div>
 				<hr className='m-0 text-white'></hr>
 
-				<div id='dynamic-screen'>
+				<div className='m-5' id='dynamic-screen'>
 					{currentScreen === 'listChats' ? <ListChats /> : null}
 					{currentScreen === 'profileScreen' ? <ProfileScreen /> : null}
 				</div>
