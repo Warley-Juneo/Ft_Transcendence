@@ -3,9 +3,8 @@ import React, { useState } from 'react';
 import MiniPerfil from '../perfilUser/MiniPerfil';
 import ChatPrivate from '../chat/chatPrivate';
 import BarOptions from '../barOptions/BarOptions';
-import ListGroups from '../listGroups/listGroups';
+import ListChats from '../listGroups/ListChats';
 import ProfileScreen from '../profileScreen/ProfileScreen';
-import { useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 export default function InicialPage() {
@@ -38,9 +37,9 @@ export default function InicialPage() {
 					/>
 				</div>
 				<hr className='m-0 text-white'></hr>
-				
+
 				<div id='dynamic-screen'>
-					{currentScreen === 'listChats' ? <ListGroups /> : null}
+					{currentScreen === 'listChats' ? <ListChats /> : null}
 					{currentScreen === 'profileScreen' ? <ProfileScreen /> : null}
 				</div>
 

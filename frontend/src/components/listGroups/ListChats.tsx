@@ -1,7 +1,7 @@
 import './listGroups.css';
 import { AiFillLock } from 'react-icons/ai';
 
-function ListGroups() {
+function ListChats() {
 	return (
 		<div className='m-5 listGroups'>
 			<div className='m-5'>
@@ -26,4 +26,4 @@ function ListGroups() {
 	);
 }
 
-export default ListGroups;
+export default ListChats;
