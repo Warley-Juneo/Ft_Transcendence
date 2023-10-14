@@ -6,13 +6,13 @@ import BarOptions from '../barOptions/BarOptions';
 import ListGroups from '../listGroups/listGroups';
 import ProfileScreen from '../profileScreen/ProfileScreen';
 import { useLocation } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 export default function InicialPage() {
 	const [currentScreen, setCurrentScreen] = useState('');
 	const [currentChat, setCurrentChat] = useState(false);
 
-	const location = useLocation();
-	let data = location.state;
+	const data = Cookies.get('login');
 
 	console.log("INTIAL PAGE data: ", data);
 

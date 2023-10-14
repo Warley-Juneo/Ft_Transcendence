@@ -138,11 +138,16 @@ Last project of 42School
 
   install:                    npx create-react-app <name> --template typescript
                               npm init react-app <name>
-							  npm install react-icons
+	              						  npm install react-icons
 
   ### React-router-dom
 
   install:                    npm install react-router-dom
+
+  ### Cookies
+  
+  install:                    npm install js-cookie
+                              npm i --save-dev @types/js-cookie
 
   ### Bootstrap
 

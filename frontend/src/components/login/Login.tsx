@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import './style.css';
-import { AuthLogin } from './authLogin';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { AuthLogin } from './authLogin';
 import { Navigate } from 'react-router';
+import './style.css';
 
 export function Login() {
 
 	const [auth, setAuth] = useState(false);
-	const [data, setData] = useState(null);
 
 	//ACCESS BACKEND AFTER GET THE CODE AT 
 	async function axios_connect(): Promise<void> {
@@ -21,7 +21,7 @@ export function Login() {
 					console.log(response);
 					if (response.status === 201) {
 						console.log('RENDERIZAR A PÀGINA DO GAME');
-						setData(response.data);
+						Cookies.set('login', response.data);// set expires time
 						setAuth(true);
 					}
 					else {
@@ -46,7 +46,7 @@ export function Login() {
 					</div>
 				</form>
 			</div>
-			{auth && <Navigate to='/game' state={data} replace={true} />}
+			{auth && <Navigate to='/game' replace={true} />}
 		</div>
 	);
 }
