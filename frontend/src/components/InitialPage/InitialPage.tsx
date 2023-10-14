@@ -1,4 +1,4 @@
-import React, { useEffect ,useState } from 'react';
+import React, { useCallback, useEffect ,useMemo,useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -29,12 +29,18 @@ export default function InicialPage() {
 		setCurrentChat(currentChat === false ? true : false );
 	}
 
-	async function axios_connect(): Promise<void> {
-		console.log("InitialPage Axios:", data);
-		var response = await axios.post('http://localhost:3000/landing-page', {
-			jwt_auth: email,
-		})
-		setInfo(response.data);
+	const pageInfo = useCallback( async () => {
+		const res = await axios.post('http://localhost:3000/landing-page', {
+			jwt_auth: email,})
+		setInfo(res.data);
+		console.log("PAGE_INFO FUNCTION", info);
+	},[])
+	
+		//THIS FUNCTION IS EXECUTED EVERY TIME THE PAGE IS LOADED
+	useMemo(() => {
+		pageInfo();
+	}, []);
+
 		// 	.then((r) => {
 		// 		console.log("AXIOS RESPONSE: ", r);
 		// 		if (r.status === 201) {
@@ -47,12 +53,7 @@ export default function InicialPage() {
 		// 		}
 		// 	}
 		// )
-	}
 
-	//THIS FUNCTION IS EXECUTED EVERY TIME THE PAGE IS LOADED
-	useEffect(() => {
-		axios_connect();
-	}, []);
 
 	console.log("INITIAL PAGE INFO2: ", info);
 	console.log("INITIAL PAGE INFO2: ", currentScreen);
@@ -77,7 +78,8 @@ export default function InicialPage() {
 			</div>
 			<div className="d-flex justify-content-end col" id='nav-perfil'>
 				{currentChat === true ? <ChatPrivate /> : null}
-				<MiniPerfil showChat={showChat} data={data} />
+				
+				{info && <MiniPerfil showChat={showChat} data={info} />}
 			</div>
 		</div>
 	);
