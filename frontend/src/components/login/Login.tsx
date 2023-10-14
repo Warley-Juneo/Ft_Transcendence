@@ -1,12 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './style.css';
 import { AuthLogin } from './authLogin';
 import axios from 'axios';
+import { Navigate } from 'react-router';
 
-export function Login(props: any) {
+export function Login() {
 
-	//ACCESS BACKEND AFTER GET THE CODE AT API42
-	async function axios_connect(props: any): Promise<any> {
+	const [auth, setAuth] = useState(false);
+	const [data, setData] = useState(null);
+
+	//ACCESS BACKEND AFTER GET THE CODE AT 
+	async function axios_connect(): Promise<void> {
 		let paramters = new URLSearchParams(window.location.search);
 		let code = paramters.get('code');
 		if (code) {
@@ -17,20 +21,20 @@ export function Login(props: any) {
 					console.log(response);
 					if (response.status === 201) {
 						console.log('RENDERIZAR A PÀGINA DO GAME');
-						props.initialPage(response.data);
+						setData(response.data);
+						setAuth(true);
 					}
 					else {
 						console.log("RENDERIZAR PAGINA LOGIN INFORMANDO O ERRO");
 					}
 				})
 		}
-		return response;
 	}
 
 	//THIS FUNCTION IS EXECUTED EVERY TIME THE PAGE IS LOADED
 	useEffect(() => {
-		axios_connect(props);
-	}, [props]);
+		axios_connect();
+	}, []);
 
 	return (
 		<div className="login  ">
@@ -42,6 +46,7 @@ export function Login(props: any) {
 					</div>
 				</form>
 			</div>
+			{auth && <Navigate to='/game' state={data} replace={true} />}
 		</div>
 	);
 }

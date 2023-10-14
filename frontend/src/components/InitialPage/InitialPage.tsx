@@ -5,10 +5,16 @@ import ChatPrivate from '../chat/chatPrivate';
 import BarOptions from '../barOptions/BarOptions';
 import ListGroups from '../listGroups/listGroups';
 import ProfileScreen from '../profileScreen/ProfileScreen';
+import { useLocation } from 'react-router-dom';
 
-export default function InicialPage(data: any) {
+export default function InicialPage() {
 	const [currentScreen, setCurrentScreen] = useState('');
 	const [currentChat, setCurrentChat] = useState(false);
+
+	const location = useLocation();
+	let data = location.state;
+
+	console.log("INTIAL PAGE data: ", data);
 
 	function showProfileScreen() {
 		setCurrentScreen('profileScreen');
@@ -41,7 +47,7 @@ export default function InicialPage(data: any) {
 			</div>
 			<div className="d-flex justify-content-end col" id='nav-perfil'>
 				{currentChat === true ? <ChatPrivate /> : null}
-				<MiniPerfil showChat={showChat} data={data.data} />
+				<MiniPerfil showChat={showChat} data={data} />
 			</div>
 		</div>
 	);

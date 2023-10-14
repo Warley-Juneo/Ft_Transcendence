@@ -1,6 +1,4 @@
 import { Injectable, Req } from '@nestjs/common';
-import { CreateLandingPageDto } from './dto/create-landing-page.dto';
-import { UpdateLandingPageDto } from './dto/update-landing-page.dto';
 import { JwtService } from '@nestjs/jwt';
 import { request } from 'http';
 import { access } from 'fs';

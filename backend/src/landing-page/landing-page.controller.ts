@@ -1,7 +1,5 @@
 import { Controller, Get, Req } from '@nestjs/common';
 import { LandingPageService } from './landing-page.service';
-import { CreateLandingPageDto } from './dto/create-landing-page.dto';
-import { UpdateLandingPageDto } from './dto/update-landing-page.dto';
 
 @Controller('landing-page')
 export class LandingPageController {
