@@ -3,9 +3,9 @@ import './buttonRedFormatted.css';
 
 function BarOptions(props: any) {
 	return (
-		<div className='d-flex align-items-center BarOptions'>
+		<div className='d-flex align-items-center BarOptions bg-custon-roxo'>
 			<div className='d-flex col-md-12 col-lg-8'>
-				<div className=''>
+				<div className='div-bottom-animation'>
 					<span className="animated-button1">
 						<span></span>
 						<span></span>
@@ -15,7 +15,7 @@ function BarOptions(props: any) {
 					</span>
 				</div>
 				<div className='d-flex justify-content-end w-100'>
-					<div className=''>
+					<div className='div-bottom-animation'>
 						<span className="animated-button1" onClick={props.showListChats}>
 							<span></span>
 							<span></span>
@@ -24,7 +24,7 @@ function BarOptions(props: any) {
 							Chats
 						</span>
 					</div>
-					<div className=''>
+					<div className='div-bottom-animation'>
 						<span className="animated-button1">
 							<span></span>
 							<span></span>
@@ -33,7 +33,7 @@ function BarOptions(props: any) {
 							Raking
 						</span>
 					</div>
-					<div>
+					<div className='div-bottom-animation'>
 						<span className="animated-button1">
 							<span></span>
 							<span></span>
@@ -42,7 +42,7 @@ function BarOptions(props: any) {
 							Histórico
 						</span>
 					</div>
-					<div>
+					<div className='div-bottom-animation'>
 						<span className="animated-button1" onClick={props.showProfileScreen}>
 							<span></span>
 							<span></span>

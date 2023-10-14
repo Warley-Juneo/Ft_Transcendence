@@ -9,12 +9,12 @@ export function Login() {
 
 	const [auth, setAuth] = useState(false);
 
-	//ACCESS BACKEND AFTER GET THE CODE AT 
+	//ACCESS BACKEND AFTER GET THE CODE AT
 	async function axios_connect(): Promise<void> {
 		let paramters = new URLSearchParams(window.location.search);
 		let code = paramters.get('code');
 		if (code) {
-			var response = await axios.post('http://localhost:3000/auth', {
+			await axios.post('http://localhost:3000/auth', {
 				authCode: code,
 			})
 				.then((response) => {

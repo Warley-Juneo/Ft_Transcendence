@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 import MiniPerfil from '../perfilUser/MiniPerfil';
 import ChatPrivate from '../chat/chatPrivate';
 import BarOptions from '../barOptions/BarOptions';
-import ListGroups from '../listGroups/listGroups';
+import ListChats from '../listChats/ListChats';
 import ProfileScreen from '../profileScreen/ProfileScreen';
 
 export default function InicialPage() {
@@ -68,9 +68,9 @@ export default function InicialPage() {
 					/>
 				</div>
 				<hr className='m-0 text-white'></hr>
-				
-				<div id='dynamic-screen'>
-					{currentScreen === 'listChats' ? <ListGroups /> : null}
+
+				<div className='m-5' id='dynamic-screen'>
+					{currentScreen === 'listChats' ? <ListChats /> : null}
 					{currentScreen === 'profileScreen' ? <ProfileScreen /> : null}
 				</div>
 
