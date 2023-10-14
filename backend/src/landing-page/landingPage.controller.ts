@@ -1,6 +1,7 @@
 import { Controller, Post, Get, Req, Param, Body } from '@nestjs/common';
 import { LandingPageService } from './landingPage.service';
-
+import { OutputLandinPageDto } from './dto/output.dto';
+import { LandingPageDto } from './dto/input.dto';
 @Controller('landing-page')
 export class LandingPageController {
   constructor(private readonly landingPageService: LandingPageService) {}
@@ -11,9 +12,8 @@ export class LandingPageController {
   // }
 
   @Post()
-  async landinPage(@Body() data: string) {
-    console.log("LANDING PAGE CONTROLLER DATA: ", data);
-    return this.landingPageService.landingPage(data);
+  async landinPage(@Body() dto: LandingPageDto): Promise<OutputLandinPageDto>{
+    return await this.landingPageService.landingPage(dto);
   }
 
   // @Get(':id')

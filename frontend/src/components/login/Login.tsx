@@ -22,8 +22,7 @@ export function Login() {
 					if (response.status === 201) {
 						console.log('Response Axios Login: ', response.data);
 						Cookies.set('login', response.data);// set expires time
-						let p = Cookies.get('login');
-						console.log("Cookie: ", p);
+						Cookies.set('email', response.data._email);
 						setAuth(true);
 					}
 					else {

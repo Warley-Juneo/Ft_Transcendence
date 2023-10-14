@@ -82,7 +82,7 @@ export class AuthService {
         outputLoginDto._ladder = await this.gameService.userLadder(user.login);
         outputLoginDto._access_token = jwt_token;
         
-        console.log(outputLoginDto);
+        // console.log(outputLoginDto);
         return outputLoginDto
  	}
 }
