@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect ,useMemo,useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import MiniPerfil from '../perfilUser/MiniPerfil';
@@ -68,10 +68,14 @@ export default function InicialPage() {
 				</div>
 				<hr className='m-0 text-white'></hr>
 
-				<div className='m-5 h-100' id='dynamic-screen'>
+				{/* RENDER CHILD COMPONENTS FROM <Route path='/game'> */}
+				<Outlet />
+				{/* <h1>Aqui vão ficar as rotaas aninhadas a rota InitialPage</h1> */}
+				
+				{/* <div className='m-5 h-100' id='dynamic-screen'>
 					{currentScreen === 'listChats' ? <ListChats /> : null}
 					{currentScreen === 'profileScreen' ? <ProfileScreen /> : null}
-				</div>
+				</div> */}
 
 			</div>
 			<div className="d-flex justify-content-end col" id='nav-perfil'>

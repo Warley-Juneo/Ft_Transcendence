@@ -2,6 +2,7 @@ import rankBonze from '../../static/BRONZE.png';
 import './rank.css'
 
 function ProfileScreen() {
+	console.log("SCREEN PROFILE!!!!!");
 	return (
 		<div className="perfil-rank m-5 row">
 			<div className='d-flex flex-column col-lg-3 col-md-4 m-5'>
