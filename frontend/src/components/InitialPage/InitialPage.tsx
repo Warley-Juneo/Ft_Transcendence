@@ -6,17 +6,13 @@ import MiniPerfil from '../perfilUser/MiniPerfil';
 import ChatPrivate from '../chat/chatPrivate';
 import BarOptions from '../barOptions/BarOptions';
 
+
 export default function InicialPage() {
-	const [currentChat, setCurrentChat] = useState(false);
 	const [info, setInfo] = useState(null);
+	const [currentChat, setCurrentChat] = useState(false);
 
 	// const data = Cookies.get('login');
 	const email = Cookies.get('email');
-
-	function showChat() {
-		setCurrentChat(currentChat === false ? true : false );
-		return currentChat;
-	}
 
 	const axios_connect = useCallback( async () => {
 		const res = await axios.post('http://localhost:3000/landing-page', {
@@ -24,6 +20,10 @@ export default function InicialPage() {
 		setInfo(res.data);
 		console.log("PAGE_INFO FUNCTION", info);
 	},[])
+
+	function showChat() {
+		setCurrentChat(!currentChat);
+	}
 
 
 	useEffect(() => {
@@ -44,7 +44,7 @@ export default function InicialPage() {
 			<div className="d-flex justify-content-end" id='nav-perfil'>
 				{currentChat === true ? <ChatPrivate /> : null}
 
-				{info && <MiniPerfil showChat={showChat} data={info} />}
+				{info && <MiniPerfil data={info} showChat={showChat}/>}
 			</div>
 		</div>
 	);
