@@ -5,30 +5,21 @@ import { UserEntity } from './user.entity';
 import { userInfo } from 'os';
 import { AuthService } from 'src/auth/auth.service';
 import { UserPerfilDto } from './dtos/output.dtos';
-import { AuthLoginDto } from 'src/auth/dtos/input.dtos';
+import { OutputLoginDto } from 'src/auth/dtos/output.dtos';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly userRepository: UsersRepository) {}
 
-  async login(authLoginDto: AuthLoginDto): Promise<User> {
-    //CHECK IF ALREADY EXISTS
-    var user: User = await this.findUser(authLoginDto.email);
-    if (!user) {
-      user = await this.createUser(authLoginDto);
-    }
-    return user;
-  }
-
-  async createUser(authLoginDto: AuthLoginDto): Promise<User> {
+  async createUser(outputLoginDto: OutputLoginDto): Promise<User> {
     //VALIDATE DTO/ENTITY
     const newUser = new UserEntity();
-    newUser.login = authLoginDto.login;
-    newUser.email = authLoginDto.email;
-    newUser.first_name = authLoginDto.first_name;
-    newUser.last_name = authLoginDto.last_name;
-    newUser.nickname = authLoginDto.nickname;
-    newUser.avatar = authLoginDto.avatar;
+    newUser.login = outputLoginDto._login;
+    newUser.email = outputLoginDto._email;
+    newUser.first_name = outputLoginDto._first_name;
+    newUser.last_name = outputLoginDto._last_name;
+    newUser.nickname = outputLoginDto._nickname;
+    newUser.avatar = outputLoginDto._avatar;
 
     return await this.userRepository.createUser(newUser);
   }
