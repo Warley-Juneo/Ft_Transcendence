@@ -20,7 +20,8 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async mainLogin(authLoginDto: AuthLoginDto): Promise<OutputLoginDto> {
+
+  async validateUserApi42(authLoginDto: AuthLoginDto): Promise<string> {
     const clientId = process.env.UID;
     const secret = process.env.SECRET;
 
@@ -41,8 +42,13 @@ export class AuthService {
     const authResponseResolved = await lastValueFrom(authResponsePromise);
 
     //GET ACCESS TOKEN TO ACCESS USER INFORMATION THROUGH 42 API
-    const accessToken: String = authResponseResolved.data.access_token;
+    const accessToken: string = authResponseResolved.data.access_token;
+    
+    return accessToken;
+  }
 
+  async getUserInfoApi42(accessToken: string): Promise<any> {
+    
     const userApiInfo: Observable<any> = this.httpService.get(
       process.env.API42_USER_INFO,
       {
@@ -51,46 +57,42 @@ export class AuthService {
         },
       },
     );
-
+  
     // TRANSFORM FROM OBSERVABLE TO PROMISE
     const userApiInfoResolved = await lastValueFrom(userApiInfo);
+  
+    return userApiInfoResolved.data;
+  }
+
+  async mainLogin(authLoginDto: AuthLoginDto): Promise<OutputLoginDto> {
+    
+    const accessToken: string = await this.validateUserApi42(authLoginDto);
+    
+    const userInfo = await this.getUserInfoApi42(accessToken);
 
     // console.log(userApiInfoResolved);
 
     //Fill AUTH_DTO
-    authLoginDto.login = userApiInfoResolved.data.login;
-    authLoginDto.email = userApiInfoResolved.data.email;
-    authLoginDto.first_name = userApiInfoResolved.data.first_name;
-    authLoginDto.last_name = userApiInfoResolved.data.last_name;
-    authLoginDto.nickname = userApiInfoResolved.data.login; //must be unique
-    authLoginDto.avatar = userApiInfoResolved.data.image.link;
-
+    
     // RESOLVE USER
-    let user = await this.usersService.login(authLoginDto);
+    //CHECK IF ALREADY EXISTS
+    const outputLoginDto = new OutputLoginDto();
+
+    outputLoginDto._login = userInfo.login;
+    outputLoginDto._email = userInfo.email;
+    outputLoginDto._first_name = userInfo.first_name;
+    outputLoginDto._last_name = userInfo.last_name;
+    outputLoginDto._nickname = userInfo.nickname;
+    outputLoginDto._avatar = userInfo.avatar;  
+    
+    let user: User = await this.usersService.findUser(outputLoginDto._email);
+    if (!user) {
+      user = await this.usersService.createUser(outputLoginDto);
+      }
 
     //CREATE JWT TOKEN AUTHENTICATION
     const payload = { sub: user.id, username: user.login };
     let jwt_token = await this.jwtService.signAsync(payload);
-
-    // CREATE USER_LOGIN_DTO
-    const outputLoginDto = new OutputLoginDto();
-    outputLoginDto._login = user.login;
-    outputLoginDto._email = user.email;
-    outputLoginDto._first_name = user.first_name;
-    outputLoginDto._last_name = user.last_name;
-    outputLoginDto._nickname = user.nickname;
-    outputLoginDto._avatar = user.avatar;
-    outputLoginDto._wins = await this.gameService.numberOfUserMatchWins(
-      user.id,
-    );
-    outputLoginDto._loses = await this.gameService.numberOfUserMatchLoses(
-      user.id,
-    );
-    outputLoginDto._draws = await this.gameService.numberOfUserMatchDraws(
-      user.id,
-    );
-    outputLoginDto._ladder = await this.gameService.userLadder(user.login);
-    outputLoginDto._access_token = jwt_token;
 
     // console.log(outputLoginDto);
     return outputLoginDto;
