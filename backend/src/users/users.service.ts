@@ -24,7 +24,7 @@ export class UsersService {
     return await this.userRepository.createUser(newUser);
   }
 
-  async findUser(email: string): Promise<User> {
-    return await this.userRepository.findUser(email);
+  async findUser(username: string): Promise<User> {
+    return await this.userRepository.findUser(username);
   }
 }

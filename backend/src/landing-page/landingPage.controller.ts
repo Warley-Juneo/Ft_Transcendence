@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Req, Param, Body } from '@nestjs/common';
+import { Controller, Post, Get, Req, Param, Body, Query } from '@nestjs/common';
 import { LandingPageService } from './landingPage.service';
 import { OutputLandinPageDto } from './dto/output.dto';
 import { LandingPageDto } from './dto/input.dto';
@@ -7,20 +7,10 @@ import { LandingPageDto } from './dto/input.dto';
 export class LandingPageController {
   constructor(private readonly landingPageService: LandingPageService) {}
 
-  // @Post()
-  // create(@Body() createLandingPageDto: CreateLandingPageDto) {
-  //   return this.landingPageService.create(createLandingPageDto);
-  // }
-
-  @Post()
-  async landinPage(@Body() dto: LandingPageDto): Promise<OutputLandinPageDto> {
-    return await this.landingPageService.landingPage(dto);
-  }
-
   @Get()
-  async test(@Req() request): Promise<string> {
-    console.log(request.headers.authorization);
-    return "Connect to GET TEST Controller";
+  async test(@Query('username') username: string): Promise<OutputLandinPageDto> {
+    console.log("Username:", username);
+    return await this.landingPageService.landingPage(username);
   }
 
   // @Get(':id')

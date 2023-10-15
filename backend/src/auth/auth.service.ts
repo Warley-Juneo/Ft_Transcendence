@@ -83,7 +83,7 @@ export class AuthService {
     outputLoginDto._email = userInfo.email;
     outputLoginDto._first_name = userInfo.first_name;
     outputLoginDto._last_name = userInfo.last_name;
-    outputLoginDto._nickname = userInfo.nickname;
+    outputLoginDto._nickname = userInfo.login;
     outputLoginDto._avatar = userInfo.avatar;  
     
     let user: User = await this.usersService.findUser(outputLoginDto._email);

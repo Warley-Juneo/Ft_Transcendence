@@ -18,11 +18,11 @@ export class LandingPageService {
     private readonly gameService: GameService,
   ) {}
 
-  async landingPage(dto: LandingPageDto): Promise<OutputLandinPageDto> {
+  async landingPage(username: string): Promise<OutputLandinPageDto> {
     // let jwt = this.jwtService.decode(request.headers.autorization);
     //GET JWT INFORMATION
 
-    let user = await this.userService.findUser(dto.jwt_auth);
+    let user = await this.userService.findUser(username);
 
     let response = new OutputLandinPageDto();
     response._login = user.login;
