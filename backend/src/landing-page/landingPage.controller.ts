@@ -17,6 +17,12 @@ export class LandingPageController {
     return await this.landingPageService.landingPage(dto);
   }
 
+  @Get()
+  async test(@Req() request): Promise<string> {
+    console.log(request.headers.authorization);
+    return "Connect to GET TEST Controller";
+  }
+
   // @Get(':id')
   // findOne(@Param('id') id: string) {
   //   return this.landingPageService.findOne(+id);

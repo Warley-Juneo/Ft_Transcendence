@@ -10,6 +10,7 @@ import { privateDecrypt } from 'crypto';
 import { GameService } from 'src/game/game.service';
 import { JwtService } from '@nestjs/jwt';
 import { OutputLoginDto } from './dtos/output.dtos';
+import { JwtConstants } from './constants';
 
 @Injectable()
 export class AuthService {
@@ -92,9 +93,12 @@ export class AuthService {
 
     //CREATE JWT TOKEN AUTHENTICATION
     const payload = { sub: user.id, username: user.login };
-    let jwt_token = await this.jwtService.signAsync(payload);
+    let jwt_token = await this.jwtService.signAsync(payload, {secret: "paz"});
 
-    // console.log(outputLoginDto);
+    outputLoginDto._access_token = jwt_token;
+
+    console.log(outputLoginDto);
+    
     return outputLoginDto;
   }
 }

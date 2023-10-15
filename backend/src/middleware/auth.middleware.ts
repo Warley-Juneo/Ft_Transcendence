@@ -11,21 +11,22 @@ export class JwtMiddleware implements NestMiddleware {
   async use(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
 
+    console.log("Middleware jwtToken: ", req.headers);
     if (authHeader) {
-      const token = authHeader.split(' ')[1]; // Bearer Token
-
+      // const token = authHeader.split(' ')[1]; // Bearer Token
+         const token = authHeader;
       try {
         const payload = await this.jwtService.verifyAsync(token, {
           //DEVEMOS UTILIZAR UMA ENV????????
-          secret: JwtConstants.secret,
+          secret: "paz",
         });
         //ASSIGNING TO REQUEST OBJECT TO HAVE ACCESS IN OUR ROUTE HANDLERS
         request['user'] = payload;
       } catch (err) {
-        return res.status(401).json({ message: 'Token inválido' });
+        return res.status(401).json({ message: 'Token inválido...' });
       }
     } else {
-      return res.status(401).json({ message: 'Token não fornecido' });
+      return res.status(401).json({ message: 'Token não fornecido...' });
     }
     next();
   }

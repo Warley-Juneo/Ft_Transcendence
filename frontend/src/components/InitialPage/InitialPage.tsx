@@ -14,12 +14,18 @@ export default function InicialPage() {
 	// const data = Cookies.get('login');
 	const email = Cookies.get('email');
 	const jwtToken = Cookies.get('jwtToken')
-
+	console.log("INITIAL PAGE JWT: ", jwtToken);
+	
 	const axios_connect = useCallback( async () => {
-		const res = await axios.post('http://localhost:3000/landing-page', {
-			jwt_auth: email})
-		setInfo(res.data);
-		console.log("PAGE_INFO FUNCTION", info);
+		// const res = await axios.post('http://localhost:3000/landing-page', {
+		// 	jwt_auth: email},)
+		// setInfo(res.data);
+		// console.log("PAGE_INFO FUNCTION", info);
+		const r = await axios.get('http://localhost:3000/landing-page',
+			{headers: {
+				Authorization: jwtToken,},
+		});
+		console.log("RESPONSE AXIOS GET TEST",r);
 	},[])
 
 	function showChat() {
