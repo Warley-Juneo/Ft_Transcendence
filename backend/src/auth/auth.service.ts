@@ -5,22 +5,17 @@ import { HttpService } from '@nestjs/axios';
 import { UsersService } from 'src/users/users.service';
 import { AuthLoginDto } from 'src/auth/dtos/input.dtos';
 import { User } from '@prisma/client';
-import { UserPerfilDto } from 'src/users/dtos/output.dtos';
-import { privateDecrypt } from 'crypto';
 import { GameService } from 'src/game/game.service';
 import { JwtService } from '@nestjs/jwt';
 import { OutputLoginDto } from './dtos/output.dtos';
-import { JwtConstants } from './constants';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly httpService: HttpService,
     private readonly usersService: UsersService,
-    private readonly gameService: GameService,
     private readonly jwtService: JwtService,
   ) {}
-
 
   async validateUserApi42(authLoginDto: AuthLoginDto): Promise<string> {
     const clientId = process.env.UID;
@@ -31,7 +26,7 @@ export class AuthService {
       client_id: clientId,
       client_secret: secret,
       code: authLoginDto.authCode,
-      redirect_uri: 'http://localhost:3001', //PAGINA INICIAL
+      redirect_uri: 'http://localhost:3001',
     };
 
     const authResponsePromise: Observable<any> = this.httpService.post(
@@ -39,10 +34,7 @@ export class AuthService {
       authRequest,
     );
 
-    // TRANSFORM FROM OBSERVABLE TO PROMISE
     const authResponseResolved = await lastValueFrom(authResponsePromise);
-
-    //GET ACCESS TOKEN TO ACCESS USER INFORMATION THROUGH 42 API
     const accessToken: string = authResponseResolved.data.access_token;
     
     return accessToken;
@@ -59,26 +51,16 @@ export class AuthService {
       },
     );
   
-    // TRANSFORM FROM OBSERVABLE TO PROMISE
     const userApiInfoResolved = await lastValueFrom(userApiInfo);
-  
     return userApiInfoResolved.data;
   }
 
   async mainLogin(authLoginDto: AuthLoginDto): Promise<OutputLoginDto> {
     
     const accessToken: string = await this.validateUserApi42(authLoginDto);
-    
     const userInfo = await this.getUserInfoApi42(accessToken);
 
-    // console.log(userApiInfoResolved);
-
-    //Fill AUTH_DTO
-    
-    // RESOLVE USER
-    //CHECK IF ALREADY EXISTS
     const outputLoginDto = new OutputLoginDto();
-
     outputLoginDto._login = userInfo.login;
     outputLoginDto._email = userInfo.email;
     outputLoginDto._first_name = userInfo.first_name;
@@ -86,19 +68,15 @@ export class AuthService {
     outputLoginDto._nickname = userInfo.login;
     outputLoginDto._avatar = userInfo.avatar;  
     
-    let user: User = await this.usersService.findUser(outputLoginDto._email);
+    let user: User = await this.usersService.findUser(outputLoginDto._login);
     if (!user) {
       user = await this.usersService.createUser(outputLoginDto);
-      }
+    }
 
-    //CREATE JWT TOKEN AUTHENTICATION
     const payload = { sub: user.id, username: user.login };
-    let jwt_token = await this.jwtService.signAsync(payload, {secret: "paz"});
+    let jwt_token = await this.jwtService.signAsync(payload);
 
     outputLoginDto._access_token = jwt_token;
-
-    console.log(outputLoginDto);
-    
     return outputLoginDto;
   }
 }

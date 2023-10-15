@@ -5,8 +5,6 @@ import { UsersModule } from 'src/users/users.module';
 import { AuthController } from './auth.controller';
 import { GameModule } from 'src/game/game.module';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtConstants } from './constants';
-
 @Module({
   imports: [
     HttpModule,
@@ -14,7 +12,7 @@ import { JwtConstants } from './constants';
     GameModule,
     JwtModule.register({
       global: true,
-      secret: JwtConstants.secret,
+      secret: 'paz',
     }),
   ],
   controllers: [AuthController],
