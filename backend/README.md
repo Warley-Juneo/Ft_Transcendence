@@ -155,6 +155,8 @@ Last project of 42School
 
   ### JWT
     intall:                     npm install --save @nestjs/jwt
+    install passport:           npm install --save @nestjs/passport passport passport-local
+                                npm install --save-dev @types/passport-local
 
   ### Multer (download Files)
     install:                    npm i -D @types/multer
@@ -208,6 +210,11 @@ Last project of 42School
   - db normalization:         https://www.alura.com.br/artigos/normalizacao-banco-de-dados-estrutura
 
 
+  ### JWT
+    https://www.bezkoder.com/react-express-authentication-jwt/
+
+  ### Passport
+    https://docs.nestjs.com/recipes/passport
 
   ### Problemas
 

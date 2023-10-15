@@ -13,7 +13,7 @@ export class LandingPageController {
   // }
 
   @Post()
-  async landinPage(@Body() dto: LandingPageDto): Promise<OutputLandinPageDto>{
+  async landinPage(@Body() dto: LandingPageDto): Promise<OutputLandinPageDto> {
     return await this.landingPageService.landingPage(dto);
   }
 

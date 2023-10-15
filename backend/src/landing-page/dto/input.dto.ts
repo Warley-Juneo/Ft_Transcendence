@@ -1,3 +1,3 @@
 export class LandingPageDto {
-	jwt_auth:	string
+  jwt_auth: string;
 }

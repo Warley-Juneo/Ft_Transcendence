@@ -13,6 +13,7 @@ export default function InicialPage() {
 
 	// const data = Cookies.get('login');
 	const email = Cookies.get('email');
+	const jwtToken = Cookies.get('jwtToken')
 
 	const axios_connect = useCallback( async () => {
 		const res = await axios.post('http://localhost:3000/landing-page', {

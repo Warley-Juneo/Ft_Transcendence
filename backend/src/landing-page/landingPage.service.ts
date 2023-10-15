@@ -11,19 +11,19 @@ import { GameService } from 'src/game/game.service';
 
 @Injectable()
 export class LandingPageService {
-  constructor(private readonly jwtService: JwtService,
-              private readonly prisma: PrismaService,
-              private readonly userService: UsersService,
-              private readonly gameService: GameService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly prisma: PrismaService,
+    private readonly userService: UsersService,
+    private readonly gameService: GameService,
+  ) {}
 
-  async landingPage(dto: LandingPageDto): Promise<OutputLandinPageDto>{
-
+  async landingPage(dto: LandingPageDto): Promise<OutputLandinPageDto> {
     // let jwt = this.jwtService.decode(request.headers.autorization);
     //GET JWT INFORMATION
 
     let user = await this.userService.findUser(dto.jwt_auth);
-    
-    
+
     let response = new OutputLandinPageDto();
     response._login = user.login;
     response._email = user.email;
@@ -34,10 +34,9 @@ export class LandingPageService {
     response._loses = await this.gameService.numberOfUserMatchLoses(user.email);
     response._draws = await this.gameService.numberOfUserMatchDraws(user.email);
     response._ladder = await this.gameService.userLadder(user.login);
-    
-    console.log("LANDINGPAGE USER: ", response);
-    
-    return response;
 
+    console.log('LANDINGPAGE USER: ', response);
+
+    return response;
   }
 }

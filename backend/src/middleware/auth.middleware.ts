@@ -15,11 +15,10 @@ export class JwtMiddleware implements NestMiddleware {
       const token = authHeader.split(' ')[1]; // Bearer Token
 
       try {
-        const payload = await this.jwtService.verifyAsync(token,
-          { 
-            //DEVEMOS UTILIZAR UMA ENV????????
-            secret: JwtConstants.secret
-          });
+        const payload = await this.jwtService.verifyAsync(token, {
+          //DEVEMOS UTILIZAR UMA ENV????????
+          secret: JwtConstants.secret,
+        });
         //ASSIGNING TO REQUEST OBJECT TO HAVE ACCESS IN OUR ROUTE HANDLERS
         request['user'] = payload;
       } catch (err) {

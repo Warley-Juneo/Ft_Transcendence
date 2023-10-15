@@ -8,10 +8,15 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtConstants } from './constants';
 
 @Module({
-  imports: [HttpModule, UsersModule, GameModule, JwtModule.register({
-    global: true,
-    secret: JwtConstants.secret,
-  })],
+  imports: [
+    HttpModule,
+    UsersModule,
+    GameModule,
+    JwtModule.register({
+      global: true,
+      secret: JwtConstants.secret,
+    }),
+  ],
   controllers: [AuthController],
   providers: [AuthService],
 })

@@ -11,11 +11,20 @@ import { GameRepository } from 'src/game/game.repository';
 import { UsersService } from 'src/users/users.service';
 
 @Module({
-  imports: [GameModule, JwtModule.register({
-    global: true,
-    secret: JwtConstants.secret,
-  })],
+  imports: [
+    GameModule,
+    JwtModule.register({
+      global: true,
+      secret: JwtConstants.secret,
+    }),
+  ],
   controllers: [LandingPageController],
-  providers: [LandingPageService, UsersService, UsersRepository, PrismaService, GameRepository],
+  providers: [
+    LandingPageService,
+    UsersService,
+    UsersRepository,
+    PrismaService,
+    GameRepository,
+  ],
 })
 export class LandingPageModule {}
