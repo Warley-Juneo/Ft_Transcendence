@@ -22,6 +22,7 @@ export default function InicialPage() {
 	},[])
 
 	function showChat() {
+		//TODO: Request api
 		setCurrentChat(!currentChat);
 	}
 
@@ -30,20 +31,17 @@ export default function InicialPage() {
 		axios_connect();
 	}, []);
 
-	console.log("INITIAL PAGE INFO: ", info);
-
 	return (
 		<div className='d-flex' id='home-screen'>
 			<div className='d-flex flex-column tela-left' id='left-screen'>
 				<BarOptions />
 				<hr className='m-0 text-white'></hr>
-				<div className='m-5' id='dinamicScreen'>
+				<div className='m-5 h-100 rounded bg-custon-roxo' id='dinamicScreen'>
 					<Outlet />
 				</div>
 			</div>
 			<div className="d-flex justify-content-end" id='nav-perfil'>
 				{currentChat === true ? <ChatPrivate /> : null}
-
 				{info && <MiniPerfil data={info} showChat={showChat}/>}
 			</div>
 		</div>
