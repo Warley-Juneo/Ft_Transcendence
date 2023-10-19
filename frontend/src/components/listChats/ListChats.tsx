@@ -42,8 +42,7 @@ function ListChats() {
 		<div className='text-white h-100 p-2' id='list-chats'>
 			<BarOptions />
 			<div id='showChats' className='p-2 opacity-75 d-flex'>
-
-				<ColumChats />
+				{ColumChats(chats)}
 			</div>
 		</div>
 	);
