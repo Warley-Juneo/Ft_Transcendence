@@ -2,8 +2,8 @@ import './index.css';
 import { Login } from './components/login/Login';
 import InicialPage from './components/InitialPage/InitialPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import ProfileScreen from './components/profileScreen/ProfileScreen';
-import ListChats from './components/listChats/ListChats';
+import ProfileScreen from './components/ProfileScreen/ProfileScreen';
+import ListChats from './components/ListChats/ListChats';
 
 export default function App() {
 

@@ -4,7 +4,7 @@ import './rank.css'
 
 function ProfileScreen() {
 	return (
-		<div className="row p-3 g-0">
+		<div className="row p-3 g-0 bg-custon-roxo h-100">
 			<InformationsUser />
 			<div className='col-9 text-white ms-auto' id='MatchHistory'>
 				<h2 className='fst-italic'>PARTIDAS RECENTES</h2>
