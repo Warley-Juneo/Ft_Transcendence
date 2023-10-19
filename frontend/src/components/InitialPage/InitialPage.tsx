@@ -2,7 +2,7 @@ import { useCallback, useEffect ,useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import MiniPerfil from '../perfilUser/MiniPerfil';
+import MiniPerfil from '../MiniPerfil/MiniPerfil';
 import ChatPrivate from '../chat/chatPrivate';
 import BarOptions from '../barOptions/BarOptions';
 
@@ -32,15 +32,15 @@ export default function InicialPage() {
 	}, []);
 
 	return (
-		<div className='d-flex' id='home-screen'>
-			<div className='d-flex flex-column tela-left' id='left-screen'>
+		<div className='d-flex' id='home-screen' style={{maxHeight: '100vh'}}>
+			<div className='d-flex flex-column w-100' id='left-screen'>
 				<BarOptions />
 				<hr className='m-0 text-white'></hr>
-				<div className='m-5 h-100 rounded bg-custon-roxo' id='dinamicScreen'>
+				<div className='h-100 m-3 rounded bg-custon-roxo' id='dinamicScreen'>
 					<Outlet />
 				</div>
 			</div>
-			<div className="d-flex justify-content-end" id='nav-perfil'>
+			<div className='bg-custon-roxo '>
 				{currentChat === true ? <ChatPrivate /> : null}
 				{info && <MiniPerfil data={info} showChat={showChat}/>}
 			</div>

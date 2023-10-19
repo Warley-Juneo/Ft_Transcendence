@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router';
-import './BarOptions.css';
 import './buttonRedFormatted.css';
 
 function BarOptions(props: any) {
@@ -13,51 +12,53 @@ function BarOptions(props: any) {
 	}
 
 	return (
-		<div className='d-flex bg-custon-roxo BarOptions'>
-			<div className='div-bottom-animation'>
-				<span className={randomButtonClass()}>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					Jogar
-				</span>
-			</div>
-			<div className='div-bottom-animation'>
-				<span className={randomButtonClass()} onClick={() => navigate("/game/chats")}>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					Chats
-				</span>
-			</div>
-			<div className='div-bottom-animation'>
-				<span className={randomButtonClass()}>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					Ranking
-				</span>
-			</div>
-			<div className='div-bottom-animation'>
-				<span className={randomButtonClass()}>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					Histórico
-				</span>
-			</div>
-			<div className='div-bottom-animation'>
-				<span className={randomButtonClass()} onClick={() => navigate("/game/profile")}>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					Perfil
-				</span>
+		<div className='d-flex bg-custon-roxo' style={{ minHeight: '15vh' }}>
+			<div className='d-flex w-100 my-auto'>
+				<div className='div-bottom-animation'>
+					<span className={randomButtonClass()}>
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+						Jogar
+					</span>
+				</div>
+				<div className='div-bottom-animation'>
+					<span className={randomButtonClass()} onClick={() => navigate("/game/chats")}>
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+						Chats
+					</span>
+				</div>
+				<div className='div-bottom-animation'>
+					<span className={randomButtonClass()}>
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+						Ranking
+					</span>
+				</div>
+				<div className='div-bottom-animation'>
+					<span className={randomButtonClass()}>
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+						Histórico
+					</span>
+				</div>
+				<div className='div-bottom-animation'>
+					<span className={randomButtonClass()} onClick={() => navigate("/game/profile")}>
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+						Perfil
+					</span>
+				</div>
 			</div>
 		</div>
 	);

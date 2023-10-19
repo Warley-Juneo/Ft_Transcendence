@@ -1,10 +1,5 @@
-.friend:hover {
-	background-color: #24113c;
-	cursor: pointer;
-}
-
-.friend {
-	padding: 5px;
+.perfil {
+	max-width: 15vw;
 }
 
 .div-foto-friend {
@@ -33,4 +28,12 @@
 	height: 14px;
 	width: 14px;
 	margin-right: 5px;
+}
+
+.options {
+	margin-right: 10px;
+}
+
+.options:hover {
+	cursor: pointer;
 }

@@ -1,0 +1,12 @@
+.foto-list-friends {
+	height: 50px;
+	width: 50px;
+	border-radius: 50%;
+	padding: 5px;
+}
+
+.div-list-friends:hover {
+	background-color: #f2f2f2;
+	cursor: pointer;
+	color: #000;
+}
