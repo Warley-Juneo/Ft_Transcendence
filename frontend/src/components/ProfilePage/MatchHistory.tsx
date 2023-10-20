@@ -1,6 +1,6 @@
 export default function MatchHistory() {
 	return (
-		<div className='d-flex p-2 justify-content-between'>
+		<div className='d-flex p-2 justify-content-between hover'>
 			<img className='img-fluid rounded-circle'src='https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg' alt='foto' />
 			<div className='fs-5 col-3'>
 				<p>Oponente</p>

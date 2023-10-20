@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import MiniPerfil from '../MiniPerfil/MiniPerfil';
-import ChatPrivate from '../chat/chatPrivate';
+import ChatPrivate from '../ChatPrivate/ChatPrivate';
 import BarOptions from '../barOptions/BarOptions';
 
 
