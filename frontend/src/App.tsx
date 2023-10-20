@@ -2,7 +2,7 @@ import './index.css';
 import { Login } from './components/login/Login';
 import InicialPage from './components/InitialPage/InitialPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import ProfileScreen from './components/ProfileScreen/ProfileScreen';
+import ProfileScreen from './components/ProfilePage/ProfilePage';
 import ListChats from './components/ListChats/ListChats';
 
 export default function App() {
