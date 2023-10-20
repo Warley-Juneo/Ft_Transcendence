@@ -5,10 +5,8 @@ function BarOptions(props: any) {
 	const navigate = useNavigate();
 
 	// Função para gerar uma classe aleatória entre "animated-button1" e "animated-button12"
-	function randomButtonClass() {
-		const randomClass = 'animated-button' + (Math.floor(Math.random() * 12) + 1);
-		console.log(randomClass);
-		return randomClass;
+	function randomButtonClass() : string {
+		return 'animated-button' + (Math.floor(Math.random() * 12) + 1);
 	}
 
 	return (

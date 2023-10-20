@@ -4,7 +4,7 @@
 	border-radius: 5px;
 }
 
-#list-chats input {
+.shadow-grounps input {
 	border: none;
 	outline: none !important;
 	background-color: transparent;
