@@ -11,7 +11,6 @@ export default function InicialPage() {
 	const [info, setInfo] = useState(null);
 	const [currentChat, setCurrentChat] = useState(false);
 
-	// const data = Cookies.get('login');
 	const email = Cookies.get('email');
 
 	const axios_connect = useCallback( async () => {

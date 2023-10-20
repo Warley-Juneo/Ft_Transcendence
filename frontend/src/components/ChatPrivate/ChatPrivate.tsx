@@ -1,6 +1,18 @@
 import './ChatPrivate.css'
 import { AiOutlineSend } from 'react-icons/ai';
 
+// const message = [
+// 	{
+// 		user: 'Fausto',
+// 		messagens: [],
+// 		img: 'https://i.pinimg.com/originals/30/5f/68/305f68b547c8b43ae7f1dc8fed76af22.jpg',
+// 	},
+// 	{
+// 		img: 'https://i.pinimg.com/originals/30/5f/68/305f68b547c8b43ae7f1dc8fed76af22.jpg',
+// 		user: 'Fausto',
+// 		messagens: [],
+// 	}
+// ]
 export default function ChatPrivate() {
 	return (
 		<div className='d-flex align-items-end'>
