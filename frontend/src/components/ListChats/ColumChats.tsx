@@ -1,7 +1,7 @@
 import { BiSolidLock } from 'react-icons/bi';
-import { Chat } from './MockResponseApi';
+import { t_chat } from './MockResponseApi';
 
-export default function ColumChats(InfosChats: Chat[]) {
+export default function ChatList(InfosChats: t_chat[]) {
 	return (
 		<div className='row g-0 w-100'>
 			{InfosChats.map((chat) => (

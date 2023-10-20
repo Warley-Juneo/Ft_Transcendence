@@ -1,41 +1,37 @@
-import returnResponseMocket from './MockResponseApi';
+import { t_chat, returnResponseMocket } from './MockResponseApi';
 import { useState } from 'react';
-import ColumChats from './ColumChats';
+import ChatList from './ColumChats';
 import BarOptions from './BarOptions';
-import { Chat } from './MockResponseApi';
 import './listGroups.css';
 
 
-function ListChats() {
-	var [searchChat, setSearchChat] = useState<Chat[]>(returnResponseMocket());
+export default function PageChats() {
+	var [chatList, setChatList] = useState<t_chat[]>(returnResponseMocket());
 
 	function handleSearchChats(event: React.ChangeEvent<HTMLInputElement>) {
-		let value : string;
-		let newList : Chat[];
+		let value : string = event.target.value.toLowerCase();
 
-		newList = [];
-		value = event.target.value.toLowerCase();
 		if (value === '') {
-			setSearchChat(returnResponseMocket());
+			setChatList(returnResponseMocket());
 		}
 		else {
-			for (const chat of searchChat) {
+			let newList : t_chat[] = [];
+
+			for (const chat of chatList) {
 				if (chat.name.toLowerCase().includes(value)) {
 					newList.push(chat);
 				}
 			}
-			setSearchChat(newList);
+			setChatList(newList);
 		}
 	}
 
 	return (
 		<div className='d-flex flex-column bg-custon-roxo rounded h-100 p-2 text-white'>
-			<BarOptions handleSearchChats={handleSearchChats} />
+			{BarOptions(handleSearchChats)}
 			<div className='d-flex p-3 overflow-auto' id='showChats'>
-				{ColumChats(searchChat)}
+				{ChatList(chatList)}
 			</div>
 		</div>
 	);
 }
-
-export default ListChats;

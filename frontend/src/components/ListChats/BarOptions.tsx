@@ -1,7 +1,7 @@
 import { BiSearchAlt, BiMessageAltAdd } from 'react-icons/bi';
+import { ChangeEvent } from 'react';
 
-
-export default function BarOptions({handleSearchChats}: any) {
+export default function chat_getBarOptions( handleSearchChats : (event: ChangeEvent<HTMLInputElement>) => void ) {
 
 	return (
 		<div className='d-flex shadow-grounps rounded p-2'>
