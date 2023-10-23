@@ -39,7 +39,7 @@ export default function InicialPage() {
 					<Outlet />
 				</div>
 			</div>
-			<div className='bg-custon-roxo '>
+			<div style={{height: '100vh'}}>
 				{currentChat === true ? <ChatPrivate /> : null}
 				{info && <MiniPerfil data={info} showChat={showChat}/>}
 			</div>

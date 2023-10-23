@@ -1,48 +1,14 @@
 .chat {
 	width: 30vw;
-	height: 40vh;
-	position: absolute;
 	right: 15vw;
+	bottom: 0px;
+	height: 45vh;
+	position: absolute;
+	font-size: 12px;
 }
 
-.menssagens-chat {
-	background-image: linear-gradient(to right, #4c264b, #0e0036); /* Degrade de vermelho para verde */
-	overflow-y: auto;
-	height: 100%;
-}
-
-.title {
-	background-image: linear-gradient(to right, #4c264b, #0e0036); /* Degrade de vermelho para verde */
-	padding: 5px;
-	display: flex;
-	justify-content: center;
-	color: white;
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
-}
-
-.message-infos {
-	margin-bottom: 10px;
-}
-
-.div-foto-chat {
-	height: 50px;
-	width: 50px;
-}
-
-.div-foto-chat img {
-	height: 50px;
-	width: 50px;
-	border-radius: 50%;
-}
-
-.message {
-	display: flex;
-	flex-direction: column;
-	padding: 5px;
-	background-color: gold;
-	border-radius: 10px;
-	margin: 5px;
+.bg-degrader {
+	background-image: linear-gradient(to right, #0e0036, #4c264b); /* Degrade de vermelho para verde */
 }
 
 .input-chat input {
@@ -53,9 +19,6 @@
 	outline: none;
 }
 
-.input-chat {
-	border: 1px gold solid;
-}
 
 .input-chat button{
 	background-color: transparent;

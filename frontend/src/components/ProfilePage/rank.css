@@ -1,8 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap');
-.status-pat {
+.letter-pixel {
 	font-family: 'Pixelify Sans', cursive;
 }
 
 #MatchHistory img {
 	max-height: 4rem;
+}
+
+.faixa-amarela {
+	background-image: url('../../static/faixa-amarela.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
 }
