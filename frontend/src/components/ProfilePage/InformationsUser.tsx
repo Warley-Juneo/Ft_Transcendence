@@ -1,4 +1,5 @@
-import rankBonze from '../../static/BRONZE.png';
+import rankBronze from '../../static/rankBronze.png';
+import borderBronze from '../../static/borderBronze.png';
 
 export default function InformationsUser() {
 	return (
@@ -9,9 +10,9 @@ export default function InformationsUser() {
 			</div>
 			<div className='m-auto'>
 				<div className='m-auto'>
-					<img className='img-fluid' src={rankBonze} alt='' />
+					<img className='img-fluid' src={rankBronze} alt='' />
 				</div>
-				<div className='d-flex justify-content-center'>
+				<div className='d-flex justify-content-center border-bronze p-2'>
 					<p className='me-2'>VT<br></br>5</p>
 					<p className='me-2'>DR<br></br>5</p>
 					<p className='me-2'>KDA<br></br>0</p>

@@ -12,3 +12,9 @@
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
+
+.border-bronze {
+	background-image: url('../../static/borderBronze.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
