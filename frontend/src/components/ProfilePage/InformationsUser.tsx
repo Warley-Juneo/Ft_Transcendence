@@ -1,5 +1,4 @@
 import rankBronze from '../../static/rankBronze.png';
-import borderBronze from '../../static/borderBronze.png';
 
 export default function InformationsUser() {
 	return (

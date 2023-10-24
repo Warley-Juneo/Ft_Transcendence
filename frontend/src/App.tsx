@@ -3,7 +3,7 @@ import { Login } from './components/login/Login';
 import InicialPage from './components/InitialPage/InitialPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ProfileScreen from './components/ProfilePage/ProfilePage';
-import ListChats from './components/chatsGame/ListPublicChats/ListChats';
+import ListChats from './components/chatsGame/ListPublicChats/ListPublicChats';
 import ChatPublic from './components/chatsGame/openChatPublic/ChatPublic';
 
 export default function App() {

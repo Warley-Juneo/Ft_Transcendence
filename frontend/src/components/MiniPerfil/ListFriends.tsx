@@ -1,4 +1,3 @@
-import './css/ListFriends.css';
 import StatusOnline from './StatusOnline';
 
 function ListFriends({chat}: any) {
