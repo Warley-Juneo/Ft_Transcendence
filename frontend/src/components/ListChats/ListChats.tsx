@@ -35,7 +35,7 @@ export default function PageChats() {
 	return (
 		<div className='d-flex flex-column bg-custon-roxo rounded h-100 p-2 text-white'>
 			<BarOptions handleSearchChats={handleSearchChats} handleCreateChat={handleCreateChat} />
-			{showCreateChat ? <CreateNewChat /> : null}
+			{showCreateChat ? <CreateNewChat handleCreateChat={handleCreateChat} /> : null}
 			<div className='d-flex p-3 overflow-auto' id='showChats'>
 				{ChatList(chatList)}
 			</div>

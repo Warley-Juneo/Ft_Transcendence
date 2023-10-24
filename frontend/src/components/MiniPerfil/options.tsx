@@ -1,7 +1,6 @@
 import { GoPersonAdd } from 'react-icons/go';
 import { GiThreeFriends } from 'react-icons/gi';
 import { FaUserFriends } from 'react-icons/fa';
-import { AiOutlineClose } from 'react-icons/ai';
 import { useState } from 'react';
 
 function Options() {

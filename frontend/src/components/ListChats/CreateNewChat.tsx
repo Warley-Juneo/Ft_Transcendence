@@ -1,6 +1,8 @@
+import {GrFormClose} from 'react-icons/gr';
 import { useState } from "react";
 
-export default function CreateNewChat() {
+
+export default function CreateNewChat(props: { handleCreateChat: () => void; }) {
 	const [ShowInputPassword, setShowInputPassword] = useState(false);
 
 	const handleShowInputPassword = () => {
@@ -9,6 +11,7 @@ export default function CreateNewChat() {
 
 	return (
 		<div className='position-absolute rounded top-50 end-50 p-3 shadow-grounps text-black'>
+			<GrFormClose className='position-absolute top-0 end-0 m-1' size={25} onClick={props.handleCreateChat} />
 			<label className='form-label' htmlFor='inputCreateGroup'>Criar grupo</label>
 			<input type='text' className='form-control shadow-grounps mb-3' placeholder='Nome do grupo' />
 			<div className="form-check">
