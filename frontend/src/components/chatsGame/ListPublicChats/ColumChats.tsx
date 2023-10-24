@@ -1,5 +1,6 @@
 import { BiSolidLock } from 'react-icons/bi';
 import { t_chat } from './MockResponseApi';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 type propsChatList = {
 	listChats: t_chat[];
@@ -7,10 +8,11 @@ type propsChatList = {
 }
 
 export default function ChatList(props: propsChatList) {
+	const navigate = useNavigate();
 	return (
 		<div className='row g-0 w-100'>
 			{props.listChats.map((chat) => (
-				<div className="col-md-4 border-bottom border-end hover" onClick={() => props.openChatSelected(chat.name)}>
+				<div className="col-md-4 border-bottom border-end hover" onClick={() => {navigate(`/game/chat/${chat.name.replace(' ', '-')}`)}}>
 					<div className='d-flex p-2 justify-content-between' id='sala1'>
 						<div>
 							<p className='fs-5'>{chat.name}</p>

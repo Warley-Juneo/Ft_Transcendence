@@ -39,7 +39,7 @@ export default function PageChats() {
 	}
 
 	function openChatSelected(chatName: string) {
-		console.log('abrir chat selecionado: ', chatName);
+		
 		alert('abrir chat selecionado');
 	}
 	return (

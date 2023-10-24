@@ -1,5 +1,4 @@
 import './ChatPrivate.css'
-import { AiOutlineSend } from 'react-icons/ai';
 import FormatMessagensList from './FormatMessagensList';
 
 export default function ChatPrivate() {

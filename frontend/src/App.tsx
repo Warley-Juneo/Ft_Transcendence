@@ -3,7 +3,8 @@ import { Login } from './components/login/Login';
 import InicialPage from './components/InitialPage/InitialPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ProfileScreen from './components/ProfilePage/ProfilePage';
-import ListChats from './components/ListChats/ListChats';
+import ListChats from './components/chatsGame/ListPublicChats/ListChats';
+import ChatPublic from './components/chatsGame/openChatPublic/ChatPublic';
 
 export default function App() {
 
@@ -15,6 +16,7 @@ export default function App() {
 					<Route path='/game/' element={< InicialPage /> } >
 						<Route path='profile' element={<ProfileScreen />} />
 						<Route path='chats' element={<ListChats />} />
+						<Route path='chats/:id' element={<ChatPublic />} />
 					</Route>
 				</Routes>
 			</BrowserRouter>

@@ -1,7 +1,6 @@
 import MiniPerfilUser from './MiniPerfilUser';
 import Options from './options';
 import ListFriends from './ListFriends';
-import './MiniPerfil.css'
 
 export default function MiniPerfil(props: any) {
 	return (
