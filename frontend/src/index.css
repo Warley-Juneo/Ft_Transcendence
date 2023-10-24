@@ -11,6 +11,13 @@ body p {
 	background-color: #0e0036 !important;
 }
 
+.remove-format-input {
+	width: 100%;
+	border: none;
+	padding: 10px;
+	background-color: transparent !important;
+}
+
 .hover:hover {
 	background-color: #f2f2f2;
 	cursor: pointer;

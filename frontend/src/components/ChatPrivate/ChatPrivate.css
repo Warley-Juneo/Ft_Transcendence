@@ -11,15 +11,6 @@
 	background-image: linear-gradient(to right, #0e0036, #4c264b); /* Degrade de vermelho para verde */
 }
 
-.input-chat input {
-	width: 100%;
-	border: none;
-	padding: 10px;
-	background-color: transparent;
-	outline: none;
-}
-
-
 .input-chat button{
 	background-color: transparent;
 	border: none;
