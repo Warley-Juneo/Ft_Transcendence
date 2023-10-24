@@ -3,7 +3,7 @@ import { ChangeEvent } from 'react';
 
 type BarOptionsProps = {
 	handleSearchChats: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	handleCreateChat: () => void;
+	showScreeToCreateChat: () => void;
 };
 
 export default function chat_getBarOptions( props: BarOptionsProps ) {
@@ -19,7 +19,7 @@ export default function chat_getBarOptions( props: BarOptionsProps ) {
 					id = 'inputFindChat'
 				/>
 			</div>
-			<button className='d-flex shadow-grounps ms-auto' onClick={props.handleCreateChat}>
+			<button className='d-flex shadow-grounps ms-auto' onClick={props.showScreeToCreateChat}>
 				<BiMessageAltAdd size={30} color='black' />
 				<p className='mx-2 fw-bold'>Criar Grupo</p>
 			</button>

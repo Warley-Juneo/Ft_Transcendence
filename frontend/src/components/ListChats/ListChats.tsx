@@ -28,16 +28,26 @@ export default function PageChats() {
 		}
 	}
 
-	function handleCreateChat() {
+	function showScreeToCreateChat() {
 		setShowCreateChat(!showCreateChat);
 	}
 
+	function createNewChat(form: FormData) {
+		console.log(form.get('nameChat'));
+		console.log(form.get('passwordChat'));
+		setShowCreateChat(!showCreateChat);
+	}
+
+	function openChatSelected(chatName: string) {
+		console.log('abrir chat selecionado: ', chatName);
+		alert('abrir chat selecionado');
+	}
 	return (
 		<div className='d-flex flex-column bg-custon-roxo rounded h-100 p-2 text-white'>
-			<BarOptions handleSearchChats={handleSearchChats} handleCreateChat={handleCreateChat} />
-			{showCreateChat ? <CreateNewChat handleCreateChat={handleCreateChat} /> : null}
+			<BarOptions handleSearchChats={handleSearchChats} showScreeToCreateChat={showScreeToCreateChat} />
+			{showCreateChat ? <CreateNewChat showScreeToCreateChat={showScreeToCreateChat} createNewChat={createNewChat} /> : null}
 			<div className='d-flex p-3 overflow-auto' id='showChats'>
-				{ChatList(chatList)}
+				<ChatList listChats={chatList} openChatSelected={openChatSelected} />
 			</div>
 		</div>
 	);
