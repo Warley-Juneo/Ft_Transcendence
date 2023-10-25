@@ -2,6 +2,7 @@ import { useState } from "react";
 import BarConfigurations from "./barConfigurations";
 import Configurations from "./Configurations";
 import { AiOutlineSend } from 'react-icons/ai';
+import InputChats from "../InputChats";
 
 export default function ChatPublic() {
 	const [showConfigurations, setShowConfigurations] = useState(false);
@@ -18,10 +19,7 @@ export default function ChatPublic() {
 				<div className="col-9 d-flex flex-column h-100 position-relative">
 					<BarConfigurations openOrClosedConf={openOrClosedConf} />
 					{showConfigurations === true ? <Configurations openOrClosedConf={openOrClosedConf} /> : null}
-					<div className='d-flex align-items-center'>
-						<input className='remove-format-input' type='text' placeholder='Digite sua mensagem' />
-						<button className='remove-format-button'><AiOutlineSend size={30} /></button>
-					</div>
+					<InputChats />
 				</div>
 
 			</div>
