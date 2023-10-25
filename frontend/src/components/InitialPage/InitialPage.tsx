@@ -2,9 +2,9 @@ import { useCallback, useEffect ,useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import MiniPerfil from '../MiniPerfil/MiniPerfil';
-import ChatPrivate from '../chatsGame/ChatPrivate/ChatPrivate';
-import BarOptions from '../barOptions/BarOptions';
+import MiniPerfil from './MiniPerfil/MiniPerfil';
+import ChatPrivate from '../ChatsGame/ChatPrivate/ChatPrivate';
+import BarOptions from './barOptions/BarOptions';
 
 
 export default function InicialPage() {

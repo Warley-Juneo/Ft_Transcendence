@@ -1,10 +1,10 @@
 import './index.css';
-import { Login } from './components/login/Login';
+import { Login } from './components/LoginPage/Login';
 import InicialPage from './components/InitialPage/InitialPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ProfileScreen from './components/ProfilePage/ProfilePage';
-import ListChats from './components/PagePublicChats/ListPublicChats';
-import ChatPublic from './components/chatsGame/ChatPublic/ChatPublic';
+import ListChats from './components/PublicChatsPage/ListPublicChats';
+import ChatPublic from './components/ChatsGame/ChatPublic/ChatPublic';
 
 export default function App() {
 

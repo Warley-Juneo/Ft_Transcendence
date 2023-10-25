@@ -1,7 +1,6 @@
 import { useState } from "react";
 import BarConfigurations from "./barConfigurations";
 import Configurations from "./Configurations";
-import { AiOutlineSend } from 'react-icons/ai';
 import InputChats from "../InputChats";
 import FormatMessagensList from "../ChatPrivate/FormatMessagensList";
 
