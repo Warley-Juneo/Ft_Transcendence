@@ -2,10 +2,10 @@ import { useParams } from "react-router-dom";
 import { BsFillPencilFill } from 'react-icons/bs';
 import { useState } from "react";
 import { MdOutlinePersonAddDisabled } from 'react-icons/md';
-import { AiOutlineUserAdd } from 'react-icons/ai';
+import { AiOutlineUserAdd, AiOutlineClose } from 'react-icons/ai';
 import { GiBroadDagger } from 'react-icons/gi';
 
-export default function Configurations() {
+export default function Configurations({openOrClosedConf}: {openOrClosedConf : () => void}) {
 	const id = useParams().id;
 	const [showEditName, setShowEditName] = useState(false);
 
@@ -14,7 +14,11 @@ export default function Configurations() {
 	}
 
 	return (
-		<div className="ms-auto overflow-auto h-100 w-50 bg-dark text-center rounded">
+		<div className="position-absolute bg-dark text-center rounded h-100 w-50 overflow-auto top-0 end-0">
+			<div className="d-flex align-items-center border-bottom" style={{height: '55px'}}>
+				<AiOutlineClose className="ms-5" role="button" size={30} onClick={openOrClosedConf}/>
+				<h5 className="m-0 ms-5">Dados do Grupo</h5>
+			</div>
 			<div className="p-3 border-bottom">
 				<img
 					src="https://i.etsystatic.com/37688069/r/il/d3e600/5143421340/il_600x600.5143421340_sm1f.jpg"
@@ -30,7 +34,7 @@ export default function Configurations() {
 				<h4>Grupo - 15 participantes</h4>
 			</div>
 			<div className="text-start p-3">
-				<h4>Regras: </h4>
+				<h4>Regras : </h4>
 				<ul>
 					<li>
 						<h5>2 anos de Free Fire</h5>
@@ -58,6 +62,16 @@ export default function Configurations() {
 					className="p-2 hover">
 					<MdOutlinePersonAddDisabled className="foto-list-friends bg-light text-black me-3 p-1" size={30} />
 					Remover Militante
+				</h5>
+				<h5
+					className="p-2 hover">
+					<GiBroadDagger className="foto-list-friends bg-light text-black me-3 p-1" size={30} />
+					Adicionar ADM
+				</h5>
+				<h5
+					className="p-2 hover">
+					<GiBroadDagger className="foto-list-friends bg-light text-black me-3 p-1" size={30} />
+					Adicionar ADM
 				</h5>
 				<h5
 					className="p-2 hover">
