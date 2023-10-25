@@ -68,16 +68,6 @@ export default function Configurations({openOrClosedConf}: {openOrClosedConf : (
 					<GiBroadDagger className="foto-list-friends bg-light text-black me-3 p-1" size={30} />
 					Adicionar ADM
 				</h5>
-				<h5
-					className="p-2 hover">
-					<GiBroadDagger className="foto-list-friends bg-light text-black me-3 p-1" size={30} />
-					Adicionar ADM
-				</h5>
-				<h5
-					className="p-2 hover">
-					<GiBroadDagger className="foto-list-friends bg-light text-black me-3 p-1" size={30} />
-					Adicionar ADM
-				</h5>
 			</div>
 		</div>
 	);
