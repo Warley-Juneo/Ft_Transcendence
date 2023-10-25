@@ -13,9 +13,11 @@ body p {
 
 .remove-format-input {
 	width: 100%;
-	border: none;
+	border: none ;
 	padding: 10px;
 	background-color: transparent !important;
+	outline: none;
+	color: white;
 }
 
 .hover:hover {

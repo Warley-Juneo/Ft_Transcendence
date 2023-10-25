@@ -1,24 +1,22 @@
-import { useParams } from "react-router-dom";
-import { AiTwotoneSetting, AiOutlineSetting } from 'react-icons/ai';
+import { useState } from "react";
+import BarConfigurations from "./barConfigurations";
+import Configurations from "./Configurations";
 
 export default function ChatPublic() {
-	const id = useParams();
-	console.log(id);
+	const [showConfigurations, setShowConfigurations] = useState(false);
+
+	const handleClickConf = () => {
+		setShowConfigurations(!showConfigurations);
+	}
+
 	return (
-		<div className="bg-custon-roxo h-100 rounded">
+		<div className="bg-custon-roxo rounded h-100">
 			<div className="row g-0 h-100">
-				<div className="col-3 border-end h-100">
+				<div className="col-3 border-end" id='peoples'>
 				</div>
-				<div className="col-9 p-2 text-white">
-					<div className="border-bottom d-flex align-items-end">
-						<img
-							src="https://i.etsystatic.com/37688069/r/il/d3e600/5143421340/il_600x600.5143421340_sm1f.jpg"
-							alt="bordão sunny one picie"
-							className="foto-list-friends"
-						/>
-						<h3>{id.id}</h3>
-						<AiTwotoneSetting size={25} color="white" className="my-auto ms-auto"/>
-					</div>
+				<div className="col-9 text-white p-1 d-flex flex-column h-100">
+					<BarConfigurations handleClickConf={handleClickConf}/>
+				{	 showConfigurations === true ? <Configurations /> : null}
 				</div>
 			</div>
 		</div>

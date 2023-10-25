@@ -17,6 +17,7 @@ export default function InicialPage() {
 		const res = await axios.post('http://localhost:3000/landing-page', {
 			jwt_auth: email})
 		setInfo(res.data);
+		console.log("PAGE_INFO FUNCTION", info);
 	},[])
 
 	function showChat() {
