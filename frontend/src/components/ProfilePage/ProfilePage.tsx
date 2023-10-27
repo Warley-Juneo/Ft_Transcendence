@@ -4,7 +4,7 @@ import './rank.css'
 
 function ProfileScreen() {
 	return (
-		<div className="row g-0 h-100 bg-custon-roxo rounded p-2">
+		<div className="row g-0 bg-custon-roxo rounded p-2 h-100">
 			<div className='col-2'>
 				<InformationsUser />
 			</div>

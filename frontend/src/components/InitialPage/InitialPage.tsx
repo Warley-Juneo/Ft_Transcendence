@@ -41,7 +41,7 @@ export default function InicialPage() {
 			</div>
 			<div style={{height: '100vh'}}>
 				{currentChat === true ? <ChatPrivate /> : null}
-				{info && <MiniPerfil data={info} showChat={showChat}/>}
+				{<MiniPerfil data={info} showChat={showChat}/>}
 			</div>
 		</div>
 	);

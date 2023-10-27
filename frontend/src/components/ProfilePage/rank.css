@@ -13,8 +13,46 @@
 	background-size: 100% 100%;
 }
 
-.border-bronze {
-	background-image: url('../../static/borderBronze.png');
+
+.borderDivFotoRank1 {
+	background-image: url('../../static/bordaFotoRank1.png');
+	background-size: contain;
+	height: 100%;
+	width: 100%;
+	background-repeat: no-repeat;
+}
+
+.borderDivFotoRank1 img {
+	padding: 14%;
+	height: 100%;
+	width: 100%;
+}
+
+.borderWriteRank1{
+	background-image: url('../../static/bordaWriteRank1.png');
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
+
+.borderDivFotoRank2 {
+	background-image: url('../../static/borderFotoRank2.png');
+	background-size: contain;
+	height: 100%;
+	width: 100%;
+	background-repeat: no-repeat;
+}
+
+
+.borderDivFotoRank2 img {
+	padding: 21%;
+	padding-left: 20%;
+	height: 100%;
+	width: 100%;
+}
+
+.borderWriteRank2{
+	background-image: url('../../static/bordaWriteRank2.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
