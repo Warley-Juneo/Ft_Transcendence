@@ -5,6 +5,7 @@ import { UsersModule } from 'src/users/users.module';
 import { AuthController } from './auth.controller';
 import { GameModule } from 'src/game/game.module';
 import { JwtModule } from '@nestjs/jwt';
+
 @Module({
   imports: [
     HttpModule,

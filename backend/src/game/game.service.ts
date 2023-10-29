@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Match } from '@prisma/client';
-import { AuthLoginDto } from 'src/auth/dtos/input.dtos';
+import { AuthLoginDto } from 'src/auth/dtos/authLogin.dto';
 import { UserEntity } from 'src/users/user.entity';
 import { MatchHistory } from './entities/match.entity';
 import { GameRepository } from './game.repository';

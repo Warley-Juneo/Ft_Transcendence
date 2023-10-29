@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { lastValueFrom } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
-import { UsersService } from 'src/users/users.service';
-import { AuthLoginDto } from 'src/auth/dtos/input.dtos';
 import { User } from '@prisma/client';
-import { GameService } from 'src/game/game.service';
 import { JwtService } from '@nestjs/jwt';
-import { OutputLoginDto } from './dtos/output.dtos';
+import { UsersService } from 'src/users/users.service';
+import { GameService } from 'src/game/game.service';
+import { AuthLoginDto } from 'src/auth/dtos/authLogin.dto';
+import { OutputLoginDto } from './dtos/output.dto';
+import { UserInfoDto } from './dtos/userInfo.dto';
 
 @Injectable()
 export class AuthService {
@@ -55,27 +56,37 @@ export class AuthService {
     return userApiInfoResolved.data;
   }
 
-  async mainLogin(authLoginDto: AuthLoginDto): Promise<OutputLoginDto> {
-    
-    const accessToken: string = await this.validateUserApi42(authLoginDto);
-    const userInfo = await this.getUserInfoApi42(accessToken);
+  async verifyUser(userInfo: any): Promise<any> {
 
-    const outputLoginDto = new OutputLoginDto();
-    outputLoginDto._login = userInfo.login;
-    outputLoginDto._email = userInfo.email;
-    outputLoginDto._first_name = userInfo.first_name;
-    outputLoginDto._last_name = userInfo.last_name;
-    outputLoginDto._nickname = userInfo.login;
-    outputLoginDto._avatar = userInfo.avatar;  
+    const userInfoDto = new UserInfoDto();
+    userInfoDto._login = userInfo.login;
+    userInfoDto._email = userInfo.email;
+    userInfoDto._first_name = userInfo.first_name;
+    userInfoDto._last_name = userInfo.last_name;
+    userInfoDto._nickname = userInfo.login;
+    userInfoDto._avatar = userInfo.avatar;
     
-    let user: User = await this.usersService.findUser(outputLoginDto._login);
+    let user: User = await this.usersService.findUser(userInfoDto._login);
     if (!user) {
-      user = await this.usersService.createUser(outputLoginDto);
+      user = await this.usersService.createUser(userInfoDto);
     }
+    return user;
+  }
 
+  async jwtSign(user: any): Promise<string> {
     const payload = { sub: user.id, username: user.login };
     let jwt_token = await this.jwtService.signAsync(payload);
+    return (jwt_token);
+  }
 
+  async mainLogin(authLoginDto: AuthLoginDto): Promise<OutputLoginDto> {
+
+    const accessToken: string = await this.validateUserApi42(authLoginDto);
+    const userInfo = await this.getUserInfoApi42(accessToken);
+    const user = await this.verifyUser(userInfo);
+    let jwt_token = await this.jwtSign(user);
+
+    const outputLoginDto = new OutputLoginDto();
     outputLoginDto._access_token = jwt_token;
     return outputLoginDto;
   }

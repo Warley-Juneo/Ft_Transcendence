@@ -5,21 +5,21 @@ import { UserEntity } from './user.entity';
 import { userInfo } from 'os';
 import { AuthService } from 'src/auth/auth.service';
 import { UserPerfilDto } from './dtos/output.dtos';
-import { OutputLoginDto } from 'src/auth/dtos/output.dtos';
+import { UserInfoDto } from 'src/auth/dtos/userInfo.dto';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly userRepository: UsersRepository) {}
 
-  async createUser(outputLoginDto: OutputLoginDto): Promise<User> {
+  async createUser(userInfoDto: UserInfoDto): Promise<User> {
     //VALIDATE DTO/ENTITY
     const newUser = new UserEntity();
-    newUser.login = outputLoginDto._login;
-    newUser.email = outputLoginDto._email;
-    newUser.first_name = outputLoginDto._first_name;
-    newUser.last_name = outputLoginDto._last_name;
-    newUser.nickname = outputLoginDto._nickname;
-    newUser.avatar = outputLoginDto._avatar;
+    newUser.login = userInfoDto._login;
+    newUser.email = userInfoDto._email;
+    newUser.first_name = userInfoDto._first_name;
+    newUser.last_name = userInfoDto._last_name;
+    newUser.nickname = userInfoDto._nickname;
+    newUser.avatar = userInfoDto._avatar;
 
     return await this.userRepository.createUser(newUser);
   }

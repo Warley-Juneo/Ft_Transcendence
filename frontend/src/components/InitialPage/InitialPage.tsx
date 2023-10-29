@@ -32,7 +32,6 @@ export default function InicialPage() {
 		setCurrentChat(!currentChat);
 	}
 
-
 	useEffect(() => {
 		axios_connect();
 	}, []);

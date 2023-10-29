@@ -20,7 +20,7 @@ export class JwtMiddleware implements NestMiddleware {
           secret: "paz",
         });
         //ASSIGNING TO REQUEST OBJECT TO HAVE ACCESS IN OUR ROUTE HANDLERS
-        request['user'] = payload;
+        req.user = payload;
       } catch (err) {
         return res.status(401).json({ message: 'Token inválido...' });
       }
