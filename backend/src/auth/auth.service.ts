@@ -8,7 +8,7 @@ import { UsersService } from 'src/users/users.service';
 import { GameService } from 'src/game/game.service';
 import { AuthLoginDto } from 'src/auth/dtos/authLogin.dto';
 import { OutputLoginDto } from './dtos/output.dto';
-import { UserInfoDto } from './dtos/userInfo.dto';
+import { CreateUserDto } from 'src/users/dtos/createUser.dto';
 
 @Injectable()
 export class AuthService {
@@ -58,23 +58,23 @@ export class AuthService {
 
   async verifyUser(userInfo: any): Promise<any> {
 
-    const userInfoDto = new UserInfoDto();
-    userInfoDto._login = userInfo.login;
-    userInfoDto._email = userInfo.email;
-    userInfoDto._first_name = userInfo.first_name;
-    userInfoDto._last_name = userInfo.last_name;
-    userInfoDto._nickname = userInfo.login;
-    userInfoDto._avatar = userInfo.avatar;
-    
-    let user: User = await this.usersService.findUser(userInfoDto._login);
+    let user: User = await this.usersService.findUser(userInfo.email);
     if (!user) {
-      user = await this.usersService.createUser(userInfoDto);
+      const createUserDto = new CreateUserDto();
+      createUserDto.login = userInfo.login;
+      createUserDto.email = userInfo.email;
+      createUserDto.first_name = userInfo.first_name;
+      createUserDto.last_name = userInfo.last_name;
+      createUserDto.nickname = userInfo.login;
+      createUserDto.avatar = userInfo.avatar;
+    
+      user = await this.usersService.createUser(createUserDto);
     }
     return user;
   }
 
   async jwtSign(user: any): Promise<string> {
-    const payload = { sub: user.id, username: user.login };
+    const payload = { sub: user.id, username: user.email };
     let jwt_token = await this.jwtService.signAsync(payload);
     return (jwt_token);
   }
