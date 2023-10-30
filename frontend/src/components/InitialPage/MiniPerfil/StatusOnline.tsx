@@ -7,7 +7,7 @@ export default function StatusOnline(name: string) {
 					className='d-flex justify-content-center align-items-center'>
 					<div style={{ backgroundColor: 'green', borderRadius: '50%', height: '8px', width: '8px' }}></div>
 				</div>
-			<p style={{fontSize: '0.852rem'}}>Online</p>
+			<p>Online</p>
 			</div>
 		</div>
 	);
