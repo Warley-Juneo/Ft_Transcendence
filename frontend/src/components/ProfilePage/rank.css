@@ -1,0 +1,151 @@
+@import url('https:/fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap');
+.letter-pixel {
+	font-family: 'Pixelify Sans', cursive;
+}
+
+#MatchHistory img {
+	max-height: 4rem;
+}
+
+.faixa-amarela {
+	background-image: url('../../static/faixa-amarela.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+/*##############################################################*/
+/*							RANK 1								*/
+/*##############################################################*/
+
+.borderDivFotoRank1 {
+	background-image: url('../../static/bordaFoto/bordaFotoRank1.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+.borderDivFotoRank1 img {
+	padding: 13%;
+}
+
+.borderWriteRank1 {
+	background-image: url('../../static/bordaWriteRank/bordaWriteRank1.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+/*##############################################################*/
+/*							RANK 2								*/
+/*##############################################################*/
+
+.borderDivFotoRank2 {
+	background-image: url('../../static/bordaFoto/bordaFotoRank2.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+
+.borderDivFotoRank2 img {
+	padding: 20%;
+	padding-left: 19%;
+	height: 100%;
+	width: 100%;
+}
+
+.borderWriteRank2{
+	background-image: url('../../static/bordaWriteRank/bordaWriteRank2.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+/*##############################################################*/
+/*							RANK 3								*/
+/*##############################################################*/
+
+.borderDivFotoRank3 {
+	background-image: url('../../static/bordaFoto/bordaFotoRank3.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+.borderDivFotoRank3 img {
+	padding: 21%;
+	padding-left: 20%;
+	height: 100%;
+	width: 100%;
+}
+
+.borderWriteRank3{
+	background-image: url('../../static/bordaWriteRank/bordaWriteRank3.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+/*##############################################################*/
+/*							RANK 4								*/
+/*##############################################################*/
+
+.borderDivFotoRank4 {
+	background-image: url('../../static/bordaFoto/bordaFotoRank4.png');
+	background-size: contain;
+	height: 100%;
+	width: 100%;
+	background-repeat: no-repeat;
+}
+
+.borderDivFotoRank4 img {
+	padding: 25%;
+	height: 100%;
+	width: 100%;
+}
+
+.borderWriteRank4 {
+	background-image: url('../../static/bordaWriteRank/bordaWriteRank4.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+/*##############################################################*/
+/*							RANK 5								*/
+/*##############################################################*/
+
+.borderDivFotoRank5 {
+	background-image: url('../../static/bordaFoto/bordaFotoRank5.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+.borderDivFotoRank5 img {
+	padding: 25%;
+	padding-top: 32%;
+	padding-left: 25%;
+	padding-right: 25%;
+	padding-bottom: 29%;
+}
+
+.borderWriteRank5 {
+	background-image: url('../../static/bordaWriteRank/bordaWriteRank4.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+/*##############################################################*/
+/*							RANK 6								*/
+/*##############################################################*/
+
+.borderDivFotoRank6 {
+	background-image: url('../../static/bordaFoto/bordaFotoRank6.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+.borderDivFotoRank6 img {
+	padding-top: 31%;
+	padding-right: 29%;
+	padding-left: 29%;
+	padding-bottom: 40%;
+}
+
+.borderWriteRank6 {
+	background-image: url('../../static/bordaWriteRank/bordaWriteRank4.png');
+	background-repeat: no-repeat;
+}
