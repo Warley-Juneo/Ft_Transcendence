@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String  @id @default(uuid())
+  login      String  @unique
+  email      String  @unique
+  first_name String
+  last_name  String
+  nickname   String  @unique
+  avatar     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  is_active Boolean  @default(true)
+
+  // hash      //autenticação de multiplos fatores. Autenticação google
+
+  match_as_player_1 Match[] @relation(name: "player_1")
+  match_as_player_2 Match[] @relation(name: "player_2")
+
+  match_wins Match[] @relation(name: "winner")
+  math_loses Match[] @relation(name: "loser")
+
+  @@map("users")
+}
+
+model Match {
+  id String @id @default(uuid())
+
+  player1_id String
+  player_1   User?  @relation(name: "player_1", fields: [player1_id], references: [id])
+  score_p1   Int    @default(0)
+
+  player2_id String
+  player_2   User?  @relation(name: "player_2", fields: [player2_id], references: [id])
+  score_p2   Int    @default(0)
+
+  winner_id String? @unique
+  winner    User?   @relation(name: "winner", fields: [winner_id], references: [id])
+
+  loser_id String? @unique
+  loser    User?   @relation(name: "loser", fields: [loser_id], references: [id])
+
+  draws Boolean @default(false)
+}
+
+model Ladder {
+  id String @id @default(uuid())
+
+  points      Int    @default(0)
+  player_name String @unique
+}
+
+model Avatar {
+  id String @id @default(uuid())
+
+  player_name String
+  height      Int    @default(200)
+  width       Int    @default(100)
+  url         String
+}
+
+// model chat  {
+
+//   id            String    @id @default(uuid())
+//   type          String[]  @default[public, private, protected]
+
+//   owner         User?
+//   passaword     String?
+//   admin         User[]?
+//   message       String?
+// }
