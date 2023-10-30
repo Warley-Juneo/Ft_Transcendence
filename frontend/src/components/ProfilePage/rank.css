@@ -20,18 +20,14 @@
 .borderDivFotoRank1 {
 	background-image: url('../../static/bordaFoto/bordaFotoRank1.png');
 	background-size: contain;
-	height: 100%;
-	width: 100%;
 	background-repeat: no-repeat;
 }
 
 .borderDivFotoRank1 img {
-	padding: 14%;
-	height: 100%;
-	width: 100%;
+	padding: 13%;
 }
 
-.borderWriteRank1{
+.borderWriteRank1 {
 	background-image: url('../../static/bordaWriteRank/bordaWriteRank1.png');
 	background-repeat: no-repeat;
 	background-size: 100% 100%;

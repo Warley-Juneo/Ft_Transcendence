@@ -15,7 +15,7 @@ type dataUserPerfil = {
 
 const dataUser: dataUserPerfil = {
 	name: 'Luffy',
-	vt: 35,
+	vt: 16,
 	dr: 1,
 	ept: 3,
 	img: 'https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg'
