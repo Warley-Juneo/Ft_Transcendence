@@ -40,8 +40,6 @@
 .borderDivFotoRank2 {
 	background-image: url('../../static/bordaFoto/bordaFotoRank2.png');
 	background-size: contain;
-	height: 100%;
-	width: 100%;
 	background-repeat: no-repeat;
 }
 
@@ -66,8 +64,6 @@
 .borderDivFotoRank3 {
 	background-image: url('../../static/bordaFoto/bordaFotoRank3.png');
 	background-size: contain;
-	height: 100%;
-	width: 100%;
 	background-repeat: no-repeat;
 }
 
@@ -139,8 +135,6 @@
 .borderDivFotoRank6 {
 	background-image: url('../../static/bordaFoto/bordaFotoRank6.png');
 	background-size: contain;
-	height: 100%;
-	width: 100%;
 	background-repeat: no-repeat;
 }
 
@@ -149,12 +143,9 @@
 	padding-right: 29%;
 	padding-left: 29%;
 	padding-bottom: 40%;
-	height: 50%;
-	width: 100%;
 }
 
 .borderWriteRank6 {
 	background-image: url('../../static/bordaWriteRank/bordaWriteRank4.png');
 	background-repeat: no-repeat;
-	background-size: 100% 100%;
 }

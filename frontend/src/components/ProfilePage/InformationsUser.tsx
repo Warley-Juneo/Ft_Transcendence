@@ -34,65 +34,66 @@ export default function InformationsUser() {
 		if (pointers <= 5) {
 			itemsRank = {
 				borderImg: 'mt-5 borderDivFotoRank1 d-flex',
-				borderWrite: 'd-flex justify-content-center borderWriteRank1 p-4 w-75',
+				borderWrite: 'd-flex borderWriteRank1 w-100 justify-content-center align-items-center',
 				rank: rank1
 			}
 		}
-		else if (pointers < 10) {
+		else if (pointers <= 10) {
 			itemsRank = {
 				borderImg: 'mt-5 borderDivFotoRank2 d-flex',
-				borderWrite: 'd-flex justify-content-center borderWriteRank2 p-3 pb-5 w-75',
+				borderWrite: 'd-flex borderWriteRank2 w-100 justify-content-center align-items-center pb-5',
 				rank: rank2
 			}
 		}
-		else if (pointers < 15) {
+		else if (pointers <= 15) {
 			itemsRank = {
 				borderImg: 'mt-5 borderDivFotoRank3 d-flex',
-				borderWrite: 'd-flex justify-content-center borderWriteRank3 p-5 w-75',
+				borderWrite: 'd-flex borderWriteRank3 w-100 justify-content-center align-items-center w-100',
 				rank: rank3
 			}
 		}
-		else if (pointers < 20) {
+		else if (pointers <= 20) {
 			itemsRank = {
 				borderImg: 'mt-5 borderDivFotoRank4 d-flex',
-				borderWrite: 'd-flex justify-content-center borderWriteRank4 p-5 w-75',
+				borderWrite: 'd-flex borderWriteRank4 w-100 justify-content-center align-items-end pb-5 w-100',
 				rank: rank4
 			}
 		}
-		else if (pointers < 25) {
+		else if (pointers <= 25) {
 			itemsRank = {
 				borderImg: 'mt-5 borderDivFotoRank4 d-flex',
-				borderWrite: 'd-flex justify-content-center borderWriteRank4 p-5 w-75',
+				borderWrite: 'd-flex borderWriteRank4 w-100 justify-content-center align-items-end pb-5 w-100',
 				rank: rank4
 			}
 		}
-		else if (pointers < 30) {
+		else if (pointers <= 30) {
 			itemsRank = {
 				borderImg: 'mt-5 borderDivFotoRank4 d-flex',
-				borderWrite: 'd-flex justify-content-center borderWriteRank4 p-5 w-75',
+				borderWrite: 'd-flex borderWriteRank4 w-100 justify-content-center align-items-end pb-5 w-100',
 				rank: rank4
 			}
 		}
-		else if (pointers < 35) {
+		else if (pointers <= 35) {
 			itemsRank = {
 				borderImg: 'mt-5 borderDivFotoRank5 d-flex',
-				borderWrite: 'd-flex justify-content-center borderWriteRank4 p-5 w-75',
+				borderWrite: 'd-flex borderWriteRank4 w-100 justify-content-center align-items-end pb-5 w-100',
 				rank: rank5
 			}
 		}
 		else {
 			itemsRank = {
 				borderImg: 'mt-5 borderDivFotoRank6 d-flex',
-				borderWrite: 'd-flex justify-content-center borderWriteRank4 p-5 w-75',
+				borderWrite: 'd-flex borderWriteRank4 w-100 justify-content-center align-items-end pb-5 w-100',
 				rank: rank6
 			}
 		}
 	}
 
-	handleRank((dataUser.vt - dataUser.dr));
+	let pointers : number = dataUser.vt - dataUser.dr;
+	handleRank(pointers);
 	const { rank, borderImg, borderWrite } = itemsRank;
 	return (
-		<div className='text-center text-white'>
+		<div className='text-center text-white '>
 			<div className={borderImg}>
 				<img className='img-fluid rounded-circle m-auto' src={dataUser.img} alt='foto' />
 			</div>
@@ -101,11 +102,11 @@ export default function InformationsUser() {
 				<div className='p-2'>
 					<img className='img-fluid' src={rank} alt='' />
 				</div>
-				<div className={borderWrite}>
+				<div className={borderWrite} style={pointers > 15 ? {height: '200px'} : {height: '150px'}}>
 					<p className='fw-bold me-2'>VT<br></br>{dataUser.vt}</p>
 					<p className='fw-bold me-2'>DR<br></br>{dataUser.dr}</p>
 					<p className='fw-bold me-2'>EPT<br></br>{dataUser.ept}</p>
-					<p className='fw-bold me-2'>KDA<br></br>{dataUser.vt + dataUser.ept / dataUser.dr}</p>
+					<p className='fw-bold'>KDA<br></br>{dataUser.vt + dataUser.ept / dataUser.dr}</p>
 				</div>
 			</div>
 		</div>
