@@ -31,7 +31,7 @@ function BarOptions(props: any) {
 					</span>
 				</div>
 				<div className='div-bottom-animation'>
-					<span className={randomButtonClass()}>
+					<span className={randomButtonClass()} onClick={() => navigate("/game/ranking")}>
 						<span></span>
 						<span></span>
 						<span></span>
