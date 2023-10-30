@@ -1,5 +1,5 @@
 import StatusOnline from "./StatusOnline";
-import { useCallback, useEffect, useState } from 'react';
+import {useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
@@ -12,22 +12,28 @@ export default function MiniPerfilUser() {
 	const [info, setInfo] = useState<respostaAPI>({ avatar: '', _nickname: '' });
 	const jwtToken = Cookies.get('jwtToken')
 
-	const axios_connect = useCallback(async () => {
-		const res = await axios.get('http://localhost:3000/landing-page',
-			{
-				headers: {
-					Authorization: jwtToken,
-				},
-			});
-		console.log("RESPONSE AXIOS GET TEST", res);
-		setInfo(res.data);
-	}, [])
+	const axios_connect = () => {
+		console.log('axios_connect');
+		axios.get('http://localhost:3000/landing-page', {
+			headers: {
+				Authorization: jwtToken,
+			}, timeout: 5000
+		})
+		.then((res) => {
+			if (!res.data.avatar) {
+				res.data.avatar = "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg";
+			}
+			setInfo(res.data);
+		})
+		.catch((err) => {
+			setTimeout(axios_connect, 10000);
+		});
+	}
 
 	useEffect(() => {
 	  axios_connect();
 	}, []);
 
-	info.avatar = 'https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg'
 	return (
 		<div className='d-flex p-3' style={{ height: '15vh'}}>
 			{(info._nickname === '' || info.avatar === '') ? (

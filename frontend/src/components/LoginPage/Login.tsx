@@ -18,9 +18,7 @@ export function Login() {
 				authCode: code,
 			})
 				.then((response) => {
-					console.log(response);
 					if (response.status === 201) {
-						console.log('Response Axios Login: ', response.data);
 						Cookies.set('jwtToken', response.data._access_token);// set expires time
 						Cookies.set('email', response.data._email);
 						setAuth(true);

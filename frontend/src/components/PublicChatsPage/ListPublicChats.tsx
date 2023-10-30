@@ -33,13 +33,11 @@ export default function PageChats() {
 	}
 
 	function createNewChat(form: FormData) {
-		console.log(form.get('nameChat'));
-		console.log(form.get('passwordChat'));
 		setShowCreateChat(!showCreateChat);
 	}
 
 	function openChatSelected(chatName: string) {
-		
+
 		alert('abrir chat selecionado');
 	}
 	return (
