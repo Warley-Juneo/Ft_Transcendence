@@ -119,18 +119,15 @@
 .borderDivFotoRank5 {
 	background-image: url('../../static/bordaFoto/bordaFotoRank5.png');
 	background-size: contain;
-	height: 100%;
-	width: 100%;
 	background-repeat: no-repeat;
 }
 
 .borderDivFotoRank5 img {
 	padding: 25%;
 	padding-top: 32%;
-	padding-left: 26%;
-	padding-bottom: 30%;
-	height: 100%;
-	width: 100%;
+	padding-left: 25%;
+	padding-right: 25%;
+	padding-bottom: 29%;
 }
 
 .borderWriteRank5 {
@@ -152,7 +149,10 @@
 }
 
 .borderDivFotoRank6 img {
-	margin-right: 400px;
+	padding-top: 31%;
+	padding-right: 29%;
+	padding-left: 29%;
+	padding-bottom: 40%;
 	height: 50%;
 	width: 100%;
 }

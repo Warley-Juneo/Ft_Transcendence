@@ -15,7 +15,7 @@ type dataUserPerfil = {
 
 const dataUser: dataUserPerfil = {
 	name: 'Luffy',
-	vt: 36,
+	vt: 35,
 	dr: 1,
 	ept: 3,
 	img: 'https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg'
@@ -92,7 +92,7 @@ export default function InformationsUser() {
 	handleRank((dataUser.vt - dataUser.dr));
 	const { rank, borderImg, borderWrite } = itemsRank;
 	return (
-		<div className='p-2 text-center text-white'>
+		<div className='text-center text-white'>
 			<div className={borderImg}>
 				<img className='img-fluid rounded-circle m-auto' src={dataUser.img} alt='foto' />
 			</div>
