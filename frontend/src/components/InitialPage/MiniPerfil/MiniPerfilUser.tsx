@@ -11,9 +11,10 @@ type respostaAPI = {
 export default function MiniPerfilUser() {
 	const [info, setInfo] = useState<respostaAPI>({ avatar: '', _nickname: '' });
 	const jwtToken = Cookies.get('jwtToken')
+	let	timeout: number = 0;
+	let timeForNewRequestAxios: number = 10000;
 
 	const axios_connect = () => {
-		console.log('axios_connect');
 		axios.get('http://localhost:3000/landing-page', {
 			headers: {
 				Authorization: jwtToken,
@@ -26,7 +27,12 @@ export default function MiniPerfilUser() {
 			setInfo(res.data);
 		})
 		.catch((err) => {
-			setTimeout(axios_connect, 10000);
+			timeout++
+			if (timeout == 5) {
+				alert("O servidor esta indisponivel no momento, tente novamente mais tarde.");
+				timeForNewRequestAxios = 60000;
+			}
+			setTimeout(axios_connect, timeForNewRequestAxios);
 		});
 	}
 
