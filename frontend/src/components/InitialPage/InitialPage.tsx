@@ -16,16 +16,17 @@ export default function InicialPage() {
 	const jwtToken = Cookies.get('jwtToken')
 	console.log("INITIAL PAGE JWT: ", jwtToken);
 	
-	const axios_connect = useCallback( async () => {
+	const axios_connect = useCallback(async () => {
 		// const res = await axios.post('http://localhost:3000/landing-page', {
 		// 	jwt_auth: email},)
 		// setInfo(res.data);
 		// console.log("PAGE_INFO FUNCTION", info);
-		const r = await axios.get('http://localhost:3000/landing-page',
+		const res = await axios.get('http://localhost:3000/landing-page',
 			{headers: {
 				Authorization: jwtToken,},
 		});
-		console.log("RESPONSE AXIOS GET TEST",r);
+		console.log("RESPONSE AXIOS GET TEST",res);
+		setInfo(res.data);
 	},[])
 
 	function showChat() {
