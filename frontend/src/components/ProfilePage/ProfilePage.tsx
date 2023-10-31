@@ -2,7 +2,7 @@ import InformationsUser from './InformationsUser';
 import MatchHistory from './MatchHistory';
 import './rank.css'
 
-function ProfileScreen() {
+export default function ProfileScreen() {
 	return (
 			<div className="row g-0 p-2 bg-custon-roxo rounded h-100">
 				<div className='col-md-3 col-lg-2'>
@@ -32,5 +32,3 @@ function ProfileScreen() {
 			</div>
 	);
 }
-
-export default ProfileScreen;

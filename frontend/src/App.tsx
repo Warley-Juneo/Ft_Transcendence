@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ProfileScreen from './components/ProfilePage/ProfilePage';
 import ListChats from './components/PublicChatsPage/ListPublicChats';
 import ChatPublic from './components/ChatsGame/ChatPublic/ChatPublic';
-import Ranking from './components/pageRanking/Ranking';
+import Ranking from './components/Rankingpage/Ranking';
 
 export default function App() {
 
