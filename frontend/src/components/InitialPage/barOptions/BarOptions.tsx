@@ -13,7 +13,7 @@ function BarOptions(props: any) {
 		<div className='d-flex bg-custon-roxo' style={{ minHeight: '15vh' }}>
 			<div className='d-flex w-100 my-auto'>
 				<div className='div-bottom-animation'>
-					<span className={randomButtonClass()}>
+					<span className={randomButtonClass()} onClick={() => navigate("/game")}>
 						<span></span>
 						<span></span>
 						<span></span>
