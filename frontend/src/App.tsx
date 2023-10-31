@@ -6,6 +6,7 @@ import ProfileScreen from './components/ProfilePage/ProfilePage';
 import ListChats from './components/PublicChatsPage/ListPublicChats';
 import ChatPublic from './components/ChatsGame/ChatPublic/ChatPublic';
 import Ranking from './components/Rankingpage/Ranking';
+import Game from './components/GamePage/Game';
 
 export default function App() {
 
@@ -15,6 +16,7 @@ export default function App() {
 				<Routes>
 					<Route path='/' element={< Login /> } />
 					<Route path='/game/' element={< InicialPage /> } >
+						<Route path='start-game' element={<Game />} />
 						<Route path='profile' element={<ProfileScreen />} />
 						<Route path='chats' element={<ListChats />} />
 						<Route path='chats/:id' element={<ChatPublic />} />
