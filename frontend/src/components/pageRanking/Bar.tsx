@@ -1,13 +1,16 @@
 export default function Bar() {
 	return (
-		<div className="row g-0 text-center shadow-grounps d-flex align-items-center" style={{height: '5%'}}>
+		<div className="row g-0 align-items-center text-center shadow-grounps p-2">
 			<div className="col-5">
 				<div className="row g-0">
 					<div className="col-2">
 						Rank
 					</div>
 					<div className="col-10">
-						Perfil
+						<div className="justify-content-evenly d-flex w-100">
+							<p>Avatar</p>
+							<p>Perfil</p>
+						</div>
 					</div>
 				</div>
 			</div>
