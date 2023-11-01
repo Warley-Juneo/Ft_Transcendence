@@ -93,7 +93,7 @@ export default function InformationsUser() {
 	handleRank(pointers);
 	const { rank, borderImg, borderWrite } = itemsRank;
 	return (
-		<div className='text-center text-white '>
+		<div className='text-center text-white'>
 			<div className={borderImg}>
 				<img className='img-fluid rounded-circle m-auto' src={dataUser.img} alt='foto' />
 			</div>
