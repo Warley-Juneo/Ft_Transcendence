@@ -25,6 +25,11 @@ async function main() {
 		  last_name: "Pereira",
 		  nickname: "Firmeza",
 		  points: 0,
+		  friends: {
+			connect: [
+				{id: joao.id},
+			],
+		  },
 		},
 	});
 
@@ -36,6 +41,11 @@ async function main() {
 		  last_name: "Lacrux",
 		  nickname: "Mia",
 		  points: 2,
+		  friends: {
+			connect: [
+				{id: jose.id,}, {id: joao.id},
+			],
+		  },
 		},
 	  });
 
@@ -183,18 +193,6 @@ async function main() {
 			},
 			score_p2: 15,
 
-			// winner : {
-			// 	connect : {
-			// 		id: jose.id,
-			// 	},
-			// },
-
-			// loser : {
-			// 	connect : {
-			// 		id: julia.id,
-			// 	},
-			// },
-
 			draws: true,
 
 		},
@@ -214,18 +212,6 @@ async function main() {
 				}
 			},
 			score_p2: 3,
-
-			// winner : {
-			// 	connect : {
-			// 		id: jose.id,
-			// 	},
-			// },
-
-			// loser : {
-			// 	connect : {
-			// 		id: julia.id,
-			// 	},
-			// },
 
 			draws: true,
 
