@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 
 export default function Game() {
-	const [positionEixoY, setPositionEixoY] = useState(0);
+	const [positionEixoYBar, setPositionEixoYBar] = useState(0);
+	const [positionBall, setPositionBall] = useState([0, 0]);
+
 	const handleKeyPress = (e: KeyboardEvent) => {
 		if (e.key === 'ArrowUp') {
-			setPositionEixoY((prevPosition) => prevPosition > 0 ? prevPosition - 2 : prevPosition = 0);
+			setPositionEixoYBar((prevPosition) =>
+				prevPosition > 0 ? prevPosition - 2 : prevPosition = 0
+			);
 		} else if (e.key === 'ArrowDown') {
-			setPositionEixoY((prevPosition) => prevPosition < 75 ? prevPosition + 2 : prevPosition = 75);
+			setPositionEixoYBar((prevPosition) => prevPosition < 74 ? prevPosition + 2 : prevPosition = 74);
 		}
 	};
 
@@ -17,22 +21,27 @@ export default function Game() {
 		};
 	}, []);
 
-	// useEffect(() => {
-	// 	const intervalId = setInterval(() => {
-	// 		const newPosition = Math.random() * 75;
-	// 		setPositionEixoY(newPosition);
-	// 	}, 500);
+	useEffect(() => {
+		const intervalId = setInterval(() => {
+			setPositionBall((prevPosition) => {
+				const newPosition = [...prevPosition]; // Crie uma cópia do array
+				if (positionBall[0] + 3 < 100 || positionBall[1] + 3 < 100) {
+					newPosition[0] += 3;
+					newPosition[1] += 3;
+				}
+				return newPosition; // Retorne o novo array
+			});
+		}, 50);
 
-	// 	return () => {
-	// 		clearInterval(intervalId);
-	// 	};
-	// }, []);
+		return () => {
+			clearInterval(intervalId);
+		};
+	}, []);
 
 	return (
-		<div className="bg-custon-roxo h-100 rounded position-relative">
-			<p>teste {positionEixoY}</p>
-			<div className="h-25 bg-light position-absolute" style={{ top: `${positionEixoY}%`, width: '3%' }}></div>
-			<div className="position-absolute bg-light rounded-circle" style={{ height: '30px', width: '30px', top: '54%', left: '54%' }}></div>
+		<div className="bg-custon-roxo h-100 rounded position-relative d-flex">
+			<div className="bg-light position-relative" style={{ top: `${positionEixoYBar}%`, height: '26%', width: '3%' }}></div>
+			<div className="position-relative bg-light rounded-circle" style={{ height: '30px', width: '30px', top: `${positionBall[0]}%`, left: `${positionBall[1]}%` }}></div>
 		</div>
 	);
 }
