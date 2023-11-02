@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 import { UsersRepositoryInterface } from './interface/users.repository.interface';
-import { User, Match, Ladder } from '@prisma/client';
+import { User, Match } from '@prisma/client';
 import { CreateUserDto } from './dtos/createUser.dto';
 
 @Injectable()
@@ -17,31 +17,20 @@ export class UsersRepository implements UsersRepositoryInterface {
         first_name: user.first_name,
         last_name: user.last_name,
         nickname: user.nickname,
+        avatar: "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg",
       },
     });
-    //CREATE USER INTO LADDER MODEL
-    let ladder = await this.prisma.ladder.create({
-      data: {
-        player_name: response.login,
-      },
-    });
-    console.log(ladder);
-    //CREATE USER INTO AVATAR MODEL
-    let avatar = await this.prisma.avatar.create({
-      data: {
-        player_name: user.login,
-        url: user.avatar,
-      },
-    });
-    console.log(avatar);
     return response;
   }
 
-  async findUser(userEmail: string): Promise<User> {
+  async findUser(userEmail: string): Promise<any> {
     var response = this.prisma.user.findUnique({
       where: {
         email: userEmail,
       },
+      include: {
+        friends: true,
+      }
     });
     return response;
   }

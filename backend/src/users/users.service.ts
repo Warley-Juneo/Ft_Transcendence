@@ -10,14 +10,18 @@ import { CreateUserDto } from './dtos/createUser.dto';
 export class UsersService {
   constructor(private readonly userRepository: UsersRepository) {}
 
+  
   async createUser(dto: CreateUserDto): Promise<User> {
-    
-    // TEM QUE FAZER A VALIDAÇÂO DO AVATAR
-
     return await this.userRepository.createUser(dto);
   }
-
+  
   async findUser(userEmail: string): Promise<User> {
     return await this.userRepository.findUser(userEmail);
   }
+  
+  async getFriends(userEmail: string): Promise<User[]> {
+    let response = await this.userRepository.findUser(userEmail);
+    return response.friends;
+  }
+
 }

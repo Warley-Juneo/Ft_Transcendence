@@ -8,7 +8,7 @@ export class LandingPageController {
 
   @Get()
   async test(@Req() request): Promise<OutputLandinPageDto> {
-    console.log("REQUEST User: ", request.user.userEmail);
+    // console.log("REQUEST User: ", request.user.userEmail);
     return await this.landingPageService.landingPage(request.user.userEmail);
   }
 
