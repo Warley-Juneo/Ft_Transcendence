@@ -26,7 +26,4 @@ export class GameService {
     return this.gameRepository.numberOfUserMatchDraws(userId);
   }
 
-  async userLadder(userLogin: string): Promise<number> {
-    return this.gameRepository.userLadder(userLogin);
-  }
 }

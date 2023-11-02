@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Ladder, Match } from '@prisma/client';
+import { Match } from '@prisma/client';
 import e from 'express';
 import { PrismaService } from 'src/database/prisma.service';
 
@@ -58,26 +58,6 @@ export class GameRepository {
       },
     });
     let response = as_Player1.draws + as_Player2.draws;
-    return response;
-  }
-
-  async defineLadder() {}
-
-  async ladder(): Promise<Ladder[]> {
-    let ladder = await this.prisma.ladder.findMany({
-      orderBy: [
-        {
-          points: 'asc',
-        },
-      ],
-    });
-    return ladder;
-  }
-
-  async userLadder(userLogin: string): Promise<number> {
-    let ladder = await this.ladder();
-    let response = ladder.findIndex((item) => item.player_name === userLogin);
-    response = response + 1;
     return response;
   }
 }

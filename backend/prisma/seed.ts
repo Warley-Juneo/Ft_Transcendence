@@ -13,6 +13,7 @@ async function main() {
 		  first_name: "João",
 		  last_name: "Silva",
 		  nickname: "Silvão",
+		  avatar: "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg",
 		  points: 7,
 		},
 	  });
@@ -24,6 +25,7 @@ async function main() {
 		  first_name: "Jose",
 		  last_name: "Pereira",
 		  nickname: "Firmeza",
+		  avatar: "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg",
 		  points: 0,
 		  friends: {
 			connect: [
@@ -40,6 +42,7 @@ async function main() {
 		  first_name: "Jullia",
 		  last_name: "Lacrux",
 		  nickname: "Mia",
+		  avatar: "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg",
 		  points: 2,
 		  friends: {
 			connect: [
@@ -49,7 +52,23 @@ async function main() {
 		},
 	  });
 
-	
+	  let fausto = await prisma.user.create({
+		data: {
+		  login: "fagiusep",
+		  email: "fagiusep@student.42sp.org.br",
+		  first_name: "Fausto",
+		  last_name: "Giusepe faggion",
+		  nickname: "fagiusep",
+		  avatar: "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg",
+		  points: 2,
+		  friends: {
+			connect: [
+				{id: jose.id,}, {id: joao.id}, {id: julia.id},
+			],
+		  },
+		},
+	  });
+
 	let game1 = await prisma.match.create ({
 		data: {
 			player_1 : {
