@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 async function main() {
 
-	
+
 	let joao = await prisma.user.create({
 		data: {
 		  login: "jopop",
@@ -17,7 +17,7 @@ async function main() {
 		  points: 7,
 		},
 	  });
-	
+
 	let jose = await prisma.user.create({
 		data: {
 		  login: "josew",
@@ -64,6 +64,23 @@ async function main() {
 		  friends: {
 			connect: [
 				{id: jose.id,}, {id: joao.id}, {id: julia.id},
+			],
+		  },
+		},
+	  });
+
+	  let wallas = await prisma.user.create({
+		data: {
+		  login: "wwallas-",
+		  email: "wwallas-@student.42sp.org.br",
+		  first_name: "Wagraton",
+		  last_name: "Wallas Ferreira Santos",
+		  nickname: "wwallas-",
+		  avatar: "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg",
+		  points: 2,
+		  friends: {
+			connect: [
+				{id: jose.id,}, {id: joao.id}, {id: julia.id,}, {id: fausto.id}
 			],
 		  },
 		},

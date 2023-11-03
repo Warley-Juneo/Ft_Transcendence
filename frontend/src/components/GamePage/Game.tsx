@@ -25,10 +25,8 @@ export default function Game() {
 			setPositionBall((prevPosition) => {
 				const [y, x] = prevPosition;
 				const [dirY, dirX] = ballDirection;
-
 				const newY = y + dirY * 2;
 				const newX = x + dirX * 2;
-
 				if (newY < 0 || newY > 74)
 					setBallDirection([-dirY, dirX]);
 				if (newX > 74)
@@ -39,7 +37,6 @@ export default function Game() {
 					else
 						setBallDirection([-dirY, dirX]);
 				}
-
 				return [newY, newX];
 			});
 		}, 75);

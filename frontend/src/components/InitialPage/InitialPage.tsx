@@ -6,12 +6,6 @@ import BarOptions from './barOptions/BarOptions';
 
 
 export default function InicialPage() {
-	const [currentChat, setCurrentChat] = useState(false);
-
-	const showChat = () => {
-		setCurrentChat(!currentChat);
-	}
-
 	return (
 		<div className='d-flex' id='home-screen' style={{maxHeight: '100vh'}}>
 			<div className='w-100' id='left-screen'>
@@ -22,8 +16,7 @@ export default function InicialPage() {
 				</div>
 			</div>
 			<div style={{height: '100vh'}}>
-				{currentChat === true ? <ChatPrivate /> : null}
-				{<MiniPerfil showChat={showChat}/>}
+				{<MiniPerfil />}
 			</div>
 		</div>
 	);
