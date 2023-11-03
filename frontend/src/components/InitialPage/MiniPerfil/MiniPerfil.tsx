@@ -5,11 +5,11 @@ import ListFriends from './ListFriends';
 export default function MiniPerfil() {
 	return (
 
-		<div className='bg-custon-roxo d-flex flex-column h-100' style={{ minWidth: '15vw' }}>
+		<aside className='bg-custon-roxo d-flex flex-column h-100' style={{ minWidth: '15vw' }}>
 			<MiniPerfilUser />
 			<hr className='m-0 w-100 text-white'></hr>
 			<Options />
 			<ListFriends/>
-		</div>
+		</aside>
 	);
 }
