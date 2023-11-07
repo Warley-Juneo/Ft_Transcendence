@@ -26,7 +26,7 @@ export class UsersService {
 
   async getOnlineUsers(userEmail: string): Promise<any> {
     console.log(userEmail);
-    let response = await this.userRepository.getOnlineUsers();
+    let response = await this.userRepository.getOnlineUsers(userEmail);
 
     // let onlineUsersDto = new OnlineUsersDto();
     // onlineUsersDto._avatar = response.
