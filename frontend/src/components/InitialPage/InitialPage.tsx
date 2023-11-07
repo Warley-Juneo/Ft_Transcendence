@@ -1,7 +1,5 @@
-import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import MiniPerfil from './MiniPerfil/MiniPerfil';
-import ChatPrivate from '../ChatsGame/ChatPrivate/ChatPrivate';
 import BarOptions from './barOptions/BarOptions';
 
 
