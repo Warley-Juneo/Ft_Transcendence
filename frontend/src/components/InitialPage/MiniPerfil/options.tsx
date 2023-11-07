@@ -5,11 +5,10 @@ import React, { useState } from 'react';
 
 const URLS_MiniPerfilPlayers = {
 	'personal': 'http://localhost:3000/users/friends',
-	'Global': 'http://localhost:3000/users/Global',
-	'groups': 'http://localhost:3000/users/friends',
+	'Global': 'http://localhost:3000/users/online',
 }
 
-function Options({options}: {options: React.Dispatch<React.SetStateAction<string>>}) {
+function Options({requerimentUrl}: {requerimentUrl: React.Dispatch<React.SetStateAction<string>>}) {
 	const [showaADDFriend, setShowAddFriend] = useState(false);
 
 	function handleClickAddFriend() {
@@ -34,7 +33,7 @@ function Options({options}: {options: React.Dispatch<React.SetStateAction<string
 					className='remove-format-input'
 					placeholder='Search Friend'
 					onKeyDown={addNewFriend}
-					/>
+				/>
 			</div>
 		)
 	}
@@ -50,11 +49,11 @@ function Options({options}: {options: React.Dispatch<React.SetStateAction<string
 					/>
 					<FaUserFriends
 						style={{ margin: '5px', cursor: 'pointer' }}
-						size={30} onClick={() => {console.log("HUHU"); options(URLS_MiniPerfilPlayers.personal)}}
+						size={30} onClick={() => {console.log("HUHU"); requerimentUrl(URLS_MiniPerfilPlayers.personal)}}
 					/>
 					<GiThreeFriends
 						style={{ margin: '5px', cursor: 'pointer' }}
-						size={30} onClick={() => {console.log("HUHU2"); options(URLS_MiniPerfilPlayers.Global)}}
+						size={30} onClick={() => {console.log("HUHU2"); requerimentUrl(URLS_MiniPerfilPlayers.Global)}}
 					/>
 				</div>
 			</div>

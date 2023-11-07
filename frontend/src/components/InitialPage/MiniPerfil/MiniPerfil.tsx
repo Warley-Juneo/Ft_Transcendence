@@ -1,26 +1,40 @@
+import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 import MiniPerfilUser from './MiniPerfilUser';
 import Options from './options';
 import ListFriends from './ListFriends';
-import { useEffect, useState } from 'react';
+import { Players } from './ListFriends';
+
 
 export default function MiniPerfil() {
-	const [optionSelected, setOptionSelected] = useState<string>('');
+	const [requerimentUrl, setRequerimentUrl] = useState<string>('http://localhost:3000/users/friends');
+	const [players, setPlayers] = useState<Players[]>([]);
 
 	useEffect(() => {
-		if (optionSelected === '') {
+		console.log("requerimentUrl: ", requerimentUrl)
+		if (requerimentUrl === '') {
 			return;
 		}
-		console.log(optionSelected);
-		console.log('oi');
-		alert('UrlFake: ' + optionSelected);
-	}, [optionSelected]);
+		axios.get(requerimentUrl, {
+			headers: {
+				Authorization: Cookies.get('jwtToken'),
+			}
+		})
+		.then((res) => {
+			setPlayers(res.data);
+		})
+		.catch((err) => {
+			console.log(err);
+		})
+	}, [requerimentUrl]);
 
 	return (
 		<aside className='bg-custon-roxo d-flex flex-column h-100' style={{ minWidth: '15vw' }}>
 			<MiniPerfilUser />
 			<hr className='m-0 w-100 text-white'></hr>
-			<Options options={setOptionSelected} />
-			<ListFriends/>
+			<Options requerimentUrl={setRequerimentUrl} />
+			<ListFriends players={players}/>
 		</aside>
 	);
 }
