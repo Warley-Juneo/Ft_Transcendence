@@ -21,4 +21,9 @@ export class UsersController {
   async getOnline(@Req() request): Promise<any> {
     return await this.service.getOnlineUsers(request.user.userEmail);
   }
+
+  @Get('profile')
+  async getProfile(@Req() request): Promise<any> {
+    return await this.service.
+  }
 }

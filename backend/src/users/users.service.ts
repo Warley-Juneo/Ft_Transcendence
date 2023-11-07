@@ -34,4 +34,18 @@ export class UsersService {
     return response;
   }
 
+  async getProfile(userEmail: string): Promise<UserPerfilDto> {
+
+    let response = await this.userRepository.getProfile(userEmail);
+    let userPerfilDto = new UserPerfilDto();
+
+    userPerfilDto._login = response.login;
+    userPerfilDto._avatar = response.avatar;
+    userPerfilDto._first_name = response.first_name;
+    userPerfilDto._last_name = response.last_name;
+    userPerfilDto._nickname = response.nickname;
+    userPerfilDto._wins = response.wins;
+    ;
+  }
+
 }

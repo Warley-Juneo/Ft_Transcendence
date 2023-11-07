@@ -55,4 +55,15 @@ export class UsersRepository implements UsersRepositoryInterface {
     });
     return response;
   }
+
+  async getProfile(userEmail: string): Promise<User> {
+    let response = this.prisma.user.findUnique({
+      where: {
+        email: userEmail,
+
+      },
+      
+    });
+    return response;
+  }
 }
