@@ -13,7 +13,10 @@ export default function ChatList(props: propsChatList) {
 	return (
 		<div className='row g-0 w-100'>
 			{props.listChats.map((chat) => (
-				<div className="col-md-4 border-bottom border-end hover" onClick={() => {navigate(`/game/chats/${chat.name}`)}}>
+				<div className="col-md-4 border-bottom border-end hover"
+					onClick={() => {navigate(`/game/chats/${chat.name}`)}}
+					key={chat.chat_id}
+				>
 					<div className='d-flex p-2 justify-content-between' id='sala1'>
 						<div>
 							<p className='fs-5'>{chat.name}</p>

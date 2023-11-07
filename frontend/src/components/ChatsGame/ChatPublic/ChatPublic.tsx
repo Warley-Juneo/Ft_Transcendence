@@ -24,7 +24,6 @@ export default function ChatPublic() {
 					</div>
 					<InputChats />
 				</div>
-
 			</div>
 		</div>
 	)
