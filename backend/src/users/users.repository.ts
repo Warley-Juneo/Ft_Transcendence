@@ -36,10 +36,15 @@ export class UsersRepository implements UsersRepositoryInterface {
     return response;
   }
 
-  async getOnlineUsers(): Promise<any> {
+  async getOnlineUsers(userEmail: string): Promise<any> {
     let response = await this.prisma.user.findMany({
       where: {
         is_active: true,
+        email: {
+          not: {
+            equals: userEmail,
+          },
+        },
       },
       select: {
         id: true,
