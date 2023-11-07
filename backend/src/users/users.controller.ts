@@ -18,7 +18,7 @@ export class UsersController {
     return await this.service.getFriends(request.user.userEmail);
   }
   @Get('online')
-  async getOnline(@Req() request): Promise<any[]> {
+  async getOnline(@Req() request): Promise<any> {
     return await this.service.getOnlineUsers(request.user.userEmail);
   }
 }

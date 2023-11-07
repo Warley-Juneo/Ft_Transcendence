@@ -17,6 +17,11 @@ export class UserPerfilDto {
 }
 
 export class OnlineUsersDto {
+  _id: string;
   _nickname: string;
   _avatar: string; //trocar aqui para o tipo File
+}
+
+export class OutputOnlineUsersDto {
+  onlineUsers: OnlineUsersDto[];
 }

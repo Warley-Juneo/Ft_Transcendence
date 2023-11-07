@@ -42,9 +42,10 @@ export class UsersRepository implements UsersRepositoryInterface {
         is_active: true,
       },
       select: {
-        id: true;
+        id: true,
         avatar: true,
         nickname: true,
+        is_active: true,
       }
     });
     return response;
