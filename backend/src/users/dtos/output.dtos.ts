@@ -15,3 +15,8 @@ export class UserPerfilDto {
   _ladder: number;
   // _statusConnection?:  boolean; // podemos colocar um enum aqui para ter mais status de conexão
 }
+
+export class OnlineUsersDto {
+  _nickname: string;
+  _avatar: string; //trocar aqui para o tipo File
+}

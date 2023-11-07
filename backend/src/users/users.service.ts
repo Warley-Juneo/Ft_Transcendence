@@ -3,7 +3,7 @@ import { User } from '@prisma/client';
 import { UsersRepository } from './users.repository';
 import { userInfo } from 'os';
 import { AuthService } from 'src/auth/auth.service';
-import { UserPerfilDto } from './dtos/output.dtos';
+import { OnlineUsersDto, UserPerfilDto } from './dtos/output.dtos';
 import { CreateUserDto } from './dtos/createUser.dto';
 
 @Injectable()
@@ -22,6 +22,16 @@ export class UsersService {
   async getFriends(userEmail: string): Promise<User[]> {
     let response = await this.userRepository.findUser(userEmail);
     return response.friends;
+  }
+
+  async getOnlineUsers(userEmail: string): Promise<any[]> {
+    console.log(userEmail);
+    let response = await this.userRepository.getOnlineUsers();
+
+    // let onlineUsersDto = new OnlineUsersDto();
+    // onlineUsersDto._avatar = response.
+    console.log("REsponse:", response);
+    return response;
   }
 
 }

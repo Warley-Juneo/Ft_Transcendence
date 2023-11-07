@@ -3,6 +3,7 @@ import { PrismaService } from 'src/database/prisma.service';
 import { UsersRepositoryInterface } from './interface/users.repository.interface';
 import { User, Match } from '@prisma/client';
 import { CreateUserDto } from './dtos/createUser.dto';
+import { OnlineUsersDto } from './dtos/output.dtos';
 
 @Injectable()
 export class UsersRepository implements UsersRepositoryInterface {
@@ -24,12 +25,25 @@ export class UsersRepository implements UsersRepositoryInterface {
   }
 
   async findUser(userEmail: string): Promise<any> {
-    var response = this.prisma.user.findUnique({
+    let response = await this.prisma.user.findUnique({
       where: {
         email: userEmail,
       },
       include: {
         friends: true,
+      }
+    });
+    return response;
+  }
+
+  async getOnlineUsers(): Promise<any> {
+    let response = await this.prisma.user.findMany({
+      where: {
+        is_active: true,
+      },
+      select: {
+        avatar: true,
+        nickname: true,
       }
     });
     return response;
