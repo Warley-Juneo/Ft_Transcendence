@@ -3,7 +3,7 @@ import { User } from '@prisma/client';
 import { UsersRepository } from './users.repository';
 import { userInfo } from 'os';
 import { AuthService } from 'src/auth/auth.service';
-import { OnlineUsersDto, OutputOnlineUsersDto, UserPerfilDto } from './dtos/output.dtos';
+import { OnlineUsersDto, OutputOnlineUsersDto, UserProfileDto } from './dtos/output.dtos';
 import { CreateUserDto } from './dtos/createUser.dto';
 
 @Injectable()
@@ -20,13 +20,13 @@ export class UsersService {
   }
   
   async getFriends(userEmail: string): Promise<User[]> {
-    let response = await this.userRepository.findUser(userEmail);
+    let response = await this.userRepository.findUserWithFriends(userEmail);
     return response.friends;
   }
 
-  async getOnlineUsers(userEmail: string): Promise<any> {
+  async findOnlineUsers(userEmail: string): Promise<any> {
     console.log(userEmail);
-    let response = await this.userRepository.getOnlineUsers(userEmail);
+    let response = await this.userRepository.findOnlineUsers(userEmail);
 
     // let onlineUsersDto = new OnlineUsersDto();
     // onlineUsersDto._avatar = response.
@@ -34,18 +34,19 @@ export class UsersService {
     return response;
   }
 
-  async getProfile(userEmail: string): Promise<UserPerfilDto> {
+  async findProfile(userEmail: string): Promise<UserProfileDto> {
 
-    let response = await this.userRepository.getProfile(userEmail);
-    let userPerfilDto = new UserPerfilDto();
+    let response = await this.userRepository.findUser(userEmail);
+    
+    let userProfileDto = new UserProfileDto();
 
-    userPerfilDto._login = response.login;
-    userPerfilDto._avatar = response.avatar;
-    userPerfilDto._first_name = response.first_name;
-    userPerfilDto._last_name = response.last_name;
-    userPerfilDto._nickname = response.nickname;
-    userPerfilDto._wins = response.wins;
-    ;
+    userProfileDto._login = response.login;
+    userProfileDto._avatar = response.avatar;
+    userProfileDto._first_name = response.first_name;
+    userProfileDto._last_name = response.last_name;
+    userProfileDto._nickname = response.nickname;
+
+    return userProfileDto;
   }
 
 }

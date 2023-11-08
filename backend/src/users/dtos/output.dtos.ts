@@ -1,6 +1,6 @@
 import { Match } from '@prisma/client';
 
-export class UserPerfilDto {
+export class UserProfileDto {
   _login: string;
   _email: string;
 

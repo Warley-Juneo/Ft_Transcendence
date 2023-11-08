@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, Req} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from '@prisma/client';
 import { CreateUserDto } from './dtos/createUser.dto';
-import { OnlineUsersDto } from './dtos/output.dtos';
+import { OnlineUsersDto, UserProfileDto } from './dtos/output.dtos';
 
 @Controller('users')
 export class UsersController {
@@ -18,12 +18,12 @@ export class UsersController {
     return await this.service.getFriends(request.user.userEmail);
   }
   @Get('online')
-  async getOnline(@Req() request): Promise<any> {
-    return await this.service.getOnlineUsers(request.user.userEmail);
+  async findOnlineUsers(@Req() request): Promise<any> {
+    return await this.service.findOnlineUsers(request.user.userEmail);
   }
 
   @Get('profile')
-  async getProfile(@Req() request): Promise<any> {
-    return await this.service.
+  async findProfile(@Req() request): Promise<UserProfileDto> {
+    return await this.service.findProfile(request.user.userEmail);
   }
 }

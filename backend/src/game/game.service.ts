@@ -4,7 +4,6 @@ import { AuthLoginDto } from 'src/auth/dtos/authLogin.dto';
 import { MatchHistory } from './entities/match.entity';
 import { GameRepository } from './game.repository';
 import { userInfo } from 'os';
-import { UserPerfilDto } from 'src/users/dtos/output.dtos';
 
 @Injectable()
 export class GameService {

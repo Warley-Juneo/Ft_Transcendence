@@ -24,7 +24,16 @@ export class UsersRepository implements UsersRepositoryInterface {
     return response;
   }
 
-  async findUser(userEmail: string): Promise<any> {
+  async findUser(userEmail: string): Promise<User> {
+    let response = await this.prisma.user.findUnique({
+      where: {
+        email: userEmail,
+      },
+    });
+    return response;
+  }
+
+  async findUserWithFriends(userEmail: string): Promise<any> {
     let response = await this.prisma.user.findUnique({
       where: {
         email: userEmail,
@@ -36,7 +45,7 @@ export class UsersRepository implements UsersRepositoryInterface {
     return response;
   }
 
-  async getOnlineUsers(userEmail: string): Promise<any> {
+  async findOnlineUsers(userEmail: string): Promise<any> {
     let response = await this.prisma.user.findMany({
       where: {
         is_active: true,
@@ -56,14 +65,4 @@ export class UsersRepository implements UsersRepositoryInterface {
     return response;
   }
 
-  async getProfile(userEmail: string): Promise<User> {
-    let response = this.prisma.user.findUnique({
-      where: {
-        email: userEmail,
-
-      },
-      
-    });
-    return response;
-  }
 }
