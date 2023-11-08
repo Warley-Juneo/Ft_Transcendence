@@ -22,7 +22,7 @@ export default function Top10() {
 	}
 
 	return (
-		<div className="row g-0 text-center shadow-grounps p-2 mt-2 fw-bold " style={{ height: '10%' }}>
+		<div className="row g-0 text-center shadow-grounps p-2 mt-2 fw-bold">
 			<div className="col-5 h-100">
 				<div className="row g-0 h-100">
 					<div className="col-2 h-100">
@@ -32,7 +32,12 @@ export default function Top10() {
 					</div>
 					<div className="col-10 h-100">
 						<div className="d-flex align-items-center justify-content-evenly h-100">
-							<img className="rounded-circle mh-100 mw-100" src="https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg" alt="foto de perfil" />
+							<img
+								className="rounded-circle mh-100 mw-100"
+								src="https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg"
+								alt="foto de perfil"  // Adicinar o unsuario que esta sendo printado
+								style={{ height: '10px', width: '10px' }}
+							/>
 							<p>Bankai 007</p>
 						</div>
 					</div>
