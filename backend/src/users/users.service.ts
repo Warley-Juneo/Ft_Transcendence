@@ -6,6 +6,7 @@ import { AuthService } from 'src/auth/auth.service';
 import { OnlineUsersDto, OutputOnlineUsersDto, UserProfileDto } from './dtos/output.dtos';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { GameService } from 'src/game/game.service';
+import { AddFriendDto } from './dtos/input.dtos';
 
 @Injectable()
 export class UsersService {
@@ -17,6 +18,14 @@ export class UsersService {
     return await this.userRepository.createUser(dto);
   }
   
+  async addFriend(userId: string, nick_name: AddFriendDto): Promise<void> {
+    return await this.userRepository.addFriend(userId, nick_name);
+  }
+
+  async deleteFriend(userId: string, nick_name: AddFriendDto): Promise<void> {
+    return await this.userRepository.deleteFriend(userId, nick_name);
+  }
+
   async findUserAuth(userEmail: string): Promise<User> {
     return await this.userRepository.findUserAuth(userEmail);
   }
@@ -47,6 +56,7 @@ export class UsersService {
     let loses = await this.gameService.numberOfUserMatchLoses(userId);
     let draws = await this.gameService.numberOfUserMatchDraws(userId);
     
+
     let userProfileDto = new UserProfileDto();
     userProfileDto._login = user.login;
     userProfileDto._avatar = user.avatar;
