@@ -141,7 +141,7 @@ export class UsersRepository implements UsersRepositoryInterface {
       let user = await this.findUserWithFriends(userId);
 
       return user.friends;
-      
+
     } catch(error) {
       return null;
     }  

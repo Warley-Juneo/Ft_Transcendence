@@ -25,12 +25,12 @@ export class UsersController {
   }
 
   @Get('friends')
-  async getFriends(@Req() request): Promise<User[]> {
-    return await this.service.getFriends(request.user.sub);
+  async findFriends(@Req() request): Promise<OutputUsersResumeDto> {
+    return await this.service.findFriends(request.user.sub);
   }
   
   @Get('online')
-  async findOnlineUsers(@Req() request): Promise<any> {
+  async findOnlineUsers(@Req() request): Promise<OutputUsersResumeDto> {
     return await this.service.findOnlineUsers(request.user.sub);
   }
 

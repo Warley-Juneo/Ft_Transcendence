@@ -19,7 +19,8 @@ export class UserProfileDto {
 export class UserResumeDto {
   _id: string;
   _nickname: string;
-  _avatar: string; //trocar aqui para o tipo File
+  _avatar: string;
+  _is_active: boolean;
 }
 
 export class OutputUsersResumeDto {

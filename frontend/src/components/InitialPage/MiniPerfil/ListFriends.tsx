@@ -5,7 +5,7 @@ import ChatPrivate from '../../ChatsGame/ChatPrivate/ChatPrivate';
 
 export type Players = {
 	avatar: string,
-	id: number,
+	id: string,
 	nickname: string,
 	is_active: boolean,
 }
