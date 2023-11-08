@@ -46,11 +46,8 @@ export class UsersService {
     let wins = await this.gameService.numberOfUserMatchWins(userId);
     let loses = await this.gameService.numberOfUserMatchLoses(userId);
     let draws = await this.gameService.numberOfUserMatchDraws(userId);
-    let matchs = await this.gameService.userMatchs(userId);
-
-    console.log("matchs: ", matchs);
+    
     let userProfileDto = new UserProfileDto();
-
     userProfileDto._login = user.login;
     userProfileDto._avatar = user.avatar;
     userProfileDto._first_name = user.first_name;

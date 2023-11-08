@@ -50,7 +50,6 @@ export class GameRepository {
         draws: true,
       },
     });
-    console.log("draw1: ", as_Player1);
     let as_Player2 = await this.prisma.match.count({
       where: {
         player2_id: userId,
@@ -60,7 +59,6 @@ export class GameRepository {
         draws: true,
       },
     });
-    console.log("draw2: ", as_Player2);
     let response = as_Player1.draws + as_Player2.draws;
     return response;
   }
