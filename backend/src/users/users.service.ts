@@ -3,7 +3,7 @@ import { User } from '@prisma/client';
 import { UsersRepository } from './users.repository';
 import { userInfo } from 'os';
 import { AuthService } from 'src/auth/auth.service';
-import { OnlineUsersDto, OutputOnlineUsersDto, UserProfileDto } from './dtos/output.dtos';
+import { UserResumeDto, OutputUsersResumeDto, UserProfileDto } from './dtos/output.dtos';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { GameService } from 'src/game/game.service';
 import { AddFriendDto } from './dtos/input.dtos';
@@ -18,12 +18,16 @@ export class UsersService {
     return await this.userRepository.createUser(dto);
   }
   
-  async addFriend(userId: string, nick_name: AddFriendDto): Promise<void> {
-    return await this.userRepository.addFriend(userId, nick_name);
+  async addFriend(userId: string, nick_name: AddFriendDto): Promise<User[]> {
+    let status = await this.userRepository.addFriend(userId, nick_name);
+
+    return await this.getFriends(userId);
   }
 
-  async deleteFriend(userId: string, nick_name: AddFriendDto): Promise<void> {
-    return await this.userRepository.deleteFriend(userId, nick_name);
+  async deleteFriend(userId: string, nick_name: AddFriendDto): Promise<User[]> {
+    let status =  await this.userRepository.deleteFriend(userId, nick_name);
+  
+    return await this.getFriends(userId);
   }
 
   async findUserAuth(userEmail: string): Promise<User> {
@@ -34,14 +38,14 @@ export class UsersService {
     return await this.userRepository.findUser(userId);
   }
   
-  async getFriends(userEmail: string): Promise<User[]> {
-    let response = await this.userRepository.findUserWithFriends(userEmail);
+  async getFriends(userId: string): Promise<User[]> {
+    let response = await this.userRepository.findUserWithFriends(userId);
     return response.friends;
   }
 
-  async findOnlineUsers(userEmail: string): Promise<any> {
-    console.log(userEmail);
-    let response = await this.userRepository.findOnlineUsers(userEmail);
+  async findOnlineUsers(userId: string): Promise<any> {
+    console.log(userId);
+    let response = await this.userRepository.findOnlineUsers(userId);
 
     // let onlineUsersDto = new OnlineUsersDto();
     // onlineUsersDto._avatar = response.

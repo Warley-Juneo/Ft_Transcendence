@@ -3,7 +3,7 @@ import { PrismaService } from 'src/database/prisma.service';
 import { UsersRepositoryInterface } from './interface/users.repository.interface';
 import { User, Match } from '@prisma/client';
 import { CreateUserDto } from './dtos/createUser.dto';
-import { OnlineUsersDto } from './dtos/output.dtos';
+import { UserResumeDto } from './dtos/output.dtos';
 import { AddFriendDto } from './dtos/input.dtos';
 
 @Injectable()
@@ -43,10 +43,10 @@ export class UsersRepository implements UsersRepositoryInterface {
     return response;
   }
 
-  async findUserWithFriends(userEmail: string): Promise<any> {
+  async findUserWithFriends(userId: string): Promise<any> {
     let response = await this.prisma.user.findUnique({
       where: {
-        email: userEmail,
+        id: userId,
       },
       include: {
         friends: true,
@@ -55,13 +55,13 @@ export class UsersRepository implements UsersRepositoryInterface {
     return response;
   }
 
-  async findOnlineUsers(userEmail: string): Promise<any> {
+  async findOnlineUsers(userId: string): Promise<any> {
     let response = await this.prisma.user.findMany({
       where: {
         is_active: true,
-        email: {
+        id: {
           not: {
-            equals: userEmail,
+            equals: userId,
           },
         },
       },
@@ -75,16 +75,12 @@ export class UsersRepository implements UsersRepositoryInterface {
     return response;
   }
 
-  async addFriend(userId: string, dto: AddFriendDto): Promise<void> {
+  async addFriend(userId: string, dto: AddFriendDto): Promise<any> {
     let friend = await this.prisma.user.findUnique({
       where: {
         nickname: dto.nick_name,
       },
     });
-
-    let eu = await this.findUser(userId);
-    let euf = await this.findUserWithFriends(eu.email);
-    console.log("old Friends: ", euf);
 
     let response = await this.prisma.user.update({
       where: {
@@ -98,10 +94,6 @@ export class UsersRepository implements UsersRepositoryInterface {
         }
       }
     });
-
-    let me = await this.findUser(userId);
-    let mine = await this.findUserWithFriends(me.email);
-    console.log("new Friends: ", mine);
   }
 
   async deleteFriend(userId: string, dto: AddFriendDto): Promise<void> {
@@ -110,10 +102,6 @@ export class UsersRepository implements UsersRepositoryInterface {
         nickname: dto.nick_name,
       },
     });
-
-    let eu = await this.findUser(userId);
-    let euf = await this.findUserWithFriends(eu.email);
-    console.log("old Friends: ", euf);
 
     let response = await this.prisma.user.update({
       where: {
@@ -127,9 +115,5 @@ export class UsersRepository implements UsersRepositoryInterface {
         }
       }
     });
-
-    let me = await this.findUser(userId);
-    let mine = await this.findUserWithFriends(me.email);
-    console.log("new Friends: ", mine);
   }
 }

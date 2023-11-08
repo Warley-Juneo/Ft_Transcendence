@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, Req} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from '@prisma/client';
 import { CreateUserDto } from './dtos/createUser.dto';
-import { OnlineUsersDto, UserProfileDto } from './dtos/output.dtos';
+import { UserResumeDto, UserProfileDto } from './dtos/output.dtos';
 import { AddFriendDto } from './dtos/input.dtos';
 
 @Controller('users')
@@ -15,22 +15,22 @@ export class UsersController {
   }
   
   @Post('add_friend')
-  async addFriend(@Req() request, @Body() dto: AddFriendDto): Promise<void> {
+  async addFriend(@Req() request, @Body() dto: AddFriendDto): Promise<User[]> {
     return await this.service.addFriend(request.user.sub, dto);
   }
 
   @Post('delete_friend')
-  async deleteFriend(@Req() request, @Body() dto: AddFriendDto): Promise<void> {
+  async deleteFriend(@Req() request, @Body() dto: AddFriendDto): Promise<User[]> {
     return await this.service.deleteFriend(request.user.sub, dto);
   }
 
   @Get('friends')
   async getFriends(@Req() request): Promise<User[]> {
-    return await this.service.getFriends(request.user.userEmail);
+    return await this.service.getFriends(request.user.sub);
   }
   @Get('online')
   async findOnlineUsers(@Req() request): Promise<any> {
-    return await this.service.findOnlineUsers(request.user.userEmail);
+    return await this.service.findOnlineUsers(request.user.sub);
   }
 
   @Get('profile')

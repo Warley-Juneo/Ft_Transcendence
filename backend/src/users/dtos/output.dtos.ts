@@ -16,12 +16,12 @@ export class UserProfileDto {
   // _statusConnection?:  boolean; // podemos colocar um enum aqui para ter mais status de conexão
 }
 
-export class OnlineUsersDto {
+export class UserResumeDto {
   _id: string;
   _nickname: string;
   _avatar: string; //trocar aqui para o tipo File
 }
 
-export class OutputOnlineUsersDto {
-  onlineUsers: OnlineUsersDto[];
+export class OutputUsersResumeDto {
+  onlineUsers: UserResumeDto[];
 }
