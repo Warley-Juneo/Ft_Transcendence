@@ -20,7 +20,9 @@ export class UsersService {
   
   async addFriend(userId: string, nick_name: AddFriendDto): Promise<OutputUsersResumeDto> {
     let friends = await this.userRepository.addFriend(userId, nick_name);
-
+    if (!friends) {
+      return null
+    }
     let outputUsersResumeDto = new OutputUsersResumeDto();
     outputUsersResumeDto.users = [];
 
