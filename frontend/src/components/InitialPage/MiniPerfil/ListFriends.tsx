@@ -51,7 +51,7 @@ export default function ListFriends(props: PropsListFriends) {
 							{StatusOnline(play._nickname)}
 						</div>
 						<div className='d-flex align-items-end p-2'>
-							<MdDeleteForever size={20} onClick={() => {handleDeleteFriend(play._nickname)}} />
+							<MdDeleteForever size={20} onClick={() => { handleDeleteFriend(play._nickname) }} />
 						</div>
 					</div>
 				)
