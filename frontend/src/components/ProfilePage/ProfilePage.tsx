@@ -12,21 +12,6 @@ export default function ProfileScreen() {
 					<h2 className='fst-italic ps-3 faixa-amarela'>PARTIDAS RECENTES</h2>
 					<div className='overflow-auto' id='MatchHistory'>
 						<MatchHistory />
-						<MatchHistory />
-						<MatchHistory />
-						<MatchHistory />
-						<MatchHistory />
-						<MatchHistory />
-						<MatchHistory />
-						<MatchHistory />
-						<MatchHistory />
-						<MatchHistory />
-						<MatchHistory />
-						<MatchHistory />
-						<MatchHistory />
-						<MatchHistory />
-						<MatchHistory />
-						<MatchHistory />
 					</div>
 				</div>
 			</div>
