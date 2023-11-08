@@ -1,4 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Req } from '@nestjs/common';
+import { GameService } from './game.service';
+import { Match } from '@prisma/client';
 
 @Controller('game')
-export class GameController {}
+export class GameController {
+	constructor(private readonly gameService: GameService) {}
+
+	@Get()
+	async userMatchs(@Req() request): Promise<Match[]> {
+		return this.gameService.userMatchs(request.user.sub);
+	}
+}
