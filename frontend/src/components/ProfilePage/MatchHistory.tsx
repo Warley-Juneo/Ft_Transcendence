@@ -21,13 +21,13 @@ export default function MatchHistory() {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
 			}
+		}).then((response) => {
+			console.log(response.data);
+			setMatchHistory(response.data);
+		}).catch((error) => {
+			console.log("Error: ", error.response.data);
 		})
-			.then((response) => {
-				console.log(response.data);
-			})
-			.catch((error) => {
-				console.log("Error: ", error.response.data);
-			})
+	
 	}, []);
 
 	if (matchHistory) {

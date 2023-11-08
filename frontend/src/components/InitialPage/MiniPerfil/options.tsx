@@ -2,6 +2,8 @@ import { GoPersonAdd } from 'react-icons/go';
 import { GiThreeFriends } from 'react-icons/gi';
 import { FaUserFriends } from 'react-icons/fa';
 import React, { useState } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const URLS_MiniPerfilPlayers = {
 	'personal': 'http://localhost:3000/users/friends',
@@ -17,8 +19,17 @@ function Options({requerimentUrl}: {requerimentUrl: React.Dispatch<React.SetStat
 
 	function addNewFriend(event: React.KeyboardEvent<HTMLInputElement>) {
 		if (event.key === 'Enter') {
-			alert(`add friend ${event.currentTarget.value}`);
-			event.currentTarget.value = '';
+			console.log("Fiz a request dale")
+			axios.post('http://localhost:3000/users/add_friend', {
+				nick_name: event.currentTarget.value,
+			}, {
+				headers: {
+					Authorization: Cookies.get('jwtToken'),
+				},
+			})
+			.then((res) => {
+				console.log("Resposta do add friend: ", res.data)
+			})
 		}
 	}
 

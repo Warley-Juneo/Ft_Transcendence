@@ -60,10 +60,10 @@ async function main() {
 		  last_name: "Giusepe faggion",
 		  nickname: "fagiusep",
 		  avatar: "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg",
-		  points: 2,
+		  points: 12,
 		  friends: {
 			connect: [
-				{id: jose.id,}, {id: joao.id}, {id: julia.id},
+				{id: jose.id,}, {id: joao.id},
 			],
 		  },
 		},
@@ -77,7 +77,7 @@ async function main() {
 		  last_name: "Wallas Ferreira Santos",
 		  nickname: "wwallas-",
 		  avatar: "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg",
-		  points: 2,
+		  points: 1,
 		  friends: {
 			connect: [
 				{id: jose.id,}, {id: joao.id}, {id: julia.id,}

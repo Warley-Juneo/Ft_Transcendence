@@ -10,6 +10,8 @@ export class GameService {
   constructor(private readonly gameRepository: GameRepository) {}
 
   async userMatchs(userId: string): Promise<Match[]> {
+
+    
     return this.gameRepository.userMatchs(userId);
   }
 
