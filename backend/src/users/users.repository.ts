@@ -118,26 +118,32 @@ export class UsersRepository implements UsersRepositoryInterface {
   }
 
   async deleteFriend(userId: string, dto: AddFriendDto): Promise<any> {
-    let friend = await this.prisma.user.findUnique({
-      where: {
-        nickname: dto.nick_name,
-      },
-    });
+    
+    try {
+      let friend = await this.prisma.user.findUniqueOrThrow({
+        where: {
+          nickname: dto.nick_name,
+        },
+      });
 
-    let response = await this.prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        friends: {
-          disconnect: [
-            {id: friend.id}
-          ]
+      let response = await this.prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          friends: {
+            disconnect: [
+              {id: friend.id}
+            ]
+          }
         }
-      }
-    });
-    let user = await this.findUserWithFriends(userId);
+      });
+      let user = await this.findUserWithFriends(userId);
 
-    return user.friends;
+      return user.friends;
+      
+    } catch(error) {
+      return null;
+    }  
   }
 }
