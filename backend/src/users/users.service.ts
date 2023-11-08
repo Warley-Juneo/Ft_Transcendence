@@ -44,7 +44,11 @@ export class UsersService {
 
     let user = await this.userRepository.findUser(userId);
     let wins = await this.gameService.numberOfUserMatchWins(userId);
-    
+    let loses = await this.gameService.numberOfUserMatchLoses(userId);
+    let draws = await this.gameService.numberOfUserMatchDraws(userId);
+    let matchs = await this.gameService.userMatchs(userId);
+
+    console.log("matchs: ", matchs);
     let userProfileDto = new UserProfileDto();
 
     userProfileDto._login = user.login;
@@ -53,6 +57,8 @@ export class UsersService {
     userProfileDto._last_name = user.last_name;
     userProfileDto._nickname = user.nickname;
     userProfileDto._wins = wins;
+    userProfileDto._loses = loses;
+    userProfileDto._draws = draws;
 
     return userProfileDto;
   }

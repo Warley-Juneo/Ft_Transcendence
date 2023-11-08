@@ -9,8 +9,8 @@ import { userInfo } from 'os';
 export class GameService {
   constructor(private readonly gameRepository: GameRepository) {}
 
-  async numberOfUserMatchs(userId: string): Promise<Match[]> {
-    return this.gameRepository.numberOfUserMatchs(userId);
+  async userMatchs(userId: string): Promise<Match[]> {
+    return this.gameRepository.userMatchs(userId);
   }
 
   async numberOfUserMatchWins(userId: string): Promise<number> {

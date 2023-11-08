@@ -22,7 +22,7 @@ CREATE TABLE "match" (
     "score_p2" INTEGER NOT NULL DEFAULT 0,
     "winner_id" TEXT,
     "loser_id" TEXT,
-    "draws" BOOLEAN NOT NULL DEFAULT false,
+    "draws" BOOLEAN DEFAULT false,
     CONSTRAINT "match_player1_id_fkey" FOREIGN KEY ("player1_id") REFERENCES "user" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "match_player2_id_fkey" FOREIGN KEY ("player2_id") REFERENCES "user" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "match_winner_id_fkey" FOREIGN KEY ("winner_id") REFERENCES "user" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
