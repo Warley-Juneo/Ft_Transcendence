@@ -6,7 +6,7 @@ import { MdDeleteForever } from 'react-icons/md';
 
 export type Players = {
 	avatar: string,
-	id: number,
+	id: string,
 	nickname: string,
 	is_active: boolean,
 }

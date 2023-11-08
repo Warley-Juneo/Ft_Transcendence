@@ -31,6 +31,7 @@ export class UsersService {
       userResumeDto._id = obj.id;
       userResumeDto._avatar = obj.avatar;
       userResumeDto._nickname = obj.nickname;
+      userResumeDto._is_active = obj.is_active;
       outputUsersResumeDto.users.push(userResumeDto);
     };
     return outputUsersResumeDto;
@@ -38,6 +39,10 @@ export class UsersService {
 
   async deleteFriend(userId: string, nick_name: AddFriendDto): Promise<OutputUsersResumeDto> {
     let friends =  await this.userRepository.deleteFriend(userId, nick_name);
+
+    if (!friends) {
+      return null
+    }
 
     let outputUsersResumeDto = new OutputUsersResumeDto();
     outputUsersResumeDto.users = [];
@@ -47,6 +52,7 @@ export class UsersService {
       userResumeDto._id = obj.id;
       userResumeDto._avatar = obj.avatar;
       userResumeDto._nickname = obj.nickname;
+      userResumeDto._is_active = obj.is_active;
       outputUsersResumeDto.users.push(userResumeDto);
     };
     return outputUsersResumeDto;
@@ -60,19 +66,51 @@ export class UsersService {
     return await this.userRepository.findUser(userId);
   }
   
-  async getFriends(userId: string): Promise<User[]> {
-    let response = await this.userRepository.findUserWithFriends(userId);
-    return response.friends;
+  async findFriends(userId: string): Promise<OutputUsersResumeDto> {
+    let user = await this.userRepository.findUserWithFriends(userId);
+    
+    if (!user) {
+      return null
+    }
+    
+    let outputUsersResumeDto = new OutputUsersResumeDto();
+    outputUsersResumeDto.users = [];
+
+    for (const obj of user.friends) {
+      let userResumeDto = new UserResumeDto();
+      userResumeDto._id = obj.id;
+      userResumeDto._avatar = obj.avatar;
+      userResumeDto._nickname = obj.nickname;
+      userResumeDto._is_active = obj.is_active;
+      outputUsersResumeDto.users.push(userResumeDto);
+    };
+
+    console.log("Friends:", outputUsersResumeDto);
+    return outputUsersResumeDto;
   }
 
-  async findOnlineUsers(userId: string): Promise<any> {
-    console.log(userId);
-    let response = await this.userRepository.findOnlineUsers(userId);
+  async findOnlineUsers(userId: string): Promise<OutputUsersResumeDto> {
 
-    // let onlineUsersDto = new OnlineUsersDto();
-    // onlineUsersDto._avatar = response.
-    console.log("REsponse:", response);
-    return response;
+    let users = await this.userRepository.findOnlineUsers(userId);
+
+    if (!users) {
+      return null
+    }
+    
+    let outputUsersResumeDto = new OutputUsersResumeDto();
+    outputUsersResumeDto.users = [];
+
+    for (const obj of users) {
+      let userResumeDto = new UserResumeDto();
+      userResumeDto._id = obj.id;
+      userResumeDto._avatar = obj.avatar;
+      userResumeDto._nickname = obj.nickname;
+      userResumeDto._is_active = obj.is_active;
+      outputUsersResumeDto.users.push(userResumeDto);
+    };
+
+    console.log("Online Users:", outputUsersResumeDto);
+    return outputUsersResumeDto;
   }
 
   async findProfile(userId: string): Promise<UserProfileDto> {
