@@ -8,15 +8,10 @@ import { Players } from './ListFriends';
 
 
 export default function MiniPerfil() {
-	const [requerimentUrl, setRequerimentUrl] = useState<string>('http://localhost:3000/users/friends');
 	const [players, setPlayers] = useState<Players[]>([]);
 
-	useEffect(() => {
-		console.log("requerimentUrl: ", requerimentUrl)
-		if (requerimentUrl === '') {
-			return;
-		}
-		axios.get(requerimentUrl, {
+	function getPlayers(route: string) {
+		axios.get(route, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
 			}
@@ -27,13 +22,17 @@ export default function MiniPerfil() {
 		.catch((err) => {
 			console.log(err);
 		})
-	}, [requerimentUrl]);
+	}
+
+	useEffect(() => {
+		getPlayers('http://localhost:3000/users/friends');
+	}, []);
 
 	return (
 		<div className='bg-custon-roxo d-flex flex-column h-100' style={{ minWidth: '15vw' }}>
 			<MiniPerfilUser />
 			<hr className='m-0 w-100 text-white'></hr>
-			<Options requerimentUrl={setRequerimentUrl} />
+			<Options getPlayers={getPlayers}/>
 			<ListFriends players={players}/>
 		</div>
 	);

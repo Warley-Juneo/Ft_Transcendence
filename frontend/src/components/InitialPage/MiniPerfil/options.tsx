@@ -5,12 +5,12 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const URLS_MiniPerfilPlayers = {
+const	URLS_MiniPerfilPlayers = {
 	'personal': 'http://localhost:3000/users/friends',
 	'Global': 'http://localhost:3000/users/online',
 }
 
-function Options({requerimentUrl}: {requerimentUrl: React.Dispatch<React.SetStateAction<string>>}) {
+function Options({getPlayers}: {getPlayers: (route: string) => void}) {
 	const [showaADDFriend, setShowAddFriend] = useState(false);
 
 	function handleClickAddFriend() {
@@ -28,7 +28,7 @@ function Options({requerimentUrl}: {requerimentUrl: React.Dispatch<React.SetStat
 				},
 			})
 			.then((res) => {
-				console.log("Resposta do add friend: ", res.data)
+				getPlayers(URLS_MiniPerfilPlayers.personal);
 			})
 		}
 	}
@@ -60,11 +60,11 @@ function Options({requerimentUrl}: {requerimentUrl: React.Dispatch<React.SetStat
 					/>
 					<FaUserFriends
 						style={{ margin: '5px', cursor: 'pointer' }}
-						size={30} onClick={() => {console.log("HUHU"); requerimentUrl(URLS_MiniPerfilPlayers.personal)}}
+						size={30} onClick={() => {getPlayers(URLS_MiniPerfilPlayers.personal)}}
 					/>
 					<GiThreeFriends
 						style={{ margin: '5px', cursor: 'pointer' }}
-						size={30} onClick={() => {console.log("HUHU2"); requerimentUrl(URLS_MiniPerfilPlayers.Global)}}
+						size={30} onClick={() => getPlayers(URLS_MiniPerfilPlayers.Global)}
 					/>
 				</div>
 			</div>
