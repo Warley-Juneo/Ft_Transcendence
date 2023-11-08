@@ -55,7 +55,7 @@ model Match {
   loser_id String?
   loser    User?   @relation(name: "loser", fields: [loser_id], references: [id])
 
-  draws Boolean @default(false)
+  draws   Boolean? @default(false)
 
   @@map("match")
 }

@@ -4,14 +4,13 @@ import { AuthLoginDto } from 'src/auth/dtos/authLogin.dto';
 import { MatchHistory } from './entities/match.entity';
 import { GameRepository } from './game.repository';
 import { userInfo } from 'os';
-import { UserPerfilDto } from 'src/users/dtos/output.dtos';
 
 @Injectable()
 export class GameService {
   constructor(private readonly gameRepository: GameRepository) {}
 
-  async numberOfUserMatchs(userId: string): Promise<Match[]> {
-    return this.gameRepository.numberOfUserMatchs(userId);
+  async userMatchs(userId: string): Promise<Match[]> {
+    return this.gameRepository.userMatchs(userId);
   }
 
   async numberOfUserMatchWins(userId: string): Promise<number> {

@@ -7,7 +7,7 @@ import { PrismaService } from 'src/database/prisma.service';
 export class GameRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async numberOfUserMatchs(userId: string): Promise<Match[]> {
+  async userMatchs(userId: string): Promise<Match[]> {
     let asPalyer1 = this.prisma.match.findMany({
       where: {
         player1_id: userId,
@@ -44,6 +44,7 @@ export class GameRepository {
     let as_Player1 = await this.prisma.match.count({
       where: {
         player1_id: userId,
+        draws: true,
       },
       select: {
         draws: true,
@@ -52,6 +53,7 @@ export class GameRepository {
     let as_Player2 = await this.prisma.match.count({
       where: {
         player2_id: userId,
+        draws: true,
       },
       select: {
         draws: true,

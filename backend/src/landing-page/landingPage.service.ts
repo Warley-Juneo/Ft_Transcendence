@@ -16,7 +16,7 @@ export class LandingPageService {
 
   async landingPage(username: string): Promise<OutputLandinPageDto> {
 
-    let user = await this.userService.findUser(username);
+    let user = await this.userService.findUserAuth(username);
 
     let response = new OutputLandinPageDto();
     response._nickname = user.nickname;
