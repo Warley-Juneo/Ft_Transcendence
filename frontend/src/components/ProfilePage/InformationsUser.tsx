@@ -1,24 +1,19 @@
+import axios from 'axios';
 import rank1 from '../../static/rankLevel/rank1.png';
 import rank2 from '../../static/rankLevel/rank2.png';
 import rank3 from '../../static/rankLevel/rank3.png';
 import rank4 from '../../static/rankLevel/rank4.png';
 import rank5 from '../../static/rankLevel/rank5.png';
 import rank6 from '../../static/rankLevel/rank6.png';
+import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 
-type dataUserPerfil = {
-	name: string;
-	vt: number;
-	ept: number;
-	dr: number;
-	img: string;
-}
-
-const dataUser: dataUserPerfil = {
-	name: 'Luffy',
-	vt: 35,
-	dr: 1,
-	ept: 3,
-	img: 'https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg'
+type infosUserPerfil = {
+	_nickname: string;
+	_wins: number;
+	_draws: number;
+	_loses: number;
+	_avatar: string;
 }
 
 type formattingRankUser = {
@@ -28,7 +23,22 @@ type formattingRankUser = {
 }
 
 export default function InformationsUser() {
-    let itemsRank: formattingRankUser = {rank: '', borderImg: '', borderWrite: ''};
+	let itemsRank: formattingRankUser = {rank: '', borderImg: '', borderWrite: ''};
+	const [infosUser, setInfosUser] = useState<infosUserPerfil>({} as infosUserPerfil);
+
+	useEffect(() => {
+		axios.get('http://localhost:3000/users/profile ', {
+			headers: {
+				Authorization: Cookies.get('jwtToken'),
+			}
+		})
+		.then((response) => {
+			setInfosUser(response.data);
+		}
+		).catch((error) => {
+			console.log("Error: ", error.response.data);
+		})
+	}, []);
 
 	const handleRank = (pointers: number) => {
 		if (pointers <= 5) {
@@ -89,24 +99,24 @@ export default function InformationsUser() {
 		}
 	}
 
-	let pointers : number = dataUser.vt - dataUser.dr;
+	let pointers : number = infosUser._wins - infosUser._loses;
 	handleRank(pointers);
 	const { rank, borderImg, borderWrite } = itemsRank;
 	return (
 		<div className='text-center text-white'>
 			<div className={borderImg}>
-				<img className='img-fluid rounded-circle m-auto' src={dataUser.img} alt='foto' />
+				<img className='img-fluid rounded-circle m-auto' src={infosUser._avatar} alt='foto' />
 			</div>
-			<h2	 className='mt-2 letter-pixel'>{dataUser.name}</h2>
+			<h2	 className='mt-2 letter-pixel'>{infosUser._nickname}</h2>
 			<div className='d-flex flex-column align-items-center'>
 				<div className='p-2'>
 					<img className='img-fluid' src={rank} alt='' />
 				</div>
 				<div className={borderWrite} style={pointers > 15 ? {height: '200px'} : {height: '150px'}}>
-					<p className='fw-bold me-2'>VT<br></br>{dataUser.vt}</p>
-					<p className='fw-bold me-2'>DR<br></br>{dataUser.dr}</p>
-					<p className='fw-bold me-2'>EPT<br></br>{dataUser.ept}</p>
-					<p className='fw-bold'>KDA<br></br>{dataUser.vt + dataUser.ept / dataUser.dr}</p>
+					<p className='fw-bold me-2'>VT<br></br>{infosUser._wins}</p>
+					<p className='fw-bold me-2'>DR<br></br>{infosUser._loses}</p>
+					<p className='fw-bold me-2'>EPT<br></br>{infosUser._draws}</p>
+					<p className='fw-bold'>KDA<br></br>{infosUser._wins + infosUser._draws / infosUser._loses}</p>
 				</div>
 			</div>
 		</div>
