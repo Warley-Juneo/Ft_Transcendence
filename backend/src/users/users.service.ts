@@ -18,16 +18,36 @@ export class UsersService {
     return await this.userRepository.createUser(dto);
   }
   
-  async addFriend(userId: string, nick_name: AddFriendDto): Promise<User[]> {
-    let status = await this.userRepository.addFriend(userId, nick_name);
+  async addFriend(userId: string, nick_name: AddFriendDto): Promise<OutputUsersResumeDto> {
+    let friends = await this.userRepository.addFriend(userId, nick_name);
 
-    return await this.getFriends(userId);
+    let outputUsersResumeDto = new OutputUsersResumeDto();
+    outputUsersResumeDto.users = [];
+
+    for (const obj of friends) {
+      let userResumeDto = new UserResumeDto();
+      userResumeDto._id = obj.id;
+      userResumeDto._avatar = obj.avatar;
+      userResumeDto._nickname = obj.nickname;
+      outputUsersResumeDto.users.push(userResumeDto);
+    };
+    return outputUsersResumeDto;
   }
 
-  async deleteFriend(userId: string, nick_name: AddFriendDto): Promise<User[]> {
-    let status =  await this.userRepository.deleteFriend(userId, nick_name);
-  
-    return await this.getFriends(userId);
+  async deleteFriend(userId: string, nick_name: AddFriendDto): Promise<OutputUsersResumeDto> {
+    let friends =  await this.userRepository.deleteFriend(userId, nick_name);
+
+    let outputUsersResumeDto = new OutputUsersResumeDto();
+    outputUsersResumeDto.users = [];
+
+    for (const obj of friends) {
+      let userResumeDto = new UserResumeDto();
+      userResumeDto._id = obj.id;
+      userResumeDto._avatar = obj.avatar;
+      userResumeDto._nickname = obj.nickname;
+      outputUsersResumeDto.users.push(userResumeDto);
+    };
+    return outputUsersResumeDto;
   }
 
   async findUserAuth(userEmail: string): Promise<User> {

@@ -23,5 +23,5 @@ export class UserResumeDto {
 }
 
 export class OutputUsersResumeDto {
-  onlineUsers: UserResumeDto[];
+  users: UserResumeDto[];
 }

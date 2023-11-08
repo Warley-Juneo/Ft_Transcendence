@@ -82,7 +82,8 @@ export class UsersRepository implements UsersRepositoryInterface {
       },
     });
 
-    let response = await this.prisma.user.update({
+    
+    let status = await this.prisma.user.update({
       where: {
         id: userId,
       },
@@ -94,9 +95,12 @@ export class UsersRepository implements UsersRepositoryInterface {
         }
       }
     });
+    let user = await this.findUserWithFriends(userId);
+
+    return user.friends;
   }
 
-  async deleteFriend(userId: string, dto: AddFriendDto): Promise<void> {
+  async deleteFriend(userId: string, dto: AddFriendDto): Promise<any> {
     let friend = await this.prisma.user.findUnique({
       where: {
         nickname: dto.nick_name,
@@ -115,5 +119,8 @@ export class UsersRepository implements UsersRepositoryInterface {
         }
       }
     });
+    let user = await this.findUserWithFriends(userId);
+
+    return user.friends;
   }
 }
