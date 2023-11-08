@@ -25,6 +25,15 @@ export class UsersRepository implements UsersRepositoryInterface {
     return response;
   }
 
+  async findUserAll(): Promise<any> {
+    let response = this.prisma.user.findMany({
+      orderBy: {
+        points: 'desc',
+      },
+    });
+    return response;
+  }
+
   async findUserAuth(userEmail: string): Promise<User> {
     let response = await this.prisma.user.findUnique({
       where: {

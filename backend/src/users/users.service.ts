@@ -79,7 +79,9 @@ export class UsersService {
     let wins = await this.gameService.numberOfUserMatchWins(userId);
     let loses = await this.gameService.numberOfUserMatchLoses(userId);
     let draws = await this.gameService.numberOfUserMatchDraws(userId);
-    
+    let ladder = await this.userRepository.findUserAll();
+  
+    const position = ladder.findIndex(u => u.id === userId) + 1;
 
     let userProfileDto = new UserProfileDto();
     userProfileDto._login = user.login;
@@ -90,6 +92,7 @@ export class UsersService {
     userProfileDto._wins = wins;
     userProfileDto._loses = loses;
     userProfileDto._draws = draws;
+    userProfileDto._ladder = position;
 
     return userProfileDto;
   }
