@@ -17,7 +17,7 @@ export default function MiniPerfil() {
 			}
 		})
 		.then((res) => {
-			setPlayers(res.data);
+			setPlayers(res.data.users);
 		})
 		.catch((err) => {
 			console.log(err);
@@ -33,7 +33,7 @@ export default function MiniPerfil() {
 			<MiniPerfilUser />
 			<hr className='m-0 w-100 text-white'></hr>
 			<Options getPlayers={getPlayers}/>
-			<ListFriends players={players}/>
+			<ListFriends players={players} getPlayers={getPlayers}/>
 		</div>
 	);
 }
