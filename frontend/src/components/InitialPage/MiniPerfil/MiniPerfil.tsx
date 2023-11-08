@@ -30,11 +30,11 @@ export default function MiniPerfil() {
 	}, [requerimentUrl]);
 
 	return (
-		<aside className='bg-custon-roxo d-flex flex-column h-100' style={{ minWidth: '15vw' }}>
+		<div className='bg-custon-roxo d-flex flex-column h-100' style={{ minWidth: '15vw' }}>
 			<MiniPerfilUser />
 			<hr className='m-0 w-100 text-white'></hr>
 			<Options requerimentUrl={setRequerimentUrl} />
 			<ListFriends players={players}/>
-		</aside>
+		</div>
 	);
 }
