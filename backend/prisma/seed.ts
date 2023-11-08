@@ -80,7 +80,7 @@ async function main() {
 		  points: 2,
 		  friends: {
 			connect: [
-				{id: jose.id,}, {id: joao.id}, {id: julia.id,}, {id: fausto.id}
+				{id: jose.id,}, {id: joao.id}, {id: julia.id,}
 			],
 		  },
 		},
