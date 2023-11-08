@@ -21,9 +21,17 @@ export default function CreateNewChat(props: functionsChats) {
 
 	return (
 		<div className='position-absolute rounded top-50 end-50 p-3 shadow-grounps text-black'>
-			<form className='d-flex flex-column' onSubmit={handleSubmit}>
+			<form onSubmit={handleSubmit}>
+				<div className='d-flex justify-content-center'>
+					<img className='rounded-circle hover'
+						src='https://www.ferramentastenace.com.br/wp-content/uploads/2017/11/sem-foto.jpg'
+						style={{ width: '100px', height: '100px', padding: '5px' }}
+						alt='foto para mostra que esta sem foto de perfil'
+						onClick={() => document.getElementsByName('photoChat')[0].click()}
+					/>
+				</div>
+				<input type='file' name='photoChat' className='d-none' />
 				<GrFormClose className='position-absolute top-0 end-0 m-1' size={25} onClick={props.showScreeToCreateChat} />
-				<label className='form-label' htmlFor='inputCreateGroup'>Criar grupo</label>
 				<input
 					type='text'
 					name='nameChat'
