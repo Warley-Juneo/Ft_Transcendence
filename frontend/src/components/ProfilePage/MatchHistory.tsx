@@ -13,7 +13,7 @@ type MatchHistoryType = {
 };
 
 export default function MatchHistory() {
-	const [matchHistory, setMatchHistory] = useState<MatchHistoryType>({} as MatchHistoryType);
+	const [matchHistory, setMatchHistory] = useState<MatchHistoryType[]>({} as MatchHistoryType[]);
 
 	useEffect(() => {
 		console.log("Huhu")
@@ -21,7 +21,7 @@ export default function MatchHistory() {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
 			}
-			})
+		})
 			.then((response) => {
 				console.log(response.data);
 			})
@@ -30,6 +30,13 @@ export default function MatchHistory() {
 			})
 	}, []);
 
+	if (matchHistory) {
+		return (
+			<div className='d-flex p-2 text-center'>
+				<p>Você não possui nenhuma partida no momento</p>
+			</div>
+		)
+	}
 	return (
 		<div className='d-flex p-2 justify-content-between hover text-center'>
 			<img className='img-fluid rounded-circle' src='https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg' alt='foto' />

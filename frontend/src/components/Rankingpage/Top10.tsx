@@ -36,7 +36,7 @@ export default function Top10() {
 								className="rounded-circle mh-100 mw-100"
 								src="https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg"
 								alt="foto de perfil"  // Adicinar o unsuario que esta sendo printado
-								style={{ height: '10px', width: '10px' }}
+								style={{ height: '4rem', width: '4rem' }}
 							/>
 							<p>Bankai 007</p>
 						</div>
