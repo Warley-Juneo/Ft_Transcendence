@@ -24,10 +24,19 @@ export class UsersRepository implements UsersRepositoryInterface {
     return response;
   }
 
-  async findUser(userEmail: string): Promise<User> {
+  async findUserAuth(userEmail: string): Promise<User> {
     let response = await this.prisma.user.findUnique({
       where: {
         email: userEmail,
+      },
+    });
+    return response;
+  }
+
+  async findUser(userId: string): Promise<User> {
+    let response = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
       },
     });
     return response;

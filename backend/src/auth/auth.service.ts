@@ -58,7 +58,7 @@ export class AuthService {
 
   async verifyUser(userInfo: any): Promise<any> {
 
-    let user: User = await this.usersService.findUser(userInfo.email);
+    let user: User = await this.usersService.findUserAuth(userInfo.email);
     if (!user) {
       const createUserDto = new CreateUserDto();
       createUserDto.login = userInfo.login;
@@ -74,7 +74,7 @@ export class AuthService {
   }
 
   async jwtSign(user: any): Promise<string> {
-    const payload = { sub: user.login, userEmail: user.email };
+    const payload = { sub: user.id, userEmail: user.email };
     let jwt_token = await this.jwtService.signAsync(payload);
     return (jwt_token);
   }

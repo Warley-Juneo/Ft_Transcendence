@@ -24,6 +24,6 @@ export class UsersController {
 
   @Get('profile')
   async findProfile(@Req() request): Promise<UserProfileDto> {
-    return await this.service.findProfile(request.user.userEmail);
+    return await this.service.findProfile(request.user.sub);
   }
 }

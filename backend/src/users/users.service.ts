@@ -5,18 +5,24 @@ import { userInfo } from 'os';
 import { AuthService } from 'src/auth/auth.service';
 import { OnlineUsersDto, OutputOnlineUsersDto, UserProfileDto } from './dtos/output.dtos';
 import { CreateUserDto } from './dtos/createUser.dto';
+import { GameService } from 'src/game/game.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly userRepository: UsersRepository) {}
+  constructor(private readonly userRepository: UsersRepository,
+              private readonly gameService: GameService) {}
 
   
   async createUser(dto: CreateUserDto): Promise<User> {
     return await this.userRepository.createUser(dto);
   }
   
-  async findUser(userEmail: string): Promise<User> {
-    return await this.userRepository.findUser(userEmail);
+  async findUserAuth(userEmail: string): Promise<User> {
+    return await this.userRepository.findUserAuth(userEmail);
+  }
+
+  async findUser(userId: string): Promise<User> {
+    return await this.userRepository.findUser(userId);
   }
   
   async getFriends(userEmail: string): Promise<User[]> {
@@ -34,17 +40,19 @@ export class UsersService {
     return response;
   }
 
-  async findProfile(userEmail: string): Promise<UserProfileDto> {
+  async findProfile(userId: string): Promise<UserProfileDto> {
 
-    let response = await this.userRepository.findUser(userEmail);
+    let user = await this.userRepository.findUser(userId);
+    let wins = await this.gameService.numberOfUserMatchWins(userId);
     
     let userProfileDto = new UserProfileDto();
 
-    userProfileDto._login = response.login;
-    userProfileDto._avatar = response.avatar;
-    userProfileDto._first_name = response.first_name;
-    userProfileDto._last_name = response.last_name;
-    userProfileDto._nickname = response.nickname;
+    userProfileDto._login = user.login;
+    userProfileDto._avatar = user.avatar;
+    userProfileDto._first_name = user.first_name;
+    userProfileDto._last_name = user.last_name;
+    userProfileDto._nickname = user.nickname;
+    userProfileDto._wins = wins;
 
     return userProfileDto;
   }
