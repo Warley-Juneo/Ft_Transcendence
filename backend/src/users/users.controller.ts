@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, Req} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from '@prisma/client';
 import { CreateUserDto } from './dtos/createUser.dto';
-import { UserResumeDto, UserProfileDto, OutputUsersResumeDto, OutputUserMatchesDto } from './dtos/output.dtos';
+import { UserResumeDto, UserProfileDto, OutputUsersResumeDto, OutputUserMatchesDto, OutputLadderDto } from './dtos/output.dtos';
 import { AddFriendDto } from './dtos/input.dtos';
 
 @Controller('users')
@@ -42,5 +42,10 @@ export class UsersController {
   @Get('matches')
   async findUserMatches(@Req() request): Promise<OutputUserMatchesDto> {
     return  this.service.findUserMatches(request.user.sub);
+  }
+
+  @Get('ladder')
+  async ladder(): Promise<OutputLadderDto> {
+    return this.service.ladder();
   }
 }

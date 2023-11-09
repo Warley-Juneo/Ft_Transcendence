@@ -38,3 +38,19 @@ export class UserMatchesDto {
 export class OutputUserMatchesDto {
   users: UserMatchesDto[];
 }
+
+export class UserLadderDto {
+  _avatar:    string;
+  _nickname:  string;
+
+  points:     number;
+  _matches:   number;
+  _wins:      number;
+  _loses:     number;
+  _draws:     number;
+  _ladder:    number;
+}
+
+export class OutputLadderDto {
+  ladder: UserLadderDto[]; 
+}
