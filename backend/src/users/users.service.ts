@@ -3,7 +3,7 @@ import { User } from '@prisma/client';
 import { UsersRepository } from './users.repository';
 import { userInfo } from 'os';
 import { AuthService } from 'src/auth/auth.service';
-import { UserResumeDto, OutputUsersResumeDto, UserProfileDto } from './dtos/output.dtos';
+import { UserResumeDto, OutputUsersResumeDto, UserProfileDto, OutputUserMatchesDto, UserMatchesDto } from './dtos/output.dtos';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { GameService } from 'src/game/game.service';
 import { AddFriendDto } from './dtos/input.dtos';
@@ -137,4 +137,47 @@ export class UsersService {
     return userProfileDto;
   }
 
+  async findUserMatches(userId: string): Promise<OutputUserMatchesDto> {
+    let as_player_1 =  await this.userRepository.findMatchesAsPlayer1(userId);
+    let as_player_2 =  await this.userRepository.findMatchesAsPlayer2(userId);
+
+    let outputUserMatchesDto = new OutputUserMatchesDto()
+    outputUserMatchesDto.users = [];
+
+    for (const obj of as_player_1) {
+      let userMatchesDto = new UserMatchesDto();
+      userMatchesDto._opponent = obj.player_2.nickname;
+      userMatchesDto._opponent_avatar = obj.player_2.avatar;
+      userMatchesDto._opponent_score = obj.score_p2;
+      userMatchesDto._my_score = obj.score_p1;
+      if (obj.draws == true){
+        userMatchesDto._status = "DRAW";
+      }
+      else if (userMatchesDto._opponent_score < userMatchesDto._my_score) {
+        userMatchesDto._status = "WINNER";
+      }
+      else
+      userMatchesDto._status = "LOSER";
+      outputUserMatchesDto.users.push(userMatchesDto);
+    };
+
+    for (const obj of as_player_2) {
+      let userMatchesDto = new UserMatchesDto();
+      userMatchesDto._opponent = obj.player_1.nickname;
+      userMatchesDto._opponent_avatar = obj.player_1.avatar;
+      userMatchesDto._opponent_score = obj.score_p1;
+      userMatchesDto._my_score = obj.score_p2;
+      if (obj.draws == true){
+        userMatchesDto._status = "DRAW";
+      }
+      else if (userMatchesDto._opponent_score < userMatchesDto._my_score) {
+        userMatchesDto._status = "WINNER";
+      }
+      else
+      userMatchesDto._status = "LOSER";
+      outputUserMatchesDto.users.push(userMatchesDto);
+    };
+
+    return outputUserMatchesDto;
+  }
 }
