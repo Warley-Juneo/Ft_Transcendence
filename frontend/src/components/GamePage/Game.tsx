@@ -42,24 +42,19 @@ export default function Game() {
 				const [dirY, dirX] = newInfosball.direction;
 				const positionEixoYBar = newInfosball.positionBar;
 
-				let newY = y + dirY + (dirY < 0 ? -newInfosball.speed : newInfosball.speed);
-				let newX = x + dirX + (dirX < 0 ? -newInfosball.speed : newInfosball.speed);
+				const auxNewY = y + dirY + (dirY < 0 ? -newInfosball.speed : newInfosball.speed);
+				const auxNewX = x + dirX + (dirX < 0 ? -newInfosball.speed : newInfosball.speed);
 
-
-				if (newY < 0 || newY > 98) {
+				if (auxNewY < 0 || auxNewY > 98) {
 					newInfosball.direction = [-dirY, dirX];
-					newY = y + dirY
-					newX = x + dirX
 				}
-				else if (newX > 98) {
+				else if (auxNewX > 98) {
 					newInfosball.direction = [dirY, -dirX];
-					newY = y + dirY
-					newX = x + dirX
 				}
-				else if (newX < 4) {
+				else if (auxNewX < 4) {
 					newInfosball.collisions++;
 					newInfosball.speed = Math.floor(newInfosball.collisions++ / 3);
-					if (newY < positionEixoYBar || newY > positionEixoYBar + 26) {
+					if (auxNewX < 1 && auxNewY < positionEixoYBar || auxNewY > positionEixoYBar + 26) {
 						clearInterval(intervalId);
 						alert('Você perdeu!');
 					}
@@ -71,9 +66,10 @@ export default function Game() {
 					else
 						newInfosball.direction = [-dirY, dirX];
 				}
-				else {
-					newInfosball.position = [newY, newX];
-				}
+				const NewY = y + dirY + (dirY < 0 ? -newInfosball.speed : newInfosball.speed);
+				const NewX = x + dirX + (dirX < 0 ? -newInfosball.speed : newInfosball.speed);
+				newInfosball.position = [NewY, NewX];
+
 				return newInfosball;
 			});
 		}, 75);
