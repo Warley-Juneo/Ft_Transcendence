@@ -26,3 +26,31 @@ export class UserResumeDto {
 export class OutputUsersResumeDto {
   users: UserResumeDto[];
 }
+
+export class UserMatchesDto {
+  _opponent:        string;
+  _opponent_avatar: string;
+  _opponent_score:  number;
+  _my_score:        number;
+  _status:          string
+}
+
+export class OutputUserMatchesDto {
+  users: UserMatchesDto[];
+}
+
+export class UserLadderDto {
+  _avatar:    string;
+  _nickname:  string;
+
+  points:     number;
+  _matches:   number;
+  _wins:      number;
+  _loses:     number;
+  _draws:     number;
+  _ladder:    number;
+}
+
+export class OutputLadderDto {
+  ladder: UserLadderDto[]; 
+}

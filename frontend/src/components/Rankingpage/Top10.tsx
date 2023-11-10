@@ -1,17 +1,44 @@
-type RankingUser = {
-	VTR: number,
-	DRT: number,
-	EMPT: number,
-	PART: number,
+import axios from "axios"
+import Cookies from "js-cookie"
+import { useEffect, useState } from "react"
+
+type typeRaking = {
+	points: number,
+	_avatar: string
+	_draws: number,
+	_ladder: number,
+	_loses: number,
+	_matches: number,
+	_nickname: string
+	_wins: number,
 }
 
-export default function Top10() {
 
-	const handleScore = (statusPart: RankingUser) => {
-		const renderScores = Object.keys(statusPart).map((key) => (
+export default function Top10() {
+	const [ranking, setRanking] = useState<typeRaking[]>([])
+
+	function getRanking() {
+		axios.get('http://localhost:3000/users/ladder', {
+			headers: {
+				Authorization: Cookies.get('jwtToken')
+			}, timeout: 5000
+		}).then((res) => {
+			setRanking(res.data.ladder)
+		}
+		)
+	}
+
+	console.log(ranking)
+	useEffect(() => {
+		getRanking()
+	}, [])
+
+	const handleScore = (statusPart: typeRaking) => {
+		const getScore: { [key: string]: number } = { VTR: statusPart._wins, DER: statusPart._loses, EMP: statusPart._draws };
+		const renderScores = Object.keys(getScore).map((key) => (
 			<div className="ms-3" key={key}>
 				<p className="text-primary">{key}</p>
-				<p>{statusPart[key as keyof RankingUser]}</p>
+				<p>{getScore[key]}</p>
 			</div>
 		));
 		return (
@@ -23,41 +50,45 @@ export default function Top10() {
 
 	return (
 		<div className="row g-0 text-center shadow-grounps p-2 mt-2 fw-bold">
-			<div className="col-5 h-100">
-				<div className="row g-0 h-100">
-					<div className="col-2 h-100">
-						<div className="d-flex align-items-center justify-content-center h-100" id='Pontos'>
-							0
+			{ranking.map((user, index) => (
+			<>
+				<div className="col-5 h-100">
+					<div className="row g-0 h-100">
+						<div className="col-2 h-100">
+							<div className="d-flex align-items-center justify-content-center h-100" id='Pontos'>
+								<p>{index + 1}</p>
+							</div>
 						</div>
-					</div>
-					<div className="col-10 h-100">
-						<div className="d-flex align-items-center justify-content-evenly h-100">
-							<img
-								className="rounded-circle mh-100 mw-100"
-								src="https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg"
-								alt="foto de perfil"  // Adicinar o unsuario que esta sendo printado
-								style={{ height: '4rem', width: '4rem' }}
-							/>
-							<p>Bankai 007</p>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div className="col-2"></div>
-
-			<div className="col-5 h-100">
-				<div className="row g-0 h-100">
-					<div className="col-10">
-						{handleScore({ VTR: 0, DRT: 0, EMPT: 0, PART: 0 })}
-					</div>
-					<div className="col-2 h-100">
-						<div className="d-flex align-items-center justify-content-center h-100" id='Pontos'>
-							<p>100</p>
+						<div className="col-10 h-100">
+							<div className="d-flex align-items-center justify-content-evenly h-100">
+								<img
+									className="rounded-circle mh-100 mw-100"
+									src={user._avatar}
+									alt="foto de perfil"  // Adicinar o unsuario que esta sendo printado
+									style={{ height: '4rem', width: '4rem' }}
+								/>
+								<p>{user._nickname}</p>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+
+				<div className="col-2"></div>
+
+				<div className="col-5 h-100">
+					<div className="row g-0 h-100">
+						<div className="col-10">
+							{handleScore(user)}
+						</div>
+						<div className="col-2 h-100">
+							<div className="d-flex align-items-center justify-content-center h-100" id='Pontos'>
+								<p>100</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</>
+			))}
 		</div>
 	)
 }

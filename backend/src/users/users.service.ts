@@ -3,7 +3,7 @@ import { User } from '@prisma/client';
 import { UsersRepository } from './users.repository';
 import { userInfo } from 'os';
 import { AuthService } from 'src/auth/auth.service';
-import { UserResumeDto, OutputUsersResumeDto, UserProfileDto } from './dtos/output.dtos';
+import { UserResumeDto, OutputUsersResumeDto, UserProfileDto, OutputUserMatchesDto, UserMatchesDto, OutputLadderDto, UserLadderDto } from './dtos/output.dtos';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { GameService } from 'src/game/game.service';
 import { AddFriendDto } from './dtos/input.dtos';
@@ -137,4 +137,70 @@ export class UsersService {
     return userProfileDto;
   }
 
+  async findUserMatches(userId: string): Promise<OutputUserMatchesDto> {
+    let as_player_1 =  await this.userRepository.findMatchesAsPlayer1(userId);
+    let as_player_2 =  await this.userRepository.findMatchesAsPlayer2(userId);
+
+    let outputUserMatchesDto = new OutputUserMatchesDto()
+    outputUserMatchesDto.users = [];
+
+    for (const obj of as_player_1) {
+      let userMatchesDto = new UserMatchesDto();
+      userMatchesDto._opponent = obj.player_2.nickname;
+      userMatchesDto._opponent_avatar = obj.player_2.avatar;
+      userMatchesDto._opponent_score = obj.score_p2;
+      userMatchesDto._my_score = obj.score_p1;
+      if (obj.draws == true){
+        userMatchesDto._status = "DRAW";
+      }
+      else if (userMatchesDto._opponent_score < userMatchesDto._my_score) {
+        userMatchesDto._status = "WINNER";
+      }
+      else
+      userMatchesDto._status = "LOSER";
+      outputUserMatchesDto.users.push(userMatchesDto);
+    };
+
+    for (const obj of as_player_2) {
+      let userMatchesDto = new UserMatchesDto();
+      userMatchesDto._opponent = obj.player_1.nickname;
+      userMatchesDto._opponent_avatar = obj.player_1.avatar;
+      userMatchesDto._opponent_score = obj.score_p1;
+      userMatchesDto._my_score = obj.score_p2;
+      if (obj.draws == true){
+        userMatchesDto._status = "DRAW";
+      }
+      else if (userMatchesDto._opponent_score < userMatchesDto._my_score) {
+        userMatchesDto._status = "WINNER";
+      }
+      else
+      userMatchesDto._status = "LOSER";
+      outputUserMatchesDto.users.push(userMatchesDto);
+    };
+
+    return outputUserMatchesDto;
+  }
+
+  async ladder(): Promise<OutputLadderDto> {
+    let ladder = await this.userRepository.ladder();
+
+    let outputLadderDto = new OutputLadderDto();
+    outputLadderDto.ladder = [];
+    
+    for(const obj of ladder) {
+      let userLadderDto = new UserLadderDto();
+      userLadderDto._avatar = obj.avatar;
+      userLadderDto._nickname = obj.nickname;
+      userLadderDto.points = obj.points;
+      userLadderDto._matches = obj._count.match_as_player_1 + obj._count.match_as_player_2;
+      userLadderDto._wins = obj._count.match_wins;
+      userLadderDto._loses = obj._count.math_loses;
+      userLadderDto._draws = userLadderDto._matches - (userLadderDto._wins + userLadderDto._loses);
+      const position = ladder.findIndex(u => u.nickname === obj.nickname) + 1;
+      userLadderDto._ladder = position;
+      outputLadderDto.ladder.push(userLadderDto);
+    };
+    console.log("Ladder: ", outputLadderDto);
+    return outputLadderDto;
+  }
 }

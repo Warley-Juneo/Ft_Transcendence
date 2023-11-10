@@ -19,10 +19,10 @@ export default function Bar() {
 
 			<div className="col-5">
 				<div className="row g-0">
-					<div className="col-9">
+					<div className="col-10">
 						Historico
 					</div>
-					<div className="col-3">
+					<div className="col-2">
 						Prontos
 					</div>
 				</div>
