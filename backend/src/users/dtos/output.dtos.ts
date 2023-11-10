@@ -40,6 +40,7 @@ export class OutputUserMatchesDto {
 }
 
 export class UserLadderDto {
+  _id:        string;
   _avatar:    string;
   _nickname:  string;
 

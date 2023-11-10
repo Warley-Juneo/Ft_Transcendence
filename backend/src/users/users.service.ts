@@ -189,6 +189,7 @@ export class UsersService {
     
     for(const obj of ladder) {
       let userLadderDto = new UserLadderDto();
+      userLadderDto._id = obj.id;
       userLadderDto._avatar = obj.avatar;
       userLadderDto._nickname = obj.nickname;
       userLadderDto.points = obj.points;

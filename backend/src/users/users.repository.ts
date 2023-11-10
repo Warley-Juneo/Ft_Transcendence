@@ -190,6 +190,7 @@ export class UsersRepository implements UsersRepositoryInterface {
   async ladder(): Promise<any> {
     let response = await this.prisma.user.findMany({
       select: {
+        id: true,
         avatar: true,
         nickname: true,
         points: true,
