@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 type informationGame = {
 	position: [number, number],
@@ -7,6 +7,18 @@ type informationGame = {
 	collisions: number,
 	speed: number
 }
+
+type BotTemp = {
+	position: number,
+	direction: number
+}
+
+const styleScreenGame: React.CSSProperties = {
+	width: '100%',
+	position: 'relative',
+	height: '100%',
+	display: 'flex',
+};
 
 export default function Game() {
 	const [infosGame, setInfosGame] = useState<informationGame>({
@@ -54,9 +66,9 @@ export default function Game() {
 				else if (auxNewX < 4) {
 					newInfosball.collisions++;
 					newInfosball.speed = Math.floor(newInfosball.collisions++ / 3);
-					if (auxNewX < 1 && auxNewY < positionEixoYBar || auxNewY > positionEixoYBar + 26) {
+					if (auxNewX < 1 && (auxNewY < positionEixoYBar || auxNewY > positionEixoYBar + 26)) {
 						clearInterval(intervalId);
-						alert('Você perdeu!');
+						// alert('Você perdeu!');
 					}
 					let randon = Math.floor(Math.random() * 3 + 1);
 					if (randon === 1)
@@ -78,11 +90,31 @@ export default function Game() {
 		};
 	}, []);
 
+	const [positionBarBot, setPositionBarBot] = useState<BotTemp>({ position: 0, direction: 4 });
+	useEffect(() => {
+		const intervalId = setInterval(() => {
+			setPositionBarBot((prevPosition) => {
+				prevPosition.position += prevPosition.direction;
+				console.log(prevPosition.position);
+				if (prevPosition.position < 2 || prevPosition.position > 98) {
+					return { ...prevPosition, direction: -prevPosition.direction};
+				}
+				return { ...prevPosition };
+			});
+
+		}, 200);
+	}, [])
+
 	return (
-		<div className="bg-custon-roxo h-100 rounded position-relative d-flex">
+		<div className="bg-custon-roxo row g-0 position-relative" style={styleScreenGame} >
 			<div
 				className="bg-light position-relative"
 				style={{ top: `${infosGame.positionBar}%`, height: '26%', width: '4%' }}>
+			</div>
+
+			<div className="d-flex justify-content-end h-100 position-absolute" style={{ top: `${positionBarBot.position}%`}}>
+				<div className="bg-light" style={{height: '26%', width: '4%' }}>
+				</div>
 			</div>
 			<div
 				className="bg-light position-absolute rounded-circle"
