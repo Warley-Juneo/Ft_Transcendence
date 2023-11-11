@@ -111,11 +111,11 @@ export default function Game() {
 				className="bg-light position-relative"
 				style={{ top: `${infosGame.positionBar}%`, height: '26%', width: '4%' }}>
 			</div>
-
 			<div className="d-flex justify-content-end h-100 position-absolute" style={{ top: `${positionBarBot.position}%`}}>
 				<div className="bg-light" style={{height: '26%', width: '4%' }}>
 				</div>
 			</div>
+
 			<div
 				className="bg-light position-absolute rounded-circle"
 				style={{ height: '30px', width: '30px', top: `${infosGame.position[0]}%`, left: `${infosGame.position[1]}%` }}>

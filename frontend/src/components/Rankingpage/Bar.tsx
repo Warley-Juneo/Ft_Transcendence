@@ -7,9 +7,13 @@ export default function Bar() {
 						Rank
 					</div>
 					<div className="col-10">
-						<div className="justify-content-evenly d-flex w-100">
-							<p>Avatar</p>
-							<p>Perfil</p>
+						<div className="d-flex w-100">
+							<div className="d-flex w-50 justify-content-center">
+								<p>Avatar</p>
+							</div>
+							<div className="d-flex justify-content-center w-50">
+								<p>Perfil</p>
+							</div>
 						</div>
 					</div>
 				</div>

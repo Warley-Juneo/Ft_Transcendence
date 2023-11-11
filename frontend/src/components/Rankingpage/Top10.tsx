@@ -49,46 +49,50 @@ export default function Top10() {
 	}
 
 	return (
-		<div className="row g-0 text-center shadow-grounps p-2 mt-2 fw-bold">
+		<>
 			{ranking.map((user, index) => (
-			<>
-				<div className="col-5 h-100">
-					<div className="row g-0 h-100">
-						<div className="col-2 h-100">
-							<div className="d-flex align-items-center justify-content-center h-100" id='Pontos'>
-								<p>{index + 1}</p>
+				<div className="row g-0 text-center shadow-grounps p-2 mt-2 fw-bold">
+					<div className="col-5 h-100">
+						<div className="row g-0 h-100">
+							<div className="col-2 h-100">
+								<div className="d-flex align-items-center justify-content-center h-100" id='Pontos'>
+									<p>{index + 1}</p>
+								</div>
+							</div>
+							<div className="col-10 h-100">
+								<div className="d-flex align-items-center h-100">
+									<div className="d-flex w-50 justify-content-center">
+										<img
+											className="rounded-circle mh-100 mw-100"
+											src={user._avatar}
+											alt="foto de perfil"  // Adicinar o unsuario que esta sendo printado
+											style={{ height: '4rem', width: '4rem' }}
+										/>
+									</div>
+									<div className="d-flex justify-content-center w-50">
+										<p>{user._nickname}</p>
+									</div>
+								</div>
 							</div>
 						</div>
-						<div className="col-10 h-100">
-							<div className="d-flex align-items-center justify-content-evenly h-100">
-								<img
-									className="rounded-circle mh-100 mw-100"
-									src={user._avatar}
-									alt="foto de perfil"  // Adicinar o unsuario que esta sendo printado
-									style={{ height: '4rem', width: '4rem' }}
-								/>
-								<p>{user._nickname}</p>
+					</div>
+
+					<div className="col-2"></div>
+
+					<div className="col-5 h-100">
+						<div className="row g-0 h-100">
+							<div className="col-10">
+								{handleScore(user)}
+							</div>
+							<div className="col-2 h-100">
+								<div className="d-flex align-items-center justify-content-center h-100" id='Pontos'>
+									<p>100</p>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-
-				<div className="col-2"></div>
-
-				<div className="col-5 h-100">
-					<div className="row g-0 h-100">
-						<div className="col-10">
-							{handleScore(user)}
-						</div>
-						<div className="col-2 h-100">
-							<div className="d-flex align-items-center justify-content-center h-100" id='Pontos'>
-								<p>100</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</>
 			))}
-		</div>
+		</>
 	)
 }
