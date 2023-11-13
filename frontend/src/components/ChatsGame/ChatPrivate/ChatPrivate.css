@@ -1,6 +1,6 @@
 .chat {
 	width: 30vw;
-	right: 15vw;
+	right: calc((100vw / 12) * 3);
 	bottom: 0px;
 	height: 45vh;
 	position: absolute;
