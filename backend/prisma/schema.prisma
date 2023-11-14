@@ -23,9 +23,10 @@ model User {
   updatedAt         DateTime  @updatedAt
   is_active         Boolean   @default(true)
 
-  friends         User[] @relation("friends")
-  friendsRelation User[] @relation("friends")
+  friends           User[] @relation("friends")
+  friendsRelation   User[] @relation("friends")
   // hash      //autenticação de multiplos fatores. Autenticação google
+  points            Int       @default(0)
 
   match_as_player_1 Match[]   @relation(name: "player_1")
   match_as_player_2 Match[]   @relation(name: "player_2")
@@ -33,8 +34,12 @@ model User {
   match_wins        Match[]   @relation(name: "winner")
   math_loses        Match[]   @relation(name: "loser")
 
-  points            Int       @default(0)
+  chat_owner        ChatRoom[]  @relation(name: "owner")
+  chat_admin        ChatRoom[]  @relation(name: "admin")
+  chat_user         ChatRoom[]  @relation(name: "user_chatroom")
+  chat_message      Message[]    @relation(name: "user_mesage")
 
+  direct_message    DirectMessage[] @relation(name: "user_direct_message")
   @@map("user")
 }
 
@@ -62,8 +67,9 @@ model Match {
 
 model DirectMessage {
   id              String    @id @default(uuid())
-  users           User[]    @relation(name: "user_chatroom")
-  message         Message[]  @relation(name: "chat_mesage")
+
+  userId         String
+  user           User?    @relation(name: "user_direct_message", fields: [userId], references: [id])
 
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
