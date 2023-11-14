@@ -6,7 +6,7 @@ import { AuthService } from 'src/auth/auth.service';
 import { UserResumeDto, OutputUsersResumeDto, UserProfileDto, OutputUserMatchesDto, UserMatchesDto, OutputLadderDto, UserLadderDto } from './dtos/output.dtos';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { GameService } from 'src/game/game.service';
-import { AddFriendDto } from './dtos/input.dtos';
+import { AddFriendDto, UpdateProfileDto } from './dtos/input.dtos';
 
 @Injectable()
 export class UsersService {
@@ -15,9 +15,29 @@ export class UsersService {
 
   
   async createUser(dto: CreateUserDto): Promise<User> {
+    dto.avatar = "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg";
     return await this.userRepository.createUser(dto);
   }
   
+  async updateProfile(userId: string, dto: UpdateProfileDto): Promise<UserResumeDto> {
+    
+    let user;
+    if (dto.avatar) {
+      user = await this.userRepository.updateAvatar(userId, dto);
+    }
+    if (dto.nick_name) {
+      user = await this.userRepository.updateNickname(userId, dto);
+    }
+
+    let userResumeDto = new UserResumeDto;
+    userResumeDto._id = user.id;
+    userResumeDto._avatar = user.avatar;
+    userResumeDto._nickname = user.nickname;
+    userResumeDto._is_active = user.is_active;
+    
+    return userResumeDto;
+  }
+
   async addFriend(userId: string, nick_name: AddFriendDto): Promise<OutputUsersResumeDto> {
     let friends = await this.userRepository.addFriend(userId, nick_name);
     if (!friends) {
