@@ -1,5 +1,5 @@
 import { GrFormClose } from 'react-icons/gr';
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useRef } from "react";
 
 type functionsChats = {
 	showScreeToCreateChat: () => void;
@@ -8,6 +8,7 @@ type functionsChats = {
 
 export default function CreateNewChat(props: functionsChats) {
 	const [ShowInputPassword, setShowInputPassword] = useState(false);
+	const inputPhotoChat = useRef<HTMLInputElement>(null);
 
 	const handleShowInputPassword = () => {
 		setShowInputPassword(!ShowInputPassword);
@@ -27,10 +28,10 @@ export default function CreateNewChat(props: functionsChats) {
 						src='https://www.ferramentastenace.com.br/wp-content/uploads/2017/11/sem-foto.jpg'
 						style={{ width: '100px', height: '100px', padding: '5px' }}
 						alt='foto para mostra que esta sem foto de perfil'
-						onClick={() => document.getElementsByName('photoChat')[0].click()}
+						onClick={() => inputPhotoChat.current ? inputPhotoChat.current.click() : null}
 					/>
 				</div>
-				<input type='file' name='photoChat' className='d-none' />
+				<input type='file' name='photoChat' className='d-none' ref={inputPhotoChat}/>
 				<GrFormClose className='position-absolute top-0 end-0 m-1' size={25} onClick={props.showScreeToCreateChat} />
 				<input
 					type='text'
