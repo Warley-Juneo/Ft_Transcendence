@@ -39,7 +39,9 @@ model User {
   chat_user         ChatRoom[]  @relation(name: "user_chatroom")
   chat_message      Message[]    @relation(name: "user_mesage")
 
-  direct_message    DirectMessage[] @relation(name: "user_direct_message")
+  from_direct_message    DirectMessage[] @relation(name: "from_direct_message")
+  to_direct_message    DirectMessage[] @relation(name: "to_direct_message")
+  
   @@map("user")
 }
 
@@ -68,8 +70,11 @@ model Match {
 model DirectMessage {
   id              String    @id @default(uuid())
 
-  userId         String
-  user           User?    @relation(name: "user_direct_message", fields: [userId], references: [id])
+  fromId         String
+  from           User?    @relation(name: "from_direct_message", fields: [fromId], references: [id])
+
+  toId         String
+  to           User?    @relation(name: "to_direct_message", fields: [toId], references: [id])
 
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
