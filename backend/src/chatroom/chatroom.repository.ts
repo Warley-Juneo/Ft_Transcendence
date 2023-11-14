@@ -9,6 +9,7 @@ export class ChatroomRepository {
 	async	create(dto: CreateChatroomDto): Promise<any> {
 		let response = this.prisma.chatRoom.create({
 			data: {
+				name: dto.name,
 				
 			}
 		})
