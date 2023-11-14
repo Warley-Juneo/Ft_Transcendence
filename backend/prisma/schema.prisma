@@ -60,13 +60,48 @@ model Match {
   @@map("match")
 }
 
-// model chat  {
+model DirectMessage {
+  id              String    @id @default(uuid())
+  users           User[]    @relation(name: "user_chatroom")
+  message         Message[]  @relation(name: "chat_mesage")
 
-//   id            String    @id @default(uuid())
-//   type          String[]  @default[public, private, protected]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
-//   owner         User?
-//   passaword     String?
-//   admin         User[]?
-//   message       String?
-// }
+  @@map("direct_message")
+}
+
+
+model ChatRoom {
+  id              String    @id @default(uuid())
+  name            String
+
+  type            String    @default("public")
+  password        String?
+
+  owner_id        String
+  owner           User?     @relation(name: "owner", fields: [owner_id], references: [id])
+  admin           User[]    @relation(name: "admin")
+  users           User[]    @relation(name: "user_chatroom")
+  message          Message[]  @relation(name: "chat_mesage")
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@map("chat_room")
+}
+
+model Message {
+  id              String    @id  @default(uuid())
+
+  content         String
+  img_url         String?
+  user_id         String
+  user            User?      @relation(name: "user_mesage", fields: [user_id], references: [id], onDelete: Cascade)
+  chat_room_id    String
+  chat_room       ChatRoom?  @relation(name: "chat_mesage", fields: [chat_room_id], references: [id], onDelete: Cascade)
+
+  createdAt         DateTime    @default(now())
+
+  @@map("message")
+}
