@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { CreateChatroomDto, CreateDirectMessageDto } from "./dto/input.dto";
 import { PrismaService } from "src/database/prisma.service";
-import { DirectMessage } from "@prisma/client";
+import { DirectChatRoom, DirectMessage } from "@prisma/client";
 
 @Injectable()
 export class ChatroomRepository {
@@ -10,22 +10,23 @@ export class ChatroomRepository {
 	async	create(dto: CreateChatroomDto): Promise<any> {
 	}
 
-	async	createDirectChatRoom(name: string): Promise<any> {
+	async	createDirectChatRoom(name: string): Promise<DirectChatRoom> {
 
 		let chat = await this.prisma.directChatRoom.create({
 			data: {
 				name: name,
 			},
 		});
+		return chat;
 	}
 
-	async	findDirectChatroom(name: string): Promise<any> {
-		let response = this.prisma.directChatRoom.findUnique({
+	async	findDirectChatroom(name: string): Promise<DirectChatRoom> {
+		let chat = this.prisma.directChatRoom.findUnique({
 			where: {
 				name: name,
 			},
 		});
-		return response;
+		return chat;
 	}
 
 	async	createDirectMessage(user: string, chat: string, dto: CreateDirectMessageDto): Promise<DirectMessage[]> {
