@@ -369,6 +369,18 @@ async function main() {
 
 		},
 	});
+
+	let directChatroom1 = await prisma.directChatRoom.create({
+		data: {
+			name: "fagiusepwwallas-",
+		},
+	});
+
+	let directChatroom2 = await prisma.directChatRoom.create({
+		data: {
+			name: "wwallas-fagiusep",
+		},
+	});
 }
 
 

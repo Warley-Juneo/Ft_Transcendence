@@ -38,9 +38,6 @@ model User {
   chat_admin        ChatRoom[]  @relation(name: "admin")
   chat_user         ChatRoom[]  @relation(name: "user_chatroom")
   chat_message      Message[]    @relation(name: "user_mesage")
-
-  from_direct_message    DirectMessage[] @relation(name: "from_direct_message")
-  to_direct_message    DirectMessage[] @relation(name: "to_direct_message")
   
   @@map("user")
 }
@@ -67,17 +64,28 @@ model Match {
   @@map("match")
 }
 
+model DirectChatRoom {
+  id                      String    @id @default(uuid())
+  name                    String    @unique
+
+  direct_message          DirectMessage[]  @relation(name: "direct_chat_mesage")
+
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  
+  @@map("direct_chat_room")
+}
+
 model DirectMessage {
-  id              String    @id @default(uuid())
+  id              String    @id  @default(uuid())
 
-  name         String    @unique
-  fromId       String
-  from         User?      @relation(name: "from_direct_message", fields: [fromId], references: [id])
-  toId         String
-  to           User?        @relation(name: "to_direct_message", fields: [toId], references: [id])
+  content                 String?
+  img_url                 String?
+  user                    String
+  direct_chat_room_name   String
+  direct_chat_room        DirectChatRoom?  @relation(name: "direct_chat_mesage", fields: [direct_chat_room_name], references: [name], onDelete: Cascade)
 
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  createdAt               DateTime         @default(now())
 
   @@map("direct_message")
 }

@@ -74,6 +74,7 @@ export class AuthService {
   }
 
   async jwtSign(user: any): Promise<string> {
+    console.log("USER ID JWT: ", user.id);
     const payload = { sub: user.id, userEmail: user.email };
     let jwt_token = await this.jwtService.signAsync(payload);
     return (jwt_token);
