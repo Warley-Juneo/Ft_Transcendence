@@ -95,6 +95,7 @@ model ChatRoom {
   id              String    @id @default(uuid())
   name            String
 
+  photoUrl        String?
   type            String    @default("public")
   password        String?
 

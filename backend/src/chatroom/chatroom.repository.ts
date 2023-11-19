@@ -7,7 +7,17 @@ import { DirectChatRoom, DirectMessage } from "@prisma/client";
 export class ChatroomRepository {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async	create(dto: CreateChatroomDto): Promise<any> {
+	async	createChatroom(userId: string ,dto: CreateChatroomDto): Promise<CreateChatroomDto> {
+		let chat = await this.prisma.chatRoom.create({
+			data: {
+				name: dto.name,
+				type: dto.type,
+				password: dto.password,
+				photoUrl: dto.photoUrl,
+				owner_id: userId,
+			},
+		});
+		return dto;
 	}
 
 	async	createDirectChatRoom(name: string): Promise<DirectChatRoom> {

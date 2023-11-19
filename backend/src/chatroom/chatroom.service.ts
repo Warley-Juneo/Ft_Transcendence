@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto } from './dto/input.dto';
+import { AddChatAdmDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto } from './dto/input.dto';
 import { ChatroomRepository } from './chatroom.repository';
 import { privateDecrypt } from 'crypto';
 import { UsersService } from 'src/users/users.service';
@@ -11,8 +11,10 @@ export class ChatroomService {
 	constructor(private readonly chatroomRepository: ChatroomRepository,
 				private readonly userService: UsersService) {}
 
-	async	create(dto: CreateChatroomDto): Promise<any> {
-		let chat = await this.chatroomRepository.create(dto);
+	async	createChatroom(userId: string, dto: CreateChatroomDto): Promise<CreateChatroomDto> {
+		
+		let response = await this.chatroomRepository.createChatroom(userId, dto);
+		return response;
 	}
 
 	async	createDirectChatroom(userId: string, dto: CreateDirectChatroomDto): Promise<OutputDirectMessagesDto> {
