@@ -4,20 +4,39 @@ import { ChatroomRepository } from './chatroom.repository';
 import { privateDecrypt } from 'crypto';
 import { UsersService } from 'src/users/users.service';
 import { DirectChatRoom, DirectMessage } from '@prisma/client';
-import { OutputDirectMessageDto, OutputDirectMessagesDto } from './dto/output.dto';
+import { ChatroomDto, ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto } from './dto/output.dto';
 
 @Injectable()
 export class ChatroomService {
 	constructor(private readonly chatroomRepository: ChatroomRepository,
-				private readonly userService: UsersService) {}
+		private readonly userService: UsersService) { }
 
-	async	createChatroom(userId: string, dto: CreateChatroomDto): Promise<CreateChatroomDto> {
-		
+	async createChatroom(userId: string, dto: CreateChatroomDto): Promise<CreateChatroomDto> {
+
 		let response = await this.chatroomRepository.createChatroom(userId, dto);
 		return response;
 	}
 
-	async	createDirectChatroom(userId: string, dto: CreateDirectChatroomDto): Promise<OutputDirectMessagesDto> {
+	async findAllChatroom(): Promise<ChatroomsDto> {
+
+		let chats = await this.chatroomRepository.findAllChatroom();
+
+		let outputDto = new ChatroomsDto;
+		outputDto.chatrooms = [];
+
+		for (const obj of chats) {
+			let dto = new ChatroomDto;
+			dto.id = obj.id;
+			dto.name = obj.name;
+			dto.type = obj.type;
+			dto.photoUrl = obj.photoUrl;
+			dto.owner_nickname = obj.owner.nickname;
+			outputDto.chatrooms.push(dto);
+		}
+		return outputDto;
+	}
+
+	async createDirectChatroom(userId: string, dto: CreateDirectChatroomDto): Promise<OutputDirectMessagesDto> {
 
 		console.log("USER1: ", userId);
 		let user1 = await this.userService.findProfile(userId);
@@ -31,14 +50,14 @@ export class ChatroomService {
 			name = dto.user_nickname + user1._nickname
 		}
 		let chat: DirectChatRoom = await this.chatroomRepository.findDirectChatroom(name);
-		
-		if(!chat) {
+
+		if (!chat) {
 			chat = await this.chatroomRepository.createDirectChatRoom(name);
 		}
 		return await this.findAllDirectMessage(name);
 	}
 
-	async	createDirectMessage(userId: string, dto: CreateDirectMessageDto): Promise<OutputDirectMessagesDto> {
+	async createDirectMessage(userId: string, dto: CreateDirectMessageDto): Promise<OutputDirectMessagesDto> {
 
 		console.log("USERID: ", userId);
 		let user1 = await this.userService.findUser(userId);
@@ -54,17 +73,17 @@ export class ChatroomService {
 			chat = dto.user_nickname + user1.nickname
 		}
 		let msg = this.chatroomRepository.createDirectMessage(user1.nickname, chat, dto);
-		
+
 		return await this.findAllDirectMessage(chat); // findUnique
 	}
 
-	async	findAllDirectMessage(name: string): Promise<OutputDirectMessagesDto> {
+	async findAllDirectMessage(name: string): Promise<OutputDirectMessagesDto> {
 		let msg = await this.chatroomRepository.findAllDirectMessage(name);
 
 		let outputDto = new OutputDirectMessagesDto;
 		outputDto.direct_message = [];
 
-		for(const obj of msg) {
+		for (const obj of msg) {
 			let dto = new OutputDirectMessageDto();
 			dto.msg_id = obj.id;
 			dto.content = obj.content;
