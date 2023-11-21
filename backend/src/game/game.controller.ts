@@ -8,6 +8,6 @@ export class GameController {
 
 	@Get('user/match-history')
 	async userMatchs(@Req() request): Promise<Match[]> {
-		return this.gameService.userMatchs(request.user.sub);
+		return await this.gameService.userMatchs(request.user.sub);
 	}
 }

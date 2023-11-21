@@ -13,7 +13,7 @@ export class GameRepository {
         player1_id: userId,
       },
     });
-    let asPalyer2 = this.prisma.match.findMany({
+    let asPalyer2 = await this.prisma.match.findMany({
       where: {
         player2_id: userId,
       },
