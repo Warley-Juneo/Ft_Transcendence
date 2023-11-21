@@ -1,12 +1,11 @@
-export class MatchDto {
-	player:			string;
-	player_avatar:	string;
-	player_score:	number;
-	my_score:		string;
-	score_p2:		number;
-	status:			string;
+export class UserMatchDto {
+	opponent:			string;
+	opponent_avatar:	string;
+	opponent_score:		number;
+	my_score:			number;
+	status:				string;
 }
 
 export class UserMatchesDto {
-	matches:	MatchDto[];
+	matches:	UserMatchDto[];
 }
