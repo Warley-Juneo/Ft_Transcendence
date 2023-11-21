@@ -9,9 +9,10 @@ import { AuthModule } from './auth/auth.module';
 import { GameModule } from './game/game.module';
 import { JwtMiddleware } from './middleware/auth.middleware';
 import { LandingPageModule } from './landing-page/landingPage.module';
+import { ChatroomModule } from './chatroom/chatroom.module';
 
 @Module({
-  imports: [UsersModule, AuthModule, GameModule, LandingPageModule],
+  imports: [UsersModule, AuthModule, GameModule, LandingPageModule, ChatroomModule],
   controllers: [],
   providers: [],
 })

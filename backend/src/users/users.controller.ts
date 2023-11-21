@@ -3,7 +3,7 @@ import { UsersService } from './users.service';
 import { User } from '@prisma/client';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { UserResumeDto, UserProfileDto, OutputUsersResumeDto, OutputUserMatchesDto, OutputLadderDto } from './dtos/output.dtos';
-import { AddFriendDto } from './dtos/input.dtos';
+import { AddFriendDto, UpdateProfileDto } from './dtos/input.dtos';
 
 @Controller('users')
 export class UsersController {
@@ -14,6 +14,11 @@ export class UsersController {
     return await this.service.createUser(dto);
   }
   
+  @Post('update')
+  async updateProfile(@Req() request, @Body() dto: UpdateProfileDto): Promise<UserResumeDto> {
+    return await this.service.updateProfile(request.user.sub, dto);
+  }
+
   @Post('add_friend')
   async addFriend(@Req() request, @Body() dto: AddFriendDto): Promise<OutputUsersResumeDto> {
     return await this.service.addFriend(request.user.sub, dto);
@@ -38,6 +43,12 @@ export class UsersController {
   async findProfile(@Req() request): Promise<UserProfileDto> {
     return await this.service.findProfile(request.user.sub);
   }
+
+  
+  // @Get('find-user')
+  // async findUser(@Body() userId: string): Promise<User> {
+  //   return await this.service.findUser(userId);
+  // }
 
   @Get('matches')
   async findUserMatches(@Req() request): Promise<OutputUserMatchesDto> {
