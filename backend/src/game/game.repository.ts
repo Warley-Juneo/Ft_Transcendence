@@ -18,7 +18,7 @@ export class GameRepository {
         player2_id: userId,
       },
     });
-    let matchs = asPalyer1;
+    let matchs = asPalyer1.concat(asPalyer2);
     return matchs;
   }
 
