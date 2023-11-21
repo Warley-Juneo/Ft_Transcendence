@@ -8,10 +8,9 @@ export class GameRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async userMatchs(userId: string): Promise<any> {
-    let matches = await this.prisma.match.findMany({
+    let as_player_1 = await this.prisma.match.findMany({
       where: {
         player1_id: userId,
-        // player2_id: userId,
       },
       select: {
         score_p1: true,
@@ -33,6 +32,31 @@ export class GameRepository {
         },
       }
     });
+    let as_player_2 = await this.prisma.match.findMany({
+      where: {
+        player2_id: userId,
+      },
+      select: {
+        score_p1: true,
+        score_p2: true,
+
+        player_1: {
+          select: {
+            id: true,
+            nickname:true,
+            avatar: true,
+          }
+        },
+        player_2: {
+          select: {
+            id: true,
+            nickname:true,
+            avatar: true,
+          },
+        },
+      }
+    });
+    let matches = as_player_1.concat(as_player_2)
     console.log("MATCHES: ", matches);
     return matches;
   }
