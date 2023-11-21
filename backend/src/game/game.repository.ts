@@ -8,7 +8,7 @@ export class GameRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async userMatchs(userId: string): Promise<Match[]> {
-    let asPalyer1 = this.prisma.match.findMany({
+    let asPalyer1 = await this.prisma.match.findMany({
       where: {
         player1_id: userId,
       },

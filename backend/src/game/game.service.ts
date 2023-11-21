@@ -10,9 +10,10 @@ export class GameService {
   constructor(private readonly gameRepository: GameRepository) {}
 
   async userMatchs(userId: string): Promise<Match[]> {
-
-    
-    return this.gameRepository.userMatchs(userId);
+    console.log("UserID_Matchs:", userId);
+    let response = await this.gameRepository.userMatchs(userId);
+    console.log("User_Matchs:", response);
+    return response;
   }
 
   async numberOfUserMatchWins(userId: string): Promise<number> {

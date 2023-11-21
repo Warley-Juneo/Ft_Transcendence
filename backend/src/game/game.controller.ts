@@ -6,7 +6,7 @@ import { Match } from '@prisma/client';
 export class GameController {
 	constructor(private readonly gameService: GameService) {}
 
-	@Get('user/match_history')
+	@Get('user/match-history')
 	async userMatchs(@Req() request): Promise<Match[]> {
 		return this.gameService.userMatchs(request.user.sub);
 	}

@@ -22,7 +22,7 @@ export default function MatchHistory() {
 				Authorization: Cookies.get('jwtToken'),
 			}
 		}).then((response) => {
-			console.log(response.data);
+			console.log("Response Match:",response.data);
 			setMatchHistory(response.data);
 		}).catch((error) => {
 			console.log("Error: ", error.response.data);
