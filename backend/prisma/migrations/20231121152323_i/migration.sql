@@ -42,7 +42,7 @@ CREATE TABLE "direct_message" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "content" TEXT,
     "img_url" TEXT,
-    "user" TEXT NOT NULL,
+    "user_nickname" TEXT NOT NULL,
     "direct_chat_room_name" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "direct_message_direct_chat_room_name_fkey" FOREIGN KEY ("direct_chat_room_name") REFERENCES "direct_chat_room" ("name") ON DELETE CASCADE ON UPDATE CASCADE
@@ -52,6 +52,7 @@ CREATE TABLE "direct_message" (
 CREATE TABLE "chat_room" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL,
+    "photoUrl" TEXT,
     "type" TEXT NOT NULL DEFAULT 'public',
     "password" TEXT,
     "owner_id" TEXT NOT NULL,

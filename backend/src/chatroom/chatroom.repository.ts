@@ -39,12 +39,12 @@ export class ChatroomRepository {
 		return chat;
 	}
 
-	async	createDirectMessage(user: string, chat: string, dto: CreateDirectMessageDto): Promise<DirectMessage[]> {
+	async	createDirectMessage(userNickname: string, chat: string, dto: CreateDirectMessageDto): Promise<DirectMessage[]> {
 
 		let msg = await this.prisma.directMessage.create({
 			data: {
 				direct_chat_room_name: chat,
-				user: user,
+				user_nickname: userNickname,
 				img_url: dto.imgUrl,
 				content: dto.content,
 			},
@@ -61,7 +61,7 @@ export class ChatroomRepository {
 		return response;
 	}
 
-	async	findDirectMessage(name: string): Promise<DirectMessage[]> {
+	async	findAllDirectMessage(name: string): Promise<DirectMessage[]> {
 	
 		let response = await this.prisma.directMessage.findMany({
 			where: {

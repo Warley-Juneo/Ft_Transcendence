@@ -81,7 +81,7 @@ model DirectMessage {
 
   content                 String?
   img_url                 String?
-  user                    String
+  user_nickname           String
   direct_chat_room_name   String
   direct_chat_room        DirectChatRoom?  @relation(name: "direct_chat_mesage", fields: [direct_chat_room_name], references: [name], onDelete: Cascade)
 

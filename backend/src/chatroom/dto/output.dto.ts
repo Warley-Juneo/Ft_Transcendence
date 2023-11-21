@@ -1,7 +1,9 @@
 export class OutputDirectMessageDto {
-	userId:		string;
-	content:	string;
-	imgUrl:		string;
+	msg_id:				string;
+	user_nickname:		string;
+	content:			string;
+	imgUrl:				string;
+	date:				Date;	
 }
 
 export class OutputDirectMessagesDto {

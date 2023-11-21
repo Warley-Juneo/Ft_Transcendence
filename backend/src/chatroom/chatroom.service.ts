@@ -21,15 +21,14 @@ export class ChatroomService {
 
 		console.log("USER1: ", userId);
 		let user1 = await this.userService.findProfile(userId);
-		let user2 = await this.userService.findProfile(dto.userId);
 
-		let comp = user1._nickname.localeCompare(user2._nickname);
+		let comp = user1._nickname.localeCompare(dto.user_nickname);
 		let name;
 		if (comp < 0) {
-			name = user1._nickname + user2._nickname;
+			name = user1._nickname + dto.user_nickname;
 		}
 		else {
-			name = user2._nickname + user1._nickname
+			name = dto.user_nickname + user1._nickname
 		}
 		let chat: DirectChatRoom = await this.chatroomRepository.findDirectChatroom(name);
 		
@@ -43,32 +42,35 @@ export class ChatroomService {
 
 		console.log("USERID: ", userId);
 		let user1 = await this.userService.findUser(userId);
-		let user2 = await this.userService.findUser(dto.userId);
 
-		let comp = user1.nickname.localeCompare(user2.nickname);
+		console.log("NICKNAME: ", user1.nickname)
+
+		let comp = user1.nickname.localeCompare(dto.user_nickname);
 		let chat;
 		if (comp < 0) {
-			chat = user1.nickname + user2.nickname;
+			chat = user1.nickname + dto.user_nickname;
 		}
 		else {
-			chat = user2.nickname + user1.nickname
+			chat = dto.user_nickname + user1.nickname
 		}
 		let msg = this.chatroomRepository.createDirectMessage(user1.nickname, chat, dto);
 		
-		return await this.findAllDirectMessage(chat);
+		return await this.findAllDirectMessage(chat); // findUnique
 	}
 
 	async	findAllDirectMessage(name: string): Promise<OutputDirectMessagesDto> {
-		let msg = await this.chatroomRepository.findDirectMessage(name);
+		let msg = await this.chatroomRepository.findAllDirectMessage(name);
 
 		let outputDto = new OutputDirectMessagesDto;
 		outputDto.direct_message = [];
 
 		for(const obj of msg) {
 			let dto = new OutputDirectMessageDto();
+			dto.msg_id = obj.id;
 			dto.content = obj.content;
 			dto.imgUrl = obj.img_url;
-			dto.userId = obj.id;
+			dto.user_nickname = obj.user_nickname;
+			dto.date = obj.createdAt;
 			outputDto.direct_message.push(dto);
 		}
 		return outputDto;

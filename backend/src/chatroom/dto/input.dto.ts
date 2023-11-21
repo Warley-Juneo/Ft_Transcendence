@@ -6,13 +6,13 @@ export class CreateChatroomDto {
 }
 
 export class CreateDirectChatroomDto {
-	userId:		string;
+	user_nickname:		string;
 }
 
 export class CreateDirectMessageDto {
-	userId:		string;
-	content:	string;
-	imgUrl:		string;
+	user_nickname:		string;
+	content:			string;
+	imgUrl:				string;
 }
 
 export class AddChatAdmDto {
