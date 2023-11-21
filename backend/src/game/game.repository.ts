@@ -15,6 +15,7 @@ export class GameRepository {
       select: {
         score_p1: true,
         score_p2: true,
+		id: true,
 
         player_1: {
           select: {
@@ -39,6 +40,7 @@ export class GameRepository {
       select: {
         score_p1: true,
         score_p2: true,
+		id: true,
 
         player_1: {
           select: {
@@ -56,7 +58,7 @@ export class GameRepository {
         },
       }
     });
-    let matches = as_player_1.concat(as_player_2)
+    let matches = as_player_1.concat(as_player_2);
     console.log("MATCHES: ", matches);
     return matches;
   }
