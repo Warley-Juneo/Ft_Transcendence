@@ -19,7 +19,6 @@ function Options({getPlayers}: {getPlayers: (route: string) => void}) {
 
 	function addNewFriend(event: React.KeyboardEvent<HTMLInputElement>) {
 		if (event.key === 'Enter') {
-			console.log("Fiz a request dale")
 			axios.post('http://localhost:3000/users/add_friend', {
 				nick_name: event.currentTarget.value,
 			}, {

@@ -9,9 +9,12 @@ type functionsChats = {
 export default function CreateNewChat(props: functionsChats) {
 	const [ShowInputPassword, setShowInputPassword] = useState(false);
 	const inputPhotoChat = useRef<HTMLInputElement>(null);
+	const boxPassword = useRef<HTMLInputElement>(null);
 
 	const handleShowInputPassword = () => {
 		setShowInputPassword(!ShowInputPassword);
+		if (ShowInputPassword) {
+		}
 	}
 
 	const handleSubmit = (event: FormEvent) => {
@@ -42,8 +45,10 @@ export default function CreateNewChat(props: functionsChats) {
 				<div className="form-check">
 					<input
 						id="flexCheckDefault"
+						name="type"
 						type="checkbox"
-						value=""
+						ref={boxPassword}
+						value="protect"
 						className="form-check-input shadow-grounps"
 						onClick={handleShowInputPassword}>
 					</input>

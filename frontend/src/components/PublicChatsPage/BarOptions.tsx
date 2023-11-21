@@ -7,7 +7,6 @@ type BarOptionsProps = {
 };
 
 export default function chat_getBarOptions( props: BarOptionsProps ) {
-
 	return (
 		<div className='d-flex shadow-grounps rounded p-2' id='BarChats'>
 			<div className='d-flex align-items-center shadow-grounps w-25'>

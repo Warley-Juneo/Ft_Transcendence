@@ -1,23 +1,35 @@
-import { t_chat, returnResponseMocket } from './MockResponseApi';
-import { useState } from 'react';
-import ChatList from './ColumChats';
+import { t_chat } from './MockResponseApi';
+import { useEffect, useState } from 'react';
+import ChatList from './ChatsList';
 import BarOptions from './BarOptions';
 import './listGroups.css';
 import CreateNewChat from './CreateNewChat';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 
 export default function PageChats() {
-	const [chatList, setChatList] = useState<t_chat[]>(returnResponseMocket());
+	const [chatList, setChatList] = useState<t_chat[]>([]);
 	const [showCreateChat, setShowCreateChat] = useState(false);
 
+	const getListChats = () => {
+		axios.get("http://localhost:3000/chatroom/find-all", {
+			headers: {
+				Authorization: Cookies.get("jwtToken"),
+			}
+		}).then((res) => {
+			setChatList(res.data.chatrooms)
+		})
+	}
+
 	function handleSearchChats(event: React.ChangeEvent<HTMLInputElement>) {
-		let value : string = event.target.value.toLowerCase();
+		let value: string = event.target.value.toLowerCase();
 
 		if (value === '') {
-			setChatList(returnResponseMocket());
+			getListChats();
 		}
 		else {
-			let newList : t_chat[] = [];
+			let newList: t_chat[] = [];
 
 			for (const chat of chatList) {
 				if (chat.name.toLowerCase().includes(value)) {
@@ -33,9 +45,26 @@ export default function PageChats() {
 	}
 
 	function createNewChat(form: FormData) {
-		setShowCreateChat(!showCreateChat);
+		console.log("name: ", form.get('type'))
+
+		axios.post('http://localhost:3000/chatroom/create-chatroom', {
+			name: form.get('nameChat'),
+			type: 'protected',
+			password: '1234',
+			photoUrl: "https://photografos.com.br/wp-content/uploads/2020/09/fotografia-para-perfil.jpg",
+		}, {
+			headers: {
+				Authorization: Cookies.get('jwtToken'),
+			}
+		}).then((res) => {
+			console.log("Response Fausto: ", res.data[0])
+			setChatList(res.data)
+		})
 	}
 
+	useEffect(() => {
+		getListChats()
+	}, [])
 	function openChatSelected(chatName: string) {
 
 		alert('abrir chat selecionado');

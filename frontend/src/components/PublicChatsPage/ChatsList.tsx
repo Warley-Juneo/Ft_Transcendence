@@ -10,6 +10,13 @@ type propsChatList = {
 export default function ChatList(props: propsChatList) {
 	const navigate = useNavigate();
 
+	if (props.listChats.length === 0) { // DOTO: ver depois porque nao funciona sem o ===
+		return (
+			<div>
+				<p className='fs-1'>O Game não possui nenhum chat</p>
+			</div>
+		)
+	}
 	return (
 		<div className='row g-0 w-100'>
 			{props.listChats.map((chat) => (
