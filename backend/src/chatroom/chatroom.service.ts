@@ -14,9 +14,9 @@ export class ChatroomService {
 	async createChatroom(userId: string, dto: CreateChatroomDto): Promise<ChatroomsDto> {
 
 		await this.chatroomRepository.createChatroom(userId, dto);
-		
+
 		let response = await this.findAllChatroom();
-		
+
 		return response;
 	}
 
@@ -43,6 +43,7 @@ export class ChatroomService {
 
 		let chats = await this.chatroomRepository.findPrivateChatroom(userId);
 
+		console.log("\n\n\nChats: ", chats, "\n\n\n");
 		let outputDto = new ChatroomsDto;
 		outputDto.chatrooms = [];
 

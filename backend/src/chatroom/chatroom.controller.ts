@@ -8,14 +8,14 @@ import { ChatroomsDto } from './dto/output.dto';
 export class ChatroomController {
 	constructor(private readonly chatroomService: ChatroomService) { }
 
-	@Get('find-all')
+	@Get('find-public')
 	async findAllChatrooms(): Promise<ChatroomsDto> {
-		return this.chatroomService.findAllChatroom();
+		return await this.chatroomService.findAllChatroom();
 	}
 
 	@Get('find-private')
 	async	findPrivateChatroom(userId: string): Promise<ChatroomsDto> {
-		return this.chatroomService.findPrivateChatroom(userId);
+		return await this.chatroomService.findPrivateChatroom(userId);
 	}
 
 	@Post('create-chatroom')

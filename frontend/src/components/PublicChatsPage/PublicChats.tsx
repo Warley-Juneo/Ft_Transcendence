@@ -20,8 +20,20 @@ export default function PageChats() {
 	const [chatList, setChatList] = useState<t_chat[]>([]);
 	const [showCreateChat, setShowCreateChat] = useState(false);
 
-	const getListChats = () => {
-		axios.get("http://localhost:3000/chatroom/find-all", {
+	const getListPublicChats = () => {
+		console.log('get list public chats');
+		axios.get("http://localhost:3000/chatroom/find-public", {
+			headers: {
+				Authorization: Cookies.get("jwtToken"),
+			}
+		}).then((res) => {
+			setChatList(res.data.chatrooms)
+		})
+	}
+
+	const getListPrivateChats = () => {
+		console.log('get list private chats');
+		axios.get("http://localhost:3000/chatroom/find-private", {
 			headers: {
 				Authorization: Cookies.get("jwtToken"),
 			}
@@ -35,7 +47,7 @@ export default function PageChats() {
 		let value: string = event.target.value.toLowerCase();
 
 		if (value === '') {
-			getListChats();
+			getListPublicChats();
 		}
 		else {
 			let newList: t_chat[] = [];
@@ -74,14 +86,19 @@ export default function PageChats() {
 	}
 
 	useEffect(() => {
-		getListChats()
+		getListPublicChats()
 	}, [])
 	function openChatSelected(chatName: string) {
 		alert('abrir chat selecionado');
 	}
 	return (
 		<div className='d-flex flex-column bg-custon-roxo rounded h-100 p-2 text-white'>
-			<BarOptions handleSearchChats={handleSearchChats} setShowCreateChat={setShowCreateChat} />
+			<BarOptions
+				handleSearchChats={handleSearchChats}
+				setShowCreateChat={setShowCreateChat}
+				getListPublicChats={getListPublicChats}
+				getListPrivateChats={getListPrivateChats}
+			/>
 			{showCreateChat ? <CreateNewChat setShowCreateChat={setShowCreateChat} createNewChat={createNewChat} /> : null}
 			<div className='d-flex p-3 overflow-auto' id='showChats'>
 				<ChatList listChats={chatList} openChatSelected={openChatSelected} />
