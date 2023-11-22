@@ -13,7 +13,7 @@ export class ChatroomController {
 		return this.chatroomService.findAllChatroom();
 	}
 
-	@Post('create')
+	@Post('create-chatroom')
 	async createChatroom(@Req() request, @Body() dto: CreateChatroomDto): Promise<CreateChatroomDto> {
 		return await this.chatroomService.createChatroom(request.user.sub, dto);
 	}

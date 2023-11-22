@@ -8,12 +8,19 @@ type functionsChats = {
 
 export default function CreateNewChat(props: functionsChats) {
 	const [ShowInputPassword, setShowInputPassword] = useState(false);
-	const inputPhotoChat = useRef<HTMLInputElement>(null);
-	const boxPassword = useRef<HTMLInputElement>(null);
+	const inputPhotoChat =	useRef<HTMLInputElement>(null);
+	const checkboxPrivate =	useRef<HTMLInputElement>(null);
+	const checkboxProtect =	useRef<HTMLInputElement>(null);
 
-	const handleShowInputPassword = () => {
+	const handleShowInputPassword = () : void => {
 		setShowInputPassword(!ShowInputPassword);
-		if (ShowInputPassword) {
+		if (checkboxPrivate.current!.checked && checkboxProtect.current!.checked) {
+			checkboxPrivate.current!.checked = false;
+			checkboxProtect.current!.checked = false;
+		}else if (checkboxPrivate.current!.checked || checkboxProtect.current!.checked) {
+			setShowInputPassword(true);
+		} else {
+			setShowInputPassword(false);
 		}
 	}
 
@@ -34,7 +41,7 @@ export default function CreateNewChat(props: functionsChats) {
 						onClick={() => inputPhotoChat.current ? inputPhotoChat.current.click() : null}
 					/>
 				</div>
-				<input type='file' name='photoChat' className='d-none' ref={inputPhotoChat}/>
+				<input type='file' name='photoChat' className='d-none' ref={inputPhotoChat} />
 				<GrFormClose className='position-absolute top-0 end-0 m-1' size={25} onClick={props.showScreeToCreateChat} />
 				<input
 					type='text'
@@ -42,17 +49,31 @@ export default function CreateNewChat(props: functionsChats) {
 					className='form-control shadow-grounps mb-3'
 					placeholder='Nome do grupo'
 				/>
-				<div className="form-check">
-					<input
-						id="flexCheckDefault"
-						name="type"
-						type="checkbox"
-						ref={boxPassword}
-						value="protect"
-						className="form-check-input shadow-grounps"
-						onClick={handleShowInputPassword}>
-					</input>
-					<label className="form-check-label" htmlFor="flexCheckDefault">Adicionar Senha </label>
+				<div className='d-flex justify-content-between'>
+					<div className="form-check">
+						<input
+							id="checkboxPrivate"
+							name="privateChat"
+							value="private"
+							type="checkbox"
+							ref={checkboxPrivate}
+							className="form-check-input shadow-grounps"
+							onClick={() => {checkboxProtect.current!.checked = false; handleShowInputPassword()}}>
+						</input>
+						<label className="form-check-label" htmlFor="checkboxPrivate">Privado </label>
+					</div>
+					<div className="form-check">
+						<input
+							id="checkboxProtect"
+							name="protectChat"
+							value="protected"
+							type="checkbox"
+							ref={checkboxProtect}
+							className="form-check-input shadow-grounps"
+							onClick={() => {checkboxPrivate.current!.checked = false; handleShowInputPassword()}}>
+						</input>
+						<label className="form-check-label" htmlFor="checkboxProtect">Protegido</label>
+					</div>
 				</div>
 				{ShowInputPassword ? (
 					<input
