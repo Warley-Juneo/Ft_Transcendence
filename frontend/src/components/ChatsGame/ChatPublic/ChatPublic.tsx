@@ -20,6 +20,8 @@ export default function ChatPublic() {
 						<span className="visually-hidden">Loading...</span>
 					</div>
 				</div>
+
+				{/* Lado direto do chat*/}
 				<div className="col-9 d-flex flex-column h-100 position-relative">
 					<BarConfigurations openOrClosedConf={openOrClosedConf} />
 					{showConfigurations === true ? <Configurations openOrClosedConf={openOrClosedConf} /> : null}
