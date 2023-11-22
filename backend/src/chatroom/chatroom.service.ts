@@ -3,7 +3,7 @@ import { AddChatAdmDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirect
 import { ChatroomRepository } from './chatroom.repository';
 import { privateDecrypt } from 'crypto';
 import { UsersService } from 'src/users/users.service';
-import { DirectChatRoom, DirectMessage } from '@prisma/client';
+import { ChatRoom, DirectChatRoom, DirectMessage } from '@prisma/client';
 import { ChatroomDto, ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto } from './dto/output.dto';
 
 @Injectable()
@@ -37,6 +37,26 @@ export class ChatroomService {
 			outputDto.chatrooms.push(dto);
 		}
 		return outputDto;
+	}
+
+	async	findPrivateChatroom(userId: string): Promise<ChatroomsDto> {
+
+		let chats = await this.chatroomRepository.findPrivateChatroom(userId);
+
+		let outputDto = new ChatroomsDto;
+		outputDto.chatrooms = [];
+
+		for (const obj of chats) {
+			let dto = new ChatroomDto;
+			dto.id = obj.id;
+			dto.name = obj.name;
+			dto.type = obj.type;
+			dto.photoUrl = obj.photoUrl;
+			dto.owner_nickname = obj.owner.nickname;
+			outputDto.chatrooms.push(dto);
+		}
+		return outputDto;
+
 	}
 
 	async createDirectChatroom(userId: string, dto: CreateDirectChatroomDto): Promise<OutputDirectMessagesDto> {

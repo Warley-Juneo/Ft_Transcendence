@@ -13,6 +13,11 @@ export class ChatroomController {
 		return this.chatroomService.findAllChatroom();
 	}
 
+	@Get('find-private')
+	async	findPrivateChatroom(userId: string): Promise<ChatroomsDto> {
+		return this.chatroomService.findPrivateChatroom(userId);
+	}
+
 	@Post('create-chatroom')
 	async createChatroom(@Req() request, @Body() dto: CreateChatroomDto): Promise<ChatroomsDto> {
 		return await this.chatroomService.createChatroom(request.user.sub, dto);

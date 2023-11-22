@@ -31,7 +31,32 @@ export class ChatroomRepository {
 						nickname: true,
 					},
 				},
-			}
+			},
+		});
+	}
+
+	async	findPrivateChatroom(userId: string): Promise<any> {
+		let response = await this.prisma.chatRoom.findMany({
+			where: {
+				AND: [
+					{type: "private"},
+					{users: {
+						every: {
+							id: userId,
+						},
+					}},
+				],
+			},
+			select: {
+				id: true,
+				name: true,
+				photoUrl: true,
+				owner: {
+					select: {
+						nickname: true,
+					},
+				},
+			},
 		});
 	}
 
