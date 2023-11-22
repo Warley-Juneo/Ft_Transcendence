@@ -16,8 +16,10 @@ export class ChatroomDto {
 	type: string;
 	photoUrl: string;
 	owner_nickname: string;
+	owner_id:		string;
 }
 
 export class ChatroomsDto {
 	chatrooms: ChatroomDto[];
 }
+

@@ -19,3 +19,7 @@ export class AddChatAdmDto {
 	adm_nickname:		string;
 	chatroomName:		string;
 }
+
+export class InputChatroomDto {
+	name:			string;
+}

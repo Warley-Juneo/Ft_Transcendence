@@ -8,6 +8,7 @@ export class ChatroomRepository {
 	constructor(private readonly prisma: PrismaService) { }
 
 	async createChatroom(userId: string, dto: CreateChatroomDto): Promise<void> {
+		
 		let chat = await this.prisma.chatRoom.create({
 			data: {
 				name: dto.name,
@@ -27,6 +28,38 @@ export class ChatroomRepository {
 				},
 			},
 		});
+	}
+
+	async	deleteChatroom(name: string): Promise<any> {
+
+		let response = await this.prisma.chatRoom.delete({
+			where: {
+				name: name,
+			},
+		});
+		console.log("\n\ndeleteChat", response, "\n\n");
+
+		return await this.findPublicChatroom();
+	}
+
+	async	findUniqueChatroom(name: string): Promise<any> {
+		let chat = await this.prisma.chatRoom.findUnique({
+			where: {
+				name: name,
+			},
+			select: {
+				id: true,
+				name: true,
+				photoUrl: true,
+				owner: {
+					select: {
+						id: true,
+						nickname: true,
+					},
+				},
+			},
+		});
+		return chat;
 	}
 
 	async findPublicChatroom(): Promise<any> {
@@ -50,16 +83,17 @@ export class ChatroomRepository {
 	}
 
 	async	findPrivateChatroom(userId: string): Promise<any> {
+		
 		let response = await this.prisma.chatRoom.findMany({
 			where: {
-				AND: [
-					{type: "private"},
-					{users: {
-						some: {
-							id: userId,
-						},
-					}},
-				],
+				users: {
+					some: {
+						id: userId,
+					},
+				},
+				AND: {
+					type: "private",
+				},
 			},
 			select: {
 				id: true,

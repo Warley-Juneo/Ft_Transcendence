@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AddChatAdmDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto } from './dto/input.dto';
+import { AddChatAdmDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto } from './dto/input.dto';
 import { ChatroomRepository } from './chatroom.repository';
 import { privateDecrypt } from 'crypto';
 import { UsersService } from 'src/users/users.service';
@@ -20,6 +20,35 @@ export class ChatroomService {
 		return response;
 	}
 
+	async	deleteChatroom(userId: string, dto: InputChatroomDto): Promise<any> {
+		
+		let response;
+		let chat = await this.findUniqueChatroom(dto);
+
+		if(chat.owner_id == userId) {
+			response = await this.chatroomRepository.deleteChatroom(dto.name);
+		}
+		else {
+			return "403 not allowed";
+		}
+		
+		return response;
+	}
+	
+	async	findUniqueChatroom(dto: InputChatroomDto): Promise<ChatroomDto> {
+
+		let chat =  await this.chatroomRepository.findUniqueChatroom(dto.name);
+		
+		let outputDto = new ChatroomDto;
+			outputDto.id = chat.id;
+			outputDto.name = chat.name;
+			outputDto.type = chat.type;
+			outputDto.photoUrl = chat.photoUrl;
+			outputDto.owner_nickname = chat.owner.nickname;
+
+		return outputDto;
+	}
+
 	async findPublicChatroom(): Promise<ChatroomsDto> {
 
 		let chats = await this.chatroomRepository.findPublicChatroom();
@@ -34,6 +63,7 @@ export class ChatroomService {
 			dto.type = obj.type;
 			dto.photoUrl = obj.photoUrl;
 			dto.owner_nickname = obj.owner.nickname;
+			dto.owner_id = obj.owner.id;
 			outputDto.chatrooms.push(dto);
 		}
 		console.log("\n\n\nCHATS: ", outputDto, "\n\n\n");
@@ -55,6 +85,7 @@ export class ChatroomService {
 			dto.type = obj.type;
 			dto.photoUrl = obj.photoUrl;
 			dto.owner_nickname = obj.owner.nickname;
+			dto.owner_id = obj.owner.id;
 			outputDto.chatrooms.push(dto);
 		}
 		return outputDto;
