@@ -7,11 +7,11 @@ import axios from 'axios';
 import './listGroups.css';
 
 export type t_chat = {
+	id: string;
 	name: string;
-	adm: string;
-	chat_id: number;
-	password: string;
+	owner_nickname: string;
 	photoUrl: string;
+	password: string;
 	type: string;
 	onlines: number;
 };
@@ -64,8 +64,7 @@ export default function PageChats() {
 		}
 
 		axios.post('http://localhost:3000/chatroom/create-chatroom',
-			dataPost,
-		{
+			dataPost, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
 			}
