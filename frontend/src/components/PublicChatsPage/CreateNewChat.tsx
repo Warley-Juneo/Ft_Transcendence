@@ -1,5 +1,5 @@
-import { GrFormClose } from 'react-icons/gr';
 import { FormEvent, useState, useRef } from "react";
+import { GrFormClose } from 'react-icons/gr';
 
 type functionsChats = {
 	setShowCreateChat: React.Dispatch<React.SetStateAction<boolean>>;

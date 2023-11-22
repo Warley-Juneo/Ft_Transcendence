@@ -45,8 +45,8 @@ export default function ListFriends(props: PropsListFriends) {
 			{chatPrivate && <ChatPrivate />}
 			{props.players.map((play: Players) => {
 				return (
-					<div className='d-flex hover'>
-						<div className='d-flex' onClick={showChatPrivate} key={play._id}>
+					<div className='d-flex hover' key={play._id}>
+						<div className='d-flex' onClick={showChatPrivate}>
 							<img className="foto-list-friends" src={play._avatar} alt='foto' />
 							{StatusOnline(play._nickname)}
 						</div>
