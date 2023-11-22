@@ -11,3 +11,11 @@
 	outline: none !important;
 	background-color: transparent;
 }
+
+.modal-class   {
+	color: aliceblue;
+}
+
+.modal-class:checked {
+	color: aliceblue;
+}

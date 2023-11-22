@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { BiSolidLock } from 'react-icons/bi';
 import { t_chat } from './PublicChats';
+import { ReactElement, useRef } from 'react';
+import Swal from 'sweetalert2';
 
 type propsChatList = {
 	listChats: t_chat[];
@@ -9,36 +11,97 @@ type propsChatList = {
 
 export default function ChatList(props: propsChatList) {
 	const navigate = useNavigate();
+	const buttonModal = useRef<HTMLButtonElement>(null);
 
-	if (props.listChats.length === 0) { // DOTO: ver depois porque nao funciona sem o ===
+	const verifyPassword = (password: any) => {
+		if (password === '')
+			return false;
+		return false;
+	}
+
+	const showModal = () => {
+		Swal.fire({
+			title: 'Digite a senha da sala',
+			input: 'password',
+			inputAttributes: {
+				autocapitalize: 'off'
+			},
+			showCancelButton: true,
+			confirmButtonText: 'Entrar',
+			showLoaderOnConfirm: true,
+			preConfirm: (password) => {
+				return verifyPassword(password);
+			},
+			allowOutsideClick: () => !Swal.isLoading(),
+			customClass: {
+				// Adicione uma classe CSS personalizada para o modal
+				popup: 'bg-custon-roxo modal-class',
+			},
+		}).then((result) => {
+			if (result.isConfirmed) {
+				navigate(`/game/chats/${result.value}`);
+			} 
+		});
+	}
+
+
+
+
+	if (props.listChats.length === 0) {
 		return (
 			<div>
 				<p className='fs-1'>O Game não possui nenhum chat</p>
 			</div>
 		)
 	}
-	return (
-		<div className='row g-0 w-100'>
-			{props.listChats.map((chat) => (
-				<div className="col-md-4 border-bottom border-end hover"
-					onClick={() => { navigate(`/game/chats/${chat.name}`) }}
-					key={chat.id}
-				>
-					<div className='d-flex p-2 justify-content-between' id='sala1'>
-						<div>
-							<p className='fs-5'>{chat.name}</p>
-							<p className='fs-6 d-flex'>
-								Onlines: {chat.onlines}
-								{chat.type === 'public' ? null :
-									<BiSolidLock style={{ marginLeft: '5px' }} />}
-							</p>
-						</div>
-						<div className='ms-3'>
-							<p className='fs-5'>Dono do Grupo</p>
-							<p className='fs-6'>{chat.owner_nickname}</p>
-						</div>
+	// navigate(`/game/chats/${chat.name}`)
+	const divPublicChats = (chat: t_chat): ReactElement => {
+		return (
+			<div className="col-md-4 border-bottom border-end hover"
+				key={chat.id}>
+				<div className='d-flex p-2 justify-content-between' id='sala1'>
+					<div>
+						<p className='fs-5'>{chat.name}</p>
+						<p className='fs-6 d-flex'>Onlines: {chat.onlines}</p>
+					</div>
+					<div className='ms-3'>
+						<p className='fs-5'>Dono do Grupo</p>
+						<p className='fs-6'>{chat.owner_nickname}</p>
 					</div>
 				</div>
+			</div>
+		)
+	}
+
+	// { navigate(`/game/chats/${chat.name}`) }
+	const divProtectChats = (chat: t_chat): ReactElement => {
+		return (
+			<div className="col-md-4 border-bottom border-end hover"
+				onClick={showModal}
+				key={chat.id}
+			>
+				<div className='d-flex p-2 justify-content-between' id='sala1'>
+					<div>
+						<p className='fs-5'>{chat.name}</p>
+						<p className='fs-6 d-flex'>Onlines: {chat.onlines}
+							<BiSolidLock style={{ marginLeft: '5px' }} />
+						</p>
+
+					</div>
+					<div className='ms-3'>
+						<p className='fs-5'>Dono do Grupo</p>
+						<p className='fs-6'>{chat.owner_nickname}</p>
+					</div>
+				</div>
+			</div>
+		)
+	}
+
+	return (
+		<div className='row g-0 w-100'>
+			<button style={{ display: 'none' }} ref={buttonModal} onClick={showModal}></button>
+			{props.listChats.map((chat) => (
+				chat.type === 'public' ? divPublicChats(chat) : divProtectChats(chat)
 			))}
 		</div>
 	);
