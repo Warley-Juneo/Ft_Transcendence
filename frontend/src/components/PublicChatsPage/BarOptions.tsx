@@ -15,7 +15,7 @@ export default function BarOptions(props: BarOptionsProps) {
 	const buttonPrivateChat = (): ReactElement => {
 		return (
 			<button
-				className='d-flex shadow-grounps ms-auto align-items-center'
+				className='d-flex shadow-grounps align-items-center'
 				onClick={() => {
 					setShowTypeChat('public');
 					props.getListPrivateChats()
@@ -30,7 +30,7 @@ export default function BarOptions(props: BarOptionsProps) {
 	const buttonPublicChat = (): ReactElement => {
 		return (
 			<button
-				className='d-flex shadow-grounps ms-auto align-items-center'
+				className='d-flex shadow-grounps align-items-center'
 				onClick={() => {
 					setShowTypeChat('private');
 					props.getListPublicChats()
@@ -52,7 +52,7 @@ export default function BarOptions(props: BarOptionsProps) {
 					id='inputFindChat'
 				/>
 			</div>
-			<button className='d-flex shadow-grounps ms-auto align-items-center' onClick={() => props.setShowCreateChat(true)}>
+			<button className='d-flex shadow-grounps ms-auto me-5 align-items-center' onClick={() => props.setShowCreateChat(true)}>
 				<BiMessageAltAdd size={30} color='black' />
 				<p className='mx-2 fw-bold'>Criar Grupo</p>
 			</button>

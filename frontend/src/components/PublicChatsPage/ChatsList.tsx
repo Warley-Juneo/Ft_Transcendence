@@ -16,7 +16,7 @@ export default function ChatList(props: propsChatList) {
 	const verifyPassword = (password: any) => {
 		if (password === '')
 			return false;
-		return false;
+		return true;
 	}
 
 	const showModal = () => {
@@ -40,7 +40,7 @@ export default function ChatList(props: propsChatList) {
 		}).then((result) => {
 			if (result.isConfirmed) {
 				navigate(`/game/chats/${result.value}`);
-			} 
+			}
 		});
 	}
 
