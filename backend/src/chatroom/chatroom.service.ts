@@ -15,14 +15,14 @@ export class ChatroomService {
 
 		await this.chatroomRepository.createChatroom(userId, dto);
 
-		let response = await this.findAllChatroom();
+		let response = await this.findPublicChatroom();
 
 		return response;
 	}
 
-	async findAllChatroom(): Promise<ChatroomsDto> {
+	async findPublicChatroom(): Promise<ChatroomsDto> {
 
-		let chats = await this.chatroomRepository.findAllChatroom();
+		let chats = await this.chatroomRepository.findPublicChatroom();
 
 		let outputDto = new ChatroomsDto;
 		outputDto.chatrooms = [];
@@ -36,6 +36,7 @@ export class ChatroomService {
 			dto.owner_nickname = obj.owner.nickname;
 			outputDto.chatrooms.push(dto);
 		}
+		console.log("\n\n\nCHATS: ", outputDto, "\n\n\n");
 		return outputDto;
 	}
 

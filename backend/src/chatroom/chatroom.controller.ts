@@ -9,8 +9,8 @@ export class ChatroomController {
 	constructor(private readonly chatroomService: ChatroomService) { }
 
 	@Get('find-public')
-	async findAllChatrooms(): Promise<ChatroomsDto> {
-		return await this.chatroomService.findAllChatroom();
+	async findPublicChatrooms(): Promise<ChatroomsDto> {
+		return await this.chatroomService.findPublicChatroom();
 	}
 
 	@Get('find-private')

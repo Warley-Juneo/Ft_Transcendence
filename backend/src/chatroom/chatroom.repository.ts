@@ -15,12 +15,25 @@ export class ChatroomRepository {
 				password: dto.password,
 				photoUrl: dto.photoUrl,
 				owner_id: userId,
+				users: {
+					connect:[
+						{id: userId},
+					],
+				},
+				admin: {
+					connect: [
+						{id: userId},
+					],
+				},
 			},
 		});
 	}
 
-	async findAllChatroom(): Promise<any> {
-		return await this.prisma.chatRoom.findMany({
+	async findPublicChatroom(): Promise<any> {
+		let response = await this.prisma.chatRoom.findMany({
+			where: {
+				type: {not: "private"},
+			},
 			select: {
 				id: true,
 				name: true,
@@ -33,6 +46,7 @@ export class ChatroomRepository {
 				},
 			},
 		});
+		return response;
 	}
 
 	async	findPrivateChatroom(userId: string): Promise<any> {
@@ -41,7 +55,7 @@ export class ChatroomRepository {
 				AND: [
 					{type: "private"},
 					{users: {
-						every: {
+						some: {
 							id: userId,
 						},
 					}},
@@ -58,6 +72,7 @@ export class ChatroomRepository {
 				},
 			},
 		});
+		return response;
 	}
 
 	async createDirectChatRoom(name: string): Promise<DirectChatRoom> {

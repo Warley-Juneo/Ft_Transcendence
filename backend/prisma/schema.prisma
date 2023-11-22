@@ -94,7 +94,7 @@ model DirectMessage {
 
 model ChatRoom {
   id              String    @id @default(uuid())
-  name            String
+  name            String    @unique
 
   photoUrl        String?
   type            String    @default("public")
