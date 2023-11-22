@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BsFillPencilFill } from 'react-icons/bs';
 import { useState } from "react";
 import { MdOutlinePersonAddDisabled, MdDeleteSweep } from 'react-icons/md';
@@ -7,6 +7,7 @@ import { GiBroadDagger } from 'react-icons/gi';
 import ButtonConfiguration from "./configurations/buttons";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { Navigate } from "react-router-dom";
 
 const rules: string[] = [
 	"2 anos de Free Fire",
@@ -17,6 +18,7 @@ const rules: string[] = [
 ]
 
 export default function Configurations({ openOrClosedConf }: { openOrClosedConf: () => void }) {
+	const navigate = useNavigate();
 	const id = useParams().id;
 	const [showEditName, setShowEditName] = useState(false);
 
@@ -31,6 +33,7 @@ export default function Configurations({ openOrClosedConf }: { openOrClosedConf:
 			},
 		}).then((res) => {
 			console.log("response delete: ", res.data);
+			navigate("/game/chats");
 		}).catch((err) => {
 			console.log(err);
 		})
