@@ -2,22 +2,22 @@ import { GrFormClose } from 'react-icons/gr';
 import { FormEvent, useState, useRef } from "react";
 
 type functionsChats = {
-	showScreeToCreateChat: () => void;
+	setShowCreateChat: React.Dispatch<React.SetStateAction<boolean>>;
 	createNewChat: (form: FormData) => void;
 }
 
 export default function CreateNewChat(props: functionsChats) {
 	const [ShowInputPassword, setShowInputPassword] = useState(false);
-	const inputPhotoChat =	useRef<HTMLInputElement>(null);
-	const checkboxPrivate =	useRef<HTMLInputElement>(null);
-	const checkboxProtect =	useRef<HTMLInputElement>(null);
+	const inputPhotoChat = useRef<HTMLInputElement>(null);
+	const checkboxPrivate = useRef<HTMLInputElement>(null);
+	const checkboxProtect = useRef<HTMLInputElement>(null);
 
-	const handleShowInputPassword = () : void => {
+	const handleShowInputPassword = (): void => {
 		setShowInputPassword(!ShowInputPassword);
 		if (checkboxPrivate.current!.checked && checkboxProtect.current!.checked) {
 			checkboxPrivate.current!.checked = false;
 			checkboxProtect.current!.checked = false;
-		}else if (checkboxPrivate.current!.checked || checkboxProtect.current!.checked) {
+		} else if (checkboxPrivate.current!.checked || checkboxProtect.current!.checked) {
 			setShowInputPassword(true);
 		} else {
 			setShowInputPassword(false);
@@ -33,6 +33,10 @@ export default function CreateNewChat(props: functionsChats) {
 	return (
 		<div className='position-absolute rounded top-50 end-50 p-3 shadow-grounps text-black'>
 			<form onSubmit={handleSubmit}>
+				<GrFormClose
+					className='position-absolute top-0 end-0 m-1'
+					size={25} onClick={() => props.setShowCreateChat(false)}
+				/>
 				<div className='d-flex justify-content-center'>
 					<img className='rounded-circle hover'
 						src='https://www.ferramentastenace.com.br/wp-content/uploads/2017/11/sem-foto.jpg'
@@ -42,7 +46,6 @@ export default function CreateNewChat(props: functionsChats) {
 					/>
 				</div>
 				<input type='file' name='photoChat' className='d-none' ref={inputPhotoChat} />
-				<GrFormClose className='position-absolute top-0 end-0 m-1' size={25} onClick={props.showScreeToCreateChat} />
 				<input
 					type='text'
 					name='nameChat'
@@ -58,7 +61,7 @@ export default function CreateNewChat(props: functionsChats) {
 							type="checkbox"
 							ref={checkboxPrivate}
 							className="form-check-input shadow-grounps"
-							onClick={() => {checkboxProtect.current!.checked = false; handleShowInputPassword()}}>
+							onClick={() => { checkboxProtect.current!.checked = false; handleShowInputPassword() }}>
 						</input>
 						<label className="form-check-label" htmlFor="checkboxPrivate">Privado </label>
 					</div>
@@ -70,7 +73,7 @@ export default function CreateNewChat(props: functionsChats) {
 							type="checkbox"
 							ref={checkboxProtect}
 							className="form-check-input shadow-grounps"
-							onClick={() => {checkboxPrivate.current!.checked = false; handleShowInputPassword()}}>
+							onClick={() => { checkboxPrivate.current!.checked = false; handleShowInputPassword() }}>
 						</input>
 						<label className="form-check-label" htmlFor="checkboxProtect">Protegido</label>
 					</div>

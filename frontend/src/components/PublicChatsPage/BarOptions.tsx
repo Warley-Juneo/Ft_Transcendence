@@ -1,9 +1,9 @@
 import { BiSearchAlt, BiMessageAltAdd } from 'react-icons/bi';
-import { ChangeEvent } from 'react';
+import React, { ChangeEvent } from 'react';
 
 type BarOptionsProps = {
 	handleSearchChats: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	showScreeToCreateChat: () => void;
+	setShowCreateChat: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function chat_getBarOptions( props: BarOptionsProps ) {
@@ -18,7 +18,7 @@ export default function chat_getBarOptions( props: BarOptionsProps ) {
 					id = 'inputFindChat'
 				/>
 			</div>
-			<button className='d-flex shadow-grounps ms-auto' onClick={props.showScreeToCreateChat}>
+			<button className='d-flex shadow-grounps ms-auto' onClick={() => props.setShowCreateChat(true)}>
 				<BiMessageAltAdd size={30} color='black' />
 				<p className='mx-2 fw-bold'>Criar Grupo</p>
 			</button>

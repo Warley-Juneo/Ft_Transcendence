@@ -1,5 +1,5 @@
 import { BiSolidLock } from 'react-icons/bi';
-import { t_chat } from './MockResponseApi';
+import { t_chat } from './PublicChats';
 import { useNavigate } from 'react-router-dom';
 
 type propsChatList = {

@@ -1,12 +1,20 @@
-import { t_chat } from './MockResponseApi';
 import { useEffect, useState } from 'react';
-import ChatList from './ChatsList';
-import BarOptions from './BarOptions';
-import './listGroups.css';
 import CreateNewChat from './CreateNewChat';
-import axios from 'axios';
+import BarOptions from './BarOptions';
+import ChatList from './ChatsList';
 import Cookies from 'js-cookie';
+import axios from 'axios';
+import './listGroups.css';
 
+export type t_chat = {
+	name: string;
+	adm: string;
+	chat_id: number;
+	password: string;
+	photoUrl: string;
+	type: string;
+	onlines: number;
+};
 
 export default function PageChats() {
 	const [chatList, setChatList] = useState<t_chat[]>([]);
@@ -41,13 +49,10 @@ export default function PageChats() {
 		}
 	}
 
-	function showScreeToCreateChat() {
-		setShowCreateChat(!showCreateChat);
-	}
-
 	function createNewChat(form: FormData) {
 		let typeChat: string =  'public'
 
+		setShowCreateChat(false);
 		if (form.get('privateChat') === 'private') {
 			typeChat = 'private'
 		} else if (form.get('protectChat') === 'protected') {
@@ -81,8 +86,8 @@ export default function PageChats() {
 	}
 	return (
 		<div className='d-flex flex-column bg-custon-roxo rounded h-100 p-2 text-white'>
-			<BarOptions handleSearchChats={handleSearchChats} showScreeToCreateChat={showScreeToCreateChat} />
-			{showCreateChat ? <CreateNewChat showScreeToCreateChat={showScreeToCreateChat} createNewChat={createNewChat} /> : null}
+			<BarOptions handleSearchChats={handleSearchChats} setShowCreateChat={setShowCreateChat} />
+			{showCreateChat ? <CreateNewChat setShowCreateChat={setShowCreateChat} createNewChat={createNewChat} /> : null}
 			<div className='d-flex p-3 overflow-auto' id='showChats'>
 				<ChatList listChats={chatList} openChatSelected={openChatSelected} />
 			</div>
