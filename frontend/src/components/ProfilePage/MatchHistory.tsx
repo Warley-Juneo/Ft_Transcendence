@@ -20,12 +20,10 @@ export default function MatchHistory() {
 				Authorization: Cookies.get('jwtToken'),
 			}
 		}).then((response) => {
-			console.log("Response Match:", response.data);
 			setMatchHistory(response.data.matches);
 		}).catch((error) => {
 			console.log("Error: ", error.response.data);
 		})
-
 	}, []);
 
 	if (!matchHistory) {

@@ -50,38 +50,34 @@ export default function PageChats() {
 	}
 
 	function createNewChat(form: FormData) {
-		let typeChat: string =  'public'
-
 		setShowCreateChat(false);
-		if (form.get('privateChat') === 'private') {
-			typeChat = 'private'
-		} else if (form.get('protectChat') === 'protected') {
-			typeChat = 'protected'
+		const dataPost = {
+			name: form.get('nameChat'),
+			type: 'public',
+			password: form.get('passwordChat'),
+			photoUrl: "https://photografos.com.br/wp-content/uploads/2020/09/fotografia-para-perfil.jpg",
 		}
-		console.log("chatName: ", form.get('nameChat'))
-		console.log("PassWord: ", form.get('passwordChat'))
-		console.log("typeChat: ", typeChat)
+		if (form.get('privateChat') === 'private') {
+			dataPost.type = 'private'
+		} else if (form.get('protectChat') === 'protected') {
+			dataPost.type = 'protected'
+		}
 
-		// axios.post('http://localhost:3000/chatroom/create-chatroom', {
-		// 	name: form.get('nameChat'),
-		// 	type: 'protected',
-		// 	password: '1234',
-		// 	photoUrl: "https://photografos.com.br/wp-content/uploads/2020/09/fotografia-para-perfil.jpg",
-		// }, {
-		// 	headers: {
-		// 		Authorization: Cookies.get('jwtToken'),
-		// 	}
-		// }).then((res) => {
-		// 	console.log("Response Fausto: ", res.data[0])
-		// 	setChatList(res.data)
-		// })
+		axios.post('http://localhost:3000/chatroom/create-chatroom',
+			dataPost,
+		{
+			headers: {
+				Authorization: Cookies.get('jwtToken'),
+			}
+		}).then((res) => {
+			setChatList(res.data.chatrooms)
+		})
 	}
 
 	useEffect(() => {
 		getListChats()
 	}, [])
 	function openChatSelected(chatName: string) {
-
 		alert('abrir chat selecionado');
 	}
 	return (
