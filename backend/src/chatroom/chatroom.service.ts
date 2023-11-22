@@ -11,9 +11,12 @@ export class ChatroomService {
 	constructor(private readonly chatroomRepository: ChatroomRepository,
 		private readonly userService: UsersService) { }
 
-	async createChatroom(userId: string, dto: CreateChatroomDto): Promise<CreateChatroomDto> {
+	async createChatroom(userId: string, dto: CreateChatroomDto): Promise<ChatroomsDto> {
 
-		let response = await this.chatroomRepository.createChatroom(userId, dto);
+		await this.chatroomRepository.createChatroom(userId, dto);
+		
+		let response = await this.findAllChatroom();
+		
 		return response;
 	}
 

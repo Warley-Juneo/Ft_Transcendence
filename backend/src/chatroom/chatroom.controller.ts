@@ -14,7 +14,7 @@ export class ChatroomController {
 	}
 
 	@Post('create-chatroom')
-	async createChatroom(@Req() request, @Body() dto: CreateChatroomDto): Promise<CreateChatroomDto> {
+	async createChatroom(@Req() request, @Body() dto: CreateChatroomDto): Promise<ChatroomsDto> {
 		return await this.chatroomService.createChatroom(request.user.sub, dto);
 	}
 
