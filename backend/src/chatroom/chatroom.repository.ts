@@ -8,7 +8,7 @@ export class ChatroomRepository {
 	constructor(private readonly prisma: PrismaService) { }
 
 	async createChatroom(userId: string, dto: CreateChatroomDto): Promise<void> {
-		
+
 		let chat = await this.prisma.chatRoom.create({
 			data: {
 				name: dto.name,
@@ -75,6 +75,7 @@ export class ChatroomRepository {
 				owner: {
 					select: {
 						nickname: true,
+						id: true,
 					},
 				},
 			},
@@ -83,7 +84,7 @@ export class ChatroomRepository {
 	}
 
 	async	findPrivateChatroom(userId: string): Promise<any> {
-		
+
 		let response = await this.prisma.chatRoom.findMany({
 			where: {
 				users: {

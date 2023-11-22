@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { AddChatAdmDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto } from './dto/input.dto';
+import { CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto } from './dto/input.dto';
 import { ChatroomRepository } from './chatroom.repository';
-import { privateDecrypt } from 'crypto';
 import { UsersService } from 'src/users/users.service';
-import { ChatRoom, DirectChatRoom, DirectMessage } from '@prisma/client';
+import { DirectChatRoom, } from '@prisma/client';
 import { ChatroomDto, ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto } from './dto/output.dto';
 
 @Injectable()
@@ -21,29 +20,32 @@ export class ChatroomService {
 	}
 
 	async	deleteChatroom(userId: string, dto: InputChatroomDto): Promise<any> {
-		
+
 		let response;
 		let chat = await this.findUniqueChatroom(dto);
 
+		console.log("\n\n\nOwerId: ", chat.owner_id);
+		console.log("\n\n\nUserId: ", userId, "\n\n\n");
 		if(chat.owner_id == userId) {
 			response = await this.chatroomRepository.deleteChatroom(dto.name);
 		}
 		else {
 			return "403 not allowed";
 		}
-		
+
 		return response;
 	}
-	
+
 	async	findUniqueChatroom(dto: InputChatroomDto): Promise<ChatroomDto> {
 
 		let chat =  await this.chatroomRepository.findUniqueChatroom(dto.name);
-		
+
 		let outputDto = new ChatroomDto;
 			outputDto.id = chat.id;
 			outputDto.name = chat.name;
 			outputDto.type = chat.type;
 			outputDto.photoUrl = chat.photoUrl;
+			outputDto.owner_id = chat.owner.id;
 			outputDto.owner_nickname = chat.owner.nickname;
 
 		return outputDto;
