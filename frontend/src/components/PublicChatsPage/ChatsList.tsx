@@ -19,7 +19,7 @@ export default function ChatList(props: propsChatList) {
 		return true;
 	}
 
-	const showModal = () => {
+	const showModal = (chatName: string) => {
 		Swal.fire({
 			title: 'Digite a senha da sala',
 			input: 'password',
@@ -39,7 +39,7 @@ export default function ChatList(props: propsChatList) {
 			},
 		}).then((result) => {
 			if (result.isConfirmed) {
-				navigate(`/game/chats/${result.value}`);
+				navigate(`/game/chats/${chatName}`);
 			}
 		});
 	}
@@ -58,7 +58,9 @@ export default function ChatList(props: propsChatList) {
 	const divPublicChats = (chat: t_chat): ReactElement => {
 		return (
 			<div className="col-md-4 border-bottom border-end hover"
-				key={chat.id}>
+				key={chat.id}
+				onClick={() => navigate(`/game/chats/${chat.name}`)}
+			>
 				<div className='d-flex p-2 justify-content-between' id='sala1'>
 					<div>
 						<p className='fs-5'>{chat.name}</p>
@@ -77,7 +79,7 @@ export default function ChatList(props: propsChatList) {
 	const divProtectChats = (chat: t_chat): ReactElement => {
 		return (
 			<div className="col-md-4 border-bottom border-end hover"
-				onClick={showModal}
+				onClick={() => showModal(chat.name)}
 				key={chat.id}
 			>
 				<div className='d-flex p-2 justify-content-between' id='sala1'>
@@ -96,10 +98,9 @@ export default function ChatList(props: propsChatList) {
 			</div>
 		)
 	}
-
+	console.log(props.listChats);
 	return (
 		<div className='row g-0 w-100'>
-			<button style={{ display: 'none' }} ref={buttonModal} onClick={showModal}></button>
 			{props.listChats.map((chat) => (
 				chat.type === 'public' ? divPublicChats(chat) : divProtectChats(chat)
 			))}
