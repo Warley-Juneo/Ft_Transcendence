@@ -1,9 +1,11 @@
 import { useParams } from "react-router-dom";
 import { BsFillPencilFill } from 'react-icons/bs';
 import { useState } from "react";
-import { MdOutlinePersonAddDisabled } from 'react-icons/md';
+import { MdOutlinePersonAddDisabled, MdDeleteSweep } from 'react-icons/md';
 import { AiOutlineUserAdd, AiOutlineClose } from 'react-icons/ai';
 import { GiBroadDagger } from 'react-icons/gi';
+import ButtonConfiguration from "./configurations/buttons";
+
 
 export default function Configurations({openOrClosedConf}: {openOrClosedConf : () => void}) {
 	const id = useParams().id;
@@ -54,20 +56,10 @@ export default function Configurations({openOrClosedConf}: {openOrClosedConf : (
 				</ul>
 			</div>
 			<div className="p-3 text-start">
-				<h5 className="p-2 hover">
-					<AiOutlineUserAdd className="foto-list-friends bg-light text-black me-3 p-1" size={30} />
-					Adicionar Pessoas
-				</h5>
-				<h5
-					className="p-2 hover">
-					<MdOutlinePersonAddDisabled className="foto-list-friends bg-light text-black me-3 p-1" size={30} />
-					Remover Militante
-				</h5>
-				<h5
-					className="p-2 hover">
-					<GiBroadDagger className="foto-list-friends bg-light text-black me-3 p-1" size={30} />
-					Adicionar ADM
-				</h5>
+				<ButtonConfiguration Icon={AiOutlineUserAdd} content="Adicionar Pessoas"/>
+				<ButtonConfiguration Icon={MdOutlinePersonAddDisabled} content="Remover Militante"/>
+				<ButtonConfiguration Icon={GiBroadDagger} content="Adicionar ADM"/>
+				<ButtonConfiguration Icon={MdDeleteSweep} content="Delete Chat"/>
 			</div>
 		</div>
 	);

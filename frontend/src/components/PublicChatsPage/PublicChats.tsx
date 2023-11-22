@@ -4,7 +4,7 @@ import BarOptions from './BarOptions';
 import ChatList from './ChatsList';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import './listGroups.css';
+import './PublicChats.css';
 
 export type t_chat = {
 	id: string;
@@ -21,7 +21,6 @@ export default function PageChats() {
 	const [showCreateChat, setShowCreateChat] = useState(false);
 
 	const getListPublicChats = () => {
-		console.log('get list public chats');
 		axios.get("http://localhost:3000/chatroom/find-public", {
 			headers: {
 				Authorization: Cookies.get("jwtToken"),
@@ -32,8 +31,7 @@ export default function PageChats() {
 	}
 
 	const getListPrivateChats = () => {
-		console.log('get list private chats');
-		axios.get("http://localhost:3000/chatroom/find-private", {
+ 		axios.get("http://localhost:3000/chatroom/find-private", {
 			headers: {
 				Authorization: Cookies.get("jwtToken"),
 			}
