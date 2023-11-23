@@ -3,7 +3,7 @@ import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
 import { CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto } from './dto/input.dto';
-import { ChatroomDto, ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto } from './dto/output.dto';
+import { ChatroomDto, ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto, OutputMessageDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -15,7 +15,6 @@ export class ChatroomService {
 
 		let chat = await this.chatroomRepository.findUniqueChatroom(dto.name);
 
-		console.log("Create Chat: ", dto);
 		if (chat) {
 			throw new ForbiddenException('Chatroom name already exists');
 		}
@@ -64,13 +63,25 @@ export class ChatroomService {
 		}
 
 		let outputDto = new ChatroomDto;
-			outputDto.id = chat.id;
-			outputDto.name = chat.name;
-			outputDto.type = chat.type;
-			outputDto.photoUrl = chat.photoUrl;
-			outputDto.owner_id = chat.owner.id;
-			outputDto.users = chat.users;
-			outputDto.owner_nickname = chat.owner.nickname;
+		outputDto.id = chat.id;
+		outputDto.name = chat.name;
+		outputDto.type = chat.type;
+		outputDto.photoUrl = chat.photoUrl;
+		outputDto.owner_id = chat.owner.id;
+		outputDto.owner_nickname = chat.owner.nickname;
+		outputDto.users = chat.users;
+
+		outputDto.messages = [];
+		for (const obj of chat.message) {
+			let dto = new OutputMessageDto;
+			dto.id = obj.id;
+			dto.content = obj.content;
+			dto.img_url = obj.imgUrl;
+			dto.user_nickname = obj.user.nickname;
+			dto.user_avatar = obj.user.avatar;
+			dto.data = obj.createdAt;
+			outputDto.messages.push(dto);
+		}
 
 		return outputDto;
 	}

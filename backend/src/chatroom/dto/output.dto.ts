@@ -10,6 +10,15 @@ export class OutputDirectMessagesDto {
 	direct_message: OutputDirectMessageDto[];
 }
 
+export class OutputMessageDto {
+	id:             string;
+	content:        string;
+	img_url:        string;
+	user_nickname:  string;
+	user_avatar:	string;
+	data:	        Date;
+}
+
 export class ChatroomDto {
 	id: 			string;
 	name: 			string;
@@ -18,6 +27,7 @@ export class ChatroomDto {
 	owner_nickname: string;
 	owner_id:		string;
 	users:			string[];
+	messages:		OutputMessageDto[];	
 }
 
 export class ChatroomsDto {

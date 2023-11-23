@@ -51,6 +51,7 @@ export class ChatroomRepository {
 				id: true,
 				name: true,
 				photoUrl: true,
+				type: true,
 				password: true,
 				owner: {
 					select: {
@@ -63,6 +64,20 @@ export class ChatroomRepository {
 						nickname: true,
 					},
 				},
+				message: {
+					select: {
+						id: true,
+						content: true,
+						img_url: true,
+						user: {
+							select: {
+								nickname: true,
+								avatar: true,
+							},
+						},
+						createdAt: true,
+					}
+				}
 			},
 		});
 		return chat;

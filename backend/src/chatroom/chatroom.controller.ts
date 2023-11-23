@@ -9,7 +9,7 @@ export class ChatroomController {
 	constructor(private readonly chatroomService: ChatroomService) { }
 
 	@Get('find-unique')
-	async	findUniqueChatroom(dto: InputChatroomDto): Promise<ChatroomDto> {
+	async	findUniqueChatroom(@Body() dto: InputChatroomDto): Promise<ChatroomDto> {
 		return	this.chatroomService.findUniqueChatroom(dto);
 	}
 
