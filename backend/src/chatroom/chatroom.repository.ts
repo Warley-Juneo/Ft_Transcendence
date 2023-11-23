@@ -51,6 +51,7 @@ export class ChatroomRepository {
 				id: true,
 				name: true,
 				photoUrl: true,
+				password: true,
 				owner: {
 					select: {
 						id: true,

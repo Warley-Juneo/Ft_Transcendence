@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto } from './dto/input.dto';
-import { ChatroomRepository } from './chatroom.repository';
+import { BadRequestException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
+import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
+import { CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto } from './dto/input.dto';
 import { ChatroomDto, ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto } from './dto/output.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class ChatroomService {
@@ -12,6 +13,21 @@ export class ChatroomService {
 
 	async createChatroom(userId: string, dto: CreateChatroomDto): Promise<ChatroomsDto> {
 
+		let chat = await this.chatroomRepository.findUniqueChatroom(dto.name);
+
+		console.log("Create Chat: ", dto);
+		if (chat) {
+			throw new ForbiddenException('Chatroom name already exists');
+		}
+
+		if(dto.type == "protected") {
+			if (dto.password == '') {
+				throw new BadRequestException('Invalid password');
+			}
+			const	saltOrRound = 10;
+			const hash = await bcrypt.hashSync(dto.password, saltOrRound);
+			dto.password = hash;
+		}
 		await this.chatroomRepository.createChatroom(userId, dto);
 
 		let response = await this.findPublicChatroom();
@@ -28,7 +44,7 @@ export class ChatroomService {
 			response = await this.chatroomRepository.deleteChatroom(dto.name);
 		}
 		else {
-			return "403 not allowed";
+			throw new UnauthorizedException('Only the owner can delete the chat');
 		}
 
 		return response;
@@ -37,6 +53,15 @@ export class ChatroomService {
 	async	findUniqueChatroom(dto: InputChatroomDto): Promise<ChatroomDto> {
 
 		let chat =  await this.chatroomRepository.findUniqueChatroom(dto.name);
+
+		if (!chat) {
+			throw new BadRequestException('Chatroom do not exist');
+		}
+		if (chat.type == "protected") {
+			if (!bcrypt.compareSync(dto.password, chat.password)) {
+				throw new UnauthorizedException("Invalid password");
+			}
+		}
 
 		let outputDto = new ChatroomDto;
 			outputDto.id = chat.id;
