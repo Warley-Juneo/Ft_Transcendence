@@ -34,3 +34,20 @@ export class ChatroomsDto {
 	chatrooms:	ChatroomDto[];
 }
 
+export class UniqueUserChatrommDto {
+	id:			string;
+	nickname:	string;
+}
+
+export class UniqueChatroomDto {
+	id: 			string;
+	name: 			string;
+	type: 			string;
+	password:		string;
+	photoUrl: 		string;
+	owner_nickname: string;
+	owner_id:		string;
+	users:			UniqueUserChatrommDto[];
+	messages:		OutputMessageDto[];	
+}
+

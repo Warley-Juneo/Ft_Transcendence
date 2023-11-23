@@ -3,7 +3,7 @@ import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
 import { CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto } from './dto/input.dto';
-import { ChatroomDto, ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto, OutputMessageDto } from './dto/output.dto';
+import { ChatroomDto, ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto, OutputMessageDto, UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -13,7 +13,10 @@ export class ChatroomService {
 
 	async createChatroom(userId: string, dto: CreateChatroomDto): Promise<ChatroomsDto> {
 
-		let chat = await this.chatroomRepository.findUniqueChatroom(dto.name);
+		let inputdto =  new InputChatroomDto;
+		inputdto.name = dto.name;
+		inputdto.password = dto.password;
+		let chat = await this.findUniqueChatroom(inputdto);
 
 		if (chat) {
 			throw new ForbiddenException('Chatroom name already exists');
@@ -37,9 +40,9 @@ export class ChatroomService {
 	async	deleteChatroom(userId: string, dto: InputChatroomDto): Promise<any> {
 
 		let response;
-		let chat = await this.chatroomRepository.findUniqueChatroom(dto.name);
+		let chat = await this.findUniqueChatroom(dto);
 
-		if(chat.owner.id == userId) {
+		if(chat.owner_id == userId) {
 			response = await this.chatroomRepository.deleteChatroom(dto.name);
 		}
 		else {
@@ -49,22 +52,55 @@ export class ChatroomService {
 		return response;
 	}
 
-	async	findUniqueChatroom(dto: InputChatroomDto): Promise<ChatroomDto> {
+	async	openChatroom(userId: string, dto: InputChatroomDto): Promise<ChatroomDto> {
+		
+		console.log("\n\nDTO ", dto, "\n\n");
+		let _chat = await this.findUniqueChatroom(dto);
+
+		if (_chat.type == 'protected') {
+			if (_chat.password != dto.password) {
+				throw new UnauthorizedException('Password incorrect')
+			}
+		}
+		
+		let user = '';
+		if (_chat.type == 'private') {
+			for (const obj of _chat.users) {
+				if (userId == obj.id) {
+					user = obj.nickname;
+				}
+			}
+		}
+		if (user = '') {
+			throw new UnauthorizedException('Not a user of this chat')
+		}
+
+		let chat = await this.chatroomRepository.openChatroom(dto.name);
+
+		let outputDto = new ChatroomDto;
+		outputDto.id = chat.id;
+		outputDto.name = chat.name;
+		outputDto.type = chat.type;
+		outputDto.photoUrl = chat.photoUrl;
+		outputDto.users = chat.users;
+		outputDto.owner_id = chat.owner_id;
+		outputDto.owner_nickname = chat.owner_nickname;
+
+		return outputDto;
+	}
+
+	async	findUniqueChatroom(dto: InputChatroomDto): Promise<UniqueChatroomDto> {
 
 		let chat =  await this.chatroomRepository.findUniqueChatroom(dto.name);
 
 		if (!chat) {
 			throw new BadRequestException('Chatroom do not exist');
 		}
-		if (chat.type == "protected") {
-			if (!bcrypt.compareSync(dto.password, chat.password)) {
-				throw new UnauthorizedException("Invalid password");
-			}
-		}
 
-		let outputDto = new ChatroomDto;
+		let outputDto = new UniqueChatroomDto;
 		outputDto.id = chat.id;
 		outputDto.name = chat.name;
+		outputDto.password = chat.password;
 		outputDto.type = chat.type;
 		outputDto.photoUrl = chat.photoUrl;
 		outputDto.owner_id = chat.owner.id;
