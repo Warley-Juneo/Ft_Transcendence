@@ -11,7 +11,7 @@ export default function Bar() {
 							<div className="d-flex w-50 justify-content-center">
 								<p>Avatar</p>
 							</div>
-							<div className="d-flex justify-content-center w-50">
+							<div className="d-flex w-50 justify-content-center">
 								<p>Perfil</p>
 							</div>
 						</div>
