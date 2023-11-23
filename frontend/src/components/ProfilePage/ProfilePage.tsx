@@ -1,4 +1,4 @@
-import InformationsUser from './InformationsUser';
+import InformationsUser from './Perfil/Perfil';
 import MatchHistory from './MatchHistory';
 import { IoSettingsOutline } from "react-icons/io5";
 
