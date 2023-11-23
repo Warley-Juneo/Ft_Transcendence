@@ -70,18 +70,20 @@ export default function InformationsUser() {
 	let kda: number = aux === 0 ? user._loses : aux / user._loses;
 	return (
 		<div className='text-center text-white'>
-			<Profile	borderImg={borderImg}
-						avatar={user._avatar}
-						nickname={user._nickname}
+			<Profile
+				borderImg={borderImg}
+				avatar={user._avatar}
+				nickname={user._nickname}
 			/>
 			<div className='d-flex flex-column align-items-center'>
 				<Rank rank={rank} />
-				<Pointer	wins={user._wins}
-							loses={user._loses}
-							draws={user._draws}
-							kda={kda}
-							borderWrite={borderWrite}
-							pointers={pointers}
+				<Pointer
+					wins={user._wins}
+					loses={user._loses}
+					draws={user._draws}
+					kda={kda}
+					borderWrite={borderWrite}
+					pointers={pointers}
 				/>
 			</div>
 		</div>
