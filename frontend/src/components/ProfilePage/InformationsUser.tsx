@@ -1,12 +1,15 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import Profile from './Perfil/Image';
+import { useEffect, useState } from 'react';
 import rank1 from '../../static/rankLevel/rank1.png';
 import rank2 from '../../static/rankLevel/rank2.png';
 import rank3 from '../../static/rankLevel/rank3.png';
 import rank4 from '../../static/rankLevel/rank4.png';
 import rank5 from '../../static/rankLevel/rank5.png';
 import rank6 from '../../static/rankLevel/rank6.png';
-import { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
+import Rank from './Perfil/rank';
+import Pointer from './Perfil/pontos';
 
 type infosUserPerfil = {
 	_nickname: string;
@@ -62,26 +65,24 @@ export default function InformationsUser() {
 		getProfile();
 	}, []);
 
-
 	const { rank, borderImg, borderWrite } = maping;
 	let aux = user._wins + user._draws;
 	let kda: number = aux === 0 ? user._loses : aux / user._loses;
 	return (
 		<div className='text-center text-white'>
-			<div className={borderImg}>
-				<img className='img-fluid rounded-circle m-auto' src={user._avatar} alt='foto' />
-			</div>
-			<h2 className='mt-2 letter-pixel'>{user._nickname}</h2>
+			<Profile	borderImg={borderImg}
+						avatar={user._avatar}
+						nickname={user._nickname}
+			/>
 			<div className='d-flex flex-column align-items-center'>
-				<div className='p-2'>
-					<img className='img-fluid' src={rank} alt='' />
-				</div>
-				<div className={borderWrite} style={pointers > 15 ? { height: '200px' } : { height: '150px' }}>
-					<p className='fw-bold me-2'>VT<br></br>{user._wins}</p>
-					<p className='fw-bold me-2'>DR<br></br>{user._loses}</p>
-					<p className='fw-bold me-2'>EPT<br></br>{user._draws}</p>
-					<p className='fw-bold'>KDA<br></br>{kda}</p >
-				</div>
+				<Rank rank={rank} />
+				<Pointer	wins={user._wins}
+							loses={user._loses}
+							draws={user._draws}
+							kda={kda}
+							borderWrite={borderWrite}
+							pointers={pointers}
+				/>
 			</div>
 		</div>
 	);

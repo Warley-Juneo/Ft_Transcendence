@@ -14,15 +14,13 @@ export default function ProfileScreen() {
 					type='button'
 					size={30}
 				/>
-				<div className='position-absolute top-0 end-0 h-75 w-75 text-center text-white p-3' style={{ backgroundColor: 'black' }}>
+				{/* <div className='position-absolute top-0 end-0 h-75 w-75 text-center text-white p-3' style={{ backgroundColor: 'black' }}>
 					<h3>Settings Profile</h3>
-					{/* <label htmlFor='file-input'></label>
-						<input className='' id='file-input'></input> */}
 					<div className='d-flex'>
 						<label htmlFor="customRange1" className="form-label me-3">Sound</label>
 						<input type="range" className="form-range" id="customRange1"></input>
 					</div>
-				</div>
+				</div> */}
 			</div>
 			<div className='col-md-3 col-lg-2'>
 				<InformationsUser />
