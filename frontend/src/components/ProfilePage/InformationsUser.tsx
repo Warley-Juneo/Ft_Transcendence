@@ -42,10 +42,7 @@ export default function InformationsUser() {
 			rankMappings[rankMappings.length - 1];
 	}
 
-	let pointers: number = user._wins - user._loses;
-	let maping: formattingRankUser = handleRank(pointers);
-
-	useEffect(() => {
+	const getProfile = (): void => {
 		axios.get('http://localhost:3000/users/profile ', {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
@@ -57,6 +54,13 @@ export default function InformationsUser() {
 			).catch((error) => {
 				console.log("Error: ", error.response.data);
 			})
+	}
+
+	let pointers: number = user._wins - user._loses;
+	let maping: formattingRankUser = handleRank(pointers);
+
+	useEffect(() => {
+		getProfile();
 	}, []);
 
 
