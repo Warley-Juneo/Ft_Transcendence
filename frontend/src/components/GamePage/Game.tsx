@@ -97,7 +97,7 @@ export default function Game() {
 				prevPosition.position += prevPosition.direction;
 				console.log(prevPosition.position);
 				if (prevPosition.position < 2 || prevPosition.position > 98) {
-					return { ...prevPosition, direction: -prevPosition.direction};
+					return { ...prevPosition, direction: -prevPosition.direction };
 				}
 				return { ...prevPosition };
 			});
@@ -111,8 +111,8 @@ export default function Game() {
 				className="bg-light position-relative"
 				style={{ top: `${infosGame.positionBar}%`, height: '26%', width: '4%' }}>
 			</div>
-			<div className="d-flex justify-content-end h-100 position-absolute" style={{ top: `${positionBarBot.position}%`}}>
-				<div className="bg-light" style={{height: '26%', width: '4%' }}>
+			<div className="d-flex justify-content-end h-100 position-absolute" style={{ top: `${positionBarBot.position}%` }}>
+				<div className="bg-light" style={{ height: '26%', width: '4%' }}>
 				</div>
 			</div>
 

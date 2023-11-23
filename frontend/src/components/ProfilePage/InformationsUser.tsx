@@ -27,7 +27,6 @@ const rankMappings = [
 	{ max: Infinity, rank: rank6, borderImg: 'mt-5 borderDivFotoRank6 d-flex', borderWrite: 'd-flex borderWriteRank4 w-100 justify-content-center align-items-end pb-5 w-100' },
 ];
 
-
 type formattingRankUser = {
 	rank: string;
 	borderImg: string;
