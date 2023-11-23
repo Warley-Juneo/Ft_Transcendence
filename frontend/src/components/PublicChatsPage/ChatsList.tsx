@@ -102,7 +102,8 @@ export default function ChatList(props: propsChatList) {
 	return (
 		<div className='row g-0 w-100'>
 			{props.listChats.map((chat) => (
-				chat.type === 'public' ? divPublicChats(chat) : divProtectChats(chat)
+				console.log(chat),
+				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
 			))}
 		</div>
 	);
