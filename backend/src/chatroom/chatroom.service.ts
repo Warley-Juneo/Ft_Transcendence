@@ -22,9 +22,9 @@ export class ChatroomService {
 	async	deleteChatroom(userId: string, dto: InputChatroomDto): Promise<any> {
 
 		let response;
-		let chat = await this.findUniqueChatroom(dto);
+		let chat = await this.chatroomRepository.findUniqueChatroom(dto.name);
 
-		if(chat.owner_id == userId) {
+		if(chat.owner.id == userId) {
 			response = await this.chatroomRepository.deleteChatroom(dto.name);
 		}
 		else {
