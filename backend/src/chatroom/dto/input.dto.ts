@@ -22,4 +22,5 @@ export class AddChatAdmDto {
 
 export class InputChatroomDto {
 	name:			string;
+	password:		string;
 }
