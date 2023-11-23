@@ -1,6 +1,6 @@
 import { useState } from "react";
 import BarConfigurations from "./barConfigurations";
-import Configurations from "./Configurations";
+import Configurations from "./Configurations/Configurations";
 import InputChats from "../InputChats";
 import FormatMessagensList from "../ChatPrivate/FormatMessagensList";
 

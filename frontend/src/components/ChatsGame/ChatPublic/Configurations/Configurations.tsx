@@ -2,12 +2,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { MdOutlinePersonAddDisabled, MdDeleteSweep } from 'react-icons/md';
 import { AiOutlineUserAdd } from 'react-icons/ai';
 import { GiBroadDagger } from 'react-icons/gi';
-import ButtonConfiguration from "./configurations/ButtonConfiguration";
+import ButtonConfiguration from "./ButtonConfiguration";
 import axios from "axios";
 import Cookies from "js-cookie";
-import Bar from "./configurations/Bar";
-import Perfil from "./configurations/Perfil";
-import Rules from "./configurations/Rules";
+import Bar from "./Bar";
+import Perfil from "./Perfil";
+import Rules from "./Rules";
 
 const rules: string[] = [
 	"2 anos de Free Fire",
