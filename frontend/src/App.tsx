@@ -9,7 +9,6 @@ import Ranking from './components/Rankingpage/Ranking';
 import Game from './components/GamePage/Game';
 
 export default function App() {
-
 	return (
 		<div>
 			<BrowserRouter>
