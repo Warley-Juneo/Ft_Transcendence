@@ -57,6 +57,11 @@ export class ChatroomRepository {
 						nickname: true,
 					},
 				},
+				users: {
+					select: {
+						nickname: true,
+					},
+				},
 			},
 		});
 		return chat;
@@ -78,6 +83,11 @@ export class ChatroomRepository {
 						id: true,
 					},
 				},
+				users: {
+					select: {
+						nickname: true,
+					},
+				},
 			},
 		});
 		return response;
@@ -92,9 +102,7 @@ export class ChatroomRepository {
 						id: userId,
 					},
 				},
-				AND: {
-					type: "private",
-				},
+				type: "private",
 			},
 			select: {
 				id: true,
@@ -102,6 +110,13 @@ export class ChatroomRepository {
 				photoUrl: true,
 				owner: {
 					select: {
+						id: true,
+						nickname: true,
+					},
+				},
+				users: {
+					select: {
+						id: true,
 						nickname: true,
 					},
 				},

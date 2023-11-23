@@ -24,8 +24,6 @@ export class ChatroomService {
 		let response;
 		let chat = await this.findUniqueChatroom(dto);
 
-		console.log("\n\n\nOwerId: ", chat.owner_id);
-		console.log("\n\n\nUserId: ", userId, "\n\n\n");
 		if(chat.owner_id == userId) {
 			response = await this.chatroomRepository.deleteChatroom(dto.name);
 		}
@@ -46,6 +44,7 @@ export class ChatroomService {
 			outputDto.type = chat.type;
 			outputDto.photoUrl = chat.photoUrl;
 			outputDto.owner_id = chat.owner.id;
+			outputDto.users = chat.users;
 			outputDto.owner_nickname = chat.owner.nickname;
 
 		return outputDto;
@@ -66,9 +65,10 @@ export class ChatroomService {
 			dto.photoUrl = obj.photoUrl;
 			dto.owner_nickname = obj.owner.nickname;
 			dto.owner_id = obj.owner.id;
+			dto.users = obj.users;
 			outputDto.chatrooms.push(dto);
 		}
-		console.log("\n\n\nCHATS: ", outputDto, "\n\n\n");
+
 		return outputDto;
 	}
 
@@ -76,10 +76,9 @@ export class ChatroomService {
 
 		let chats = await this.chatroomRepository.findPrivateChatroom(userId);
 
-		console.log("\n\n\nChats: ", chats, "\n\n\n");
 		let outputDto = new ChatroomsDto;
 		outputDto.chatrooms = [];
-
+		
 		for (const obj of chats) {
 			let dto = new ChatroomDto;
 			dto.id = obj.id;
@@ -88,10 +87,12 @@ export class ChatroomService {
 			dto.photoUrl = obj.photoUrl;
 			dto.owner_nickname = obj.owner.nickname;
 			dto.owner_id = obj.owner.id;
+			console.log("\n\n\nObj.users: ", obj.users, "\n\n\n");
+			dto.users = obj.users.map(user => user.nickname);
 			outputDto.chatrooms.push(dto);
 		}
-		return outputDto;
 
+		return outputDto;
 	}
 
 	async createDirectChatroom(userId: string, dto: CreateDirectChatroomDto): Promise<OutputDirectMessagesDto> {
@@ -112,6 +113,7 @@ export class ChatroomService {
 		if (!chat) {
 			chat = await this.chatroomRepository.createDirectChatRoom(name);
 		}
+
 		return await this.findAllDirectMessage(name);
 	}
 
@@ -150,6 +152,7 @@ export class ChatroomService {
 			dto.date = obj.createdAt;
 			outputDto.direct_message.push(dto);
 		}
+
 		return outputDto;
 	}
 }
