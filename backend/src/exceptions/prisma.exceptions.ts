@@ -1,14 +1,15 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from "@nestjs/common";
+import { ArgumentsHost, BadRequestException, Catch, ExceptionFilter, HttpException, HttpStatus } from "@nestjs/common";
 import { Prisma } from "@prisma/client";
 
 @Catch()
-export class PrismaExceptionFilter implements ExceptionFilter {
+export class AllExceptionFilter implements ExceptionFilter {
 
 	catch(exception: any, host: ArgumentsHost) {
 		const context = host.switchToHttp();
 		const response = context.getResponse();
 		const request = context.getRequest();
 
+		console.log("Raoniiiiiiiiii");
 		if (exception instanceof Prisma.PrismaClientKnownRequestError && exception.code === 'P2002') {
 			let target = exception.meta.target;
 			response
@@ -18,6 +19,15 @@ export class PrismaExceptionFilter implements ExceptionFilter {
 					path: request.url,
 					msg: `${target} already exists`,
 				});
+		}
+		else if (exception instanceof BadRequestException) {
+			response
+			.status(HttpStatus.BAD_REQUEST)
+			.json({
+				statusCode: HttpStatus.BAD_REQUEST,
+				path: request.url,
+				msg: exception.message,
+			});
 		}
 	}
 }

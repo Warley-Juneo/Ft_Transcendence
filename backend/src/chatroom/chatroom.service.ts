@@ -1,13 +1,9 @@
-import { BadRequestException, ForbiddenException, HttpStatus, Injectable, 
-		 UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
-import { CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto,
-		 InputChatroomDto } from './dto/input.dto';
-import { ChatroomDto, ChatroomsDto, OutputDirectMessageDto,
-		 OutputDirectMessagesDto, OutputMessageDto, 
-		UniqueChatroomDto } from './dto/output.dto';
+import { CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto } from './dto/input.dto';
+import { ChatroomDto, ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto, OutputMessageDto, UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -19,9 +15,7 @@ export class ChatroomService {
 
 		if(dto.type == "protected") {
 			if (dto.password == '') {
-				// let response = {statusCode: HttpStatus.BAD_REQUEST,
-				// 	msg: 'invalid password'}
-				// return response;
+				throw new BadRequestException('Invalid password');
 			}
 			const	saltOrRound = 10;
 			const hash = await bcrypt.hashSync(dto.password, saltOrRound);
