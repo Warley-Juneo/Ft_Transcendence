@@ -213,7 +213,7 @@ export class ChatroomRepository {
 			data: {
 				direct_chat_room_name: chat,
 				user_nickname: userNickname,
-				img_url: dto.imgUrl,
+				// img_url: dto.imgUrl,
 				content: dto.content,
 			},
 		});

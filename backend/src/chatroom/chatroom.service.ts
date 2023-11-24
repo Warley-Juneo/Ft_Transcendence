@@ -1,9 +1,13 @@
-import { BadRequestException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, HttpStatus, Injectable, 
+		 UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
-import { CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto } from './dto/input.dto';
-import { ChatroomDto, ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto, OutputMessageDto, UniqueChatroomDto } from './dto/output.dto';
+import { CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto,
+		 InputChatroomDto } from './dto/input.dto';
+import { ChatroomDto, ChatroomsDto, OutputDirectMessageDto,
+		 OutputDirectMessagesDto, OutputMessageDto, 
+		UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -13,25 +17,17 @@ export class ChatroomService {
 
 	async createChatroom(userId: string, dto: CreateChatroomDto): Promise<ChatroomsDto> {
 
-		let inputdto =  new InputChatroomDto;
-		inputdto.name = dto.name;
-		inputdto.password = dto.password;
-		let chat = await this.findUniqueChatroom(inputdto);
-
-		if (chat) {
-			throw new ForbiddenException('Chatroom name already exists');
-		}
-
 		if(dto.type == "protected") {
 			if (dto.password == '') {
-				throw new BadRequestException('Invalid password');
+				// let response = {statusCode: HttpStatus.BAD_REQUEST,
+				// 	msg: 'invalid password'}
+				// return response;
 			}
 			const	saltOrRound = 10;
 			const hash = await bcrypt.hashSync(dto.password, saltOrRound);
 			dto.password = hash;
 		}
 		await this.chatroomRepository.createChatroom(userId, dto);
-
 		let response = await this.findPublicChatroom();
 
 		return response;
