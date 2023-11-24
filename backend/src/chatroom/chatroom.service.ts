@@ -14,8 +14,8 @@ export class ChatroomService {
 	async createChatroom(userId: string, dto: CreateChatroomDto): Promise<ChatroomsDto> {
 
 		if(dto.type == "protected") {
-			if (dto.password == '') {
-				throw new BadRequestException('Invalid password');
+			if (dto.password == '') {throw new BadRequestException('Invalid password');
+				
 			}
 			const	saltOrRound = 10;
 			const hash = await bcrypt.hashSync(dto.password, saltOrRound);
