@@ -6,19 +6,31 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import ConfigurationGame from './Configurations/Configurations';
 
-type infosUserPerfil = {
+export type t_dataUser = {
 	_nickname: string;
 	_avatar: string;
-}
+};
 
-export const DataUser = createContext<infosUserPerfil>({} as infosUserPerfil);
+export const DataUser = createContext<{
+	user: t_dataUser;
+	updateDataUser: () => void;
+}>({
+	user: {
+		_nickname: '',
+		_avatar: '',
+	},
+	updateDataUser: () => { },
+})
 
 export default function InicialPage() {
 	let timeout: number = 0;
 	let timeForNewRequestAxios: number = 10000;
-	const [InfoUser, setGetInfoUser] = useState<infosUserPerfil>({ _nickname: '', _avatar: '' });
+	const [InfoUser, setGetInfoUser] = useState<t_dataUser>({
+		_nickname: '',
+		_avatar: '',
+	});
 
-	const getInfoUser = () => {
+	function getInfoUser() {
 		axios.get('http://localhost:3000/landing-page', {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
@@ -45,7 +57,7 @@ export default function InicialPage() {
 	}, []);
 
 	return (
-		<DataUser.Provider value={InfoUser}>
+		<DataUser.Provider value={{user: InfoUser, updateDataUser: getInfoUser}}>
 			<ConfigurationGame />
 			<div className='row g-0' id='home-screen' style={{ height: '100vh', width: '100vw' }}>
 				<main className='col-9 h-100' id='left-screen'>

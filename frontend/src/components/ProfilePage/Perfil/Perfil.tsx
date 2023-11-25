@@ -39,7 +39,7 @@ type formattingRankUser = {
 
 export default function InformationsUser() {
 	const [user, setInfosUser] = useState<infosUserPerfil>({} as infosUserPerfil);
-	const usecontext = useContext(DataUser);
+	const dataUser = useContext(DataUser);
 
 	const handleRank = (pointers: number): formattingRankUser => {
 		return rankMappings.find((item) => pointers <= item.max) ||
@@ -74,8 +74,8 @@ export default function InformationsUser() {
 		<div className='text-center text-white'>
 			<Profile
 				borderImg={borderImg}
-				avatar={usecontext._avatar}
-				nickname={usecontext._nickname}
+				avatar={dataUser.user._avatar}
+				nickname={dataUser.user._nickname}
 			/>
 			<div className='d-flex flex-column align-items-center'>
 				<Rank rank={rank} />

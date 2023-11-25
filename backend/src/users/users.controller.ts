@@ -13,10 +13,12 @@ export class UsersController {
   async createUser(@Body() dto: CreateUserDto): Promise<User> {
     return await this.service.createUser(dto);
   }
-  
+
   @Post('update')
   async updateProfile(@Req() request, @Body() dto: UpdateProfileDto): Promise<UserResumeDto> {
-    return await this.service.updateProfile(request.user.sub, dto);
+	console.log("\n\n\n\n teste");
+
+	return await this.service.updateProfile(request.user.sub, dto);
   }
 
   @Post('add_friend')
@@ -31,9 +33,9 @@ export class UsersController {
 
   @Get('friends')
   async findFriends(@Req() request): Promise<OutputUsersResumeDto> {
-    return await this.service.findFriends(request.user.sub);
+	return await this.service.findFriends(request.user.sub);
   }
-  
+
   @Get('online')
   async findOnlineUsers(@Req() request): Promise<OutputUsersResumeDto> {
     return await this.service.findOnlineUsers(request.user.sub);
@@ -44,7 +46,7 @@ export class UsersController {
     return await this.service.findProfile(request.user.sub);
   }
 
-  
+
   // @Get('find-user')
   // async findUser(@Body() userId: string): Promise<User> {
   //   return await this.service.findUser(userId);

@@ -26,7 +26,6 @@ export class UsersRepository implements UsersRepositoryInterface {
   }
 
   async updateAvatar(userId: string, dto: UpdateProfileDto): Promise<User> {
-
     let response = await this.prisma.user.update({
         where: {
           id: userId,
@@ -39,7 +38,7 @@ export class UsersRepository implements UsersRepositoryInterface {
   }
 
   async updateNickname(userId: string, dto: UpdateProfileDto): Promise<User> {
-      
+
     let response = await this.prisma.user.update({
       where: {
         id: userId,
@@ -50,7 +49,7 @@ export class UsersRepository implements UsersRepositoryInterface {
     });
     return response;
   }
-  
+
 
   async findUserAll(): Promise<any> {
     let response = this.prisma.user.findMany({
@@ -112,7 +111,7 @@ export class UsersRepository implements UsersRepositoryInterface {
   }
 
   async addFriend(userId: string, dto: AddFriendDto): Promise<any> {
-    
+
     try {
       let friend = await this.prisma.user.findUniqueOrThrow({
         where: {
@@ -136,16 +135,16 @@ export class UsersRepository implements UsersRepositoryInterface {
         }
       });
       let user = await this.findUserWithFriends(userId);
-      
+
       return user.friends;
-    
+
     } catch(error) {
       return null;
     }
   }
 
   async deleteFriend(userId: string, dto: AddFriendDto): Promise<any> {
-    
+
     try {
       let friend = await this.prisma.user.findUniqueOrThrow({
         where: {
@@ -171,7 +170,7 @@ export class UsersRepository implements UsersRepositoryInterface {
 
     } catch(error) {
       return null;
-    }  
+    }
   }
 
   async findMatchesAsPlayer1(userId: string): Promise<any> {
