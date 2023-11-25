@@ -1,10 +1,10 @@
 import { Outlet } from 'react-router-dom';
 import MiniPerfil from './MiniPerfil/MiniPerfil';
-import BarOptions from './barOptions/BarOptions';
+import BarOptions from './BarOptions/BarOptions';
 import { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import ConfigurationGame from './configurations/Configurations';
+import ConfigurationGame from './Configurations/Configurations';
 
 type infosUserPerfil = {
 	_nickname: string;
