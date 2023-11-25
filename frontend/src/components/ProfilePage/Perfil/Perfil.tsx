@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import Profile from './Image';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import rank1 from '../../../static/rankLevel/rank1.png';
 import rank2 from '../../../static/rankLevel/rank2.png';
 import rank3 from '../../../static/rankLevel/rank3.png';
@@ -10,6 +10,7 @@ import rank5 from '../../../static/rankLevel/rank5.png';
 import rank6 from '../../../static/rankLevel/rank6.png';
 import Rank from './rank';
 import Pointer from './pontos';
+import { DataUser } from '../../InitialPage/InitialPage';
 
 type infosUserPerfil = {
 	_nickname: string;
@@ -38,6 +39,7 @@ type formattingRankUser = {
 
 export default function InformationsUser() {
 	const [user, setInfosUser] = useState<infosUserPerfil>({} as infosUserPerfil);
+	const usecontext = useContext(DataUser);
 
 	const handleRank = (pointers: number): formattingRankUser => {
 		return rankMappings.find((item) => pointers <= item.max) ||
@@ -72,8 +74,8 @@ export default function InformationsUser() {
 		<div className='text-center text-white'>
 			<Profile
 				borderImg={borderImg}
-				avatar={user._avatar}
-				nickname={user._nickname}
+				avatar={usecontext._avatar}
+				nickname={usecontext._nickname}
 			/>
 			<div className='d-flex flex-column align-items-center'>
 				<Rank rank={rank} />
