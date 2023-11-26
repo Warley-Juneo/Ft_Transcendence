@@ -27,6 +27,7 @@ export default function InputEditName(props: InputEditNameProps): JSX.Element {
 					type="text"
 					id="editPhotoInput"
 					placeholder='Photo'
+					ref={props.newAvatar}
 				/>
 				<MdOutlineAddAPhoto size={35} type="button" />
 			</div>

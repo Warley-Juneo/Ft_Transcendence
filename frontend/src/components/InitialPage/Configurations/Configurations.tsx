@@ -20,6 +20,7 @@ export default function ConfigurationGame(): JSX.Element {
 	const EditProfile = () => {
 		const nickName = newNickname.current?.value ? newNickname.current?.value : dataUser.user._nickname;
 		const avatar = newAvatar.current?.value ? newAvatar.current?.value : dataUser.user._avatar;
+		console.log(nickName, avatar);
 
 		axios.post('http://localhost:3000/users/update', {
 			nick_name: nickName,

@@ -5,6 +5,7 @@ import { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import ConfigurationGame from './Configurations/Configurations';
+import { IoSettingsOutline } from 'react-icons/io5';
 
 export type t_dataUser = {
 	_nickname: string;
@@ -25,6 +26,7 @@ export const DataUser = createContext<{
 export default function InicialPage() {
 	let timeout: number = 0;
 	let timeForNewRequestAxios: number = 10000;
+	const [showConfigurations, setShowConfigurations] = useState<boolean>(false);
 	const [InfoUser, setGetInfoUser] = useState<t_dataUser>({
 		_nickname: '',
 		_avatar: '',
@@ -57,8 +59,14 @@ export default function InicialPage() {
 	}, []);
 
 	return (
-		<DataUser.Provider value={{user: InfoUser, updateDataUser: getInfoUser}}>
-			<ConfigurationGame />
+		<DataUser.Provider value={{ user: InfoUser, updateDataUser: getInfoUser }}>
+			<IoSettingsOutline
+				className="position-absolute top-0 end-0 m-3 text-white"
+				type='button'
+				size={30}
+				onClick={() => setShowConfigurations(!showConfigurations)}
+			/>
+			{showConfigurations ? <ConfigurationGame /> : null}
 			<div className='row g-0' id='home-screen' style={{ height: '100vh', width: '100vw' }}>
 				<main className='col-9 h-100' id='left-screen'>
 					<BarOptions />

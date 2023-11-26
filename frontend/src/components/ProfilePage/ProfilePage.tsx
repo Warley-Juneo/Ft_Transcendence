@@ -6,13 +6,6 @@ import './rank.css'
 export default function ProfileScreen() {
 	return (
 		<div className="row g-0 p-2 bg-custon-roxo rounded h-100">
-			<div className='col'>
-				<IoSettingsOutline
-					className="position-absolute top-0 end-0 m-3 text-white"
-					type='button'
-					size={30}
-				/>
-			</div>
 			<div className='col-md-3 col-lg-2'>
 				<Perfil />
 			</div>
