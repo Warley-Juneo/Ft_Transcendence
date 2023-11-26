@@ -55,6 +55,7 @@ export class ChatroomRepository {
 					select: {
 						id: true,
 						nickname: true,
+						avatar: true,
 					},
 				},
 				admin: {
@@ -67,6 +68,7 @@ export class ChatroomRepository {
 					select: {
 						id: true,
 						nickname: true,
+						avatar: true,
 					},
 				},
 				message: {

@@ -27,7 +27,7 @@ export class ChatroomDto {
 	owner_nickname: string;
 	owner_id:		string;
 	users:			string[];
-	messages:		OutputMessageDto[];	
+	messages:		OutputMessageDto[];
 }
 
 export class ChatroomsDto {
@@ -48,6 +48,6 @@ export class UniqueChatroomDto {
 	owner_nickname: string;
 	owner_id:		string;
 	users:			UniqueUserChatrommDto[];
-	messages:		OutputMessageDto[];	
+	messages:		OutputMessageDto[];
 }
 

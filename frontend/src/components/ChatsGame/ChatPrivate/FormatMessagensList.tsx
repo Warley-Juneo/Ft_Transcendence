@@ -80,7 +80,6 @@ export default function FormatMessagensList() {
 
 	useEffect(() => {
 		get_MessagensAPI();
-		console.log("entrei");
 	}, []);
 
 	return (
