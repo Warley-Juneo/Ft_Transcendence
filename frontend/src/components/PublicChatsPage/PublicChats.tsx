@@ -79,6 +79,7 @@ export default function PageChats() {
 				Authorization: Cookies.get('jwtToken'),
 			}
 		}).then((res) => {
+			console.log("\n\nCREATE CHAT: ", res, "\n\n");
 			setChatList(res.data.chatrooms)
 		})
 	}

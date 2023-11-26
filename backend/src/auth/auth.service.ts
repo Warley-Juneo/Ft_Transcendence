@@ -6,7 +6,7 @@ import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import { GameService } from 'src/game/game.service';
-import { AuthLoginDto } from 'src/auth/dtos/authLogin.dto';
+import { AuthLoginDto } from 'src/auth/dtos/input.dto';
 import { OutputLoginDto } from './dtos/output.dto';
 import { CreateUserDto } from 'src/users/dtos/createUser.dto';
 

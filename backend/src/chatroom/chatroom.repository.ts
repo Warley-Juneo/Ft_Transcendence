@@ -42,6 +42,52 @@ export class ChatroomRepository {
 		return await this.findPublicChatroom();
 	}
 
+	async	openChatroom(name:string): Promise<any> {
+		let chat = await this.prisma.chatRoom.findUnique({
+			where: {
+				name: name,
+			},
+			select: {
+				id: true,
+				name: true,
+				photoUrl: true,
+				owner: {
+					select: {
+						id: true,
+						nickname: true,
+					},
+				},
+				admin: {
+					select: {
+						id: true,
+						nickname: true,
+					},
+				},
+				users: {
+					select: {
+						id: true,
+						nickname: true,
+					},
+				},
+				message: {
+					select: {
+						id: true,
+						content: true,
+						img_url: true,
+						user: {
+							select: {
+								nickname: true,
+								avatar: true,
+							},
+						},
+						createdAt: true,
+					}
+				}
+			},
+		});
+		return chat;
+	}
+
 	async	findUniqueChatroom(name: string): Promise<any> {
 		let chat = await this.prisma.chatRoom.findUnique({
 			where: {
@@ -51,6 +97,7 @@ export class ChatroomRepository {
 				id: true,
 				name: true,
 				photoUrl: true,
+				type: true,
 				password: true,
 				owner: {
 					select: {
@@ -60,9 +107,24 @@ export class ChatroomRepository {
 				},
 				users: {
 					select: {
+						id: true,
 						nickname: true,
 					},
 				},
+				message: {
+					select: {
+						id: true,
+						content: true,
+						img_url: true,
+						user: {
+							select: {
+								nickname: true,
+								avatar: true,
+							},
+						},
+						createdAt: true,
+					}
+				}
 			},
 		});
 		return chat;
@@ -151,7 +213,7 @@ export class ChatroomRepository {
 			data: {
 				direct_chat_room_name: chat,
 				user_nickname: userNickname,
-				img_url: dto.imgUrl,
+				// img_url: dto.imgUrl,
 				content: dto.content,
 			},
 		});
