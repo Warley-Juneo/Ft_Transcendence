@@ -5,10 +5,13 @@ export class CreateChatroomDto {
 	@IsNotEmpty({message: 'Chatroom name can not be empty.'})
 	name:			string;
 	
+	@IsString()
 	type:			string;
 	
+	@IsString()
 	password:		string;
-	
+
+	@IsString()
 	photoUrl:		string;
 }
 
@@ -37,5 +40,6 @@ export class InputChatroomDto {
 	@IsNotEmpty({message: 'Chatroom can not be empty.'})
 	name:			string;
 	
+	@IsString()
 	password:		string;
 }

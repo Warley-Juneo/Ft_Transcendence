@@ -23,7 +23,7 @@ export class AllExceptionFilter implements ExceptionFilter {
 		else if (exception instanceof BadRequestException) {
 			
 			let obj: any = exception.getResponse()
-			// console.log("\n\n PIPE: ",obj.message, "\n\n");
+			console.log("\n\n PIPE: ",obj.message, "\n\n");
 			response.status(HttpStatus.BAD_REQUEST)
 			.json({
 				statusCode: HttpStatus.BAD_REQUEST,

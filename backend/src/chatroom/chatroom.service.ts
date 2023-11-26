@@ -12,7 +12,8 @@ export class ChatroomService {
 		private readonly userService: UsersService) { }
 
 	async createChatroom(userId: string, dto: CreateChatroomDto): Promise<ChatroomsDto> {
-
+		
+		console.log("\n\nCREATE_DTO:", dto, "\n\n");
 		if(dto.type == "protected") {
 			if (dto.password == '') {
 				throw new BadRequestException('Invalid password');

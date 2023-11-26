@@ -8,6 +8,7 @@ export class AddFriendDto {
 export class UpdateProfileDto {
 	@IsString()
 	avatar:		string;
+
 	@IsString()
 	nick_name:	string;
 }
