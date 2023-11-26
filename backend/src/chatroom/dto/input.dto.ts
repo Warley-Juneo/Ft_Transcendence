@@ -1,36 +1,35 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateChatroomDto {
-	@IsString()
-	@IsNotEmpty()
+	@IsString({message: 'Chatroom name must be a string.'})
+	@IsNotEmpty({message: 'Chatroom name can not be empty.'})
 	name:			string;
 	type:			string;
-	@IsString()
 	password:		string;
 	photoUrl:		string;
 }
 
 export class CreateDirectChatroomDto {
-	@IsNotEmpty()
+	@IsNotEmpty({message: 'Nickname can not be empty.'})
 	user_nickname:		string;
 }
 
 export class CreateDirectMessageDto {
-	@IsNotEmpty()
+	@IsNotEmpty({message: 'Nickname can not be empty.'})
 	user_nickname:		string;
 	@IsNotEmpty()
 	content:			string;
 }
 
 export class AddChatAdmDto {
-	@IsNotEmpty()
+	@IsNotEmpty({message: 'Admin name can not be empty.'})
 	adm_nickname:		string;
-	@IsNotEmpty()
+	@IsNotEmpty({message: 'Chatroom can not be empty.'})
 	chatroomName:		string;
 }
 
 export class InputChatroomDto {
-	@IsNotEmpty()
+	@IsNotEmpty({message: 'Chatroom can not be empty.'})
 	name:			string;
 	password:		string;
 }
