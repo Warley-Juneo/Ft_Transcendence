@@ -225,3 +225,12 @@ Last project of 42School
   ### Problemas
 
   Docker
+
+
+  ## Create Tests Backend
+
+  - Create a Test Data Base
+    - Create a envfile to keep variables of the test environment
+      -  npm i --save @nestjs/config
+    
+    - Create a docker-compose.yml with a postgre image
