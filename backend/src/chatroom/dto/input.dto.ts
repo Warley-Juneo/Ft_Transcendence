@@ -4,8 +4,11 @@ export class CreateChatroomDto {
 	@IsString({message: 'Chatroom name must be a string.'})
 	@IsNotEmpty({message: 'Chatroom name can not be empty.'})
 	name:			string;
+	
 	type:			string;
+	
 	password:		string;
+	
 	photoUrl:		string;
 }
 
@@ -17,6 +20,7 @@ export class CreateDirectChatroomDto {
 export class CreateDirectMessageDto {
 	@IsNotEmpty({message: 'Nickname can not be empty.'})
 	user_nickname:		string;
+
 	@IsNotEmpty()
 	content:			string;
 }
@@ -24,6 +28,7 @@ export class CreateDirectMessageDto {
 export class AddChatAdmDto {
 	@IsNotEmpty({message: 'Admin name can not be empty.'})
 	adm_nickname:		string;
+	
 	@IsNotEmpty({message: 'Chatroom can not be empty.'})
 	chatroomName:		string;
 }
@@ -31,5 +36,6 @@ export class AddChatAdmDto {
 export class InputChatroomDto {
 	@IsNotEmpty({message: 'Chatroom can not be empty.'})
 	name:			string;
+	
 	password:		string;
 }
