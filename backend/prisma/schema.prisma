@@ -37,7 +37,8 @@ model User {
   chat_owner        ChatRoom[]  @relation(name: "owner")
   chat_admin        ChatRoom[]  @relation(name: "admin")
   chat_user         ChatRoom[]  @relation(name: "user_chatroom")
-  chat_message      Message[]    @relation(name: "user_mesage")
+  chat_banned       ChatRoom[]  @relation(name: "banned_chatroom")
+  chat_message      Message[]   @relation(name: "user_mesage")
   
   @@map("user")
 }
@@ -104,7 +105,8 @@ model ChatRoom {
   owner           User?     @relation(name: "owner", fields: [owner_id], references: [id])
   admin           User[]    @relation(name: "admin")
   users           User[]    @relation(name: "user_chatroom")
-  message          Message[]  @relation(name: "chat_mesage")
+  banned_user     User[]    @relation(name: "banned_chatroom")
+  message         Message[] @relation(name: "chat_mesage")
 
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt

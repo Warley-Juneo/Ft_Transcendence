@@ -50,6 +50,8 @@ export class UniqueChatroomDto {
 	owner_nickname: string;
 	owner_id:		string;
 	users:			UniqueUserChatrommDto[];
+	adm:			UniqueUserChatrommDto[];
+	banned:			UniqueUserChatrommDto[];
 	message:		OutputMessageDto[];
 }
 

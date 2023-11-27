@@ -1,7 +1,7 @@
 import { Controller, Body, Post, Req, Get, Delete, Query } from '@nestjs/common';
 import { CreateChatroomDto, InputChatroomDto } from './dto/input.dto';
 import { ChatroomService } from './chatroom.service';
-import { CreateDirectChatroomDto, CreateDirectMessageDto, AddChatAdmDto } from './dto/input.dto';
+import { CreateDirectChatroomDto, CreateDirectMessageDto, AddChatUserDto } from './dto/input.dto';
 import { ChatroomsDto, UniqueChatroomDto } from './dto/output.dto';
 
 @Controller('chatroom')
@@ -33,6 +33,16 @@ export class ChatroomController {
 	async	openChatroom(@Req() request, @Body() dto: InputChatroomDto): Promise<UniqueChatroomDto> {
 		console.log("\n\nDTO ", dto, "\n\n");
 		return await this.chatroomService.openChatroom(request.user.sub, dto);
+	}
+
+	@Post('add-user')
+	async	addUserChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+		return await this.chatroomService.addUserChatroom(request.user.sub, dto);
+	}
+
+	@Post('add-adm')
+	async	addAdmChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+		return await this.chatroomService.addAdmChatroom(request.user.sub, dto);
 	}
 
 	@Post('direct-chatroom')

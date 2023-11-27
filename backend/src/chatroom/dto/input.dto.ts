@@ -29,17 +29,18 @@ export class CreateDirectMessageDto {
 	content:			string;
 }
 
-export class AddChatAdmDto {
-	@IsNotEmpty({message: 'Admin name can not be empty.'})
-	adm_nickname:		string;
-	
+export class AddChatUserDto {
+	@IsNotEmpty({message: 'User id can not be empty.'})
+	add_id:			string;
+
 	@IsNotEmpty({message: 'Chatroom can not be empty.'})
-	chatroomName:		string;
+	chat_name:		string;
+
 }
 
 export class InputChatroomDto {
 	@IsNotEmpty({message: 'Chatroom can not be empty.'})
-	name:			string;
+	chat_name:			string;
 
 	@ValidateIf(o => o.password != null)
 	@IsString()

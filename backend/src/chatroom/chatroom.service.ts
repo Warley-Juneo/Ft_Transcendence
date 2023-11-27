@@ -2,7 +2,7 @@ import { BadRequestException, ConsoleLogger, ForbiddenException, Injectable, Una
 import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
-import { CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto } from './dto/input.dto';
+import { AddChatUserDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto } from './dto/input.dto';
 import { ChatroomDto, ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto, OutputMessageDto, UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 
@@ -34,7 +34,7 @@ export class ChatroomService {
 		let chat = await this.findUniqueChatroom(dto);
 
 		if (chat.owner_id == userId) {
-			response = await this.chatroomRepository.deleteChatroom(dto.name);
+			response = await this.chatroomRepository.deleteChatroom(dto.chat_name);
 		}
 		else {
 			throw new UnauthorizedException('Only the owner can delete the chat');
@@ -80,9 +80,69 @@ export class ChatroomService {
 		return outputDto;
 	}
 
-	async findUniqueChatroom(dto: InputChatroomDto): Promise<UniqueChatroomDto> {
+	async	addAdmChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+		
 
-		let chat = await this.chatroomRepository.findUniqueChatroom(dto.name);
+		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
+		console.log("\n\nChat", chat, "\n\n");
+		let user_id;
+		for (const obj of chat.admin) {
+			if (userId == obj.id) {
+				user_id = obj.id;
+				break;
+			}
+		}
+		console.log("\n\nUSER_ID", user_id, "\n\n");
+		if (user_id == '') {
+			throw new UnauthorizedException('Not a user of this chat')
+		}
+		let adm_id;
+		for (const obj of chat.users) {
+			console.log("\n\nADM_OBJ_IDS ****", dto.add_id, "\n", obj.id, "\n\n");
+			if (dto.add_id == obj.id) {
+				console.log("\n\nADM_OBJ_IDS", adm_id, "\n", obj.id, "\n\n");
+				adm_id = obj.id;
+			}
+		}
+		if (adm_id == '') {
+			throw new UnauthorizedException('To be adm, has to be a user.')
+		}
+		console.log("\n\nAddAdm Chat", adm_id, "\n\n");
+		
+		await this.chatroomRepository.addAdminChatroom(dto.add_id, dto.chat_name);
+
+		let response = await this.findUniqueChatroom(dto);
+		return response;
+	}
+
+	async	addUserChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+		
+
+		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
+		console.log("\n\nChat add_user", chat, "\n\n");
+		let user_id;
+		for (const obj of chat.admin) {
+			console.log("\n\nUSER_OBJ_ID", userId, "\n", obj.id,  "\n\n");
+			if (userId == obj.id) {
+				user_id = obj.id;
+				break;
+			}
+		}
+		if (user_id == '') {
+			throw new UnauthorizedException('Not a user of this chat')
+		}
+		console.log("\n\nUSER_ID", user_id, "\n\n");
+		
+		await this.chatroomRepository.addUserChatroom(dto.add_id, dto.chat_name);
+
+		let response = await this.findUniqueChatroom(dto);
+		
+		return response;
+	}
+	
+	async findUniqueChatroom(dto: InputChatroomDto | AddChatUserDto): Promise<UniqueChatroomDto> {
+
+		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
 
 		if (!chat) {
 			throw new BadRequestException('Chatroom do not exist');
@@ -97,7 +157,9 @@ export class ChatroomService {
 		outputDto.owner_id = chat.owner.id;
 		outputDto.owner_nickname = chat.owner.nickname;
 		outputDto.users = chat.users;
-
+		outputDto.adm = chat.admin;
+		outputDto.banned = chat.banned;
+		
 		outputDto.message = [];
 		for (const obj of chat.message) {
 			let dto = new OutputMessageDto;
