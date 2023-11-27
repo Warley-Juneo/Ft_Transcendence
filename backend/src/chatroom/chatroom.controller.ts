@@ -29,8 +29,8 @@ export class ChatroomController {
 		return await this.chatroomService.deleteChatroom(request.user.sub, dto);
 	}
 
-	@Get('open')
-	async	openChatroom(@Req() request, @Query() dto: InputChatroomDto): Promise<UniqueChatroomDto> {
+	@Post('open')
+	async	openChatroom(@Req() request, @Body() dto: InputChatroomDto): Promise<UniqueChatroomDto> {
 		console.log("\n\nDTO ", dto, "\n\n");
 		return await this.chatroomService.openChatroom(request.user.sub, dto);
 	}

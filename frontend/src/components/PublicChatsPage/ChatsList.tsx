@@ -3,6 +3,8 @@ import { BiSolidLock } from 'react-icons/bi';
 import { t_chat } from './PublicChats';
 import { ReactElement, useRef } from 'react';
 import Swal from 'sweetalert2';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 type propsChatList = {
 	listChats: t_chat[];
@@ -13,10 +15,19 @@ export default function ChatList(props: propsChatList) {
 	const navigate = useNavigate();
 	const buttonModal = useRef<HTMLButtonElement>(null);
 
-	const verifyPassword = (password: any) => {
-		if (password === '')
-			return false;
-		return true;
+	const verifyPassword = (chatName: string, password: string) => {
+		console.log(chatName, password)
+		axios.post(`http://localhost:3000/chatroom/open`, {
+				password: password, name: chatName,
+			}, {
+				headers: {
+				Authorization: Cookies.get('jwtToken')
+			},
+		}).then((response) => {
+			console.log(response.data);
+		}).catch((error) => {
+			console.log(error);
+		})
 	}
 
 	const showModal = (chatName: string) => {
@@ -30,7 +41,7 @@ export default function ChatList(props: propsChatList) {
 			confirmButtonText: 'Entrar',
 			showLoaderOnConfirm: true,
 			preConfirm: (password) => {
-				return verifyPassword(password);
+				return verifyPassword(chatName, password);
 			},
 			allowOutsideClick: () => !Swal.isLoading(),
 			customClass: {
@@ -39,7 +50,7 @@ export default function ChatList(props: propsChatList) {
 			},
 		}).then((result) => {
 			if (result.isConfirmed) {
-				navigate(`/game/chats/${chatName}`);
+				// navigate(`/game/chats/${chatName}`);
 			}
 		});
 	}
