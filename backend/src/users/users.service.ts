@@ -108,6 +108,28 @@ export class UsersService {
     return outputUsersResumeDto;
   }
 
+  async findUserAll(): Promise<OutputUsersResumeDto> {
+    let users = await this.userRepository.findAllUsers();
+
+    if (!users) {
+      return null
+    }
+
+    let outputUsersResumeDto = new OutputUsersResumeDto();
+    outputUsersResumeDto.users = [];
+
+    for (const obj of users) {
+      let userResumeDto = new UserResumeDto();
+      userResumeDto.id = obj.id;
+      userResumeDto.avatar = obj.avatar;
+      userResumeDto.nickname = obj.nickname;
+      userResumeDto.is_active = obj.is_active;
+      outputUsersResumeDto.users.push(userResumeDto);
+    };
+
+    return outputUsersResumeDto;
+  }
+
   async findOnlineUsers(userId: string): Promise<OutputUsersResumeDto> {
 
     let users = await this.userRepository.findOnlineUsers(userId);
@@ -137,7 +159,7 @@ export class UsersService {
     let wins = await this.gameService.numberOfUserMatchWins(userId);
     let loses = await this.gameService.numberOfUserMatchLoses(userId);
     let draws = await this.gameService.numberOfUserMatchDraws(userId);
-    let ladder = await this.userRepository.findUserAll();
+    let ladder = await this.userRepository.findAllUsers();
 
     const position = ladder.findIndex(u => u.id === userId) + 1;
 

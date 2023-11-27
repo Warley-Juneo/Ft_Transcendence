@@ -50,11 +50,16 @@ export class UsersRepository implements UsersRepositoryInterface {
     return response;
   }
 
-
-  async findUserAll(): Promise<any> {
+  async findAllUsers(): Promise<any> {
     let response = this.prisma.user.findMany({
       orderBy: {
         points: 'desc',
+      },
+      select: {
+        id: true,
+        avatar: true,
+        nickname: true,
+        is_active: true,
       },
     });
     return response;

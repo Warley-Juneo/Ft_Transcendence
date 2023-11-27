@@ -35,6 +35,11 @@ export class UsersController {
 	return await this.service.findFriends(request.user.sub);
   }
 
+  @Get('find-all')
+  async findUserAll(): Promise<OutputUsersResumeDto> {
+    return await this.service.findUserAll();
+  }
+
   @Get('online')
   async findOnlineUsers(@Req() request): Promise<OutputUsersResumeDto> {
     return await this.service.findOnlineUsers(request.user.sub);
