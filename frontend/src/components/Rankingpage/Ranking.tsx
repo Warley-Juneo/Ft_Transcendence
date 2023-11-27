@@ -1,5 +1,5 @@
 import Bar from "./Bar";
-import Top10 from "./Top10";
+import TopRank from "./TopRank/TopRank";
 
 export default function Ranking() {
 	return (
@@ -7,7 +7,7 @@ export default function Ranking() {
 			<div className="d-flex flex-column h-100 p-5">
 				<Bar />
 				<div className="h-100 overflow-auto">
-					<Top10 />
+					<TopRank />
 				</div>
 			</div>
 		</div>
