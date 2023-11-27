@@ -67,7 +67,6 @@ export default function ChatList(props: propsChatList) {
 			</div>
 		)
 	}
-	// navigate(`/game/chats/${chat.name}`)
 	const divPublicChats = (chat: t_chat): ReactElement => {
 		return (
 			<div className="col-md-4 border-bottom border-end hover"
@@ -88,7 +87,6 @@ export default function ChatList(props: propsChatList) {
 		)
 	}
 
-	// { navigate(`/game/chats/${chat.name}`) }
 	const divProtectChats = (chat: t_chat): ReactElement => {
 		return (
 			<div className="col-md-4 border-bottom border-end hover"
