@@ -4,13 +4,13 @@ import { useEffect, useState } from "react"
 
 type typeRaking = {
 	points: number,
-	_avatar: string
-	_draws: number,
-	_ladder: number,
-	_loses: number,
-	_matches: number,
-	_nickname: string
-	_wins: number,
+	avatar: string
+	draws: number,
+	ladder: number,
+	loses: number,
+	matches: number,
+	nickname: string
+	wins: number,
 }
 
 
@@ -32,7 +32,7 @@ export default function Top10() {
 	}, [])
 
 	const handleScore = (statusPart: typeRaking) => {
-		const getScore: { [key: string]: number } = { VTR: statusPart._wins, DER: statusPart._loses, EMP: statusPart._draws };
+		const getScore: { [key: string]: number } = { VTR: statusPart.wins, DER: statusPart.loses, EMP: statusPart.draws };
 		const renderScores = Object.keys(getScore).map((key) => (
 			<div className="ms-3" key={key}>
 				<p className="text-primary">{key}</p>
@@ -62,13 +62,13 @@ export default function Top10() {
 									<div className="d-flex w-50 justify-content-center">
 										<img
 											className="rounded-circle mh-100 mw-100"
-											src={user._avatar}
+											src={user.avatar}
 											alt="foto de perfil"  // Adicinar o unsuario que esta sendo printado
 											style={{ height: '4rem', width: '4rem' }}
 										/>
 									</div>
 									<div className="d-flex justify-content-center w-50">
-										<p>{user._nickname}</p>
+										<p>{user.nickname}</p>
 									</div>
 								</div>
 							</div>
