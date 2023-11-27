@@ -17,6 +17,7 @@ type DataChat = {
 export default function ChatPublic() {
 	const [showConfigurations, setShowConfigurations] = useState(false);
 	let DataChat = useLocation().state?.data as DataChat;
+	console.log(DataChat);
 
 	if (!DataChat) {
 		DataChat = {
