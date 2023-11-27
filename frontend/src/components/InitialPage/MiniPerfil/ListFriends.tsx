@@ -7,10 +7,10 @@ import Cookies from 'js-cookie';
 
 
 export type Players = {
-	_avatar: string,
-	_id: string,
-	_nickname: string,
-	_is_active: boolean,
+	avatar: string,
+	id: string,
+	nickname: string,
+	is_active: boolean,
 }
 
 type PropsListFriends = {
@@ -45,13 +45,13 @@ export default function ListFriends(props: PropsListFriends) {
 			{chatPrivate && <ChatPrivate />}
 			{props.players.map((play: Players) => {
 				return (
-					<div className='d-flex hover' key={play._id}>
+					<div className='d-flex hover' key={play.id}>
 						<div className='d-flex' onClick={showChatPrivate}>
-							<img className="foto-list-friends" src={play._avatar} alt='foto' />
-							{StatusOnline(play._nickname)}
+							<img className="foto-list-friends" src={play.avatar} alt='foto' />
+							{StatusOnline(play.nickname)}
 						</div>
 						<div className='d-flex align-items-end p-2'>
-							<MdDeleteForever size={20} onClick={() => { handleDeleteFriend(play._nickname) }} />
+							<MdDeleteForever size={20} onClick={() => { handleDeleteFriend(play.nickname) }} />
 						</div>
 					</div>
 				)

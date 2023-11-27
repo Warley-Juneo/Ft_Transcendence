@@ -43,19 +43,19 @@ export class ChatroomService {
 		return response;
 	}
 
-	async openChatroom(userId: string, dto: InputChatroomDto): Promise<ChatroomDto> {
+	async openChatroom(userId: string, dto: InputChatroomDto): Promise<UniqueChatroomDto> {
 
-		let _chat = await this.findUniqueChatroom(dto);
+		let chat = await this.findUniqueChatroom(dto);
 
-		if (_chat.type == 'protected') {
-			if (bcrypt.compareSync(dto.password ,_chat.password)) {
+		if (chat.type == 'protected') {
+			if (bcrypt.compareSync(dto.password ,chat.password)) {
 				throw new UnauthorizedException('Password incorrect')
 			}
 		}
 
 		let user = '';
-		if (_chat.type == 'private') {
-			for (const obj of _chat.users) {
+		if (chat.type == 'private') {
+			for (const obj of chat.users) {
 				if (userId == obj.id) {
 					user = obj.nickname;
 				}
@@ -65,14 +65,12 @@ export class ChatroomService {
 			throw new UnauthorizedException('Not a user of this chat')
 		}
 
-		let chat = await this.chatroomRepository.openChatroom(dto.name);
-
-		let outputDto = new ChatroomDto;
+		let outputDto = new UniqueChatroomDto;
 		outputDto.id = chat.id;
 		outputDto.name = chat.name;
 		outputDto.type = chat.type;
 		outputDto.users = chat.users;
-		outputDto.messages = chat.message;
+		outputDto.message = chat.message;
 		outputDto.owner_id = chat.owner_id;
 		outputDto.photoUrl = chat.photoUrl;
 		outputDto.owner_nickname = chat.owner_nickname;
@@ -98,7 +96,7 @@ export class ChatroomService {
 		outputDto.owner_nickname = chat.owner.nickname;
 		outputDto.users = chat.users;
 
-		outputDto.messages = [];
+		outputDto.message = [];
 		for (const obj of chat.message) {
 			let dto = new OutputMessageDto;
 			dto.id = obj.id;
@@ -107,7 +105,7 @@ export class ChatroomService {
 			dto.user_nickname = obj.user.nickname;
 			dto.user_avatar = obj.user.avatar;
 			dto.data = obj.createdAt;
-			outputDto.messages.push(dto);
+			outputDto.message.push(dto);
 		}
 
 		return outputDto;

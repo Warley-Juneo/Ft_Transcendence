@@ -105,12 +105,16 @@ export class ChatroomRepository {
 					select: {
 						id: true,
 						nickname: true,
+						avatar: true,
+						is_active: true,
 					},
 				},
 				users: {
 					select: {
 						id: true,
 						nickname: true,
+						avatar: true,
+						is_active: true,
 					},
 				},
 				message: {
