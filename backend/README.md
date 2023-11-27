@@ -232,5 +232,8 @@ Last project of 42School
   - Create a Test Data Base
     - Create a envfile to keep variables of the test environment
       -  npm i --save @nestjs/config
+      -import into AppModule
     
     - Create a docker-compose.yml with a postgre image
+
+    -npm install -D dotenv-cli (to create the env file for test environment)

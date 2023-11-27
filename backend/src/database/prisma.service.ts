@@ -1,6 +1,7 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { ConfigService } from '@nestjs/config';
+
 @Injectable()
 export class PrismaService 
   extends PrismaClient 
@@ -29,8 +30,13 @@ export class PrismaService
       return;
     }
 
-    const models = Reflect.ownKeys(this).filter((key) => key[0] !== '_');
+    // const models = Reflect.ownKeys(this);
 
-    return Promise.all(models.map((modelKey) => this[modelKey].deleteMany()));
+    await this.match.deleteMany({});
+    await this.directMessage.deleteMany({});
+    await this.directChatRoom.deleteMany({});
+    await this.message.deleteMany({});
+    await this.chatRoom.deleteMany({});
+    await this.user.deleteMany();
   }
 }
