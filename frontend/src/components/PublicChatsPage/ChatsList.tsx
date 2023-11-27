@@ -15,7 +15,7 @@ export default function ChatList(props: propsChatList) {
 	const navigate = useNavigate();
 	const buttonModal = useRef<HTMLButtonElement>(null);
 
-	const verifyPassword = (chatName: string, password: string) => {
+	const getDataChat = (chatName: string, password: string) => {
 		return axios.post(`http://localhost:3000/chatroom/open`, {
 			password: password,
 			name: chatName,
@@ -30,6 +30,11 @@ export default function ChatList(props: propsChatList) {
 		});
 	}
 
+	const getDataChatPublic = (chatName: string) => {
+		getDataChat(chatName, '').then((response) => {
+			navigate(`/game/chats/public`, { state: { data: response } });
+		});
+	}
 	const showModal = (chatName: string) => {
 		Swal.fire({
 			title: 'Digite a senha da sala',
@@ -42,7 +47,7 @@ export default function ChatList(props: propsChatList) {
 			confirmButtonText: 'Entrar',
 			cancelButtonText: 'Cancelar',
 			preConfirm: (password) => {
-				return verifyPassword(chatName, password);
+				return getDataChat(chatName, password);
 			},
 			allowOutsideClick: () => !Swal.isLoading(),
 			customClass: {
@@ -50,7 +55,7 @@ export default function ChatList(props: propsChatList) {
 			},
 		}).then((result) => {
 			if (result.isConfirmed) {
-				navigate(`/game/chats/${chatName}`, { state: { data: result } });
+				navigate(`/game/chats/${chatName}`, { state: { data: result.value } });
 			}
 		});
 	}
@@ -62,12 +67,11 @@ export default function ChatList(props: propsChatList) {
 			</div>
 		)
 	}
-	// navigate(`/game/chats/${chat.name}`)
 	const divPublicChats = (chat: t_chat): ReactElement => {
 		return (
 			<div className="col-md-4 border-bottom border-end hover"
 				key={chat.id}
-				onClick={() => navigate(`/game/chats/${chat.name}`)}
+				onClick={() => getDataChatPublic(chat.name)}
 			>
 				<div className='d-flex p-2 justify-content-between' id='sala1'>
 					<div>
@@ -83,7 +87,6 @@ export default function ChatList(props: propsChatList) {
 		)
 	}
 
-	// { navigate(`/game/chats/${chat.name}`) }
 	const divProtectChats = (chat: t_chat): ReactElement => {
 		return (
 			<div className="col-md-4 border-bottom border-end hover"

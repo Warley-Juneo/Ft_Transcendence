@@ -37,6 +37,15 @@ export default function ListFriends(props: PropsListFriends) {
 			})
 	}
 
+	if (!props.players.length) {
+		return (
+			<div>
+				<div className='d-flex justify-content-center'>
+					<p className='text-white'>Você não possui amigos</p>
+				</div>
+			</div>
+		)
+	}
 	return (
 		<div className='p-2 text-white overflow-auto'>
 			{chatPrivate && <ChatPrivate />}

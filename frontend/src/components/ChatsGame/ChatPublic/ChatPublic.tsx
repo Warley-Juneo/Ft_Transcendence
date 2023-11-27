@@ -1,34 +1,41 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BarConfigurations from "./barConfigurations";
 import Configurations from "./Configurations/Configurations";
 import InputChats from "../InputChats";
 import FormatMessagensList from "../ChatPrivate/FormatMessagensList";
-import MembersChat from "./MembersChat";
-import axios from "axios";
-import Cookies from "js-cookie";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import ListFriends from "../../InitialPage/MiniPerfil/ListFriends";
+import { Players } from "../../InitialPage/MiniPerfil/ListFriends";
 
 type DataChat = {
 	id: string
 	name: string
 	photo: string
-	users: {
-		id: string
-		nickname: string
-		photo: string
-	}[]
+	users: Players[]
 }
 
 export default function ChatPublic() {
 	const [showConfigurations, setShowConfigurations] = useState(false);
-	const DataChat = useLocation().state.data as DataChat;
+	let DataChat = useLocation().state?.data as DataChat;
+	console.log(DataChat);
+
+	if (!DataChat) {
+		DataChat = {
+			id: '',
+			name: '',
+			photo: '',
+			users: [],
+		}
+	}
 
 	return (
 		<div className="bg-custon-roxo rounded text-white h-100">
 			<div className="row g-0 h-100 p-2">
 				{/* Lado esquerdo do chat*/}
-				<div className="col-3 d-flex flex-column align-items-center justify-content-center border-end h-100">
-					<MembersChat />
+				<div className="col-3 border-end h-100">
+					<ListFriends	players={DataChat.users}
+									getPlayers={() => { }}
+					/>
 				</div>
 
 				{/* Lado direto do chat*/}
