@@ -18,21 +18,21 @@ export default function ChatList(props: propsChatList) {
 	const getDataChat = (chatName: string, password: string) => {
 		return axios.post(`http://localhost:3000/chatroom/open`, {
 			password: password,
-			name: chatName,
+			chat_name: chatName,
 		}, {
 			headers: {
 				Authorization: Cookies.get('jwtToken')
 			},
 		}).then((response) => {
 			return response.data;
-		}).catch(error => {
-			Swal.showValidationMessage(`Erro: ${error.response.data.msg}`);
-		});
+		})
 	}
 
 	const getDataChatPublic = (chatName: string) => {
 		getDataChat(chatName, '').then((response) => {
 			navigate(`/game/chats/public`, { state: { data: response } });
+		}).catch((error) => {
+			console.log(error);
 		});
 	}
 	const showModal = (chatName: string) => {
@@ -47,7 +47,9 @@ export default function ChatList(props: propsChatList) {
 			confirmButtonText: 'Entrar',
 			cancelButtonText: 'Cancelar',
 			preConfirm: (password) => {
-				return getDataChat(chatName, password);
+				return getDataChat(chatName, password).catch(error => {
+					Swal.showValidationMessage(`Erro: ${error.response.data.msg}`);
+				});;
 			},
 			allowOutsideClick: () => !Swal.isLoading(),
 			customClass: {
