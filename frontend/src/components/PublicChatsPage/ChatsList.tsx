@@ -16,18 +16,19 @@ export default function ChatList(props: propsChatList) {
 	const buttonModal = useRef<HTMLButtonElement>(null);
 
 	const verifyPassword = (chatName: string, password: string) => {
-		console.log(chatName, password)
-		axios.post(`http://localhost:3000/chatroom/open`, {
-				password: password, name: chatName,
-			}, {
-				headers: {
+		return axios.post(`http://localhost:3000/chatroom/open`, {
+			password: password,
+			name: chatName,
+		}, {
+			headers: {
 				Authorization: Cookies.get('jwtToken')
 			},
 		}).then((response) => {
-			console.log(response.data);
-		}).catch((error) => {
+			return response.data;
+		}).catch(error => {
 			console.log(error);
-		})
+			Swal.showValidationMessage(`Erro: ${error.response.data.msg}`);
+		});
 	}
 
 	const showModal = (chatName: string) => {
@@ -38,17 +39,18 @@ export default function ChatList(props: propsChatList) {
 				autocapitalize: 'off'
 			},
 			showCancelButton: true,
-			confirmButtonText: 'Entrar',
 			showLoaderOnConfirm: true,
+			confirmButtonText: 'Entrar',
+			cancelButtonText: 'Cancelar',
 			preConfirm: (password) => {
 				return verifyPassword(chatName, password);
 			},
 			allowOutsideClick: () => !Swal.isLoading(),
 			customClass: {
-				// Adicione uma classe CSS personalizada para o modal
 				popup: 'bg-custon-roxo modal-class',
 			},
 		}).then((result) => {
+			console.log("result: ", result);
 			if (result.isConfirmed) {
 				// navigate(`/game/chats/${chatName}`);
 			}
