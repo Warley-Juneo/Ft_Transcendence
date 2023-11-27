@@ -48,7 +48,7 @@ export class ChatroomService {
 		let _chat = await this.findUniqueChatroom(dto);
 
 		if (_chat.type == 'protected') {
-			if (_chat.password != dto.password) {
+			if (bcrypt.compareSync(dto.password ,_chat.password)) {
 				throw new UnauthorizedException('Password incorrect')
 			}
 		}
@@ -163,13 +163,13 @@ export class ChatroomService {
 		console.log("USER1: ", userId);
 		let user1 = await this.userService.findProfile(userId);
 
-		let comp = user1._nickname.localeCompare(dto.user_nickname);
+		let comp = user1.nickname.localeCompare(dto.user_nickname);
 		let name;
 		if (comp < 0) {
-			name = user1._nickname + dto.user_nickname;
+			name = user1.nickname + dto.user_nickname;
 		}
 		else {
-			name = dto.user_nickname + user1._nickname
+			name = dto.user_nickname + user1.nickname
 		}
 		let chat: DirectChatRoom = await this.chatroomRepository.findDirectChatroom(name);
 

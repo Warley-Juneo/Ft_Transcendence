@@ -30,10 +30,10 @@ export class UsersService {
     }
 
     let userResumeDto = new UserResumeDto;
-    userResumeDto._id = user.id;
-    userResumeDto._avatar = user.avatar;
-    userResumeDto._nickname = user.nickname;
-    userResumeDto._is_active = user.is_active;
+    userResumeDto.id = user.id;
+    userResumeDto.avatar = user.avatar;
+    userResumeDto.nickname = user.nickname;
+    userResumeDto.is_active = user.is_active;
     
     return userResumeDto;
   }
@@ -48,10 +48,10 @@ export class UsersService {
 
     for (const obj of friends) {
       let userResumeDto = new UserResumeDto();
-      userResumeDto._id = obj.id;
-      userResumeDto._avatar = obj.avatar;
-      userResumeDto._nickname = obj.nickname;
-      userResumeDto._is_active = obj.is_active;
+      userResumeDto.id = obj.id;
+      userResumeDto.avatar = obj.avatar;
+      userResumeDto.nickname = obj.nickname;
+      userResumeDto.is_active = obj.is_active;
       outputUsersResumeDto.users.push(userResumeDto);
     };
     return outputUsersResumeDto;
@@ -69,10 +69,10 @@ export class UsersService {
 
     for (const obj of friends) {
       let userResumeDto = new UserResumeDto();
-      userResumeDto._id = obj.id;
-      userResumeDto._avatar = obj.avatar;
-      userResumeDto._nickname = obj.nickname;
-      userResumeDto._is_active = obj.is_active;
+      userResumeDto.id = obj.id;
+      userResumeDto.avatar = obj.avatar;
+      userResumeDto.nickname = obj.nickname;
+      userResumeDto.is_active = obj.is_active;
       outputUsersResumeDto.users.push(userResumeDto);
     };
     return outputUsersResumeDto;
@@ -98,10 +98,10 @@ export class UsersService {
 
     for (const obj of user.friends) {
       let userResumeDto = new UserResumeDto();
-      userResumeDto._id = obj.id;
-      userResumeDto._avatar = obj.avatar;
-      userResumeDto._nickname = obj.nickname;
-      userResumeDto._is_active = obj.is_active;
+      userResumeDto.id = obj.id;
+      userResumeDto.avatar = obj.avatar;
+      userResumeDto.nickname = obj.nickname;
+      userResumeDto.is_active = obj.is_active;
       outputUsersResumeDto.users.push(userResumeDto);
     };
 
@@ -122,10 +122,10 @@ export class UsersService {
 
     for (const obj of users) {
       let userResumeDto = new UserResumeDto();
-      userResumeDto._id = obj.id;
-      userResumeDto._avatar = obj.avatar;
-      userResumeDto._nickname = obj.nickname;
-      userResumeDto._is_active = obj.is_active;
+      userResumeDto.id = obj.id;
+      userResumeDto.avatar = obj.avatar;
+      userResumeDto.nickname = obj.nickname;
+      userResumeDto.is_active = obj.is_active;
       outputUsersResumeDto.users.push(userResumeDto);
     };
 
@@ -144,15 +144,15 @@ export class UsersService {
     const position = ladder.findIndex(u => u.id === userId) + 1;
 
     let userProfileDto = new UserProfileDto();
-    userProfileDto._login = user.login;
-    userProfileDto._avatar = user.avatar;
-    userProfileDto._first_name = user.first_name;
-    userProfileDto._last_name = user.last_name;
-    userProfileDto._nickname = user.nickname;
-    userProfileDto._wins = wins;
-    userProfileDto._loses = loses;
-    userProfileDto._draws = draws;
-    userProfileDto._ladder = position;
+    userProfileDto.login = user.login;
+    userProfileDto.avatar = user.avatar;
+    userProfileDto.first_name = user.first_name;
+    userProfileDto.last_name = user.last_name;
+    userProfileDto.nickname = user.nickname;
+    userProfileDto.wins = wins;
+    userProfileDto.loses = loses;
+    userProfileDto.draws = draws;
+    userProfileDto.ladder = position;
 
     return userProfileDto;
   }
@@ -166,35 +166,35 @@ export class UsersService {
 
     for (const obj of as_player_1) {
       let userMatchesDto = new UserMatchesDto();
-      userMatchesDto._opponent = obj.player_2.nickname;
-      userMatchesDto._opponent_avatar = obj.player_2.avatar;
-      userMatchesDto._opponent_score = obj.score_p2;
-      userMatchesDto._my_score = obj.score_p1;
+      userMatchesDto.opponent = obj.player_2.nickname;
+      userMatchesDto.opponent_avatar = obj.player_2.avatar;
+      userMatchesDto.opponent_score = obj.score_p2;
+      userMatchesDto.my_score = obj.score_p1;
       if (obj.draws == true){
-        userMatchesDto._status = "DRAW";
+        userMatchesDto.status = "DRAW";
       }
-      else if (userMatchesDto._opponent_score < userMatchesDto._my_score) {
-        userMatchesDto._status = "WINNER";
+      else if (userMatchesDto.opponent_score < userMatchesDto.my_score) {
+        userMatchesDto.status = "WINNER";
       }
       else
-      userMatchesDto._status = "LOSER";
+      userMatchesDto.status = "LOSER";
       outputUserMatchesDto.users.push(userMatchesDto);
     };
 
     for (const obj of as_player_2) {
       let userMatchesDto = new UserMatchesDto();
-      userMatchesDto._opponent = obj.player_1.nickname;
-      userMatchesDto._opponent_avatar = obj.player_1.avatar;
-      userMatchesDto._opponent_score = obj.score_p1;
-      userMatchesDto._my_score = obj.score_p2;
+      userMatchesDto.opponent = obj.player_1.nickname;
+      userMatchesDto.opponent_avatar = obj.player_1.avatar;
+      userMatchesDto.opponent_score = obj.score_p1;
+      userMatchesDto.my_score = obj.score_p2;
       if (obj.draws == true){
-        userMatchesDto._status = "DRAW";
+        userMatchesDto.status = "DRAW";
       }
-      else if (userMatchesDto._opponent_score < userMatchesDto._my_score) {
-        userMatchesDto._status = "WINNER";
+      else if (userMatchesDto.opponent_score < userMatchesDto.my_score) {
+        userMatchesDto.status = "WINNER";
       }
       else
-      userMatchesDto._status = "LOSER";
+      userMatchesDto.status = "LOSER";
       outputUserMatchesDto.users.push(userMatchesDto);
     };
 
@@ -209,16 +209,16 @@ export class UsersService {
     
     for(const obj of ladder) {
       let userLadderDto = new UserLadderDto();
-      userLadderDto._id = obj.id;
-      userLadderDto._avatar = obj.avatar;
-      userLadderDto._nickname = obj.nickname;
+      userLadderDto.id = obj.id;
+      userLadderDto.avatar = obj.avatar;
+      userLadderDto.nickname = obj.nickname;
       userLadderDto.points = obj.points;
-      userLadderDto._matches = obj._count.match_as_player_1 + obj._count.match_as_player_2;
-      userLadderDto._wins = obj._count.match_wins;
-      userLadderDto._loses = obj._count.math_loses;
-      userLadderDto._draws = userLadderDto._matches - (userLadderDto._wins + userLadderDto._loses);
+      userLadderDto.matches = obj._count.match_as_player_1 + obj._count.match_as_player_2;
+      userLadderDto.wins = obj._count.match_wins;
+      userLadderDto.loses = obj._count.math_loses;
+      userLadderDto.draws = userLadderDto.matches - (userLadderDto.wins + userLadderDto.loses);
       const position = ladder.findIndex(u => u.nickname === obj.nickname) + 1;
-      userLadderDto._ladder = position;
+      userLadderDto.ladder = position;
       outputLadderDto.ladder.push(userLadderDto);
     };
     console.log("Ladder: ", outputLadderDto);

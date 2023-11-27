@@ -1,26 +1,26 @@
 import { Match } from '@prisma/client';
 
 export class UserProfileDto {
-  _login: string;
-  _email: string;
+  login: string;
+  email: string;
 
-  _first_name: string;
-  _last_name: string;
-  _nickname: string;
-  _avatar: string; //trocar aqui para o tipo File
+  first_name: string;
+  last_name: string;
+  nickname: string;
+  avatar: string; //trocar aqui para o tipo File
 
-  _wins: number;
-  _loses: number;
-  _draws: number;
-  _ladder: number;
+  wins: number;
+  loses: number;
+  draws: number;
+  ladder: number;
   // _statusConnection?:  boolean; // podemos colocar um enum aqui para ter mais status de conexão
 }
 
 export class UserResumeDto {
-  _id: string;
-  _nickname: string;
-  _avatar: string;
-  _is_active: boolean;
+  id: string;
+  nickname: string;
+  avatar: string;
+  is_active: boolean;
 }
 
 export class OutputUsersResumeDto {
@@ -28,11 +28,11 @@ export class OutputUsersResumeDto {
 }
 
 export class UserMatchesDto {
-  _opponent:        string;
-  _opponent_avatar: string;
-  _opponent_score:  number;
-  _my_score:        number;
-  _status:          string
+  opponent:        string;
+  opponent_avatar: string;
+  opponent_score:  number;
+  my_score:        number;
+  status:          string
 }
 
 export class OutputUserMatchesDto {
@@ -40,16 +40,16 @@ export class OutputUserMatchesDto {
 }
 
 export class UserLadderDto {
-  _id:        string;
-  _avatar:    string;
-  _nickname:  string;
+  id:        string;
+  avatar:    string;
+  nickname:  string;
 
   points:     number;
-  _matches:   number;
-  _wins:      number;
-  _loses:     number;
-  _draws:     number;
-  _ladder:    number;
+  matches:   number;
+  wins:      number;
+  loses:     number;
+  draws:     number;
+  ladder:    number;
 }
 
 export class OutputLadderDto {
