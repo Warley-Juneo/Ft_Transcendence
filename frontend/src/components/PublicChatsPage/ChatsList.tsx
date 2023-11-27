@@ -50,7 +50,7 @@ export default function ChatList(props: propsChatList) {
 			},
 		}).then((result) => {
 			if (result.isConfirmed) {
-				navigate(`/game/chats/${chatName}`, { state: { data: result } });
+				navigate(`/game/chats/${chatName}`, { state: { data: result.value } });
 			}
 		});
 	}
