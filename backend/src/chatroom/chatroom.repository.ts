@@ -37,7 +37,7 @@ export class ChatroomRepository {
 				name: name,
 			},
 		});
-		console.log("\n\ndeleteChat", response, "\n\n");
+		// console.log("\n\ndeleteChat", response, "\n\n");
 
 		return await this.findPublicChatroom();
 	}

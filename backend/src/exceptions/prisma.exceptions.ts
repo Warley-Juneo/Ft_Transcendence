@@ -9,7 +9,7 @@ export class AllExceptionFilter implements ExceptionFilter {
 		const response = context.getResponse();
 		const request = context.getRequest();
 
-		console.log("Enter on AllExceptionsFilter");
+		// console.log("Enter on AllExceptionsFilter");
 		if (exception instanceof Prisma.PrismaClientKnownRequestError && exception.code === 'P2002') {
 			let target = exception.meta.target;
 			response
@@ -21,9 +21,9 @@ export class AllExceptionFilter implements ExceptionFilter {
 				});
 		}
 		else if (exception instanceof BadRequestException) {
-			
+
 			let obj: any = exception.getResponse()
-			console.log("\n\n PIPE: ",obj.message, "\n\n");
+			// console.log("\n\n PIPE: ",obj.message, "\n\n");
 			response.status(HttpStatus.BAD_REQUEST)
 			.json({
 				statusCode: HttpStatus.BAD_REQUEST,
@@ -34,7 +34,7 @@ export class AllExceptionFilter implements ExceptionFilter {
 		else if (exception instanceof UnauthorizedException) {
 
 			let obj: any = exception.getResponse()
-			console.log("\n\n PIPE: ",obj.message, "\n\n");
+			// console.log("\n\n PIPE: ",obj.message, "\n\n");
 			response.status(HttpStatus.BAD_REQUEST)
 			.json({
 				statusCode: HttpStatus.UNAUTHORIZED,
@@ -43,9 +43,9 @@ export class AllExceptionFilter implements ExceptionFilter {
 			});
 		}
 		else if (exception instanceof RequestTimeoutException) {
-			
+
 			let obj: any = exception.getResponse()
-			console.log("\n\n PIPE: ",obj.message, "\n\n");
+			// console.log("\n\n PIPE: ",obj.message, "\n\n");
 			response.status(HttpStatus.REQUEST_TIMEOUT)
 			.json({
 				statusCode: HttpStatus.REQUEST_TIMEOUT,

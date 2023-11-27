@@ -7,10 +7,8 @@ export class GameService {
   constructor(private readonly gameRepository: GameRepository) {}
 
   async userMatchs(userId: string): Promise<UserMatchesDto> {
-    console.log("UserID_Matchs:", userId);
     let matches = await this.gameRepository.userMatchs(userId);
 
-    console.log("User_Matchs:", matches);
 
     let outpuDto = new UserMatchesDto;
     outpuDto.matches = [];
@@ -51,7 +49,6 @@ export class GameService {
       }
       outpuDto.matches.push(dto);
     }
-    console.log("\n\n\n\nMAches: ", outpuDto);
     return outpuDto;
   }
 

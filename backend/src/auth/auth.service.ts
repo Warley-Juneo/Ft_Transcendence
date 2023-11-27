@@ -37,12 +37,12 @@ export class AuthService {
 
     const authResponseResolved = await lastValueFrom(authResponsePromise);
     const accessToken: string = authResponseResolved.data.access_token;
-    
+
     return accessToken;
   }
 
   async getUserInfoApi42(accessToken: string): Promise<any> {
-    
+
     const userApiInfo: Observable<any> = this.httpService.get(
       process.env.API42_USER_INFO,
       {
@@ -67,26 +67,26 @@ export class AuthService {
       createUserDto.last_name = userInfo.last_name;
       createUserDto.nickname = userInfo.login;
       createUserDto.avatar = userInfo.avatar;
-    
+
       user = await this.usersService.createUser(createUserDto);
     }
     return user;
   }
 
   async jwtSign(user: any): Promise<string> {
-    console.log("USER ID JWT: ", user.id);
+    // console.log("USER ID JWT: ", user.id);
     const payload = { sub: user.id, userEmail: user.email };
     let jwt_token = await this.jwtService.signAsync(payload);
     return (jwt_token);
   }
 
   async mainLogin(authLoginDto: AuthLoginDto): Promise<OutputLoginDto> {
-    
+
     const accessToken: string = await this.validateUserApi42(authLoginDto);
     const userInfo = await this.getUserInfoApi42(accessToken);
     const user = await this.verifyUser(userInfo);
     let jwt_token = await this.jwtSign(user);
-    
+
     const outputLoginDto = new OutputLoginDto();
     outputLoginDto._access_token = jwt_token;
     return outputLoginDto;

@@ -13,14 +13,14 @@ export class UsersService {
   constructor(private readonly userRepository: UsersRepository,
               private readonly gameService: GameService) {}
 
-  
+
   async createUser(dto: CreateUserDto): Promise<User> {
     dto.avatar = "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg";
     return await this.userRepository.createUser(dto);
   }
-  
+
   async updateProfile(userId: string, dto: UpdateProfileDto): Promise<UserResumeDto> {
-    
+
     let user;
     if (dto.avatar) {
       user = await this.userRepository.updateAvatar(userId, dto);
@@ -34,7 +34,7 @@ export class UsersService {
     userResumeDto.avatar = user.avatar;
     userResumeDto.nickname = user.nickname;
     userResumeDto.is_active = user.is_active;
-    
+
     return userResumeDto;
   }
 
@@ -85,14 +85,14 @@ export class UsersService {
   async findUser(userId: string): Promise<User> {
     return await this.userRepository.findUser(userId);
   }
-  
+
   async findFriends(userId: string): Promise<OutputUsersResumeDto> {
     let user = await this.userRepository.findUserWithFriends(userId);
-    
+
     if (!user) {
       return null
     }
-    
+
     let outputUsersResumeDto = new OutputUsersResumeDto();
     outputUsersResumeDto.users = [];
 
@@ -105,7 +105,6 @@ export class UsersService {
       outputUsersResumeDto.users.push(userResumeDto);
     };
 
-    console.log("Friends:", outputUsersResumeDto);
     return outputUsersResumeDto;
   }
 
@@ -116,7 +115,7 @@ export class UsersService {
     if (!users) {
       return null
     }
-    
+
     let outputUsersResumeDto = new OutputUsersResumeDto();
     outputUsersResumeDto.users = [];
 
@@ -129,7 +128,6 @@ export class UsersService {
       outputUsersResumeDto.users.push(userResumeDto);
     };
 
-    console.log("Online Users:", outputUsersResumeDto);
     return outputUsersResumeDto;
   }
 
@@ -140,7 +138,7 @@ export class UsersService {
     let loses = await this.gameService.numberOfUserMatchLoses(userId);
     let draws = await this.gameService.numberOfUserMatchDraws(userId);
     let ladder = await this.userRepository.findUserAll();
-  
+
     const position = ladder.findIndex(u => u.id === userId) + 1;
 
     let userProfileDto = new UserProfileDto();
@@ -206,7 +204,7 @@ export class UsersService {
 
     let outputLadderDto = new OutputLadderDto();
     outputLadderDto.ladder = [];
-    
+
     for(const obj of ladder) {
       let userLadderDto = new UserLadderDto();
       userLadderDto.id = obj.id;
@@ -221,7 +219,6 @@ export class UsersService {
       userLadderDto.ladder = position;
       outputLadderDto.ladder.push(userLadderDto);
     };
-    console.log("Ladder: ", outputLadderDto);
     return outputLadderDto;
   }
 }

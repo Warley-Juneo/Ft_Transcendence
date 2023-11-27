@@ -16,7 +16,6 @@ export class UsersController {
 
   @Post('update')
   async updateProfile(@Req() request, @Body() dto: UpdateProfileDto): Promise<UserResumeDto> {
-	console.log("\n\n\n\n teste");
 
 	return await this.service.updateProfile(request.user.sub, dto);
   }

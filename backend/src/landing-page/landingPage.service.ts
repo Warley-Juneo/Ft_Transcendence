@@ -23,8 +23,6 @@ export class LandingPageService {
     response._avatar = user.avatar;
     // response._friend_list = user.friend_list;
 
-    console.log('LANDINGPAGE USER: ', response);
-
     return response;
   }
 }

@@ -59,7 +59,6 @@ export class GameRepository {
       }
     });
     let matches = as_player_1.concat(as_player_2);
-    console.log("MATCHES: ", matches);
     return matches;
   }
 
