@@ -26,7 +26,6 @@ export default function ChatList(props: propsChatList) {
 		}).then((response) => {
 			return response.data;
 		}).catch(error => {
-			console.log(error);
 			Swal.showValidationMessage(`Erro: ${error.response.data.msg}`);
 		});
 	}
@@ -50,15 +49,11 @@ export default function ChatList(props: propsChatList) {
 				popup: 'bg-custon-roxo modal-class',
 			},
 		}).then((result) => {
-			console.log("result: ", result);
 			if (result.isConfirmed) {
-				// navigate(`/game/chats/${chatName}`);
+				navigate(`/game/chats/${chatName}`, { state: { data: result } });
 			}
 		});
 	}
-
-
-
 
 	if (props.listChats.length === 0) {
 		return (

@@ -56,7 +56,6 @@ export default function InformationsUser() {
 				setInfosUser(response.data);
 			}
 			).catch((error) => {
-				console.log("Error: ", error.response.data);
 			})
 	}
 

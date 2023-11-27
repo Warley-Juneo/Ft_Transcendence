@@ -27,8 +27,6 @@ export default function Top10() {
 		}
 		)
 	}
-
-	console.log(ranking)
 	useEffect(() => {
 		getRanking()
 	}, [])

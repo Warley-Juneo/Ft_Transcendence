@@ -74,7 +74,6 @@ export default function FormatMessagensList() {
 	const get_MessagensAPI = () => {
 		let messagens: MessagensChatPrivate[] = mockResponse();
 		messagens = formatedMessagens(messagens);
-		console.log(messagens);
 		setMessagens(messagens);
 	}
 

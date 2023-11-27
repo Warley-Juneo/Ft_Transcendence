@@ -35,9 +35,6 @@ export default function ListFriends(props: PropsListFriends) {
 			.then((res) => {
 				props.getPlayers('http://localhost:3000/users/friends');
 			})
-			.catch((err) => {
-				console.log(err);
-			})
 	}
 
 	return (

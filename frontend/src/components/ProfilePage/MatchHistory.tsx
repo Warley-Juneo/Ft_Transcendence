@@ -22,7 +22,6 @@ export default function MatchHistory() {
 		}).then((response) => {
 			setMatchHistory(response.data.matches);
 		}).catch((error) => {
-			console.log("Error: ", error.response.data);
 		})
 	}, []);
 

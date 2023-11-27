@@ -95,7 +95,6 @@ export default function Game() {
 		const intervalId = setInterval(() => {
 			setPositionBarBot((prevPosition) => {
 				prevPosition.position += prevPosition.direction;
-				console.log(prevPosition.position);
 				if (prevPosition.position < 2 || prevPosition.position > 98) {
 					return { ...prevPosition, direction: -prevPosition.direction };
 				}

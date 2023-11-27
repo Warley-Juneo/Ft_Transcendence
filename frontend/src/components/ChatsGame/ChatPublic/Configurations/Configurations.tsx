@@ -30,10 +30,7 @@ export default function Configurations({ openOrClosedConf }: { openOrClosedConf:
 				Authorization: Cookies.get("jwtToken")
 			},
 		}).then((res) => {
-			console.log("response delete: ", res.data);
 			navigate("/game/chats");
-		}).catch((err) => {
-			console.log(err);
 		})
 	}
 

@@ -20,7 +20,6 @@ export default function MiniPerfil() {
 			setPlayers(res.data.users);
 		})
 		.catch((err) => {
-			console.log(err);
 		})
 	}
 

@@ -6,7 +6,7 @@ import FormatMessagensList from "../ChatPrivate/FormatMessagensList";
 import MembersChat from "./MembersChat";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 type DataChat = {
 	id: string
@@ -21,24 +21,7 @@ type DataChat = {
 
 export default function ChatPublic() {
 	const [showConfigurations, setShowConfigurations] = useState(false);
-	const { chatName } = useParams();
-
-	const getDataChat = () => {
-		axios.get(`http://localhost:3000/chatroom/open/?name=${chatName}`, {
-			headers: {
-				Authorization: Cookies.get("jwtToken"),
-			}
-		}).then((res) => {
-			console.log("Response GetDataChat", res.data)
-		}).catch((err) => {
-			console.log("Error GetDataChat", err)
-			console.log(err)
-		})
-	}
-
-	useEffect(() => {
-		getDataChat()
-	}, [])
+	const DataChat = useLocation().state.data as DataChat;
 
 	return (
 		<div className="bg-custon-roxo rounded text-white h-100">
