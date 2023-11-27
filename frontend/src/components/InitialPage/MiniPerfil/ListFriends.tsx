@@ -17,6 +17,7 @@ type PropsListFriends = {
 	players: Players[],
 	getPlayers: (route: string) => void,
 }
+
 export default function ListFriends(props: PropsListFriends) {
 	const [chatPrivate, setChatPrivate] = useState(false);
 

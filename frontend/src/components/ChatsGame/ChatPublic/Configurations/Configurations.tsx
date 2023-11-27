@@ -9,7 +9,8 @@ import Bar from "./Bar";
 import Perfil from "./Perfil";
 import Rules from "./Rules";
 import GetUsersGame from "./GetUsersGame";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { DataChat } from "../ChatPublic";
 
 const rules: string[] = [
 	"2 anos de Free Fire",
@@ -26,7 +27,12 @@ type UsersGame = {
 	is_active: boolean;
 }
 
-export default function Configurations({ openOrClosedConf }: { openOrClosedConf: () => void }) {
+type propsConfigurations = {
+	openOrClosedConf: () => void,
+	setDataChat: React.Dispatch<React.SetStateAction<DataChat>>,
+}
+
+export default function Configurations(props: propsConfigurations) {
 	const [showInputAddMember, setShowInputAddMember] = useState(false);
 	const chatName: string = useParams().chatName as string;
 	const newMember = useRef<HTMLInputElement>(null);
@@ -62,9 +68,8 @@ export default function Configurations({ openOrClosedConf }: { openOrClosedConf:
 						Authorization: Cookies.get("jwtToken")
 					},
 				}).then((res) => {
-					console.log("retorno add member: ", res.data);
+					props.setDataChat(res.data);
 				}).catch((err) => {
-					console.log("retorno add member: 2");
 					console.log(err);
 				})
 			}
@@ -79,7 +84,7 @@ export default function Configurations({ openOrClosedConf }: { openOrClosedConf:
 
 	return (
 		<div className="position-absolute bg-dark text-center rounded h-100 w-50 overflow-auto top-0 end-0">
-			<Bar openOrClosedConf={openOrClosedConf} />
+			<Bar openOrClosedConf={props.openOrClosedConf} />
 			<Perfil chatName={chatName}
 				chatPhoto="https://i.etsystatic.com/37688069/r/il/d3e600/5143421340/il_600x600.5143421340_sm1f.jpg"
 			/>
