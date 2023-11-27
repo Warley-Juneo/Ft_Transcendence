@@ -36,7 +36,7 @@ export default function Configurations({ openOrClosedConf }: { openOrClosedConf:
 	const deleteChat = (): void => {
 		axios.delete('http://localhost:3000/chatroom/delete-chatroom', {
 			data: {
-				name: chatName,
+				chat_name: chatName,
 			},
 			headers: {
 				Authorization: Cookies.get("jwtToken")
@@ -64,6 +64,7 @@ export default function Configurations({ openOrClosedConf }: { openOrClosedConf:
 				}).then((res) => {
 					console.log("retorno add member: ", res.data);
 				}).catch((err) => {
+					console.log("retorno add member: 2");
 					console.log(err);
 				})
 			}
