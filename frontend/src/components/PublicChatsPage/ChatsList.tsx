@@ -30,7 +30,7 @@ export default function ChatList(props: propsChatList) {
 
 	const getDataChatPublic = (chatName: string) => {
 		getDataChat(chatName, '').then((response) => {
-			navigate(`/game/chats/public`, { state: { data: response } });
+			navigate(`/game/chats/${chatName}`, { state: { data: response } });
 		}).catch((error) => {
 			console.log(error);
 		});

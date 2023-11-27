@@ -117,7 +117,7 @@ export class ChatroomService {
 
 	async	addUserChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 
-		let chat = await this.findUniqueChatroom(dto);
+		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
 		console.log("\n\nChat add_user", chat, "\n\n");
 		let user_id;
 		for (const obj of chat.adm) {
@@ -135,12 +135,13 @@ export class ChatroomService {
 		await this.chatroomRepository.addUserChatroom(dto.add_id, dto.chat_name);
 
 		let response = await this.findUniqueChatroom(dto);
-
+		response.password = '';
 		return response;
 	}
 
 	async findUniqueChatroom(dto: InputChatroomDto | AddChatUserDto): Promise<UniqueChatroomDto> {
 
+		console.log("findUniqueDto chat_name", dto.chat_name);
 		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
 
 		if (!chat) {
