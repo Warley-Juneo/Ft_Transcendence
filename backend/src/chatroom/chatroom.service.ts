@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConsoleLogger, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
@@ -18,7 +18,7 @@ export class ChatroomService {
 			if (dto.password == '') {
 				throw new BadRequestException('Invalid password');
 			}
-			const saltOrRound = 10;
+			const saltOrRound = 8;
 			const hash = await bcrypt.hashSync(dto.password, saltOrRound);
 			dto.password = hash;
 		}
@@ -46,9 +46,11 @@ export class ChatroomService {
 	async openChatroom(userId: string, dto: InputChatroomDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.findUniqueChatroom(dto);
-
+		console.log("\n\nchat_password:", chat.password, "\ndto_password", dto.password, "\n\n");
 		if (chat.type == 'protected') {
-			if (bcrypt.compareSync(dto.password ,chat.password)) {
+			console.log("\n\nIf Chat Protegido!!!!\n\n");
+			if (!await bcrypt.compare(dto.password, chat.password)) {
+				console.log("\n\nif Compare!!!!\n\n");
 				throw new UnauthorizedException('Password incorrect')
 			}
 		}
@@ -107,7 +109,7 @@ export class ChatroomService {
 			dto.data = obj.createdAt;
 			outputDto.message.push(dto);
 		}
-
+		console.log("\n\nFindUniqueChatroomDto", outputDto, "\n\n");
 		return outputDto;
 	}
 

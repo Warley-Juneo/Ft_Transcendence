@@ -1,4 +1,4 @@
-import { ArgumentsHost, BadRequestException, Catch, ExceptionFilter, HttpException, HttpStatus } from "@nestjs/common";
+import { ArgumentsHost, BadRequestException, Catch, ExceptionFilter, HttpException, HttpStatus, RequestTimeoutException, UnauthorizedException } from "@nestjs/common";
 import { Prisma } from "@prisma/client";
 
 @Catch()
@@ -29,6 +29,28 @@ export class AllExceptionFilter implements ExceptionFilter {
 				statusCode: HttpStatus.BAD_REQUEST,
 				path: request.url,
 				msg: obj.message,
+			});
+		}
+		else if (exception instanceof UnauthorizedException) {
+
+			let obj: any = exception.getResponse()
+			console.log("\n\n PIPE: ",obj.message, "\n\n");
+			response.status(HttpStatus.BAD_REQUEST)
+			.json({
+				statusCode: HttpStatus.UNAUTHORIZED,
+				path: request.url,
+				msg: obj.message,
+			});
+		}
+		else if (exception instanceof RequestTimeoutException) {
+			
+			let obj: any = exception.getResponse()
+			console.log("\n\n PIPE: ",obj.message, "\n\n");
+			response.status(HttpStatus.REQUEST_TIMEOUT)
+			.json({
+				statusCode: HttpStatus.REQUEST_TIMEOUT,
+				path: request.url,
+				msg: 'aaaaahhhhhhhhhhhhh',
 			});
 		}
 	}
