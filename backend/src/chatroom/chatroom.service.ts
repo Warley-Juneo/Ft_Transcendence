@@ -81,7 +81,7 @@ export class ChatroomService {
 	}
 
 	async	addAdmChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
-		
+
 
 		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
 		console.log("\n\nChat", chat, "\n\n");
@@ -108,7 +108,7 @@ export class ChatroomService {
 			throw new UnauthorizedException('To be adm, has to be a user.')
 		}
 		console.log("\n\nAddAdm Chat", adm_id, "\n\n");
-		
+
 		await this.chatroomRepository.addAdminChatroom(dto.add_id, dto.chat_name);
 
 		let response = await this.findUniqueChatroom(dto);
@@ -117,10 +117,10 @@ export class ChatroomService {
 
 	async	addUserChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 
-		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
+		let chat = await this.findUniqueChatroom(dto);
 		console.log("\n\nChat add_user", chat, "\n\n");
 		let user_id;
-		for (const obj of chat.admin) {
+		for (const obj of chat.adm) {
 			console.log("\n\nUSER_OBJ_ID", userId, "\n", obj.id,  "\n\n");
 			if (userId == obj.id) {
 				user_id = obj.id;
@@ -131,14 +131,14 @@ export class ChatroomService {
 			throw new UnauthorizedException('Not a user of this chat')
 		}
 		console.log("\n\nUSER_ID", user_id, "\n\n");
-		
+
 		await this.chatroomRepository.addUserChatroom(dto.add_id, dto.chat_name);
 
 		let response = await this.findUniqueChatroom(dto);
-		
+
 		return response;
 	}
-	
+
 	async findUniqueChatroom(dto: InputChatroomDto | AddChatUserDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);

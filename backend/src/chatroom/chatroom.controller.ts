@@ -35,8 +35,9 @@ export class ChatroomController {
 		return await this.chatroomService.openChatroom(request.user.sub, dto);
 	}
 
-	@Post('add-user')
+	@Post('add-member')
 	async	addUserChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+		console.log("\n\n\n\nDTO ", dto, "\n\n");
 		return await this.chatroomService.addUserChatroom(request.user.sub, dto);
 	}
 
