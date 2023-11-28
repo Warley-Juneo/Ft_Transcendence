@@ -54,8 +54,8 @@ export default function Configurations(props: propsConfigurations) {
 
 	const addedNewMember = (e: any): void => {
 		if (e.key === 'Enter') {
+			console.log("user: ", refInputs.current?.value);
 			const user = usersGame.find((user) => user.nickname === refInputs.current?.value);
-
 			if (user) {
 				console.log("user: ", user.id);
 				console.log("chatName: ", chatName);

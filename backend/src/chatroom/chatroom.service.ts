@@ -13,7 +13,6 @@ export class ChatroomService {
 
 	async createChatroom(userId: string, dto: CreateChatroomDto): Promise<ChatroomsDto> {
 
-		console.log("\n\nCREATE_DTO:", dto, "\n\n");
 		if (dto.type == "protected") {
 			if (dto.password == '') {
 				throw new BadRequestException('Invalid password');
@@ -47,23 +46,22 @@ export class ChatroomService {
 
 		let chat = await this.findUniqueChatroom(dto);
 		console.log("\n\nchat_password:", chat.password, "\ndto_password", dto.password, "\n\n");
+		
 		if (chat.type == 'protected') {
-			console.log("\n\nIf Chat Protegido!!!!\n\n");
 			if (!await bcrypt.compare(dto.password, chat.password)) {
-				console.log("\n\nif Compare!!!!\n\n");
 				throw new UnauthorizedException('Password incorrect')
 			}
 		}
 
-		let user = '';
+		let member = '';
 		if (chat.type == 'private') {
-			for (const obj of chat.users) {
+			for (const obj of chat.members) {
 				if (userId == obj.id) {
-					user = obj.nickname;
+					member = obj.nickname;
 				}
 			}
 		}
-		if (user = '') {
+		if (member = '') {
 			throw new UnauthorizedException('Not a user of this chat')
 		}
 
@@ -71,11 +69,13 @@ export class ChatroomService {
 		outputDto.id = chat.id;
 		outputDto.name = chat.name;
 		outputDto.type = chat.type;
-		outputDto.users = chat.users;
+		outputDto.members = chat.members;
 		outputDto.message = chat.message;
 		outputDto.owner_id = chat.owner_id;
 		outputDto.photoUrl = chat.photoUrl;
 		outputDto.owner_nickname = chat.owner_nickname;
+		outputDto.admin = chat.admin;
+		outputDto.banned = chat.banned;
 
 		return outputDto;
 	}
@@ -97,7 +97,7 @@ export class ChatroomService {
 			throw new UnauthorizedException('Not a user of this chat')
 		}
 		let adm_id;
-		for (const obj of chat.users) {
+		for (const obj of chat.members) {
 			console.log("\n\nADM_OBJ_IDS ****", dto.add_id, "\n", obj.id, "\n\n");
 			if (dto.add_id == obj.id) {
 				console.log("\n\nADM_OBJ_IDS", adm_id, "\n", obj.id, "\n\n");
@@ -116,7 +116,7 @@ export class ChatroomService {
 		return response;
 	}
 
-	async	addUserChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	async	addMemberChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
 		
@@ -131,7 +131,7 @@ export class ChatroomService {
 			throw new UnauthorizedException('Not a user of this chat')
 		}
 
-		await this.chatroomRepository.addUserChatroom(dto.add_id, dto.chat_name);
+		await this.chatroomRepository.addMemberChatroom(dto.add_id, dto.chat_name);
 
 		let response = await this.findUniqueChatroom(dto);
 		response.password = '';
@@ -155,8 +155,8 @@ export class ChatroomService {
 		outputDto.photoUrl = chat.photoUrl;
 		outputDto.owner_id = chat.owner.id;
 		outputDto.owner_nickname = chat.owner.nickname;
-		outputDto.users = chat.users;
-		outputDto.adm = chat.admin;
+		outputDto.members = chat.members;
+		outputDto.admin = chat.admin;
 		outputDto.banned = chat.banned;
 
 		outputDto.message = [];

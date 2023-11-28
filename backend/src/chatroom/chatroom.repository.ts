@@ -16,7 +16,7 @@ export class ChatroomRepository {
 				password: dto.password,
 				photoUrl: dto.photoUrl,
 				owner_id: userId,
-				users: {
+				members: {
 					connect:[
 						{id: userId},
 					],
@@ -37,7 +37,6 @@ export class ChatroomRepository {
 				name: name,
 			},
 		});
-		// console.log("\n\ndeleteChat", response, "\n\n");
 
 		return await this.findPublicChatroom();
 	}
@@ -64,7 +63,7 @@ export class ChatroomRepository {
 						nickname: true,
 					},
 				},
-				users: {
+				members: {
 					select: {
 						id: true,
 						nickname: true,
@@ -90,14 +89,14 @@ export class ChatroomRepository {
 		return chat;
 	}
 
-	async	addUserChatroom(adm_id: string, chat_name: string) {
+	async	addMemberChatroom(adm_id: string, chat_name: string) {
 
 		let chat = this.prisma.chatRoom.update({
 			where: {
 				name: chat_name,
 			},
 			data: {
-				users: {
+				members: {
 					connect: {
 						id: adm_id,
 					},
@@ -149,9 +148,11 @@ export class ChatroomRepository {
 					select: {
 						id: true,
 						nickname: true,
+						avatar: true,
+						is_active: true,
 					},
 				},
-				users: {
+				members: {
 					select: {
 						id: true,
 						nickname: true,
@@ -202,7 +203,7 @@ export class ChatroomRepository {
 						id: true,
 					},
 				},
-				users: {
+				members: {
 					select: {
 						nickname: true,
 					},
@@ -233,7 +234,7 @@ export class ChatroomRepository {
 						nickname: true,
 					},
 				},
-				users: {
+				members: {
 					select: {
 						id: true,
 						nickname: true,

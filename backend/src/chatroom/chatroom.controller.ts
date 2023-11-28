@@ -26,19 +26,18 @@ export class ChatroomController {
 
 	@Delete('delete-chatroom')
 	async	deleteChatroom(@Req() request, @Body() dto: InputChatroomDto): Promise <any> {
+		console.log("\n\ndeltete-chatromm dto ", dto, "\n\n");
 		return await this.chatroomService.deleteChatroom(request.user.sub, dto);
 	}
 
 	@Post('open')
 	async	openChatroom(@Req() request, @Body() dto: InputChatroomDto): Promise<UniqueChatroomDto> {
-		console.log("\n\nDTO ", dto, "\n\n");
 		return await this.chatroomService.openChatroom(request.user.sub, dto);
 	}
 
 	@Post('add-member')
-	async	addUserChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
-		console.log("\n\n\n\nDTO ", dto, "\n\n");
-		return await this.chatroomService.addUserChatroom(request.user.sub, dto);
+	async	addMemberChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+		return await this.chatroomService.addMemberChatroom(request.user.sub, dto);
 	}
 
 	@Post('add-adm')
