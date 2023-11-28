@@ -6,7 +6,7 @@ import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import { GameService } from 'src/game/game.service';
-import { AuthLoginDto } from 'src/auth/dtos/input.dto';
+import { AuthLoginDto, OtherLoginDto } from 'src/auth/dtos/input.dto';
 import { OutputLoginDto } from './dtos/output.dto';
 import { CreateUserDto } from 'src/users/dtos/createUser.dto';
 
@@ -91,4 +91,16 @@ export class AuthService {
     outputLoginDto._access_token = jwt_token;
     return outputLoginDto;
   }
+
+
+  async otherLogin(dto: OtherLoginDto): Promise<OutputLoginDto> {
+
+    const user = await this.verifyUser(dto);
+    let jwt_token = await this.jwtSign(user);
+  
+    const outputLoginDto = new OutputLoginDto();
+    outputLoginDto._access_token = jwt_token;
+    return outputLoginDto;
+  }
+  
 }
