@@ -11,31 +11,42 @@ datasource db {
 }
 
 model User {
-  id         String  @id @default(uuid())
-  login      String  @unique
-  email      String  @unique
-  first_name String
-  last_name  String
-  nickname   String  @unique
-  avatar     String?
+  id                String    @id @default(uuid())
+  login             String    @unique
+  email             String    @unique
+  first_name        String
+  last_name         String
+  nickname          String    @unique
+  avatar            String?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  is_active Boolean  @default(true)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  is_active         Boolean   @default(true)
 
+  friends           User[] @relation("friends")
+  friendsRelation   User[] @relation("friends")
   // hash      //autenticação de multiplos fatores. Autenticação google
+  points            Int       @default(0)
 
-  match_as_player_1 Match[] @relation(name: "player_1")
-  match_as_player_2 Match[] @relation(name: "player_2")
+  match_as_player_1 Match[]   @relation(name: "player_1")
+  match_as_player_2 Match[]   @relation(name: "player_2")
 
-  match_wins Match[] @relation(name: "winner")
-  math_loses Match[] @relation(name: "loser")
+  match_wins        Match[]   @relation(name: "winner")
+  math_loses        Match[]   @relation(name: "loser")
 
-  @@map("users")
+  chat_owner        ChatRoom[]  @relation(name: "owner")
+  chat_admin        ChatRoom[]  @relation(name: "admin")
+  // chat_user         ChatRoom[]  @relation(name: "user_chatroom")
+  chat_member       ChatRoom[]  @relation(name: "member_chatroom")
+  chat_banned       ChatRoom[]  @relation(name: "banned_chatroom")
+  chat_message      Message[]   @relation(name: "user_mesage")
+  
+  @@map("user")
 }
 
 model Match {
   id String @id @default(uuid())
+
 
   player1_id String
   player_1   User?  @relation(name: "player_1", fields: [player1_id], references: [id])
@@ -45,38 +56,77 @@ model Match {
   player_2   User?  @relation(name: "player_2", fields: [player2_id], references: [id])
   score_p2   Int    @default(0)
 
-  winner_id String? @unique
+  winner_id String?
   winner    User?   @relation(name: "winner", fields: [winner_id], references: [id])
 
-  loser_id String? @unique
+  loser_id String?
   loser    User?   @relation(name: "loser", fields: [loser_id], references: [id])
 
-  draws Boolean @default(false)
+  draws   Boolean? @default(false)
+
+  @@map("match")
 }
 
-model Ladder {
-  id String @id @default(uuid())
+model DirectChatRoom {
+  id                      String    @id @default(uuid())
+  name                    String    @unique
 
-  points      Int    @default(0)
-  player_name String @unique
+  direct_message          DirectMessage[]  @relation(name: "direct_chat_mesage")
+
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  
+  @@map("direct_chat_room")
 }
 
-model Avatar {
-  id String @id @default(uuid())
+model DirectMessage {
+  id              String    @id  @default(uuid())
 
-  player_name String
-  height      Int    @default(200)
-  width       Int    @default(100)
-  url         String
+  content                 String?
+  img_url                 String?
+  user_nickname           String
+  direct_chat_room_name   String
+  direct_chat_room        DirectChatRoom?  @relation(name: "direct_chat_mesage", fields: [direct_chat_room_name], references: [name], onDelete: Cascade)
+
+  createdAt               DateTime         @default(now())
+
+  @@map("direct_message")
 }
 
-// model chat  {
 
-//   id            String    @id @default(uuid())
-//   type          String[]  @default[public, private, protected]
+model ChatRoom {
+  id              String    @id @default(uuid())
+  name            String    @unique
 
-//   owner         User?
-//   passaword     String?
-//   admin         User[]?
-//   message       String?
-// }
+  photoUrl        String?
+  type            String    @default("public")
+  password        String?
+
+  owner_id        String
+  owner           User?     @relation(name: "owner", fields: [owner_id], references: [id])
+  admin           User[]    @relation(name: "admin")
+  // users           User[]    @relation(name: "user_chatroom")
+  members         User[]    @relation(name: "member_chatroom")
+  banned_user     User[]    @relation(name: "banned_chatroom")
+  message         Message[] @relation(name: "chat_mesage")
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@map("chat_room")
+}
+
+model Message {
+  id              String    @id  @default(uuid())
+
+  content         String
+  img_url         String?
+  user_id         String
+  user            User?      @relation(name: "user_mesage", fields: [user_id], references: [id], onDelete: Cascade)
+  chat_room_id    String
+  chat_room       ChatRoom?  @relation(name: "chat_mesage", fields: [chat_room_id], references: [id], onDelete: Cascade)
+
+  createdAt         DateTime    @default(now())
+
+  @@map("message")
+}

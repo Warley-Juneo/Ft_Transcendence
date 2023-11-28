@@ -5,7 +5,6 @@ export function AuthLogin(event: any) {
 	event.preventDefault();
 
 	const authURL: string | undefined = process.env.REACT_APP_AUTHCODE_URL;
-	console.log(authURL);
 	if (authURL != null) {
 		window.location.href = authURL;
 	} else {

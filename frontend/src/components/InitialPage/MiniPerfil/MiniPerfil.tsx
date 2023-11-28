@@ -1,24 +1,38 @@
+import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 import MiniPerfilUser from './MiniPerfilUser';
 import Options from './options';
 import ListFriends from './ListFriends';
+import { Players } from './ListFriends';
 
-export default function MiniPerfil(props: any) {
-	if (!props.data) {
-		return (
-			<div className='d-flex bg-custon-roxo h-100' style={{ minWidth: '15vw' }}>
-				<div className="spinner-border text-primary m-auto h-25" role="status">
-					<span className="visually-hidden">Loading...</span>
-				</div>
-			</div>
-		)
+
+export default function MiniPerfil() {
+	const [players, setPlayers] = useState<Players[]>([]);
+
+	function getPlayers(route: string) {
+		axios.get(route, {
+			headers: {
+				Authorization: Cookies.get('jwtToken'),
+			}
+		})
+		.then((res) => {
+			setPlayers(res.data.users);
+		})
+		.catch((err) => {
+		})
 	}
-	return (
 
+	useEffect(() => {
+		getPlayers('http://localhost:3000/users/friends');
+	}, []);
+
+	return (
 		<div className='bg-custon-roxo d-flex flex-column h-100' style={{ minWidth: '15vw' }}>
-			<MiniPerfilUser userdata={props.data} />
+			<MiniPerfilUser />
 			<hr className='m-0 w-100 text-white'></hr>
-			<Options />
-			<ListFriends chat={props.showChat} />
+			<Options getPlayers={getPlayers}/>
+			<ListFriends players={players} getPlayers={getPlayers}/>
 		</div>
 	);
 }

@@ -6,7 +6,7 @@ import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import { GameService } from 'src/game/game.service';
-import { AuthLoginDto } from 'src/auth/dtos/authLogin.dto';
+import { AuthLoginDto } from 'src/auth/dtos/input.dto';
 import { OutputLoginDto } from './dtos/output.dto';
 import { CreateUserDto } from 'src/users/dtos/createUser.dto';
 
@@ -37,12 +37,12 @@ export class AuthService {
 
     const authResponseResolved = await lastValueFrom(authResponsePromise);
     const accessToken: string = authResponseResolved.data.access_token;
-    
+
     return accessToken;
   }
 
   async getUserInfoApi42(accessToken: string): Promise<any> {
-    
+
     const userApiInfo: Observable<any> = this.httpService.get(
       process.env.API42_USER_INFO,
       {
@@ -51,14 +51,14 @@ export class AuthService {
         },
       },
     );
-  
     const userApiInfoResolved = await lastValueFrom(userApiInfo);
+
     return userApiInfoResolved.data;
   }
 
   async verifyUser(userInfo: any): Promise<any> {
 
-    let user: User = await this.usersService.findUser(userInfo.email);
+    let user: User = await this.usersService.findUserAuth(userInfo.email);
     if (!user) {
       const createUserDto = new CreateUserDto();
       createUserDto.login = userInfo.login;
@@ -67,14 +67,15 @@ export class AuthService {
       createUserDto.last_name = userInfo.last_name;
       createUserDto.nickname = userInfo.login;
       createUserDto.avatar = userInfo.avatar;
-    
+
       user = await this.usersService.createUser(createUserDto);
     }
     return user;
   }
 
   async jwtSign(user: any): Promise<string> {
-    const payload = { sub: user.login, userEmail: user.email };
+    // console.log("USER ID JWT: ", user.id);
+    const payload = { sub: user.id, userEmail: user.email };
     let jwt_token = await this.jwtService.signAsync(payload);
     return (jwt_token);
   }

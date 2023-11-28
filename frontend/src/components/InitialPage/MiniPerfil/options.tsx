@@ -1,13 +1,51 @@
 import { GoPersonAdd } from 'react-icons/go';
 import { GiThreeFriends } from 'react-icons/gi';
 import { FaUserFriends } from 'react-icons/fa';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
-function Options() {
-	const [showaddfriend, setShowAddFriend] = useState(false);
+const	URLS_MiniPerfilPlayers = {
+	'personal': 'http://localhost:3000/users/friends',
+	'Global': 'http://localhost:3000/users/online',
+}
 
-	function handleAddFriend() {
-		setShowAddFriend(!showaddfriend);
+function Options({getPlayers}: {getPlayers: (route: string) => void}) {
+	const [showaADDFriend, setShowAddFriend] = useState(false);
+
+	function handleClickAddFriend() {
+		setShowAddFriend(!showaADDFriend);
+	}
+
+	function addNewFriend(event: React.KeyboardEvent<HTMLInputElement>) {
+		if (event.key === 'Enter') {
+			axios.post('http://localhost:3000/users/add_friend', {
+				nick_name: event.currentTarget.value,
+			}, {
+				headers: {
+					Authorization: Cookies.get('jwtToken'),
+				},
+			})
+			.then((res) => {
+				getPlayers(URLS_MiniPerfilPlayers.personal);
+			})
+		}
+	}
+
+	function returnBlockAddFriend(showBlock: boolean) {
+		if (showBlock === false) {
+			return null;
+		}
+		return (
+			<div className='rounded'>
+				<input
+					type='text'
+					className='remove-format-input'
+					placeholder='Search Friend'
+					onKeyDown={addNewFriend}
+				/>
+			</div>
+		)
 	}
 
 	return (
@@ -15,15 +53,21 @@ function Options() {
 			<div className='d-flex align-items-center text-white'>
 				<p className='fw-bold'>Social</p>
 				<div className='d-flex justify-content-end w-100 options'>
-					<GoPersonAdd style={{ margin: '5px', cursor: 'pointer' }} size={30} onClick={handleAddFriend} />
-					<FaUserFriends style={{ margin: '5px', cursor: 'pointer' }} size={30} />
-					<GiThreeFriends style={{ margin: '5px', cursor: 'pointer' }} size={30} />
+					<GoPersonAdd
+						style={{ margin: '5px', cursor: 'pointer' }}
+						size={30} onClick={handleClickAddFriend}
+					/>
+					<FaUserFriends
+						style={{ margin: '5px', cursor: 'pointer' }}
+						size={30} onClick={() => {getPlayers(URLS_MiniPerfilPlayers.personal)}}
+					/>
+					<GiThreeFriends
+						style={{ margin: '5px', cursor: 'pointer' }}
+						size={30} onClick={() => getPlayers(URLS_MiniPerfilPlayers.Global)}
+					/>
 				</div>
 			</div>
-			{ showaddfriend === false ? null :
-			<div className='rounded'>
-				<input type='text' className='remove-format-input' placeholder='Search Friend'/>
-			</div> }
+			{returnBlockAddFriend(showaADDFriend)}
 		</div>
 	)
 }

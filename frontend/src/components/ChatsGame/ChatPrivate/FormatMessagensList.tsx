@@ -6,43 +6,46 @@ type MessagensChatPrivate = {
 	img: string
 }
 
-const SimulatedMessages: MessagensChatPrivate[] = [
-	{
-		user: 'Wagratom',
-		messagens: 'Iae Fausto, Já termino o back-end do projeto?',
-		img: 'https://i.pinimg.com/originals/30/5f/68/305f68b547c8b43ae7f1dc8fed76af22.jpg',
-	},
-	{
-		user: 'Wagratom',
-		messagens: 'O joão ta enchendo o saco aqui',
-		img: 'https://i.pinimg.com/originals/30/5f/68/305f68b547c8b43ae7f1dc8fed76af22.jpg',
-	},
-	{
-		user: 'Fausto',
-		messagens: 'Terminei não, to nem na metade do curso ainda kk',
-		img: 'https://i.pinimg.com/originals/ab/86/b1/ab86b13309ad04f8b500b8f5f8330c06.jpg',
-	},
-	{
-		user: 'Wagratom',
-		messagens: 'Ja falei que isso ae e mooh suco de pera',
-		img: 'https://i.pinimg.com/originals/30/5f/68/305f68b547c8b43ae7f1dc8fed76af22.jpg',
-	},
-	{
-		user: 'Wagratom',
-		messagens: 'Vamo copiar do GPT kkkkkkkkkk',
-		img: 'https://i.pinimg.com/originals/30/5f/68/305f68b547c8b43ae7f1dc8fed76af22.jpg',
-	},
-	{
-		user: 'Fausto',
-		messagens: 'Marca ae, deixa eu termina esse video aqui',
-		img: 'https://i.pinimg.com/originals/ab/86/b1/ab86b13309ad04f8b500b8f5f8330c06.jpg',
-	},
-	{
-		user: 'Wagratom',
-		messagens: 'Demora não se não eu vou fz sozinho',
-		img: 'https://i.pinimg.com/originals/30/5f/68/305f68b547c8b43ae7f1dc8fed76af22.jpg',
-	},
-]
+function mockResponse() : MessagensChatPrivate[] {
+	const SimulatedMessages: MessagensChatPrivate[] = [
+		{
+			user: 'Wagratom',
+			messagens: 'Iae Fausto, Já termino o back-end do projeto?',
+			img: 'https://i.pinimg.com/originals/30/5f/68/305f68b547c8b43ae7f1dc8fed76af22.jpg',
+		},
+		{
+			user: 'Wagratom',
+			messagens: 'O joão ta enchendo o saco aqui',
+			img: 'https://i.pinimg.com/originals/30/5f/68/305f68b547c8b43ae7f1dc8fed76af22.jpg',
+		},
+		{
+			user: 'Fausto',
+			messagens: 'Terminei não, to nem na metade do curso ainda kk',
+			img: 'https://i.pinimg.com/originals/ab/86/b1/ab86b13309ad04f8b500b8f5f8330c06.jpg',
+		},
+		{
+			user: 'Wagratom',
+			messagens: 'Ja falei que isso ae e mooh suco de pera',
+			img: 'https://i.pinimg.com/originals/30/5f/68/305f68b547c8b43ae7f1dc8fed76af22.jpg',
+		},
+		{
+			user: 'Wagratom',
+			messagens: 'Vamo copiar do GPT kkkkkkkkkk',
+			img: 'https://i.pinimg.com/originals/30/5f/68/305f68b547c8b43ae7f1dc8fed76af22.jpg',
+		},
+		{
+			user: 'Fausto',
+			messagens: 'Marca ae, deixa eu termina esse video aqui',
+			img: 'https://i.pinimg.com/originals/ab/86/b1/ab86b13309ad04f8b500b8f5f8330c06.jpg',
+		},
+		{
+			user: 'Wagratom',
+			messagens: 'Demora não se não eu vou fz sozinho',
+			img: 'https://i.pinimg.com/originals/30/5f/68/305f68b547c8b43ae7f1dc8fed76af22.jpg',
+		},
+	]
+	return SimulatedMessages;
+}
 
 export default function FormatMessagensList() {
 	const [messagens, setMessagens] = useState<MessagensChatPrivate[]>([]);
@@ -69,9 +72,8 @@ export default function FormatMessagensList() {
 	};
 
 	const get_MessagensAPI = () => {
-		let messagens: MessagensChatPrivate[] = SimulatedMessages;
+		let messagens: MessagensChatPrivate[] = mockResponse();
 		messagens = formatedMessagens(messagens);
-
 		setMessagens(messagens);
 	}
 
@@ -85,7 +87,7 @@ export default function FormatMessagensList() {
 				if (messagen.user === 'Wagratom') {
 					return (
 						<div className='d-flex justify-content-end mb-2'>
-							<div className='bg-light rounded me-2 p-1' style={{whiteSpace: 'pre-line'}}>
+							<div className='bg-light rounded me-2 p-1' style={{ whiteSpace: 'pre-line' }}>
 								{messagen.messagens}
 							</div>
 							<img style={{ height: '40px', width: '40px', borderRadius: '50%' }} src={messagen.img} alt='foto' />
@@ -95,7 +97,7 @@ export default function FormatMessagensList() {
 					return (
 						<div className='d-flex mb-2'>
 							<img style={{ height: '40px', width: '40px', borderRadius: '50%' }} src={messagen.img} alt='foto' />
-							<div className='bg-light rounded me-2 p-1' style={{whiteSpace: 'pre-line'}}>
+							<div className='bg-light rounded me-2 p-1' style={{ whiteSpace: 'pre-line' }}>
 								{messagen.messagens}
 							</div>
 						</div>

@@ -1,12 +1,26 @@
 import StatusOnline from "./StatusOnline";
+import { useContext, useEffect, useState } from 'react';
+import {DataUser} from '../InitialPage';
 
-function MiniPerfilUser(data: any) {
+
+export default function MiniPerfilUser() {
+	const dataUser = useContext(DataUser);
+
+	if (dataUser.user._nickname === '' || dataUser.user._avatar === '') {
+		return (
+			<div className='d-flex p-3' style={{ height: '15vh' }}>
+				<div className="spinner-border text-primary m-auto h-75" role="status">
+					<span className="visually-hidden m-auto">Loading...</span>
+				</div>
+			</div>
+		);
+	}
 	return (
-		<div className='p-2 d-flex align-items-center text-white' style={{height: '15vh'}}>
-			<img className="rounded-circle h-75" src='https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg' alt='foto' />
-			{StatusOnline(data.userdata._first_name)}
+		<div className='d-flex p-3' style={{ height: '15vh' }}>
+			<div className='h-100 d-flex text-white align-items-center'>
+				<img className="rounded-circle h-100 w-100 me-3" src={dataUser.user._avatar} alt='foto' />
+				{StatusOnline(dataUser.user._nickname)}
+			</div>
 		</div>
-	);
+	)
 }
-
-export default MiniPerfilUser;

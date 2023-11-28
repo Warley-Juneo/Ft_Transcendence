@@ -1,97 +1,68 @@
 import StatusOnline from './StatusOnline';
+import { useState } from 'react';
+import ChatPrivate from '../../ChatsGame/ChatPrivate/ChatPrivate';
+import { MdDeleteForever } from 'react-icons/md';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
-function ListFriends({chat}: any) {
+export type Players = {
+	avatar: string,
+	id: string,
+	nickname: string,
+	is_active: boolean,
+}
+
+type PropsListFriends = {
+	players: Players[],
+	getPlayers: (route: string) => void,
+}
+
+export default function ListFriends(props: PropsListFriends) {
+	const [chatPrivate, setChatPrivate] = useState(false);
+
+	const showChatPrivate = () => {
+		setChatPrivate(!chatPrivate);
+	}
+
+	function handleDeleteFriend(nickname: string) {
+		axios.post('http://localhost:3000/users/delete_friend', {
+			nick_name: nickname,
+		}, {
+			headers: {
+				Authorization: Cookies.get('jwtToken'),
+			},
+		})
+			.then((res) => {
+				props.getPlayers('http://localhost:3000/users/friends');
+			})
+	}
+
+	if (!props.players) {
+		return (
+			<div>
+				<div className='d-flex justify-content-center'>
+					<p className='text-white'>Carregando...</p>
+				</div>
+			</div>
+		)
+	}
 	return (
 		<div className='p-2 text-white overflow-auto'>
-			<div className='d-flex hover' onClick={chat}>
-				<img className="foto-list-friends" src='https://i.pinimg.com/originals/30/5f/68/305f68b547c8b43ae7f1dc8fed76af22.jpg' alt='foto' />
-				{StatusOnline('Zoro')}
-			</div>
+			{chatPrivate && <ChatPrivate />}
+			{props.players.map((play: Players) => {
+				return (
+					<div className='d-flex hover' key={play.id}>
+						<div className='d-flex' onClick={showChatPrivate}>
+							<img className="foto-list-friends" src={play.avatar} alt='foto' />
+							{StatusOnline(play.nickname)}
+						</div>
+						<div className='d-flex align-items-end p-2'>
+							<MdDeleteForever size={20} onClick={() => { handleDeleteFriend(play.nickname) }} />
+						</div>
+					</div>
+				)
+			})}
 
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/ab/86/b1/ab86b13309ad04f8b500b8f5f8330c06.jpg' alt='foto' />
-				{StatusOnline('Sanji')}
-			</div>
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
-
-
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
-			<div className='d-flex hover' onClick={chat}>
-				<img className='foto-list-friends' src='https://i.pinimg.com/originals/a3/b7/54/a3b7549fd1c7b84ee7bd70330163752f.jpg' alt='foto' />
-				{StatusOnline('Nami')}
-			</div>
 		</div>
 	);
 }
-
-export default ListFriends;

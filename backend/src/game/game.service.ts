@@ -1,17 +1,55 @@
 import { Injectable } from '@nestjs/common';
-import { Match } from '@prisma/client';
-import { AuthLoginDto } from 'src/auth/dtos/authLogin.dto';
-import { MatchHistory } from './entities/match.entity';
 import { GameRepository } from './game.repository';
-import { userInfo } from 'os';
-import { UserPerfilDto } from 'src/users/dtos/output.dtos';
+import { UserMatchDto, UserMatchesDto } from './dtos/output.dto';
 
 @Injectable()
 export class GameService {
   constructor(private readonly gameRepository: GameRepository) {}
 
-  async numberOfUserMatchs(userId: string): Promise<Match[]> {
-    return this.gameRepository.numberOfUserMatchs(userId);
+  async userMatchs(userId: string): Promise<UserMatchesDto> {
+    let matches = await this.gameRepository.userMatchs(userId);
+
+
+    let outpuDto = new UserMatchesDto;
+    outpuDto.matches = [];
+
+    for(const obj of matches) {
+      let dto = new UserMatchDto;
+      if (userId == obj.player_1.id) {
+		dto.id = obj.id;
+        dto.opponent = obj.player_2.nickname;
+        dto.opponent_avatar = obj.player_2.avatar;
+        dto.opponent_score = obj.score_p2;
+        dto.my_score = obj.score_p1;
+        if (obj.score_p1 == obj.score_p2){
+			dto.status = "EMPATE";
+        }
+        else if (obj.score_p1 > obj.score_p2){
+          dto.status = "VITÓRIA";
+        }
+        else if (obj.score_p1 < obj.score_p2){
+          dto.status = "DERROTA";
+        }
+      }
+      else {
+		dto.id = obj.id;
+        dto.opponent = obj.player_1.nickname;
+        dto.opponent_avatar = obj.player_1.avatar;
+        dto.opponent_score = obj.score_p1;
+        dto.my_score = obj.score_p2;
+        if (obj.score_p1 == obj.score_p2){
+          dto.status = "EMPATE";
+        }
+        else if (obj.score_p2 > obj.score_p1){
+          dto.status = "VITÓRIA";
+        }
+        else if (obj.score_p2 < obj.score_p1){
+          dto.status = "DERROTA";
+        }
+      }
+      outpuDto.matches.push(dto);
+    }
+    return outpuDto;
   }
 
   async numberOfUserMatchWins(userId: string): Promise<number> {
@@ -26,7 +64,4 @@ export class GameService {
     return this.gameRepository.numberOfUserMatchDraws(userId);
   }
 
-  async userLadder(userLogin: string): Promise<number> {
-    return this.gameRepository.userLadder(userLogin);
-  }
 }
