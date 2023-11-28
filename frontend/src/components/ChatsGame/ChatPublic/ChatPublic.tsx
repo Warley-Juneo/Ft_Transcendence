@@ -43,7 +43,8 @@ export default function ChatPublic() {
 					<BarConfigurations openOrClosedConf={() => setShowConfigurations(!showConfigurations)} />
 					{!showConfigurations === true ? null :
 						<Configurations	openOrClosedConf={() => setShowConfigurations(!showConfigurations)}
-						setDataChat={setDataChat}
+										numberMembers={dataChat.users.length}
+										setDataChat={setDataChat}
 					/>}
 					<div className="h-100 text-black p-3 overflow-auto">
 						<FormatMessagensList />
