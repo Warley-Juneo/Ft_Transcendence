@@ -34,10 +34,6 @@ export default function ConfigurationGame(): JSX.Element {
 			})
 	}
 
-	const addedInputNameDef180 = () => {
-		setHandleOption(!handleOption);
-	};
-
 	return (
 		<div className='position-absolute top-50 start-50 translate-middle p-2 rounded' style={{ backgroundColor: '#653b1e', width: '600px' }}>
 			<h2 className='text-center text-white'>Game Settings</h2>
@@ -57,12 +53,12 @@ export default function ConfigurationGame(): JSX.Element {
 					</div>
 					<div className="d-flex justify-content-center">
 						{!handleOption ? (
-							<ButtonEdit addedInputNameDef180={addedInputNameDef180}
+							<ButtonEdit addedInputNameDef180={() => {setHandleOption(!handleOption)}}
 								content='Edit'
 							/>
 						) : (
 							<>
-								<ButtonEdit addedInputNameDef180={addedInputNameDef180}
+								<ButtonEdit addedInputNameDef180={() => {setHandleOption(!handleOption)}}
 									content='Cancel'
 								/>
 								<ButtonEdit addedInputNameDef180={EditProfile}
