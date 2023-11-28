@@ -3,7 +3,7 @@ import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
 import { AddChatUserDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto } from './dto/input.dto';
-import { ChatroomDto, ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto, OutputMessageDto, UniqueChatroomDto } from './dto/output.dto';
+import { ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto, OutputMessageDto, UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -182,14 +182,14 @@ export class ChatroomService {
 		outputDto.chatrooms = [];
 
 		for (const obj of chats) {
-			let dto = new ChatroomDto;
+			let dto = new UniqueChatroomDto;
 			dto.id = obj.id;
 			dto.name = obj.name;
 			dto.type = obj.type;
 			dto.photoUrl = obj.photoUrl;
 			dto.owner_nickname = obj.owner.nickname;
 			dto.owner_id = obj.owner.id;
-			dto.users = obj.users;
+			dto.members = obj.members;
 			outputDto.chatrooms.push(dto);
 		}
 
@@ -204,7 +204,7 @@ export class ChatroomService {
 		outputDto.chatrooms = [];
 
 		for (const obj of chats) {
-			let dto = new ChatroomDto;
+			let dto = new UniqueChatroomDto;
 			dto.id = obj.id;
 			dto.name = obj.name;
 			dto.type = obj.type;
@@ -212,7 +212,7 @@ export class ChatroomService {
 			dto.owner_nickname = obj.owner.nickname;
 			dto.owner_id = obj.owner.id;
 			console.log("\n\n\nObj.users: ", obj.users, "\n\n\n");
-			dto.users = obj.users.map(user => user.nickname);
+			dto.members = obj.members.map(user => user.nickname);
 			outputDto.chatrooms.push(dto);
 		}
 

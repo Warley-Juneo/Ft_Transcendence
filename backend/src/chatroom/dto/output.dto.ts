@@ -19,19 +19,8 @@ export class OutputMessageDto {
 	data:	        Date;
 }
 
-export class ChatroomDto {
-	id: 			string;
-	name: 			string;
-	type: 			string;
-	photoUrl: 		string;
-	owner_nickname: string;
-	owner_id:		string;
-	users:			string[];
-	messages:		OutputMessageDto[];
-}
-
 export class ChatroomsDto {
-	chatrooms:	ChatroomDto[];
+	chatrooms:	UniqueChatroomDto[];
 }
 
 export class UniqueUserChatrommDto {
