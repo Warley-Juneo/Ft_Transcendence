@@ -13,11 +13,11 @@ import Pointer from './pontos';
 import { DataUser } from '../../InitialPage/InitialPage';
 
 type infosUserPerfil = {
-	_nickname: string;
-	_wins: number;
-	_draws: number;
-	_loses: number;
-	_avatar: string;
+	nickname: string;
+	wins: number;
+	draws: number;
+	loses: number;
+	avatar: string;
 }
 
 const rankMappings = [
@@ -59,7 +59,7 @@ export default function InformationsUser() {
 			})
 	}
 
-	let pointers: number = user._wins - user._loses;
+	let pointers: number = user.wins - user.loses;
 	let maping: formattingRankUser = handleRank(pointers);
 
 	useEffect(() => {
@@ -67,8 +67,8 @@ export default function InformationsUser() {
 	}, []);
 
 	const { rank, borderImg, borderWrite } = maping;
-	let aux = user._wins + user._draws;
-	let kda: number = aux === 0 ? user._loses : aux / user._loses;
+	let aux = user.wins + user.draws;
+	let kda: number = aux === 0 ? user.loses : aux / user.loses;
 	return (
 		<div className='text-center text-white'>
 			<Profile
@@ -79,9 +79,9 @@ export default function InformationsUser() {
 			<div className='d-flex flex-column align-items-center'>
 				<Rank rank={rank} />
 				<Pointer
-					wins={user._wins}
-					loses={user._loses}
-					draws={user._draws}
+					wins={user.wins}
+					loses={user.loses}
+					draws={user.draws}
 					kda={kda}
 					borderWrite={borderWrite}
 					pointers={pointers}
