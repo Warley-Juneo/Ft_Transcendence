@@ -2,7 +2,7 @@ import { BadRequestException, ConsoleLogger, ForbiddenException, Injectable, Una
 import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
-import { AddChatUserDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto } from './dto/input.dto';
+import { AddChatUserDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto, InputChatroomMessageDto } from './dto/input.dto';
 import { ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto, OutputMessageDto, UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 
@@ -165,8 +165,7 @@ export class ChatroomService {
 			dto.id = obj.id;
 			dto.content = obj.content;
 			dto.img_url = obj.imgUrl;
-			dto.user_nickname = obj.user.nickname;
-			dto.user_avatar = obj.user.avatar;
+			dto.user = obj.user;
 			dto.data = obj.createdAt;
 			outputDto.message.push(dto);
 		}
@@ -217,6 +216,19 @@ export class ChatroomService {
 		}
 
 		return outputDto;
+	}
+
+	async	createChatroomMessage(dto: InputChatroomMessageDto): Promise<any> {
+
+		let msg = await this.chatroomRepository.createChatroomMessage(dto);
+		console.log("MESSAGEM", msg);
+		let outpuDto = new OutputMessageDto;
+		outpuDto.id = msg.id;
+		outpuDto.content = msg.content;
+		outpuDto.user = msg.user;
+		outpuDto.data = msg.createdAt;
+		
+		return outpuDto;
 	}
 
 	async createDirectChatroom(userId: string, dto: CreateDirectChatroomDto): Promise<OutputDirectMessagesDto> {

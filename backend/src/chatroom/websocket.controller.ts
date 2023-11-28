@@ -2,6 +2,8 @@
 
 import { SubscribeMessage, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Socket, Server } from "socket.io";
+import { InputChatroomMessageDto } from "./dto/input.dto";
+import { ChatroomService } from "./chatroom.service";
 
 @WebSocketGateway(
   { 
@@ -13,6 +15,9 @@ import { Socket, Server } from "socket.io";
   }
 )
 export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+  
+  constructor(private readonly service: ChatroomService) {}
+
   @WebSocketServer() server: Server;
 
   afterInit(server: Server) {
@@ -27,12 +32,12 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
     client.emit('desconectado', 'Desconectado com sucesso!');
   }
 
-  @SubscribeMessage('public_chat')
-    async publicChat(client: Socket, message: string) {
+  @SubscribeMessage('chatroom-message')
+    async chatroomMessage(client: Socket, message_dto: InputChatroomMessageDto) {
 
-      // salva no banco de dados
-      // devolve a mensagem
-      console.log("public_chat backend: ", message);
-      client.emit('response', `Backend devolução ${message}`);
+      let outputMsg = await this.service.createChatroomMessage(message_dto);
+      
+      console.log("public_chat backend: ", outputMsg);
+      client.emit('response', `Backend devolução ${outputMsg}`);
     }
 }

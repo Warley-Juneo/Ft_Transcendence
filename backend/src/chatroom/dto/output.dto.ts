@@ -14,8 +14,7 @@ export class OutputMessageDto {
 	id:             string;
 	content:        string;
 	img_url:        string;
-	user_nickname:  string;
-	user_avatar:	string;
+	user:			UniqueUserChatrommDto;
 	data:	        Date;
 }
 

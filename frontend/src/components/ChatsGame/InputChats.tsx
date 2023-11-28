@@ -1,10 +1,19 @@
 import { AiOutlineSend } from 'react-icons/ai';
 
+
+
 export default function InputChats({socket}: any) {
 
 	const sendMessageEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === 'Enter') {
-			socket.emit('public_chat', event.currentTarget.value);
+			
+			let obj = {
+				content:   	event.currentTarget.value,
+				chatId:		'175b8c64-4b1a-4270-b59c-cf431e693dd6',
+				user_id:	'd381eec1-d19b-4654-9766-cbcf4d0b27e9',
+			}
+			
+			socket.emit('chatroom-message', obj);
 			
 			socket.on('response', (data: string) => {
 				// vou acompanhar a tela do fausto a partir

@@ -1,4 +1,4 @@
-import { IsAscii, IsNotEmpty, IsString, ValidateIf } from "class-validator";
+import { IsNotEmpty, IsString, ValidateIf } from "class-validator";
 
 export class CreateChatroomDto {
 	@IsString({message: 'Chatroom name must be a string.'})
@@ -45,4 +45,11 @@ export class InputChatroomDto {
 	@ValidateIf(o => o.password != null)
 	@IsString()
 	password:		string;
+}
+
+export class InputChatroomMessageDto {
+
+	content:        string;
+	chatId:			string;
+	user_id:		string;
 }
