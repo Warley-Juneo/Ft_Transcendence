@@ -6,15 +6,30 @@ import { useLocation } from "react-router-dom";
 import ListFriends from "../../InitialPage/MiniPerfil/ListFriends";
 import { Players } from "../../InitialPage/MiniPerfil/ListFriends";
 
+import io, { Socket } from 'socket.io-client';
+import FormatMessagensList from "../ChatPrivate/FormatMessagensList";
+
+type Messages = {
+	id:             string;
+	content:        string;
+	img_url:        string;
+	user_nickname:  string;
+	user_avatar:		string;
+	data:	        	Date;
+}
+
 export type DataChat = {
 	id: string,
 	name: string,
 	photo: string,
 	members: Players[],
 	admin: Players[],
+	message: Messages[],
 }
 
 export default function ChatPublic() {
+	const [socketIO, setSocketIO] = useState<Socket>(io('http://localhost:3000'));
+
 	const [showConfigurations, setShowConfigurations] = useState(false);
 	let tmp = useLocation().state?.data as DataChat;
 	const [dataChat, setDataChat] = useState<DataChat>({
@@ -23,11 +38,22 @@ export default function ChatPublic() {
 		photo: '',
 		admin: [],
 		members: [],
+		message: [],
 	});
 
 	useEffect(() => {
 		setDataChat (tmp)
 	}, [])
+
+	useEffect(() => {
+		socketIO.on('connect', () => {
+			console.log('Conectei no backend');
+		});
+
+		return () => {
+			socketIO.disconnect();
+		}
+	},[]);
 
 	return (
 		<div className="bg-custon-roxo rounded text-white h-100">
@@ -48,9 +74,9 @@ export default function ChatPublic() {
 										setDataChat={setDataChat}
 					/>}
 					<div className="h-100 text-black p-3 overflow-auto">
-						{/* <FormatMessagensList /> */}
+						{/* <FormatMessagensList } /> */}
 					</div>
-					<InputChats />
+					<InputChats socket={socketIO} />
 				</div>
 			</div>
 		</div>

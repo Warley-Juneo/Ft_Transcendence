@@ -1,16 +1,20 @@
 import { AiOutlineSend } from 'react-icons/ai';
 
-export default function InputChats() {
-
-	const sendMessageClick = () => {
-		alert('enviar mensagem');
-	}
+export default function InputChats({socket}: any) {
 
 	const sendMessageEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === 'Enter') {
-			alert('enviar mensagem');
+			socket.emit('public_chat', event.currentTarget.value);
+			
+			socket.on('response', (data: string) => {
+				// vou acompanhar a tela do fausto a partir
+				// porque quem manja de consultar banco de dados é ele.
+				console.log(data);
+			})
+
 		}
 	}
+
 	return (
 		<div className='d-flex align-items-center'>
 			<input
@@ -22,7 +26,7 @@ export default function InputChats() {
 			<button
 				className='remove-format-button'>
 				<AiOutlineSend size={30}
-				onClick={sendMessageClick}
+				// onClick={sendMessageClick}
 				/>
 			</button>
 		</div>
