@@ -90,11 +90,11 @@ CREATE TABLE "_admin" (
 );
 
 -- CreateTable
-CREATE TABLE "_user_chatroom" (
+CREATE TABLE "_member_chatroom" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL,
-    CONSTRAINT "_user_chatroom_A_fkey" FOREIGN KEY ("A") REFERENCES "chat_room" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT "_user_chatroom_B_fkey" FOREIGN KEY ("B") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT "_member_chatroom_A_fkey" FOREIGN KEY ("A") REFERENCES "chat_room" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "_member_chatroom_B_fkey" FOREIGN KEY ("B") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -133,10 +133,10 @@ CREATE UNIQUE INDEX "_admin_AB_unique" ON "_admin"("A", "B");
 CREATE INDEX "_admin_B_index" ON "_admin"("B");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "_user_chatroom_AB_unique" ON "_user_chatroom"("A", "B");
+CREATE UNIQUE INDEX "_member_chatroom_AB_unique" ON "_member_chatroom"("A", "B");
 
 -- CreateIndex
-CREATE INDEX "_user_chatroom_B_index" ON "_user_chatroom"("B");
+CREATE INDEX "_member_chatroom_B_index" ON "_member_chatroom"("B");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_banned_chatroom_AB_unique" ON "_banned_chatroom"("A", "B");
