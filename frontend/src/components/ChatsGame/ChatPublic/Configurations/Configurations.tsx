@@ -11,6 +11,7 @@ import Rules from "./Rules";
 import GetUsersGame from "./GetUsersGame";
 import React, { useEffect, useRef, useState } from "react";
 import { DataChat } from "../ChatPublic";
+import InputButton from "./InputButton";
 
 const rules: string[] = [
 	"2 anos de Free Fire",
@@ -30,14 +31,13 @@ type UsersGame = {
 type propsConfigurations = {
 	openOrClosedConf: () => void,
 	setDataChat: React.Dispatch<React.SetStateAction<DataChat>>,
+	numberMembers: number,
 }
 
 export default function Configurations(props: propsConfigurations) {
-	const [showInputAddMember, setShowInputAddMember] = useState(false);
-	const chatName: string = useParams().chatName as string;
-	const newMember = useRef<HTMLInputElement>(null);
-	const navigate = useNavigate();
 	const [usersGame, setUsersGame] = useState<UsersGame[]>([]);
+	const chatName: string = useParams().chatName as string;
+	const navigate = useNavigate();
 
 	const deleteChat = (): void => {
 		axios.delete('http://localhost:3000/chatroom/delete-chatroom', {
@@ -54,7 +54,7 @@ export default function Configurations(props: propsConfigurations) {
 
 	const addedNewMember = (e: any): void => {
 		if (e.key === 'Enter') {
-			const user = usersGame.find((user) => user.nickname === newMember.current?.value);
+			const user = usersGame.find((user) => user.nickname === refInputs.current?.value);
 
 			if (user) {
 				console.log("user: ", user.id);
@@ -82,41 +82,57 @@ export default function Configurations(props: propsConfigurations) {
 		})
 	}, [])
 
+	const [inputAddMember, setInputAddMember] = useState(false);
+	const [inputRemoveMember, setInputRemoveMember] = useState(false);
+	const [inputRemoverChat, setInputRemoverChat] = useState(false);
+	const [inputAddADM, setInputAddADM] = useState(false);
+	const refInputs = useRef<HTMLInputElement>(null);
+
 	return (
 		<div className="position-absolute bg-dark text-center rounded h-100 w-50 overflow-auto top-0 end-0">
 			<Bar openOrClosedConf={props.openOrClosedConf} />
 			<Perfil chatName={chatName}
 				chatPhoto="https://i.etsystatic.com/37688069/r/il/d3e600/5143421340/il_600x600.5143421340_sm1f.jpg"
+				numberMembers={props.numberMembers}
 			/>
 			<Rules rules={rules} />
 			<div className="p-3 text-start">
 				<ButtonConfiguration Icon={AiOutlineUserAdd}
 					content="Adicionar Pessoas"
-					function={() => { setShowInputAddMember(!showInputAddMember) }}
+					function={() => { setInputAddMember(!inputAddMember) }}
 				/>
-				{!showInputAddMember === true ? null :
-					<input
-						type="text"
-						className="remove-format-input"
-						placeholder="Nome da pessoa"
-						ref={newMember}
-						onKeyDown={addedNewMember}
+				{!inputAddMember === true ? null :
+					<InputButton newMember={refInputs}
+						function={addedNewMember}
 					/>
 				}
-
 				<ButtonConfiguration Icon={MdOutlinePersonAddDisabled}
 					content="Remover Militante"
-					function={() => { }}
+					function={() => { setInputRemoveMember(!inputRemoveMember) }}
 				/>
+				{!inputRemoveMember === true ? null :
+					<InputButton newMember={refInputs}
+						function={() => { }}
+					/>
+				}
 				<ButtonConfiguration Icon={GiBroadDagger}
 					content="Adicionar ADM"
-					function={() => { }}
+					function={() => { setInputAddADM(!inputAddADM) }}
 				/>
+				{!inputAddADM === true ? null :
+					<InputButton newMember={refInputs}
+						function={() => { }}
+					/>
+				}
 				<ButtonConfiguration Icon={MdDeleteSweep}
 					content="Delete Chat"
-					function={deleteChat}
-
+					function={() => { setInputRemoverChat(!inputRemoverChat) }}
 				/>
+				{!inputRemoverChat === true ? null :
+					<InputButton newMember={refInputs}
+						function={deleteChat}
+					/>
+				}
 			</div>
 		</div>
 	);

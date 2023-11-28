@@ -4,6 +4,7 @@ import { BsFillPencilFill } from 'react-icons/bs';
 type propsPerfil = {
 	chatName: string;
 	chatPhoto: string;
+	numberMembers: number;
 }
 
 export default function Perfil(props: propsPerfil) : JSX.Element {
@@ -22,7 +23,7 @@ export default function Perfil(props: propsPerfil) : JSX.Element {
 				<BsFillPencilFill size={20} style={{ cursor: 'pointer', marginLeft: '5px' }} onClick={() => setShowEditName(!showEditName)}/>
 			</h3>
 			{showEditName === true ? <input type="text" className="remove-format-input text-center border-bottom mb-1" placeholder="Novo nome do grupo" /> : null}
-			<h4>Grupo - 15 participantes</h4>
+			<h4>Grupo - {props.numberMembers} participantes</h4>
 		</div>
 	)
 }

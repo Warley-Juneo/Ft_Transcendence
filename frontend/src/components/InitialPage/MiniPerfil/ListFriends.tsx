@@ -5,7 +5,6 @@ import { MdDeleteForever } from 'react-icons/md';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-
 export type Players = {
 	avatar: string,
 	id: string,
