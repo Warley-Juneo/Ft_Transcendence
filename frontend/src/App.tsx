@@ -7,6 +7,7 @@ import ListChats from './components/PublicChatsPage/PublicChats';
 import ChatPublic from './components/ChatsGame/ChatPublic/ChatPublic';
 import Ranking from './components/Rankingpage/Ranking';
 import Game from './components/GamePage/Game';
+import LoginFake from './components/LoginPage/LoginFake';
 
 export default function App() {
 	return (
@@ -14,6 +15,7 @@ export default function App() {
 			<BrowserRouter>
 				<Routes>
 					<Route path='/' element={< Login /> } />
+					<Route path='/fake' element={< LoginFake /> } />
 					<Route path='/game/' element={< InicialPage /> } >
 						<Route path='start-game' element={<Game />} />
 						<Route path='profile' element={<ProfileScreen />} />

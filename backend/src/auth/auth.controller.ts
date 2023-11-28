@@ -13,7 +13,7 @@ export class AuthController {
     return await this.service.mainLogin(code);
   }
 
-  @Post('other-login')
+  @Post('fake')
   async otherLogin(@Body() dto: OtherLoginDto): Promise<OutputLoginDto> {
     return await this.service.otherLogin(dto);
   }
