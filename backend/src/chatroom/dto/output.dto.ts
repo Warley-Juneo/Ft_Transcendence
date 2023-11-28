@@ -49,8 +49,8 @@ export class UniqueChatroomDto {
 	photoUrl: 		string;
 	owner_nickname: string;
 	owner_id:		string;
-	users:			UniqueUserChatrommDto[];
-	adm:			UniqueUserChatrommDto[];
+	members:		UniqueUserChatrommDto[];
+	admin:			UniqueUserChatrommDto[];
 	banned:			UniqueUserChatrommDto[];
 	message:		OutputMessageDto[];
 }
