@@ -2,26 +2,28 @@ import { useEffect, useState } from "react";
 import BarConfigurations from "./barConfigurations";
 import Configurations from "./Configurations/Configurations";
 import InputChats from "../InputChats";
-import FormatMessagensList from "../ChatPrivate/FormatMessagensList";
 import { useLocation } from "react-router-dom";
 import ListFriends from "../../InitialPage/MiniPerfil/ListFriends";
 import { Players } from "../../InitialPage/MiniPerfil/ListFriends";
 
 export type DataChat = {
-	id: string
-	name: string
-	photo: string
-	users: Players[]
+	id: string,
+	name: string,
+	photo: string,
+	members: Players[],
+	admin: Players[],
 }
 
 export default function ChatPublic() {
 	const [showConfigurations, setShowConfigurations] = useState(false);
 	let tmp = useLocation().state?.data as DataChat;
+	console.log(tmp)
 	const [dataChat, setDataChat] = useState<DataChat>({
 		id: '',
 		name: '',
 		photo: '',
-		users: [],
+		admin: [],
+		members: [],
 	});
 
 	useEffect(() => {
@@ -33,7 +35,7 @@ export default function ChatPublic() {
 			<div className="row g-0 h-100 p-2">
 				{/* Lado esquerdo do chat*/}
 				<div className="col-3 border-end h-100">
-					<ListFriends	players={dataChat.users}
+					<ListFriends	players={dataChat.members}
 									getPlayers={() => { }}
 					/>
 				</div>
@@ -43,11 +45,11 @@ export default function ChatPublic() {
 					<BarConfigurations openOrClosedConf={() => setShowConfigurations(!showConfigurations)} />
 					{!showConfigurations === true ? null :
 						<Configurations	openOrClosedConf={() => setShowConfigurations(!showConfigurations)}
-										numberMembers={dataChat.users.length}
+										numberMembers={dataChat.members.length}
 										setDataChat={setDataChat}
 					/>}
 					<div className="h-100 text-black p-3 overflow-auto">
-						<FormatMessagensList />
+						{/* <FormatMessagensList /> */}
 					</div>
 					<InputChats />
 				</div>

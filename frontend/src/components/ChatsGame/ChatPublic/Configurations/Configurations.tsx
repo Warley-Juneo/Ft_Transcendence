@@ -39,7 +39,9 @@ export default function Configurations(props: propsConfigurations) {
 	const chatName: string = useParams().chatName as string;
 	const navigate = useNavigate();
 
-	const deleteChat = (): void => {
+	const deleteChat = (e: any): void => {
+		if (e.key !== 'Enter') return ;
+		if (refInputs.current?.value !== chatName) return ;
 		axios.delete('http://localhost:3000/chatroom/delete-chatroom', {
 			data: {
 				chat_name: chatName,

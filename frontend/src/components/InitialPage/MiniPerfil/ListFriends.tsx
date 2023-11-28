@@ -37,11 +37,11 @@ export default function ListFriends(props: PropsListFriends) {
 			})
 	}
 
-	if (!props.players.length) {
+	if (!props.players) {
 		return (
 			<div>
 				<div className='d-flex justify-content-center'>
-					<p className='text-white'>Você não possui amigos</p>
+					<p className='text-white'>Carregando...</p>
 				</div>
 			</div>
 		)

@@ -217,7 +217,7 @@ export class ChatroomRepository {
 
 		let response = await this.prisma.chatRoom.findMany({
 			where: {
-				users: {
+				members: {
 					some: {
 						id: userId,
 					},
