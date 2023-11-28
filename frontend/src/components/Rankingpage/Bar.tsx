@@ -7,9 +7,13 @@ export default function Bar() {
 						Rank
 					</div>
 					<div className="col-10">
-						<div className="justify-content-evenly d-flex w-100">
-							<p>Avatar</p>
-							<p>Perfil</p>
+						<div className="d-flex w-100">
+							<div className="d-flex w-50 justify-content-center">
+								<p>Avatar</p>
+							</div>
+							<div className="d-flex w-50 justify-content-center">
+								<p>Perfil</p>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -19,10 +23,10 @@ export default function Bar() {
 
 			<div className="col-5">
 				<div className="row g-0">
-					<div className="col-9">
+					<div className="col-10">
 						Historico
 					</div>
-					<div className="col-3">
+					<div className="col-2">
 						Prontos
 					</div>
 				</div>

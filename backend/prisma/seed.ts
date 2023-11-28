@@ -60,10 +60,10 @@ async function main() {
 		  last_name: "Giusepe faggion",
 		  nickname: "fagiusep",
 		  avatar: "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg",
-		  points: 2,
+		  points: 12,
 		  friends: {
 			connect: [
-				{id: jose.id,}, {id: joao.id}, {id: julia.id},
+				{id: jose.id,}, {id: joao.id},
 			],
 		  },
 		},
@@ -77,10 +77,10 @@ async function main() {
 		  last_name: "Wallas Ferreira Santos",
 		  nickname: "wwallas-",
 		  avatar: "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg",
-		  points: 2,
+		  points: 1,
 		  friends: {
 			connect: [
-				{id: jose.id,}, {id: joao.id}, {id: julia.id,}, {id: fausto.id}
+				{id: jose.id,}, {id: joao.id}, {id: julia.id,}
 			],
 		  },
 		},
@@ -251,6 +251,134 @@ async function main() {
 
 			draws: true,
 
+		},
+	});
+
+	let game7 = await prisma.match.create ({
+		data: {
+			player_1 : {
+				connect : {
+					id: fausto.id,
+				}
+			},
+			score_p1: 7,
+			player_2 : {
+				connect : {
+					id: wallas.id,
+				}
+			},
+			score_p2: 0,
+
+			winner : {
+				connect : {
+					id: fausto.id,
+				},
+			},
+
+			loser : {
+				connect : {
+					id: wallas.id,
+				},
+			},
+
+			draws: false,
+
+		},
+	});
+
+	let game8 = await prisma.match.create ({
+		data: {
+			player_1 : {
+				connect : {
+					id: fausto.id,
+				}
+			},
+			score_p1: 9,
+			player_2 : {
+				connect : {
+					id: wallas.id,
+				}
+			},
+			score_p2: 0,
+
+			winner : {
+				connect : {
+					id: fausto.id,
+				},
+			},
+
+			loser : {
+				connect : {
+					id: wallas.id,
+				},
+			},
+
+			draws: false,
+
+		},
+	});
+
+	let game9 = await prisma.match.create ({
+		data: {
+			player_1 : {
+				connect : {
+					id: fausto.id,
+				}
+			},
+			score_p1: 7,
+			player_2 : {
+				connect : {
+					id: julia.id,
+				}
+			},
+			score_p2: 8,
+
+			winner : {
+				connect : {
+					id: julia.id,
+				},
+			},
+
+			loser : {
+				connect : {
+					id: fausto.id,
+				},
+			},
+
+			draws: false,
+
+		},
+	});
+
+	let game10 = await prisma.match.create ({
+		data: {
+			player_1 : {
+				connect : {
+					id: fausto.id,
+				}
+			},
+			score_p1: 7,
+			player_2 : {
+				connect : {
+					id: wallas.id,
+				}
+			},
+			score_p2: 7,
+
+			draws: true,
+
+		},
+	});
+
+	let directChatroom1 = await prisma.directChatRoom.create({
+		data: {
+			name: "fagiusepwwallas-",
+		},
+	});
+
+	let directChatroom2 = await prisma.directChatRoom.create({
+		data: {
+			name: "wwallas-fagiusep",
 		},
 	});
 }

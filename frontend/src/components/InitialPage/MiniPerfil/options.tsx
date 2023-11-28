@@ -2,14 +2,15 @@ import { GoPersonAdd } from 'react-icons/go';
 import { GiThreeFriends } from 'react-icons/gi';
 import { FaUserFriends } from 'react-icons/fa';
 import React, { useState } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
-const URLS_MiniPerfilPlayers = {
+const	URLS_MiniPerfilPlayers = {
 	'personal': 'http://localhost:3000/users/friends',
-	'Global': 'http://localhost:3000/users/Global',
-	'groups': 'http://localhost:3000/users/friends',
+	'Global': 'http://localhost:3000/users/online',
 }
 
-function Options({options}: {options: React.Dispatch<React.SetStateAction<string>>}) {
+function Options({getPlayers}: {getPlayers: (route: string) => void}) {
 	const [showaADDFriend, setShowAddFriend] = useState(false);
 
 	function handleClickAddFriend() {
@@ -18,8 +19,16 @@ function Options({options}: {options: React.Dispatch<React.SetStateAction<string
 
 	function addNewFriend(event: React.KeyboardEvent<HTMLInputElement>) {
 		if (event.key === 'Enter') {
-			alert(`add friend ${event.currentTarget.value}`);
-			event.currentTarget.value = '';
+			axios.post('http://localhost:3000/users/add_friend', {
+				nick_name: event.currentTarget.value,
+			}, {
+				headers: {
+					Authorization: Cookies.get('jwtToken'),
+				},
+			})
+			.then((res) => {
+				getPlayers(URLS_MiniPerfilPlayers.personal);
+			})
 		}
 	}
 
@@ -34,7 +43,7 @@ function Options({options}: {options: React.Dispatch<React.SetStateAction<string
 					className='remove-format-input'
 					placeholder='Search Friend'
 					onKeyDown={addNewFriend}
-					/>
+				/>
 			</div>
 		)
 	}
@@ -50,11 +59,11 @@ function Options({options}: {options: React.Dispatch<React.SetStateAction<string
 					/>
 					<FaUserFriends
 						style={{ margin: '5px', cursor: 'pointer' }}
-						size={30} onClick={() => {console.log("HUHU"); options(URLS_MiniPerfilPlayers.personal)}}
+						size={30} onClick={() => {getPlayers(URLS_MiniPerfilPlayers.personal)}}
 					/>
 					<GiThreeFriends
 						style={{ margin: '5px', cursor: 'pointer' }}
-						size={30} onClick={() => {console.log("HUHU2"); options(URLS_MiniPerfilPlayers.Global)}}
+						size={30} onClick={() => getPlayers(URLS_MiniPerfilPlayers.Global)}
 					/>
 				</div>
 			</div>

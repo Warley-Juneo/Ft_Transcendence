@@ -1,26 +1,38 @@
+import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 import MiniPerfilUser from './MiniPerfilUser';
 import Options from './options';
 import ListFriends from './ListFriends';
-import { useEffect, useState } from 'react';
+import { Players } from './ListFriends';
+
 
 export default function MiniPerfil() {
-	const [optionSelected, setOptionSelected] = useState<string>('');
+	const [players, setPlayers] = useState<Players[]>([]);
+
+	function getPlayers(route: string) {
+		axios.get(route, {
+			headers: {
+				Authorization: Cookies.get('jwtToken'),
+			}
+		})
+		.then((res) => {
+			setPlayers(res.data.users);
+		})
+		.catch((err) => {
+		})
+	}
 
 	useEffect(() => {
-		if (optionSelected === '') {
-			return;
-		}
-		console.log(optionSelected);
-		console.log('oi');
-		alert('UrlFake: ' + optionSelected);
-	}, [optionSelected]);
+		getPlayers('http://localhost:3000/users/friends');
+	}, []);
 
 	return (
-		<aside className='bg-custon-roxo d-flex flex-column h-100' style={{ minWidth: '15vw' }}>
+		<div className='bg-custon-roxo d-flex flex-column h-100' style={{ minWidth: '15vw' }}>
 			<MiniPerfilUser />
 			<hr className='m-0 w-100 text-white'></hr>
-			<Options options={setOptionSelected} />
-			<ListFriends/>
-		</aside>
+			<Options getPlayers={getPlayers}/>
+			<ListFriends players={players} getPlayers={getPlayers}/>
+		</div>
 	);
 }

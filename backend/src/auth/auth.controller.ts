@@ -1,7 +1,6 @@
 import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthLoginDto } from 'src/auth/dtos/authLogin.dto';
-import { UserPerfilDto } from 'src/users/dtos/output.dtos';
+import { AuthLoginDto } from 'src/auth/dtos/input.dto';
 import { OutputLoginDto } from './dtos/output.dto';
 import { Express } from 'express';
 

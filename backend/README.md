@@ -99,6 +99,12 @@ Last project of 42School
 
   9- Permissões
 
+  SOKET.IO
+
+  Adm- não é socket
+  Block - socket.io
+  kick, ban, mute - socket.io
+
 
  ### TO DO LIST
 

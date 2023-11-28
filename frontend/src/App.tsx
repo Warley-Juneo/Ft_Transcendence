@@ -9,7 +9,6 @@ import Ranking from './components/Rankingpage/Ranking';
 import Game from './components/GamePage/Game';
 
 export default function App() {
-
 	return (
 		<div>
 			<BrowserRouter>
@@ -19,7 +18,7 @@ export default function App() {
 						<Route path='start-game' element={<Game />} />
 						<Route path='profile' element={<ProfileScreen />} />
 						<Route path='chats' element={<ListChats />} />
-						<Route path='chats/:id' element={<ChatPublic />} />
+						<Route path='chats/:chatName' element={<ChatPublic />} />
 						<Route path='ranking' element={<Ranking />} />
 					</Route>
 				</Routes>
