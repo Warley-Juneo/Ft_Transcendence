@@ -26,7 +26,7 @@ export default function MessagensArea(props: PropsInputChats): JSX.Element {
 	}, []);
 
 	useEffect(() => {
-		socketIO.on('directChatMessage', (data) => {
+		socketIO.on('chatMessage', (data) => {
 			try {
 				data = JSON.parse(data) as Messages;
 				setMessages((prevMessagens) => [...prevMessagens, data]);
