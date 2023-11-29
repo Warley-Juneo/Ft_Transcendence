@@ -3,6 +3,8 @@ import { IsNotEmpty, IsString, ValidateIf } from "class-validator";
 export class CreateDirectChatroomDto {
 	@IsNotEmpty({message: 'Nickname can not be empty.'})
 	my_nickname:		string;
+
+	@IsNotEmpty({message: 'Nickname can not be empty.'})
 	other_nickname:		string;
 }
 
@@ -55,7 +57,13 @@ export class InputChatroomDto {
 }
 
 export class InputChatroomMessageDto {
+	
+	@IsNotEmpty({message: 'Chatroom can not be empty.'})
 	content:		string;
+
+	@IsNotEmpty({message: 'Chatroom can not be empty.'})
 	chatId:			string;
+
+	@IsNotEmpty({message: 'Chatroom can not be empty.'})
 	user_id:		string;
 }

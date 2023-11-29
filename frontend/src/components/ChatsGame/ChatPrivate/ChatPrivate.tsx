@@ -13,6 +13,7 @@ export default function ChatPrivate({ nick_name }: { nick_name: string }) {
 	const [socketIO] = useState<Socket>(io('http://localhost:3000'));
 	const user = useContext(DataUser);
 
+	console.log("\n\nNICKNAMES", user.user.nickname, "\n", nick_name, "\n\n");
 	const OpenDirectChat = () => {
 		axios.post('http://localhost:3000/chatroom/open-direct', {
 			my_nickname: user.user.nickname,
