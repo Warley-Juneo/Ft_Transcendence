@@ -1,5 +1,5 @@
 export class OutputDirectMessageDto {
-	msg_id: 		string;
+	id: 		string;
 	content:		string;
 	imgUrl:			string;
 	user:			UniqueUserChatrommDto;
@@ -15,7 +15,7 @@ export class OutputMessageDto {
 	content:        string;
 	img_url:        string;
 	user:			UniqueUserChatrommDto;
-	data:	        Date;
+	date:	        Date;
 }
 
 export class ChatroomsDto {

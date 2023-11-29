@@ -166,7 +166,7 @@ export class ChatroomService {
 			dto.content = obj.content;
 			dto.img_url = obj.imgUrl;
 			dto.user = obj.user;
-			dto.data = obj.createdAt;
+			dto.date = obj.createdAt;
 			outputDto.message.push(dto);
 		}
 		// console.log("\n\nFindUniqueChatroomDto", outputDto, "\n\n");
@@ -226,7 +226,7 @@ export class ChatroomService {
 		outpuDto.id = msg.id;
 		outpuDto.content = msg.content;
 		outpuDto.user = msg.user;
-		outpuDto.data = msg.createdAt;
+		outpuDto.date = msg.createdAt;
 
 
 		return outpuDto;
@@ -262,13 +262,13 @@ export class ChatroomService {
 			name = dto.other_nickname + dto.my_nickname
 		}
 		let chat: DirectChatRoom = await this.chatroomRepository.findDirectChatroom(name);
-		
+
 		if (!chat) {
 			throw new BadRequestException('chat name do not exist.');
 		}
-		
+
 		console.log("\n\nchat name", name, "\n\n");
-		
+
 		let msg = await this.chatroomRepository.createDirectMessage(name, dto);
 
 		return msg;
@@ -282,10 +282,10 @@ export class ChatroomService {
 
 		for (const obj of msg) {
 			let dto = new OutputDirectMessageDto();
-			dto.msg_id = obj.id;
+			dto.id = obj.id;
 			dto.content = obj.content;
 			dto.imgUrl = obj.img_url;
-			dto.user = obj.user_nickname;
+			dto.user = obj.user;
 			dto.date = obj.createdAt;
 			outputDto.direct_message.push(dto);
 		}
