@@ -271,7 +271,12 @@ export class ChatroomService {
 
 		let msg = await this.chatroomRepository.createDirectMessage(name, dto);
 
-		return msg;
+		let outpuDto = new OutputDirectMessageDto;
+		outpuDto.id = msg.id;
+		outpuDto.content = msg.content;
+		outpuDto.user = msg.user;
+		outpuDto.date = msg.createdAt;
+		return outpuDto;
 	}
 
 	async findAllDirectMessage(name: string): Promise<OutputDirectMessagesDto> {
@@ -284,7 +289,7 @@ export class ChatroomService {
 			let dto = new OutputDirectMessageDto();
 			dto.id = obj.id;
 			dto.content = obj.content;
-			dto.imgUrl = obj.img_url;
+			dto.img_url = obj.img_url;
 			dto.user = obj.user;
 			dto.date = obj.createdAt;
 			outputDto.direct_message.push(dto);

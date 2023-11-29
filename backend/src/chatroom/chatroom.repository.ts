@@ -311,7 +311,7 @@ export class ChatroomRepository {
 						nickname: dto.my_nickname,
 					},
 				},
-				// img_url: dto.imgUrl,
+				// img_url: dto.img_url,
 				content: dto.content,
 			},
 			select: {

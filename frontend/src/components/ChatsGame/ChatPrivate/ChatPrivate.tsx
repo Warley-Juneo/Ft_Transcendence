@@ -48,6 +48,19 @@ export default function ChatPrivate({ nick_name }: { nick_name: string }) {
 		}
 	}, []);
 
+	useEffect(() => {
+		socketIO.on('directChatMessage', data => {
+			try {
+				data = JSON.parse(data);
+				console.log("data: ", data);
+				setMessages((messages) => [...messages, data]);
+				console.log("messages: ", messages);
+			} catch (error) {
+				console.log("error no cat: ", error);
+			}
+		});
+	}, [socketIO])
+
 
 	let obj = {
 		my_nickname: nick_name,
