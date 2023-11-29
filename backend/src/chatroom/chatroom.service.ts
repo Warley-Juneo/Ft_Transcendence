@@ -251,7 +251,7 @@ export class ChatroomService {
 		return await this.findAllDirectMessage(name);
 	}
 
-	async createDirectMessage(dto: CreateDirectMessageDto): Promise<OutputDirectMessagesDto> {
+	async createDirectMessage(dto: CreateDirectMessageDto): Promise<OutputDirectMessageDto> {
 
 		let comp = dto.my_nickname.localeCompare(dto.other_nickname);
 		let chat: string;
@@ -263,7 +263,7 @@ export class ChatroomService {
 		}
 		let msg = this.chatroomRepository.createDirectMessage(chat, dto);
 
-		return await this.findAllDirectMessage(chat); // findUnique
+		return msg;
 	}
 
 	async findAllDirectMessage(name: string): Promise<OutputDirectMessagesDto> {
