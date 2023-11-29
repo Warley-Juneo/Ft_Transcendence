@@ -15,8 +15,6 @@ export default function MessagensArea(props: PropsInputChats): JSX.Element {
 
 	const [messages, setMessages] = useState<Messages[]>(props.messagens);
 
-	console.log("MessagensArea:", props.messagens);
-	console.log(typeof props.messagens);
 	useEffect(() => {
 		socketIO.on('connect', () => {
 			console.log('Conectei no backend');
@@ -27,20 +25,47 @@ export default function MessagensArea(props: PropsInputChats): JSX.Element {
 		}
 	}, []);
 
+	useEffect(() => {
+		socketIO.on('chatMessage', (data) => {
+			try {
+				data = JSON.parse(data) as Messages;
+				setMessages((prevMessagens) => [...prevMessagens, data]);
+			} catch (error) {
+				console.log(error);
+			}
+		});
+	}, [socketIO]);
+
 	return (
 		<>
 			<div className="h-100 text-black p-3 overflow-auto">
 				{messages.map((message) => {
-					return (
-						<div key={message.id} className="d-flex flex-column">
-							<div className="d-flex flex-row">
-								<img src={message.user.avatar} alt="Avatar" className="rounded-circle" width="50" height="50" />
-								<h5 className="text-white">{message.user.nickname}</h5>
-							</div>
-							<p className="text-white">{message.content}</p>
-						</div>
-					)
-				})}
+					{
+						const data = new Date(message.data)
+						const dataFormating: string = `${data.getHours()}:${data.getMinutes()}`;
+						if (message.user.nickname === user.user.nickname) {
+							return (
+								<div className='d-flex justify-content-end mb-2'>
+									<div className='bg-light rounded me-2 p-2' style={{ whiteSpace: 'pre-line' }}>
+										<p>{message.content}</p>
+										<p className="d-flex justify-content-end" style={{ fontSize: '12px' }}>{dataFormating}</p>
+									</div>
+									<img style={{ height: '40px', width: '40px', borderRadius: '50%' }} src={message.user.avatar} alt='foto' />
+								</div>
+							);
+						} else {
+							return (
+								<div className='d-flex mb-2'>
+									<img style={{ height: '40px', width: '40px', borderRadius: '50%' }} src={message.user.avatar} alt='foto' />
+									<div className='bg-light rounded ms-2 p-2' style={{ whiteSpace: 'pre-line' }}>
+										<p>{message.content}</p>
+										<p className="d-flex justify-content-end" style={{ fontSize: '12px' }}>{dataFormating}</p>
+									</div>
+								</div>
+							);
+						};
+					}
+				})};
 			</div>
 			<InputChats
 				socket={socketIO}

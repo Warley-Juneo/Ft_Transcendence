@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
 import { Socket } from 'socket.io-client';
 
@@ -22,6 +23,18 @@ type retornWebSocket = {
 }
 
 export default function InputChats(props: PropsInputChats) {
+	const inputChat = useRef<HTMLInputElement>(null);
+
+	const sendMessageClick = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
+		console.log("clicou", inputChat.current?.value)
+		let obj = {
+			content: inputChat.current?.value,
+			chatId: props.chatId,
+			user_id: props.userId,
+		}
+		props.socket.emit('chatroom-message', obj);
+	}
+
 
 	const sendMessageEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === 'Enter') {
@@ -30,12 +43,8 @@ export default function InputChats(props: PropsInputChats) {
 				chatId: props.chatId,
 				user_id: props.userId,
 			}
-
 			props.socket.emit('chatroom-message', obj);
-
-			props.socket.on('response', (data: retornWebSocket) => {
-				console.log("Data:", data);
-			})
+			event.currentTarget.value = '';
 		}
 	}
 
@@ -44,13 +53,14 @@ export default function InputChats(props: PropsInputChats) {
 			<input
 				className='remove-format-input'
 				type='text'
+				ref={inputChat}
 				placeholder='Digite sua mensagem'
 				onKeyDown={sendMessageEnter}
 			/>
 			<button
 				className='remove-format-button'>
 				<AiOutlineSend size={30}
-				// onClick={sendMessageClick}
+				onClick={sendMessageClick}
 				/>
 			</button>
 		</div>
