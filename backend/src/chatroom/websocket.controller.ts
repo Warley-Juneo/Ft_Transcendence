@@ -38,7 +38,6 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
       let outputMsg = await this.service.createChatroomMessage(message_dto);
 
 	  outputMsg = JSON.stringify(outputMsg);
-      console.log("\npublic_chat backend: ", outputMsg + "\n\n");
-      client.emit('response', `Backend devolução ${outputMsg}`);
+      this.server.emit('chatMessage', outputMsg);
     }
 }

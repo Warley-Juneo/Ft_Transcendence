@@ -30,12 +30,7 @@ export default function InputChats(props: PropsInputChats) {
 				chatId: props.chatId,
 				user_id: props.userId,
 			}
-
 			props.socket.emit('chatroom-message', obj);
-
-			props.socket.on('response', (data: retornWebSocket) => {
-				console.log("Data:", data);
-			})
 		}
 	}
 
