@@ -1,20 +1,19 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import BarConfigurations from "./barConfigurations";
 import Configurations from "./Configurations/Configurations";
 import { useLocation } from "react-router-dom";
 import ListFriends from "../../InitialPage/MiniPerfil/ListFriends";
 import { Players } from "../../InitialPage/MiniPerfil/ListFriends";
-import io, { Socket } from 'socket.io-client';
 import MessagensArea from "./MessagensArea";
-import { DataUser } from "../../InitialPage/InitialPage";
 
-type Messages = {
-	id:             string;
-	content:        string;
-	img_url:        string;
-	user_nickname:  string;
-	user_avatar:		string;
-	data:	        	Date;
+export type Messages = {
+	id:             string,
+	content:        string,
+	data:       	Date,
+	user: {
+		nickname: string,
+		avatar: string,
+	}
 }
 
 export type DataChat = {
@@ -27,33 +26,9 @@ export type DataChat = {
 }
 
 export default function ChatPublic() {
-	const [socketIO, setSocketIO] = useState<Socket>(io('http://localhost:3000'));
-	const user = useContext(DataUser);
-
-	const [showConfigurations, setShowConfigurations] = useState(false);
 	let tmp = useLocation().state?.data as DataChat;
-	const [dataChat, setDataChat] = useState<DataChat>({
-		id: '',
-		name: '',
-		photo: '',
-		admin: [],
-		members: [],
-		message: [],
-	});
-
-	useEffect(() => {
-		setDataChat (tmp)
-	}, [])
-
-	useEffect(() => {
-		socketIO.on('connect', () => {
-			console.log('Conectei no backend');
-		});
-
-		return () => {
-			socketIO.disconnect();
-		}
-	},[]);
+	const [showConfigurations, setShowConfigurations] = useState(false);
+	const [dataChat, setDataChat] = useState<DataChat>(tmp);
 
 	return (
 		<div className="bg-custon-roxo rounded text-white h-100">
@@ -74,9 +49,8 @@ export default function ChatPublic() {
 										setDataChat={setDataChat}
 						/>
 					}
-					<MessagensArea	socket={socketIO}
+					<MessagensArea	messagens={dataChat.message}
 									chatId={dataChat.id}
-									userId={user.user.id}
 					/>
 				</div>
 			</div>
