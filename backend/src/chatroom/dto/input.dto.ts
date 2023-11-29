@@ -4,7 +4,7 @@ export class CreateChatroomDto {
 	@IsString({message: 'Chatroom name must be a string.'})
 	@IsNotEmpty({message: 'Chatroom name can not be empty.'})
 	name:			string;
-	
+
 	@IsString()
 	type:			string;
 
@@ -48,8 +48,7 @@ export class InputChatroomDto {
 }
 
 export class InputChatroomMessageDto {
-
-	content:        string;
+	content:		string;
 	chatId:			string;
 	user_id:		string;
 }

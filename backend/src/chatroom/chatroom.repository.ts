@@ -258,10 +258,12 @@ export class ChatroomRepository {
 					connect: {
 						id: dto.user_id,
 					},
-					
+
 				},
 			},
 			select: {
+				id: true,
+				content: true,
 				user: {
 					select: {
 						id: true,

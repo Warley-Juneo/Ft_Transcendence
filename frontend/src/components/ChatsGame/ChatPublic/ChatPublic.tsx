@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import BarConfigurations from "./barConfigurations";
 import Configurations from "./Configurations/Configurations";
-import InputChats from "../InputChats";
 import { useLocation } from "react-router-dom";
 import ListFriends from "../../InitialPage/MiniPerfil/ListFriends";
 import { Players } from "../../InitialPage/MiniPerfil/ListFriends";
-
 import io, { Socket } from 'socket.io-client';
-import FormatMessagensList from "../ChatPrivate/FormatMessagensList";
+import MessagensArea from "./MessagensArea";
+import { DataUser } from "../../InitialPage/InitialPage";
 
 type Messages = {
 	id:             string;
@@ -29,6 +28,7 @@ export type DataChat = {
 
 export default function ChatPublic() {
 	const [socketIO, setSocketIO] = useState<Socket>(io('http://localhost:3000'));
+	const user = useContext(DataUser);
 
 	const [showConfigurations, setShowConfigurations] = useState(false);
 	let tmp = useLocation().state?.data as DataChat;
@@ -72,11 +72,12 @@ export default function ChatPublic() {
 						<Configurations	openOrClosedConf={() => setShowConfigurations(!showConfigurations)}
 										numberMembers={dataChat.members.length}
 										setDataChat={setDataChat}
-					/>}
-					<div className="h-100 text-black p-3 overflow-auto">
-						{/* <FormatMessagensList } /> */}
-					</div>
-					<InputChats socket={socketIO} />
+						/>
+					}
+					<MessagensArea	socket={socketIO}
+									chatId={dataChat.id}
+									userId={user.user.id}
+					/>
 				</div>
 			</div>
 		</div>

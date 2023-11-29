@@ -46,7 +46,7 @@ export class ChatroomService {
 
 		let chat = await this.findUniqueChatroom(dto);
 		console.log("\n\nchat_password:", chat.password, "\ndto_password", dto.password, "\n\n");
-		
+
 		if (chat.type == 'protected') {
 			if (!await bcrypt.compare(dto.password, chat.password)) {
 				throw new UnauthorizedException('Password incorrect')
@@ -119,7 +119,7 @@ export class ChatroomService {
 	async	addMemberChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
-		
+
 		let user_id;
 		for (const obj of chat.admin) {
 			if (userId == obj.id) {
@@ -227,7 +227,8 @@ export class ChatroomService {
 		outpuDto.content = msg.content;
 		outpuDto.user = msg.user;
 		outpuDto.data = msg.createdAt;
-		
+
+
 		return outpuDto;
 	}
 

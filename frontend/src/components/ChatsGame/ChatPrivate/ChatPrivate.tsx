@@ -1,15 +1,16 @@
 import InputChats from '../InputChats';
 import './ChatPrivate.css'
-import FormatMessagensList from './FormatMessagensList';
+// import FormatMessagensList from './FormatMessagensList';
 
 export default function ChatPrivate() {
 	return (
 		<div className='chat d-flex flex-column bg-degrader rounded'>
 			<h1 className='text-white text-center'>ChatPrivate</h1>
 			<div className='p-2 overflow-auto mt-auto text-black' id='messagens-chat'>
-				<FormatMessagensList />
+				{/* <FormatMessagensList /> */}
 			</div>
-			<InputChats />
+			{/* <InputChats
+			/> */}
 		</div>
 	);
 }

@@ -8,8 +8,9 @@ import ConfigurationGame from './Configurations/Configurations';
 import { IoSettingsOutline } from 'react-icons/io5';
 
 export type t_dataUser = {
-	_nickname: string;
-	_avatar: string;
+	id: string;
+	nickname: string;
+	avatar: string;
 };
 
 export const DataUser = createContext<{
@@ -17,8 +18,9 @@ export const DataUser = createContext<{
 	updateDataUser: () => void;
 }>({
 	user: {
-		_nickname: '',
-		_avatar: '',
+		nickname: '',
+		avatar: '',
+		id: '',
 	},
 	updateDataUser: () => { },
 })
@@ -28,8 +30,9 @@ export default function InicialPage() {
 	let timeForNewRequestAxios: number = 10000;
 	const [showConfigurations, setShowConfigurations] = useState<boolean>(false);
 	const [InfoUser, setGetInfoUser] = useState<t_dataUser>({
-		_nickname: '',
-		_avatar: '',
+		nickname: '',
+		avatar: '',
+		id: '',
 	});
 
 	function getInfoUser() {

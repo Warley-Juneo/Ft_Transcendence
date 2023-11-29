@@ -6,7 +6,7 @@ import { InputChatroomMessageDto } from "./dto/input.dto";
 import { ChatroomService } from "./chatroom.service";
 
 @WebSocketGateway(
-  { 
+  {
     cors: {
       origin: '*',
       methods: ['GET', 'POST'],
@@ -15,7 +15,7 @@ import { ChatroomService } from "./chatroom.service";
   }
 )
 export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
-  
+
   constructor(private readonly service: ChatroomService) {}
 
   @WebSocketServer() server: Server;
@@ -36,8 +36,9 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
     async chatroomMessage(client: Socket, message_dto: InputChatroomMessageDto) {
 
       let outputMsg = await this.service.createChatroomMessage(message_dto);
-      
-      console.log("public_chat backend: ", outputMsg);
+
+	  outputMsg = JSON.stringify(outputMsg);
+      console.log("\npublic_chat backend: ", outputMsg + "\n\n");
       client.emit('response', `Backend devolução ${outputMsg}`);
     }
 }

@@ -18,8 +18,8 @@ export default function ConfigurationGame(): JSX.Element {
 	const newAvatar = useRef<HTMLInputElement>(null);
 
 	const EditProfile = () => {
-		const nickName = newNickname.current?.value ? newNickname.current?.value : dataUser.user._nickname;
-		const avatar = newAvatar.current?.value ? newAvatar.current?.value : dataUser.user._avatar;
+		const nickName = newNickname.current?.value ? newNickname.current?.value : dataUser.user.nickname;
+		const avatar = newAvatar.current?.value ? newAvatar.current?.value : dataUser.user.avatar;
 
 		axios.post('http://localhost:3000/users/update', {
 			nick_name: nickName,
@@ -42,8 +42,8 @@ export default function ConfigurationGame(): JSX.Element {
 					<div className='div-nickname'>
 						{!handleOption ?
 							<IdentifyInputName
-								_avatar={dataUser.user._avatar}
-								_nickname={dataUser.user._nickname}
+								_avatar={dataUser.user.avatar}
+								_nickname={dataUser.user.nickname}
 							/> :
 							<InputEditName
 								newAvatar={newAvatar}

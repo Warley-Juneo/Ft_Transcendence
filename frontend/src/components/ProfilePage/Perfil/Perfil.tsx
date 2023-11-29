@@ -73,8 +73,8 @@ export default function InformationsUser() {
 		<div className='text-center text-white'>
 			<Profile
 				borderImg={borderImg}
-				avatar={dataUser.user._avatar}
-				nickname={dataUser.user._nickname}
+				avatar={dataUser.user.avatar}
+				nickname={dataUser.user.nickname}
 			/>
 			<div className='d-flex flex-column align-items-center'>
 				<Rank rank={rank} />

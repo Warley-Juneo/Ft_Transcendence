@@ -19,8 +19,9 @@ export class LandingPageService {
     let user = await this.userService.findUserAuth(username);
 
     let response = new OutputLandinPageDto();
-    response._nickname = user.nickname;
-    response._avatar = user.avatar;
+    response.nickname = user.nickname;
+    response.avatar = user.avatar;
+	response.id = user.id;
     // response._friend_list = user.friend_list;
 
     return response;

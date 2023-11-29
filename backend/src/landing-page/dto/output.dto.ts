@@ -1,5 +1,6 @@
 export class OutputLandinPageDto {
-  _nickname: string;
-  _avatar: string;
-  _friend_list: string[];
+  id: string;
+  nickname: string;
+  avatar: string;
+  friend_list: string[];
 }
