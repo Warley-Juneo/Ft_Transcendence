@@ -35,23 +35,19 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
   @SubscribeMessage('chatroom-message')
   async chatroomMessage(client: Socket, dto: InputChatroomMessageDto) {
 
-    let outputMsg = await this.service.createChatroomMessage(dto);
+    let outputMsg: any = await this.service.createChatroomMessage(dto);
 
 	  outputMsg = JSON.stringify(outputMsg);
-    this.server.emit('chatMessage', outputMsg);
+    await this.server.emit('chatMessage', outputMsg);
   }
 
   @SubscribeMessage('direct-chatroom-message')
   async directChatroomMessage(client: Socket, dto: CreateDirectMessageDto) {
-	let aux: CreateDirectMessageDto = {
-		content: dto.content,
-		my_nickname: dto.my_nickname,
-		other_nickname: dto.other_nickname
-	}
+	
+    let outputMsg: any = await this.service.createDirectMessage(dto);
 
-	console.log("Rota do fausto: ", aux);
-    let outputMsg = await this.service.createDirectMessage(aux);
-
-    // this.server.emit('directChatMessage', outputMsg);
+    outputMsg = JSON.stringify(outputMsg);
+    
+    this.server.emit('directChatMessage', outputMsg);
   }
 }

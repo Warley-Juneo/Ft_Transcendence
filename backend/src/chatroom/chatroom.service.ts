@@ -218,7 +218,7 @@ export class ChatroomService {
 		return outputDto;
 	}
 
-	async	createChatroomMessage(dto: InputChatroomMessageDto): Promise<any> {
+	async	createChatroomMessage(dto: InputChatroomMessageDto): Promise<OutputMessageDto> {
 
 		let msg = await this.chatroomRepository.createChatroomMessage(dto);
 		console.log("MESSAGEM", msg);
@@ -232,7 +232,7 @@ export class ChatroomService {
 		return outpuDto;
 	}
 
-	async createDirectChatroom(dto: CreateDirectChatroomDto): Promise<OutputDirectMessagesDto> {
+	async openDirectChatroom(dto: CreateDirectChatroomDto): Promise<OutputDirectMessagesDto> {
 
 		let comp = dto.my_nickname.localeCompare(dto.other_nickname);
 		let name;
@@ -245,7 +245,7 @@ export class ChatroomService {
 		let chat: DirectChatRoom = await this.chatroomRepository.findDirectChatroom(name);
 
 		if (!chat) {
-			chat = await this.chatroomRepository.createDirectChatRoom(name);
+			chat = await this.chatroomRepository.openDirectChatRoom(name);
 		}
 
 		return await this.findAllDirectMessage(name);

@@ -278,7 +278,7 @@ export class ChatroomRepository {
 		return msg;
 	}
 
-	async createDirectChatRoom(name: string): Promise<DirectChatRoom> {
+	async openDirectChatRoom(name: string): Promise<DirectChatRoom> {
 
 		let chat = await this.prisma.directChatRoom.create({
 			data: {

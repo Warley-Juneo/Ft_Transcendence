@@ -1,8 +1,8 @@
 import { Controller, Body, Post, Req, Get, Delete, Query } from '@nestjs/common';
 import { CreateChatroomDto, InputChatroomDto } from './dto/input.dto';
 import { ChatroomService } from './chatroom.service';
-import { CreateDirectChatroomDto, CreateDirectMessageDto, AddChatUserDto } from './dto/input.dto';
-import { ChatroomsDto, UniqueChatroomDto } from './dto/output.dto';
+import { CreateDirectChatroomDto, AddChatUserDto } from './dto/input.dto';
+import { ChatroomsDto, OutputDirectMessagesDto, UniqueChatroomDto } from './dto/output.dto';
 
 @Controller('chatroom')
 export class ChatroomController {
@@ -18,36 +18,36 @@ export class ChatroomController {
 		return await this.chatroomService.findPrivateChatroom(request.user.sub);
 	}
 
-	@Post('create-chatroom')
+	@Post('create-group')
 	async createChatroom(@Req() request, @Body() dto: CreateChatroomDto): Promise<ChatroomsDto> {
 		let response =  await this.chatroomService.createChatroom(request.user.sub, dto);
 		return response;
 	}
 
-	@Delete('delete-chatroom')
+	@Delete('delete-group')
 	async	deleteChatroom(@Req() request, @Body() dto: InputChatroomDto): Promise <any> {
 		console.log("\n\ndeltete-chatromm dto ", dto, "\n\n");
 		return await this.chatroomService.deleteChatroom(request.user.sub, dto);
 	}
 
-	@Post('open')
+	@Post('open-group')
 	async	openChatroom(@Req() request, @Body() dto: InputChatroomDto): Promise<UniqueChatroomDto> {
 		return await this.chatroomService.openChatroom(request.user.sub, dto);
 	}
 
-	@Post('add-member')
+	@Post('add-member-group')
 	async	addMemberChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 		return await this.chatroomService.addMemberChatroom(request.user.sub, dto);
 	}
 
-	@Post('add-adm')
+	@Post('add-adm-group')
 	async	addAdmChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 		return await this.chatroomService.addAdmChatroom(request.user.sub, dto);
 	}
 
-	@Post('direct-chatroom')
-	async createDirectChatroom(@Body() dto: CreateDirectChatroomDto): Promise<any> {
-		return await this.chatroomService.createDirectChatroom(dto);
+	@Post('open-direct')
+	async openDirectChatroom(@Body() dto: CreateDirectChatroomDto): Promise<OutputDirectMessagesDto> {
+		return await this.chatroomService.openDirectChatroom(dto);
 	}
 
 	// @Post('direct-message')
