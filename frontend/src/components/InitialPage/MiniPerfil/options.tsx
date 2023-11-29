@@ -1,6 +1,8 @@
-import { GoPersonAdd } from 'react-icons/go';
-import { GiThreeFriends } from 'react-icons/gi';
+// import { GiThreeFriends } from 'react-icons/gi';
+import { FaPeopleGroup } from "react-icons/fa6";
 import { FaUserFriends } from 'react-icons/fa';
+import { GoPersonAdd } from 'react-icons/go';
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -48,21 +50,25 @@ function Options({getPlayers}: {getPlayers: (route: string) => void}) {
 		)
 	}
 
+	const styleButton: React.CSSProperties = {
+		margin: '5px',
+		cursor: 'pointer',
+	}
 	return (
 		<div className='p-2'>
 			<div className='d-flex align-items-center text-white'>
 				<p className='fw-bold'>Social</p>
 				<div className='d-flex justify-content-end w-100 options'>
 					<GoPersonAdd
-						style={{ margin: '5px', cursor: 'pointer' }}
+						style={styleButton}
 						size={30} onClick={handleClickAddFriend}
 					/>
 					<FaUserFriends
-						style={{ margin: '5px', cursor: 'pointer' }}
+						style={styleButton}
 						size={30} onClick={() => {getPlayers(URLS_MiniPerfilPlayers.personal)}}
 					/>
-					<GiThreeFriends
-						style={{ margin: '5px', cursor: 'pointer' }}
+					<FaPeopleGroup
+						style={styleButton}
 						size={30} onClick={() => getPlayers(URLS_MiniPerfilPlayers.Global)}
 					/>
 				</div>

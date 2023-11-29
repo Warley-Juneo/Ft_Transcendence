@@ -13,7 +13,6 @@ type propsChatList = {
 
 export default function ChatList(props: propsChatList) {
 	const navigate = useNavigate();
-	const buttonModal = useRef<HTMLButtonElement>(null);
 
 	const getDataChat = (chatName: string, password: string) => {
 		return axios.post(`http://localhost:3000/chatroom/open-group`, {
@@ -35,6 +34,7 @@ export default function ChatList(props: propsChatList) {
 			console.log(error);
 		});
 	}
+
 	const showModal = (chatName: string) => {
 		Swal.fire({
 			title: 'Digite a senha da sala',
