@@ -32,22 +32,22 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
     client.emit('desconectado', 'Desconectado com sucesso!');
   }
 
-  @SubscribeMessage('chatroom-message')
+  @SubscribeMessage('group-message')
   async chatroomMessage(client: Socket, dto: InputChatroomMessageDto) {
 
     let outputMsg: any = await this.service.createChatroomMessage(dto);
-
-	  outputMsg = JSON.stringify(outputMsg);
-    await this.server.emit('chatMessage', outputMsg);
+	console.log("\n\n\n outputMsg :", outputMsg, "\n\n\n");
+	outputMsg = JSON.stringify(outputMsg);
+    this.server.emit('chatMessage', outputMsg);
   }
 
-  @SubscribeMessage('direct-chatroom-message')
+  @SubscribeMessage('direct-message')
   async directChatroomMessage(client: Socket, dto: CreateDirectMessageDto) {
-	
-    let outputMsg: any = await this.service.createDirectMessage(dto);
 
+	console.log("\n\n\n DTO ", dto, "\n\n\n");
+    let outputMsg: any = await this.service.createDirectMessage(dto);
+	console.log("\n\n\n outputMsg ", outputMsg, "\n\n\n");
     outputMsg = JSON.stringify(outputMsg);
-    
     this.server.emit('directChatMessage', outputMsg);
   }
 }

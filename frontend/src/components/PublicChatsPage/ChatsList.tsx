@@ -16,7 +16,7 @@ export default function ChatList(props: propsChatList) {
 	const buttonModal = useRef<HTMLButtonElement>(null);
 
 	const getDataChat = (chatName: string, password: string) => {
-		return axios.post(`http://localhost:3000/chatroom/open`, {
+		return axios.post(`http://localhost:3000/chatroom/open-group`, {
 			password: password,
 			chat_name: chatName,
 		}, {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import CreateNewChat from './CreateNewChat';
+import ScreenCreateNewChat from './ScreemCreateNewChat';
 import BarOptions from './BarOptions';
 import ChatList from './ChatsList';
 import Cookies from 'js-cookie';
@@ -73,13 +73,15 @@ export default function PageChats() {
 			dataPost.type = 'protected'
 		}
 
-		axios.post('http://localhost:3000/chatroom/create-chatroom',
+		axios.post('http://localhost:3000/chatroom/create-group',
 			dataPost, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
 			}
 		}).then((res) => {
 			setChatList(res.data.chatrooms)
+		}).catch((err) => {
+			console.log(err)
 		})
 	}
 
@@ -97,7 +99,7 @@ export default function PageChats() {
 				getListPublicChats={getListPublicChats}
 				getListPrivateChats={getListPrivateChats}
 			/>
-			{showCreateChat ? <CreateNewChat setShowCreateChat={setShowCreateChat} createNewChat={createNewChat} /> : null}
+			{showCreateChat ? <ScreenCreateNewChat setShowCreateChat={setShowCreateChat} createNewChat={createNewChat} /> : null}
 			<div className='d-flex p-3 overflow-auto' id='showChats'>
 				<ChatList listChats={chatList} openChatSelected={openChatSelected} />
 			</div>

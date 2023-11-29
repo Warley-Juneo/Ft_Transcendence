@@ -11,11 +11,9 @@ type PropsInputChats = {
 }
 
 export default function MessagensArea(props: PropsInputChats): JSX.Element {
-	const user = useContext(DataUser);
-
-	const [socketIO] = useState<Socket>(io('http://localhost:3000'));
-
 	const [messages, setMessages] = useState<Messages[]>(props.messagens);
+	const [socketIO] = useState<Socket>(io('http://localhost:3000'));
+	const user = useContext(DataUser);
 
 	useEffect(() => {
 		socketIO.on('connect', () => {
@@ -28,7 +26,7 @@ export default function MessagensArea(props: PropsInputChats): JSX.Element {
 	}, []);
 
 	useEffect(() => {
-		socketIO.on('chatMessage', (data) => {
+		socketIO.on('directChatMessage', (data) => {
 			try {
 				data = JSON.parse(data) as Messages;
 				setMessages((prevMessagens) => [...prevMessagens, data]);
@@ -42,7 +40,7 @@ export default function MessagensArea(props: PropsInputChats): JSX.Element {
 		chatId: props.chatId,
 		user_id: user.user.id,
 		content: '',
-		route: 'chatroom-message'
+		route: 'group-message'
 	}
 	return (
 		<>

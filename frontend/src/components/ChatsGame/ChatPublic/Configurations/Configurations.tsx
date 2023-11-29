@@ -42,7 +42,7 @@ export default function Configurations(props: propsConfigurations) {
 	const deleteChat = (e: any): void => {
 		if (e.key !== 'Enter') return ;
 		if (refInputs.current?.value !== chatName) return ;
-		axios.delete('http://localhost:3000/chatroom/delete-chatroom', {
+		axios.delete('http://localhost:3000/chatroom/delete-group', {
 			data: {
 				chat_name: chatName,
 			},
@@ -59,7 +59,7 @@ export default function Configurations(props: propsConfigurations) {
 			const user = usersGame.find((user) => user.nickname === refInputs.current?.value);
 			if (user) {
 
-				axios.post('http://localhost:3000/chatroom/add-member', {
+				axios.post('http://localhost:3000/chatroom/add-member-group', {
 					add_id: user.id,
 					chat_name: chatName,
 				}, {
