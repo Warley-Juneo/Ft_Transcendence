@@ -26,20 +26,22 @@ model User {
   friends           User[] @relation("friends")
   friendsRelation   User[] @relation("friends")
   // hash      //autenticação de multiplos fatores. Autenticação google
-  points            Int       @default(0)
+  points            Int               @default(0)
 
-  match_as_player_1 Match[]   @relation(name: "player_1")
-  match_as_player_2 Match[]   @relation(name: "player_2")
+  match_as_player_1 Match[]           @relation(name: "player_1")
+  match_as_player_2 Match[]           @relation(name: "player_2")
 
-  match_wins        Match[]   @relation(name: "winner")
-  math_loses        Match[]   @relation(name: "loser")
+  match_wins        Match[]           @relation(name: "winner")
+  math_loses        Match[]           @relation(name: "loser")
 
-  chat_owner        ChatRoom[]  @relation(name: "owner")
-  chat_admin        ChatRoom[]  @relation(name: "admin")
+  chat_owner        ChatRoom[]        @relation(name: "owner")
+  chat_admin        ChatRoom[]        @relation(name: "admin")
   // chat_user         ChatRoom[]  @relation(name: "user_chatroom")
-  chat_member       ChatRoom[]  @relation(name: "member_chatroom")
-  chat_banned       ChatRoom[]  @relation(name: "banned_chatroom")
-  chat_message      Message[]   @relation(name: "user_mesage")
+  chat_member       ChatRoom[]        @relation(name: "member_chatroom")
+  chat_banned       ChatRoom[]        @relation(name: "banned_chatroom")
+  chat_message      Message[]         @relation(name: "user_mesage")
+
+  direct_message    DirectMessage[]   @relation(name: "user_direct_message")
   
   @@map("user")
 }
@@ -49,46 +51,47 @@ model Match {
 
 
   player1_id String
-  player_1   User?  @relation(name: "player_1", fields: [player1_id], references: [id])
-  score_p1   Int    @default(0)
+  player_1   User?      @relation(name: "player_1", fields: [player1_id], references: [id])
+  score_p1   Int        @default(0)
 
-  player2_id String
-  player_2   User?  @relation(name: "player_2", fields: [player2_id], references: [id])
-  score_p2   Int    @default(0)
+  player2_id String   
+  player_2   User?      @relation(name: "player_2", fields: [player2_id], references: [id])
+  score_p2   Int        @default(0)
 
-  winner_id String?
-  winner    User?   @relation(name: "winner", fields: [winner_id], references: [id])
+  winner_id String?   
+  winner    User?       @relation(name: "winner", fields: [winner_id], references: [id])
 
   loser_id String?
-  loser    User?   @relation(name: "loser", fields: [loser_id], references: [id])
+  loser    User?        @relation(name: "loser", fields: [loser_id], references: [id])
 
-  draws   Boolean? @default(false)
+  draws   Boolean?      @default(false)
 
   @@map("match")
 }
 
 model DirectChatRoom {
-  id                      String    @id @default(uuid())
-  name                    String    @unique
+  id                      String            @id @default(uuid())
+  name                    String            @unique
 
-  direct_message          DirectMessage[]  @relation(name: "direct_chat_mesage")
+  direct_message          DirectMessage[]   @relation(name: "direct_chat_mesage")
 
-  createdAt               DateTime  @default(now())
-  updatedAt               DateTime  @updatedAt
+  createdAt               DateTime          @default(now())
+  updatedAt               DateTime          @updatedAt
   
   @@map("direct_chat_room")
 }
 
 model DirectMessage {
-  id              String    @id  @default(uuid())
+  id              String                    @id  @default(uuid())
 
   content                 String?
   img_url                 String?
-  user_nickname           String
+  user_id                 String
+  user                    User?             @relation(name: "user_direct_message", fields: [user_id], references: [id], onDelete: Cascade)
   direct_chat_room_name   String
-  direct_chat_room        DirectChatRoom?  @relation(name: "direct_chat_mesage", fields: [direct_chat_room_name], references: [name], onDelete: Cascade)
+  direct_chat_room        DirectChatRoom?   @relation(name: "direct_chat_mesage", fields: [direct_chat_room_name], references: [name], onDelete: Cascade)
 
-  createdAt               DateTime         @default(now())
+  createdAt               DateTime          @default(now())
 
   @@map("direct_message")
 }
@@ -122,11 +125,11 @@ model Message {
   content         String
   img_url         String?
   user_id         String
-  user            User?      @relation(name: "user_mesage", fields: [user_id], references: [id], onDelete: Cascade)
+  user            User?             @relation(name: "user_mesage", fields: [user_id], references: [id], onDelete: Cascade)
   chat_room_id    String
-  chat_room       ChatRoom?  @relation(name: "chat_mesage", fields: [chat_room_id], references: [id], onDelete: Cascade)
+  chat_room       ChatRoom?         @relation(name: "chat_mesage", fields: [chat_room_id], references: [id], onDelete: Cascade)
 
-  createdAt         DateTime    @default(now())
+  createdAt         DateTime        @default(now())
 
   @@map("message")
 }

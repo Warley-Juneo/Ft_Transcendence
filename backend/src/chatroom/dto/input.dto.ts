@@ -1,5 +1,24 @@
 import { IsNotEmpty, IsString, ValidateIf } from "class-validator";
 
+export class CreateDirectChatroomDto {
+	@IsNotEmpty({message: 'Nickname can not be empty.'})
+	my_nickname:		string;
+	other_nickname:		string;
+}
+
+export class CreateDirectMessageDto {
+
+	@IsNotEmpty({message: 'content can not be empty.'})
+	@IsString({message: 'content has to be a string.'})
+	content:			string;
+
+	@IsNotEmpty({message: 'my_nickname can not be empty.'})
+	my_nickname:		string;
+	
+	@IsNotEmpty({message: 'other_nickname can not be empty.'})
+	other_nickname:		string;
+}
+
 export class CreateChatroomDto {
 	@IsString({message: 'Chatroom name must be a string.'})
 	@IsNotEmpty({message: 'Chatroom name can not be empty.'})
@@ -16,18 +35,6 @@ export class CreateChatroomDto {
 	photoUrl:		string;
 }
 
-export class CreateDirectChatroomDto {
-	@IsNotEmpty({message: 'Nickname can not be empty.'})
-	user_nickname:		string;
-}
-
-export class CreateDirectMessageDto {
-	@IsNotEmpty({message: 'Nickname can not be empty.'})
-	user_nickname:		string;
-
-	@IsNotEmpty()
-	content:			string;
-}
 
 export class AddChatUserDto {
 	@IsNotEmpty({message: 'User id can not be empty.'})

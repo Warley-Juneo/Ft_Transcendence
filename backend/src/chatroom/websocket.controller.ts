@@ -2,7 +2,7 @@
 
 import { SubscribeMessage, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Socket, Server } from "socket.io";
-import { InputChatroomMessageDto } from "./dto/input.dto";
+import { CreateDirectMessageDto, InputChatroomMessageDto } from "./dto/input.dto";
 import { ChatroomService } from "./chatroom.service";
 
 @WebSocketGateway(
@@ -33,11 +33,19 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
   }
 
   @SubscribeMessage('chatroom-message')
-    async chatroomMessage(client: Socket, message_dto: InputChatroomMessageDto) {
+  async chatroomMessage(client: Socket, dto: InputChatroomMessageDto) {
 
-      let outputMsg = await this.service.createChatroomMessage(message_dto);
+    let outputMsg = await this.service.createChatroomMessage(dto);
 
 	  outputMsg = JSON.stringify(outputMsg);
-      this.server.emit('chatMessage', outputMsg);
-    }
+    this.server.emit('chatMessage', outputMsg);
+  }
+
+  @SubscribeMessage('direct-chatroom-message')
+  async directChatroomMessage(client: Socket, dto: CreateDirectMessageDto) {
+    
+    let outputMsg = await this.service.createDirectMessage(dto);
+  
+    this.server.emit('directChatMessage', outputMsg);
+  }
 }
