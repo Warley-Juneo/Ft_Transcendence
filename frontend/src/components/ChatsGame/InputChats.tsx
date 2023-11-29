@@ -26,7 +26,6 @@ export default function InputChats(props: PropsInputChats) {
 	const inputChat = useRef<HTMLInputElement>(null);
 
 	const sendMessageClick = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
-		console.log("clicou", inputChat.current?.value)
 		let obj = {
 			content: inputChat.current?.value,
 			chatId: props.chatId,
