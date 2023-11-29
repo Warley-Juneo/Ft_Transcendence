@@ -43,9 +43,15 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 
   @SubscribeMessage('direct-chatroom-message')
   async directChatroomMessage(client: Socket, dto: CreateDirectMessageDto) {
+	let aux: CreateDirectMessageDto = {
+		content: dto.content,
+		my_nickname: dto.my_nickname,
+		other_nickname: dto.other_nickname
+	}
 
-    let outputMsg = await this.service.createDirectMessage(dto);
+	console.log("Rota do fausto: ", aux);
+    let outputMsg = await this.service.createDirectMessage(aux);
 
-    this.server.emit('directChatMessage', outputMsg);
+    // this.server.emit('directChatMessage', outputMsg);
   }
 }
