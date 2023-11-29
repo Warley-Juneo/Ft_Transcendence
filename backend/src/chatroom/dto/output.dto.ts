@@ -1,8 +1,8 @@
 export class OutputDirectMessageDto {
 	msg_id: 		string;
-	user_nickname:	string;
 	content:		string;
 	imgUrl:			string;
+	user:			UniqueUserChatrommDto;
 	date:			Date;
 }
 

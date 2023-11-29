@@ -297,29 +297,46 @@ export class ChatroomRepository {
 		return chat;
 	}
 
-	async createDirectMessage(userNickname: string, chat: string, dto: CreateDirectMessageDto): Promise<DirectMessage[]> {
+	async createDirectMessage(chat: string, dto: CreateDirectMessageDto): Promise<any> {
 
 		let msg = await this.prisma.directMessage.create({
 			data: {
-				direct_chat_room_name: chat,
-				user_nickname: userNickname,
+				direct_chat_room: {
+					connect: {
+						name: chat,
+					},
+				},
+				user: {
+					connect: {
+						nickname: dto.my_nickname,
+					},
+				},
 				// img_url: dto.imgUrl,
 				content: dto.content,
 			},
-		});
-		console.log("MSG: ", msg);
-		let response = await this.prisma.directMessage.findMany({
-			where: {
-				direct_chat_room_name: chat,
+			select: {
+				id: true,
+				content: true,
+				direct_chat_room: {
+					select: {
+						name: true
+					},
+				},
+				user: {
+					select: {
+						id: true,
+						nickname: true,
+						avatar: true,
+						is_active: true,
+					}
+				},
+				createdAt: true,
 			},
-			orderBy: {
-				createdAt: 'asc',
-			},
 		});
-		return response;
+		return msg;
 	}
 
-	async findAllDirectMessage(name: string): Promise<DirectMessage[]> {
+	async findAllDirectMessage(name: string): Promise<any> {
 
 		let response = await this.prisma.directMessage.findMany({
 			where: {
@@ -327,6 +344,19 @@ export class ChatroomRepository {
 			},
 			orderBy: {
 				createdAt: 'asc',
+			},
+			select: {
+				id: true,
+				content: true,
+				user: {
+					select: {
+						id: true,
+						nickname: true,
+						avatar: true,
+						is_active: true,
+					},
+				},
+				createdAt: true,
 			},
 		});
 		return response;

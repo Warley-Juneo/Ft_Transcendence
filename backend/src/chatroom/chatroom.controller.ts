@@ -46,12 +46,12 @@ export class ChatroomController {
 	}
 
 	@Post('direct-chatroom')
-	async createDirectChatroom(@Req() request, @Body() dto: CreateDirectChatroomDto): Promise<any> {
-		return await this.chatroomService.createDirectChatroom(request.user.sub, dto);
+	async createDirectChatroom(@Body() dto: CreateDirectChatroomDto): Promise<any> {
+		return await this.chatroomService.createDirectChatroom(dto);
 	}
 
-	@Post('direct-message')
-	async createDirectMessage(@Req() request, @Body() dto: CreateDirectMessageDto): Promise<any> {
-		return await this.chatroomService.createDirectMessage(request.user.sub, dto);
-	}
+	// @Post('direct-message')
+	// async createDirectMessage(@Req() request, @Body() dto: CreateDirectMessageDto): Promise<any> {
+	// 	return await this.chatroomService.createDirectMessage(request.user.sub, dto);
+	// }
 }

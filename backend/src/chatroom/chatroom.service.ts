@@ -232,18 +232,15 @@ export class ChatroomService {
 		return outpuDto;
 	}
 
-	async createDirectChatroom(userId: string, dto: CreateDirectChatroomDto): Promise<OutputDirectMessagesDto> {
+	async createDirectChatroom(dto: CreateDirectChatroomDto): Promise<OutputDirectMessagesDto> {
 
-		console.log("USER1: ", userId);
-		let user1 = await this.userService.findProfile(userId);
-
-		let comp = user1.nickname.localeCompare(dto.user_nickname);
+		let comp = dto.my_nickname.localeCompare(dto.other_nickname);
 		let name;
 		if (comp < 0) {
-			name = user1.nickname + dto.user_nickname;
+			name = dto.my_nickname + dto.other_nickname;
 		}
 		else {
-			name = dto.user_nickname + user1.nickname
+			name = dto.other_nickname + dto.my_nickname
 		}
 		let chat: DirectChatRoom = await this.chatroomRepository.findDirectChatroom(name);
 
@@ -254,22 +251,17 @@ export class ChatroomService {
 		return await this.findAllDirectMessage(name);
 	}
 
-	async createDirectMessage(userId: string, dto: CreateDirectMessageDto): Promise<OutputDirectMessagesDto> {
+	async createDirectMessage(dto: CreateDirectMessageDto): Promise<OutputDirectMessagesDto> {
 
-		console.log("USERID: ", userId);
-		let user1 = await this.userService.findUser(userId);
-
-		console.log("NICKNAME: ", user1.nickname)
-
-		let comp = user1.nickname.localeCompare(dto.user_nickname);
-		let chat;
+		let comp = dto.my_nickname.localeCompare(dto.other_nickname);
+		let chat: string;
 		if (comp < 0) {
-			chat = user1.nickname + dto.user_nickname;
+			chat = dto.my_nickname + dto.other_nickname;
 		}
 		else {
-			chat = dto.user_nickname + user1.nickname
+			chat = dto.other_nickname + dto.my_nickname
 		}
-		let msg = this.chatroomRepository.createDirectMessage(user1.nickname, chat, dto);
+		let msg = this.chatroomRepository.createDirectMessage(chat, dto);
 
 		return await this.findAllDirectMessage(chat); // findUnique
 	}
@@ -285,7 +277,7 @@ export class ChatroomService {
 			dto.msg_id = obj.id;
 			dto.content = obj.content;
 			dto.imgUrl = obj.img_url;
-			dto.user_nickname = obj.user_nickname;
+			dto.user = obj.user_nickname;
 			dto.date = obj.createdAt;
 			outputDto.direct_message.push(dto);
 		}
