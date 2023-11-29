@@ -1,7 +1,7 @@
 import { Players } from '../../InitialPage/MiniPerfil/ListFriends';
 import { useContext, useEffect, useState } from 'react';
 import { Messages } from '../ChatPublic/ChatPublic';
-import FormatMessages from '../FormatMessagens';
+import FormatMessages from '../FormatMessagens/FormatMessagens';
 import InputChats from '../InputChats';
 import './ChatPrivate.css'
 import { DataUser } from '../../InitialPage/InitialPage';

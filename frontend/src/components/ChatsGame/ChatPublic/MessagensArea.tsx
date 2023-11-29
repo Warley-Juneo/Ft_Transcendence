@@ -3,7 +3,7 @@ import { Messages } from "./ChatPublic";
 import InputChats from "../InputChats";
 import io, { Socket } from 'socket.io-client';
 import { DataUser } from "../../InitialPage/InitialPage";
-import FormatMessages from "../FormatMessagens";
+import FormatMessages from "../FormatMessagens/FormatMessagens";
 
 type PropsInputChats = {
 	chatId: string,
