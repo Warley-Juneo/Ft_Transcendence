@@ -4,45 +4,22 @@ import { Socket } from 'socket.io-client';
 
 type PropsInputChats = {
 	socket: Socket,
-	chatId: string,
-	userId: string,
-}
-
-type user = {
-	id: string,
-	nickname: string,
-	avatar: string,
-	is_active: boolean,
-}
-
-type retornWebSocket = {
-	id: string,
-	content: string,
-	user: user,
-	data: string,
+	obj: any
 }
 
 export default function InputChats(props: PropsInputChats) {
 	const inputChat = useRef<HTMLInputElement>(null);
 
 	const sendMessageClick = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
-		let obj = {
-			content: inputChat.current?.value,
-			chatId: props.chatId,
-			user_id: props.userId,
-		}
-		props.socket.emit('chatroom-message', obj);
+		props.obj.content = inputChat.current?.value as string;
+		props.socket.emit(props.obj.route, props.obj);
 	}
 
 
 	const sendMessageEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === 'Enter') {
-			let obj = {
-				content: event.currentTarget.value,
-				chatId: props.chatId,
-				user_id: props.userId,
-			}
-			props.socket.emit('chatroom-message', obj);
+			props.obj.content = event.currentTarget.value;
+			props.socket.emit(props.obj.route, props.obj);
 			event.currentTarget.value = '';
 		}
 	}

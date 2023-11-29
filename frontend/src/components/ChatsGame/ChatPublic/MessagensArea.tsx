@@ -3,6 +3,7 @@ import { Messages } from "./ChatPublic";
 import InputChats from "../InputChats";
 import io, { Socket } from 'socket.io-client';
 import { DataUser } from "../../InitialPage/InitialPage";
+import FormatMessages from "../FormatMessagens";
 
 type PropsInputChats = {
 	chatId: string,
@@ -10,8 +11,9 @@ type PropsInputChats = {
 }
 
 export default function MessagensArea(props: PropsInputChats): JSX.Element {
-	const [socketIO] = useState<Socket>(io('http://localhost:3000'));
 	const user = useContext(DataUser);
+
+	const [socketIO] = useState<Socket>(io('http://localhost:3000'));
 
 	const [messages, setMessages] = useState<Messages[]>(props.messagens);
 
@@ -36,41 +38,20 @@ export default function MessagensArea(props: PropsInputChats): JSX.Element {
 		});
 	}, [socketIO]);
 
+	let obj = {
+		chatId: props.chatId,
+		user_id: user.user.id,
+		content: '',
+		route: 'chatroom-message'
+	}
 	return (
 		<>
-			<div className="h-100 text-black p-3 overflow-auto">
-				{messages.map((message) => {
-					{
-						const data = new Date(message.data)
-						const dataFormating: string = `${data.getHours()}:${data.getMinutes()}`;
-						if (message.user.nickname === user.user.nickname) {
-							return (
-								<div className='d-flex justify-content-end mb-2'>
-									<div className='bg-light rounded me-2 p-2' style={{ whiteSpace: 'pre-line' }}>
-										<p>{message.content}</p>
-										<p className="d-flex justify-content-end" style={{ fontSize: '12px' }}>{dataFormating}</p>
-									</div>
-									<img style={{ height: '40px', width: '40px', borderRadius: '50%' }} src={message.user.avatar} alt='foto' />
-								</div>
-							);
-						} else {
-							return (
-								<div className='d-flex mb-2'>
-									<img style={{ height: '40px', width: '40px', borderRadius: '50%' }} src={message.user.avatar} alt='foto' />
-									<div className='bg-light rounded ms-2 p-2' style={{ whiteSpace: 'pre-line' }}>
-										<p>{message.content}</p>
-										<p className="d-flex justify-content-end" style={{ fontSize: '12px' }}>{dataFormating}</p>
-									</div>
-								</div>
-							);
-						};
-					}
-				})};
-			</div>
+			<FormatMessages messagens={messages}
+							user={user.user}
+			/>
 			<InputChats
 				socket={socketIO}
-				chatId={props.chatId}
-				userId={user.user.id}
+				obj={obj}
 			/>
 		</>
 	)

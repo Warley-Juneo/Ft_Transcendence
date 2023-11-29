@@ -19,9 +19,11 @@ type PropsListFriends = {
 
 export default function ListFriends(props: PropsListFriends) {
 	const [chatPrivate, setChatPrivate] = useState(false);
+	const [nickname, setNickname] = useState<string>('');
 
-	const showChatPrivate = () => {
-		setChatPrivate(!chatPrivate);
+	function handleOpenChatPrivate(nick_name: string) {
+		setChatPrivate(!chatPrivate)
+		setNickname(nick_name)
 	}
 
 	function handleDeleteFriend(nickname: string) {
@@ -48,11 +50,14 @@ export default function ListFriends(props: PropsListFriends) {
 	}
 	return (
 		<div className='p-2 text-white overflow-auto'>
-			{chatPrivate && <ChatPrivate />}
+			{!chatPrivate ? null :
+				<ChatPrivate nick_name={nickname}
+				/>
+			}
 			{props.players.map((play: Players) => {
 				return (
 					<div className='d-flex hover' key={play.id}>
-						<div className='d-flex' onClick={showChatPrivate}>
+						<div className='d-flex' onClick={() => handleOpenChatPrivate(play.nickname)}>
 							<img className="foto-list-friends" src={play.avatar} alt='foto' />
 							{StatusOnline(play.nickname)}
 						</div>
