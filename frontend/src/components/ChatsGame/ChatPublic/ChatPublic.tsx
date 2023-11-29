@@ -9,7 +9,7 @@ import MessagensArea from "./MessagensArea";
 export type Messages = {
 	id:             string,
 	content:        string,
-	data:       	Date,
+	date:       	Date,
 	user: {
 		nickname: string,
 		avatar: string,

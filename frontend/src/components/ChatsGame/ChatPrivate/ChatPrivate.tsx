@@ -1,3 +1,4 @@
+import { Players } from '../../InitialPage/MiniPerfil/ListFriends';
 import { useContext, useEffect, useState } from 'react';
 import { Messages } from '../ChatPublic/ChatPublic';
 import FormatMessages from '../FormatMessagens';
@@ -8,12 +9,16 @@ import { io, Socket } from 'socket.io-client';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+export type DataChat = {
+	id: string,
+	message: Messages[],
+}
+
 export default function ChatPrivate({ nick_name }: { nick_name: string }) {
 	const [messages, setMessages] = useState<Messages[]>([]);
 	const [socketIO] = useState<Socket>(io('http://localhost:3000'));
 	const user = useContext(DataUser);
 
-	console.log("\n\nNICKNAMES", user.user.nickname, "\n", nick_name, "\n\n");
 	const OpenDirectChat = () => {
 		axios.post('http://localhost:3000/chatroom/open-direct', {
 			my_nickname: user.user.nickname,
@@ -24,7 +29,6 @@ export default function ChatPrivate({ nick_name }: { nick_name: string }) {
 			}
 		}).then((res) => {
 			setMessages(res.data.direct_message);
-			console.log(res.data.direct_message);
 		}).catch((err) => {
 			console.log(err);
 		})
@@ -43,6 +47,7 @@ export default function ChatPrivate({ nick_name }: { nick_name: string }) {
 			socketIO.disconnect();
 		}
 	}, []);
+
 
 	let obj = {
 		my_nickname: nick_name,

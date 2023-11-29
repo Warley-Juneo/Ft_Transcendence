@@ -7,13 +7,13 @@ type propsFormatMessages = {
 }
 
 export default function FormatMessages(props: propsFormatMessages): JSX.Element {
-
 	return (
 		<div className="h-100 text-black p-3 overflow-auto">
 			{props.messagens.map((message : Messages) => {
 				{
-					const data = new Date(message.data)
+					const data = new Date(message.date)
 					const dataFormating: string = `${data.getHours()}:${data.getMinutes()}`;
+					console.log(dataFormating);
 					if (message.user.nickname === props.user.nickname) {
 						return (
 							<div className='d-flex justify-content-end mb-2'>
