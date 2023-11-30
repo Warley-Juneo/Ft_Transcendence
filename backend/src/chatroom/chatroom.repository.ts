@@ -41,6 +41,13 @@ export class ChatroomRepository {
 		return true;
 	}
 
+	async	updateChatroom(where_filter: any, data_filter: any): Promise<any> {
+		let chat = await this.prisma.chatRoom.update({
+			where: where_filter,
+			  data: data_filter,
+			});
+	}
+
 	async	openChatroom(name:string): Promise<any> {
 		let chat = await this.prisma.chatRoom.findUnique({
 			where: {

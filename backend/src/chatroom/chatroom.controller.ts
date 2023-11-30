@@ -1,5 +1,5 @@
 import { Controller, Body, Post, Req, Get, Delete, Query } from '@nestjs/common';
-import { CreateChatroomDto, InputChatroomDto } from './dto/input.dto';
+import { ChangePasswordDto, CreateChatroomDto, InputChatroomDto } from './dto/input.dto';
 import { ChatroomService } from './chatroom.service';
 import { CreateDirectChatroomDto, AddChatUserDto } from './dto/input.dto';
 import { ChatroomsDto, OutputDirectMessagesDto, UniqueChatroomDto } from './dto/output.dto';
@@ -27,6 +27,11 @@ export class ChatroomController {
 	@Delete('delete-group')
 	async	deleteChatroom(@Req() request, @Body() dto: InputChatroomDto): Promise <any> {
 		return await this.chatroomService.deleteChatroom(request.user.sub, dto);
+	}
+
+	@Post('chage-password-group')
+	async	changePassword(@Body() request: ChangePasswordDto): Promise<any> {
+
 	}
 
 	@Post('open-group')

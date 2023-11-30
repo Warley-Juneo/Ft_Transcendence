@@ -43,8 +43,6 @@ export class UniqueChatroomDto {
 	message: OutputMessageDto[];
 }
 
-
-
 export class OutputValidateDto {
 	
 	owner_id:			string;
@@ -58,4 +56,6 @@ export class OutputValidateDto {
 
 	password:			string;
 	validate_password:	string;
+	new_password:		string;
+	confirm_password:	string;
 }

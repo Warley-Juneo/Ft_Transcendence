@@ -37,6 +37,19 @@ export class CreateChatroomDto {
 	photoUrl:		string;
 }
 
+export class ChangePasswordDto {
+	@IsNotEmpty({message: 'chat_name can not be empty.'})
+	chat_name:			string;
+
+	@IsNotEmpty({message: 'old_password can not be empty.'})
+	old_password:		string;
+
+	@IsNotEmpty({message: 'new_password can not be empty.'})
+	new_password:		string;
+
+	@IsNotEmpty({message: 'confirm_password can not be empty.'})
+	confirm_password:	string;
+}
 
 export class AddChatUserDto {
 	@IsNotEmpty({message: 'User id can not be empty.'})

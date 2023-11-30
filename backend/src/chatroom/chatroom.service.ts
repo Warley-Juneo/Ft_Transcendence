@@ -2,7 +2,7 @@ import { BadRequestException, ConsoleLogger, ForbiddenException, Injectable, Una
 import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
-import { AddChatUserDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto, InputChatroomMessageDto } from './dto/input.dto';
+import { AddChatUserDto, ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto, InputChatroomMessageDto } from './dto/input.dto';
 import { ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto, OutputMessageDto, OutputValidateDto, UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 
@@ -24,6 +24,9 @@ export class ChatroomService {
 			
 			if (!await bcrypt.compare(dto.validate_password, dto.password)) {
 				throw new UnauthorizedException('Password incorrect')
+			}
+			if (dto.new_password != dto.confirm_password) {
+				throw new BadRequestException('Invalid password confirmation.')
 			}
 		}
 
@@ -81,6 +84,32 @@ export class ChatroomService {
 		console.log("\n\nResponse ", response, "\n\n");
 
 		return response;
+	}
+
+	async	chagePassword(dto: ChangePasswordDto): Promise<any> {
+
+		let chat = await this.findUniqueChatroom(dto);
+
+		if (!dto.new_password || !dto.new_password) {
+			throw new BadRequestException('Invalid password.')
+		}
+		let data_validation: OutputValidateDto = {} as OutputValidateDto;
+		data_validation.validate_password = dto.old_password;
+		data_validation.password = chat.password;
+		data_validation.new_password = dto.new_password;
+		data_validation.confirm_password = dto.confirm_password;
+		await this.validate(data_validation);
+
+		const saltOrRound = 8;
+		const hash = await bcrypt.hashSync(dto.new_password, saltOrRound);
+
+		let where_filter = {
+			name: chat.name,
+		};
+		let data_filter = {
+			password: hash,
+		};
+		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 	}
 
 	async openChatroom(userId: string, dto: InputChatroomDto): Promise<UniqueChatroomDto> {
@@ -155,7 +184,7 @@ export class ChatroomService {
 		return response;
 	}
 
-	async findUniqueChatroom(dto: InputChatroomDto | AddChatUserDto): Promise<UniqueChatroomDto> {
+	async findUniqueChatroom(dto: InputChatroomDto | AddChatUserDto | ChangePasswordDto): Promise<UniqueChatroomDto> {
 
 		console.log("findUniqueDto chat_name", dto.chat_name);
 		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
