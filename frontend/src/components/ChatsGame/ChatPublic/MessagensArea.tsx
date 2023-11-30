@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Messages } from "./ChatPublic";
 import InputChats from "../InputChats";
 import io, { Socket } from 'socket.io-client';
@@ -8,6 +8,11 @@ import FormatMessages from "../FormatMessagens/FormatMessagens";
 type PropsInputChats = {
 	chatId: string,
 	messagens: Messages[],
+	dinamicChat: React.Dispatch<React.SetStateAction<{
+		show: boolean,
+		nickName: string
+	}
+	>>
 }
 
 export default function MessagensArea(props: PropsInputChats): JSX.Element {
@@ -45,7 +50,8 @@ export default function MessagensArea(props: PropsInputChats): JSX.Element {
 	return (
 		<>
 			<FormatMessages messagens={messages}
-							user={user.user}
+				user={user.user}
+				dinamicChat={props.dinamicChat}
 			/>
 			<InputChats
 				socket={socketIO}

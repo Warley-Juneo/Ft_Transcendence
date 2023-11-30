@@ -104,5 +104,5 @@ export default function PageChats() {
 				<ChatList listChats={chatList} openChatSelected={openChatSelected} />
 			</div>
 		</div>
-	);
+	)
 }

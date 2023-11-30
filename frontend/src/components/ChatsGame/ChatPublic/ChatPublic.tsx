@@ -7,9 +7,9 @@ import ListFriends, { Players } from "../../Profiles/MiniProfile/ListFriends";
 import DinamicProfile from "../../Profiles/DinamicProfile/DinamicProfile";
 
 export type Messages = {
-	id:             string,
-	content:        string,
-	date:       	Date,
+	id: string,
+	content: string,
+	date: Date,
 	user: {
 		nickname: string,
 		avatar: string,
@@ -29,33 +29,43 @@ export default function ChatPublic() {
 	let tmp = useLocation().state?.data as DataChat;
 	const [showConfigurations, setShowConfigurations] = useState(false);
 	const [dataChat, setDataChat] = useState<DataChat>(tmp);
+	const [dinamicProfile, setDinamicProfile] = useState<{
+		show: boolean,
+		nickName: string
+	}
+	>({ show: false, nickName: '' });
 
+	console.log("dinamicProfile: ", dinamicProfile);
 	return (
 		<div className="bg-custon-roxo rounded text-white h-100">
-				<DinamicProfile nickName='Mia' />
-
 			<div className="row g-0 h-100 p-2">
-				{/* Lado esquerdo do chat*/}
+
+				{/* Lado esquerdo do chat que contem os amigos*/}
 				<div className="col-3 border-end h-100">
-					<ListFriends	players={dataChat.members}
-									getPlayers={() => { }}
+					<ListFriends players={dataChat.members}
+						getPlayers={() => { }}
 					/>
 				</div>
 
-				{/* Lado direto do chat*/}
+				{/* Lado direto do chat que cotem as mensagens*/}
 				<div className="col-9 d-flex flex-column h-100 position-relative">
 					<BarConfigurations openOrClosedConf={() => setShowConfigurations(!showConfigurations)} />
 					{!showConfigurations === true ? null :
-						<Configurations	openOrClosedConf={() => setShowConfigurations(!showConfigurations)}
-										numberMembers={dataChat.members.length}
-										setDataChat={setDataChat}
+						<Configurations openOrClosedConf={() => setShowConfigurations(!showConfigurations)}
+							numberMembers={dataChat.members.length}
+							setDataChat={setDataChat}
 						/>
 					}
-					<MessagensArea	messagens={dataChat.message}
-									chatId={dataChat.id}
+					<MessagensArea messagens={dataChat.message}
+						chatId={dataChat.id}
+						dinamicChat={setDinamicProfile}
 					/>
 				</div>
 			</div>
+			{!dinamicProfile.show ? null :
+				<DinamicProfile nickName={dinamicProfile.nickName}
+					dinamicProfile={setDinamicProfile}
+				/>}
 		</div>
 	)
 }

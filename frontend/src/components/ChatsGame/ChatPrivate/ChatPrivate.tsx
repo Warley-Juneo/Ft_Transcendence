@@ -72,8 +72,9 @@ export default function ChatPrivate({ nick_name }: { nick_name: string }) {
 		<div className='chat d-flex flex-column bg-degrader rounded'>
 			<h1 className='text-white text-center'>ChatPrivate</h1>
 			<div className='p-2 overflow-auto mt-auto text-black' id='messagens-chat'>
-				<FormatMessages messagens={messages}
-					user={user.user}
+				<FormatMessages	messagens={messages}
+								user={user.user}
+								dinamicChat={() => { }}
 				/>
 			</div>
 			<InputChats

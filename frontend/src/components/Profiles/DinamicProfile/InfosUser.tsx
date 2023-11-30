@@ -41,15 +41,18 @@ export default function InfosUser({ nickName }: { nickName: string }): JSX.Eleme
 	let kda: number = aux === 0 ? infosUser.loses : aux / infosUser.loses;
 	console.log(infosUser);
 	return (
-		<div className="row g-0">
-			<div className="col-4">
+		<div className="row g-0 d-flex align-items-center text-center">
+			<div className="col-4 ps-4">
 				<ProfilePhoto
 					borderImg={''}
 					avatar={infosUser.avatar}
 					nickname={infosUser.nickname}
 				/>
 			</div>
-			<div className="col-4">
+			<div className="col-4 ps-4">
+				<Rank rank={rank} />
+			</div>
+			<div className="col-4 ps-4">
 				<Pointer	wins={infosUser.wins}
 							loses={infosUser.loses}
 							draws={infosUser.draws}
@@ -57,9 +60,6 @@ export default function InfosUser({ nickName }: { nickName: string }): JSX.Eleme
 							borderWrite={borderWrite}
 							pointers={pointers}
 				/>
-			</div>
-			<div className="col-4">
-				<Rank rank={rank} />
 			</div>
 		</div>
 	)

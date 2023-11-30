@@ -6,17 +6,30 @@ const cssDetailsHidden: React.CSSProperties = {
 	...cssDetails,
 	visibility: 'hidden',
 }
+
+const cssPhoto: React.CSSProperties = {
+	height: '40px',
+	width: '40px',
+	borderRadius: '50%',
+	cursor: 'pointer',
+}
+
 type propsMessagePeople = {
 	content: string,
 	avatarUrl: string,
 	dataFormating: string,
 	nickname: string,
+	showDinamicProfile: (nickname: string) => void,
 }
 
 export default function MessagePeople(props: propsMessagePeople): JSX.Element {
 	return (
 		<div className='d-flex mb-2'>
-			<img style={{ height: '40px', width: '40px', borderRadius: '50%' }} src={props.avatarUrl} alt='foto' />
+			<img	style={cssPhoto}
+					src={props.avatarUrl}
+					alt='foto'
+					onClick={() => props.showDinamicProfile(props.nickname)}
+			/>
 			<div className='bg-light rounded ms-2 p-2' style={{ whiteSpace: 'pre-line' }}>
 				<p>{props.nickname}</p>
 				<div className="d-flex">

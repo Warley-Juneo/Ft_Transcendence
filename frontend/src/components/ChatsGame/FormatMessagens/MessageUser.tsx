@@ -6,10 +6,19 @@ const cssDetailsHidden: React.CSSProperties = {
 	...cssDetails,
 	visibility: 'hidden',
 }
+const cssPhoto: React.CSSProperties = {
+	height: '40px',
+	width: '40px',
+	borderRadius: '50%',
+	cursor: 'pointer',
+}
+
 type propsMessageUser = {
 	content: string,
 	avatarUrl: string,
 	dataFormating: string,
+	nickname: string,
+	showDinamicProfile: (nickname: string) => void,
 }
 
 export default function MessageUser(props: propsMessageUser): JSX.Element {
@@ -22,7 +31,11 @@ export default function MessageUser(props: propsMessageUser): JSX.Element {
 				</div>
 				<p className="d-flex justify-content-end" style={cssDetails}>{props.dataFormating}</p>
 			</div>
-			<img style={{ height: '40px', width: '40px', borderRadius: '50%' }} src={props.avatarUrl} alt='foto' />
+			<img	style={cssPhoto}
+					src={props.avatarUrl}
+					alt='foto'
+					onClick={() => props.showDinamicProfile(props.nickname)}
+			/>
 		</div>
 	)
 }
