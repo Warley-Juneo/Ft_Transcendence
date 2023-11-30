@@ -1,4 +1,3 @@
-import { Players } from '../../InitialPage/MiniPerfil/ListFriends';
 import { useContext, useEffect, useState } from 'react';
 import { Messages } from '../ChatPublic/ChatPublic';
 import FormatMessages from '../FormatMessagens/FormatMessagens';

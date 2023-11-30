@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import BarConfigurations from "./barConfigurations";
 import Configurations from "./Configurations/Configurations";
 import { useLocation } from "react-router-dom";
-import ListFriends from "../../InitialPage/MiniPerfil/ListFriends";
-import { Players } from "../../InitialPage/MiniPerfil/ListFriends";
 import MessagensArea from "./MessagensArea";
+import ListFriends, { Players } from "../../Profiles/MiniPerfil/ListFriends";
 
 export type Messages = {
 	id:             string,
