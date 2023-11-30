@@ -177,6 +177,7 @@ export class ChatroomRepository {
 							select: {
 								nickname: true,
 								avatar: true,
+								id: true,
 							},
 						},
 						createdAt: true,
