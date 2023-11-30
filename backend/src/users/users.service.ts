@@ -6,7 +6,7 @@ import { AuthService } from 'src/auth/auth.service';
 import { UserResumeDto, OutputUsersResumeDto, UserProfileDto, OutputUserMatchesDto, UserMatchesDto, OutputLadderDto, UserLadderDto } from './dtos/output.dtos';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { GameService } from 'src/game/game.service';
-import { AddFriendDto, UpdateProfileDto } from './dtos/input.dtos';
+import { AddFriendDto, ProfileDto, UpdateProfileDto } from './dtos/input.dtos';
 
 @Injectable()
 export class UsersService {
@@ -153,15 +153,18 @@ export class UsersService {
     return outputUsersResumeDto;
   }
 
-  async findProfile(userId: string): Promise<UserProfileDto> {
+  async findProfile(dto: ProfileDto): Promise<UserProfileDto> {
 
-    let user = await this.userRepository.findUser(userId);
-    let wins = await this.gameService.numberOfUserMatchWins(userId);
-    let loses = await this.gameService.numberOfUserMatchLoses(userId);
-    let draws = await this.gameService.numberOfUserMatchDraws(userId);
+    let user = await this.userRepository.findUserByNickname(dto.nick_name);
+    
+    console.log("\n\nfindProfile Service DTO: ", user);
+
+    let wins = await this.gameService.numberOfUserMatchWins(user.id);
+    let loses = await this.gameService.numberOfUserMatchLoses(user.id);
+    let draws = await this.gameService.numberOfUserMatchDraws(user.id);
     let ladder = await this.userRepository.findAllUsers();
 
-    const position = ladder.findIndex(u => u.id === userId) + 1;
+    const position = ladder.findIndex(u => u.id === user.id) + 1;
 
     let userProfileDto = new UserProfileDto();
     userProfileDto.login = user.login;

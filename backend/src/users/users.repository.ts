@@ -83,6 +83,15 @@ export class UsersRepository implements UsersRepositoryInterface {
     return response;
   }
 
+  async findUserByNickname(userNickname: string): Promise<User> {
+    let response = await this.prisma.user.findUnique({
+      where: {
+        nickname: userNickname,
+      },
+    });
+    return response;
+  }
+
   async findUserWithFriends(userId: string): Promise<any> {
     let response = await this.prisma.user.findUnique({
       where: {

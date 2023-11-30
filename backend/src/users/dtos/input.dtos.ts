@@ -12,3 +12,8 @@ export class UpdateProfileDto {
 	@IsString()
 	nick_name:	string;
 }
+
+export class ProfileDto {
+	@IsNotEmpty()
+	nick_name:	string;
+}

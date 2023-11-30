@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Post, Req} from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from '@prisma/client';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { UserResumeDto, UserProfileDto, OutputUsersResumeDto, OutputUserMatchesDto, OutputLadderDto } from './dtos/output.dtos';
-import { AddFriendDto, UpdateProfileDto } from './dtos/input.dtos';
+import { AddFriendDto, ProfileDto, UpdateProfileDto } from './dtos/input.dtos';
 
 @Controller('users')
 export class UsersController {
@@ -46,8 +46,9 @@ export class UsersController {
   }
 
   @Get('profile')
-  async findProfile(@Req() request): Promise<UserProfileDto> {
-    return await this.service.findProfile(request.user.sub);
+  async findProfile(@Query() dto: ProfileDto): Promise<UserProfileDto> {
+    console.log("\n\nfindProfile DTO: ", dto);
+    return await this.service.findProfile(dto);
   }
 
 
