@@ -26,7 +26,6 @@ export class ChatroomController {
 
 	@Delete('delete-group')
 	async	deleteChatroom(@Req() request, @Body() dto: InputChatroomDto): Promise <any> {
-		console.log("\n\ndeltete-chatromm dto ", dto, "\n\n");
 		return await this.chatroomService.deleteChatroom(request.user.sub, dto);
 	}
 

@@ -43,3 +43,18 @@ export class UniqueChatroomDto {
 	message: OutputMessageDto[];
 }
 
+
+
+export class OutputValidateDto {
+	owner_id:			string;
+	validate_owner_id:	string;
+
+	member_id:			string;
+	validate_member_id:	string;
+
+	admin_id:			string;
+	validate_admin_id:	string;
+
+	password:			string;
+	validate_password:	string;
+}
