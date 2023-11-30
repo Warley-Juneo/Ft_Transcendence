@@ -42,6 +42,26 @@ export class ChatroomService {
 				throw new UnauthorizedException('Password incorrect')
 			}
 		}
+
+		if (dto.validate_member_id) {
+			let member = '';
+			for (const obj of dto.members) {
+				if (dto.validate_member_id == obj.id) {
+					return dto;
+				}
+			}
+			throw new UnauthorizedException('Not a user of this chat');
+		}
+
+		if (dto.validate_admin_id) {
+			let member = '';
+			for (const obj of dto.admin) {
+				if (dto.validate_admin_id == obj.id) {
+					return dto;
+				}
+			}
+			throw new UnauthorizedException('Not a admin of this chat');
+		}
 		return dto;
 	}
 
@@ -66,26 +86,17 @@ export class ChatroomService {
 	async openChatroom(userId: string, dto: InputChatroomDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.findUniqueChatroom(dto);
-		console.log("\n\nchat_password:", chat.password, "\ndto_password", dto.password, "\n\n");
 
 		let data_validation: OutputValidateDto = {} as OutputValidateDto;
 		if (chat.type == 'protected') {
 			data_validation.validate_password = dto.password;
 			data_validation.password = chat.password;
 		}
-		await this.validate(data_validation);
-
-		let member = '';
 		if (chat.type == 'private') {
-			for (const obj of chat.members) {
-				if (userId == obj.id) {
-					member = obj.nickname;
-				}
-			}
+			data_validation.members = chat.members;
+			data_validation.validate_member_id = userId;
 		}
-		if (member = '') {
-			throw new UnauthorizedException('Not a user of this chat')
-		}
+		await this.validate(data_validation);
 
 		let outputDto = new UniqueChatroomDto;
 		outputDto.id = chat.id;
@@ -107,34 +118,19 @@ export class ChatroomService {
 
 		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
 
-		let user_id;
-		for (const obj of chat.admin) {
-			if (userId == obj.id) {
-				user_id = obj.id;
-				break;
-			}
-		}
-		console.log("\n\nUSER_ID", user_id, "\n\n");
-		if (user_id == '') {
-			throw new UnauthorizedException('Not a user of this chat')
-		}
-		let adm_id;
-		for (const obj of chat.members) {
-			console.log("\n\nADM_OBJ_IDS ****", dto.add_id, "\n", obj.id, "\n\n");
-			if (dto.add_id == obj.id) {
-				console.log("\n\nADM_OBJ_IDS", adm_id, "\n", obj.id, "\n\n");
-				adm_id = obj.id;
-			}
-		}
-		if (adm_id == '') {
-			throw new UnauthorizedException('To be adm, has to be a user.')
-		}
-		console.log("\n\nAddAdm Chat", adm_id, "\n\n");
+		let data_validation: OutputValidateDto = {} as OutputValidateDto;
+
+		data_validation.admin = chat.adm;
+		data_validation.validate_admin_id = userId;
+		data_validation.members = chat.members;
+		data_validation.validate_member_id = userId;
+		await this.validate(data_validation);
 
 		await this.chatroomRepository.addAdminChatroom(dto.add_id, dto.chat_name);
 
 		let response = await this.findUniqueChatroom(dto);
 		response.password = '';
+		
 		return response;
 	}
 
@@ -142,16 +138,15 @@ export class ChatroomService {
 
 		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
 
-		let user_id;
-		for (const obj of chat.admin) {
-			if (userId == obj.id) {
-				user_id = obj.id;
-				break;
-			}
-		}
-		if (user_id == '') {
-			throw new UnauthorizedException('Not a user of this chat')
-		}
+		console.log("\n\nADD MEMBER", chat, "\n\n")
+		
+		let data_validation: OutputValidateDto = {} as OutputValidateDto;
+
+		data_validation.admin = chat.adm;
+		data_validation.validate_admin_id = userId;
+		data_validation.members = chat.members;
+		data_validation.validate_member_id = userId;
+		await this.validate(data_validation);
 
 		await this.chatroomRepository.addMemberChatroom(dto.add_id, dto.chat_name);
 
