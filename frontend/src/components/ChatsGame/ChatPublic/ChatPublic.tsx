@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BarConfigurations from "./barConfigurations";
 import Configurations from "./Configurations/Configurations";
 import { useLocation } from "react-router-dom";
