@@ -8,7 +8,7 @@
 }
 
 .faixa-amarela {
-	background-image: url('../../static/faixa-amarela.png');
+	background-image: url('../../../static/faixa-amarela.png');
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
@@ -18,7 +18,7 @@
 /*##############################################################*/
 
 .borderDivFotoRank1 {
-	background-image: url('../../static/bordaFoto/bordaFotoRank1.png');
+	background-image: url('../../../static/bordaFoto/bordaFotoRank1.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 }
@@ -28,7 +28,7 @@
 }
 
 .borderWriteRank1 {
-	background-image: url('../../static/bordaWriteRank/bordaWriteRank1.png');
+	background-image: url('../../../static/bordaWriteRank/bordaWriteRank1.png');
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
@@ -38,7 +38,7 @@
 /*##############################################################*/
 
 .borderDivFotoRank2 {
-	background-image: url('../../static/bordaFoto/bordaFotoRank2.png');
+	background-image: url('../../../static/bordaFoto/bordaFotoRank2.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 }
@@ -52,7 +52,7 @@
 }
 
 .borderWriteRank2{
-	background-image: url('../../static/bordaWriteRank/bordaWriteRank2.png');
+	background-image: url('../../../static/bordaWriteRank/bordaWriteRank2.png');
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
@@ -62,7 +62,7 @@
 /*##############################################################*/
 
 .borderDivFotoRank3 {
-	background-image: url('../../static/bordaFoto/bordaFotoRank3.png');
+	background-image: url('../../../static/bordaFoto/bordaFotoRank3.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 }
@@ -75,7 +75,7 @@
 }
 
 .borderWriteRank3{
-	background-image: url('../../static/bordaWriteRank/bordaWriteRank3.png');
+	background-image: url('../../../static/bordaWriteRank/bordaWriteRank3.png');
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
@@ -85,7 +85,7 @@
 /*##############################################################*/
 
 .borderDivFotoRank4 {
-	background-image: url('../../static/bordaFoto/bordaFotoRank4.png');
+	background-image: url('../../../static/bordaFoto/bordaFotoRank4.png');
 	background-size: contain;
 	height: 100%;
 	width: 100%;
@@ -99,7 +99,7 @@
 }
 
 .borderWriteRank4 {
-	background-image: url('../../static/bordaWriteRank/bordaWriteRank4.png');
+	background-image: url('../../../static/bordaWriteRank/bordaWriteRank4.png');
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
@@ -109,7 +109,7 @@
 /*##############################################################*/
 
 .borderDivFotoRank5 {
-	background-image: url('../../static/bordaFoto/bordaFotoRank5.png');
+	background-image: url('../../../static/bordaFoto/bordaFotoRank5.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 }
@@ -123,7 +123,7 @@
 }
 
 .borderWriteRank5 {
-	background-image: url('../../static/bordaWriteRank/bordaWriteRank4.png');
+	background-image: url('../../../static/bordaWriteRank/bordaWriteRank4.png');
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
@@ -133,7 +133,7 @@
 /*##############################################################*/
 
 .borderDivFotoRank6 {
-	background-image: url('../../static/bordaFoto/bordaFotoRank6.png');
+	background-image: url('../../../static/bordaFoto/bordaFotoRank6.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 }
@@ -146,6 +146,6 @@
 }
 
 .borderWriteRank6 {
-	background-image: url('../../static/bordaWriteRank/bordaWriteRank4.png');
+	background-image: url('../../../static/bordaWriteRank/bordaWriteRank4.png');
 	background-repeat: no-repeat;
 }

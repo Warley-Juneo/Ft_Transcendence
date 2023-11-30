@@ -1,6 +1,5 @@
 import Perfil from './Perfil/Perfil';
 import MatchHistory from './MatchHistory';
-import { IoSettingsOutline } from "react-icons/io5";
 import './rank.css'
 
 export default function ProfileScreen() {

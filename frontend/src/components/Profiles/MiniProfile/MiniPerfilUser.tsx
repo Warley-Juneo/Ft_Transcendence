@@ -1,6 +1,6 @@
+import { DataUser } from "../../InitialPage/InitialPage";
 import StatusOnline from "./StatusOnline";
-import { useContext, useEffect, useState } from 'react';
-import {DataUser} from '../InitialPage';
+import { useContext } from 'react';
 
 
 export default function MiniPerfilUser() {
