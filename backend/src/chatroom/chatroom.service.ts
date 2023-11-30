@@ -3,7 +3,7 @@ import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
 import { AddChatUserDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto, InputChatroomMessageDto } from './dto/input.dto';
-import { ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto, OutputMessageDto, UniqueChatroomDto } from './dto/output.dto';
+import { ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto, OutputMessageDto, OutputValidateDto, UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -27,17 +27,38 @@ export class ChatroomService {
 		return response;
 	}
 
+	async	validate(dto: OutputValidateDto): Promise<OutputValidateDto> {
+		
+		if (dto.owner_id && dto.validate_owner_id) {
+			if ((dto.owner_id !== dto.validate_owner_id)) {
+				throw new UnauthorizedException('Only the owner can delete the chat');
+			}
+		}
+
+		// console.log("\n\nQQQQQQQ\n\n", dto.password, "\n", dto.validate_password, "\n\n");
+		if (dto.validate_password) {
+			
+			if (!await bcrypt.compare(dto.validate_password, dto.password)) {
+				throw new UnauthorizedException('Password incorrect')
+			}
+		}
+		return dto;
+	}
+
 	async deleteChatroom(userId: string, dto: InputChatroomDto): Promise<any> {
 
 		let chat = await this.findUniqueChatroom(dto);
+
+		let data_validation: OutputValidateDto = {} as OutputValidateDto;
+		data_validation.validate_owner_id = userId;
+		data_validation.owner_id = chat.owner_id;
+		await this.validate(data_validation);
 		
-		if (chat.owner_id == userId) {
-			await this.chatroomRepository.deleteChatroom(dto.chat_name);
-		}
-		else {
-			throw new UnauthorizedException('Only the owner can delete the chat');
-		}
-		let response = this.findPublicChatroom();
+		await this.chatroomRepository.deleteChatroom(dto.chat_name);
+		
+		let response = await this.findPublicChatroom();
+
+		console.log("\n\nResponse ", response, "\n\n");
 
 		return response;
 	}
@@ -47,11 +68,12 @@ export class ChatroomService {
 		let chat = await this.findUniqueChatroom(dto);
 		console.log("\n\nchat_password:", chat.password, "\ndto_password", dto.password, "\n\n");
 
+		let data_validation: OutputValidateDto = {} as OutputValidateDto;
 		if (chat.type == 'protected') {
-			if (!await bcrypt.compare(dto.password, chat.password)) {
-				throw new UnauthorizedException('Password incorrect')
-			}
+			data_validation.password = dto.password;
+			data_validation.validate_password = chat.password;
 		}
+		await this.validate(data_validation);
 
 		let member = '';
 		if (chat.type == 'private') {
@@ -209,7 +231,6 @@ export class ChatroomService {
 			dto.photoUrl = obj.photoUrl;
 			dto.owner_nickname = obj.owner.nickname;
 			dto.owner_id = obj.owner.id;
-			console.log("\n\n\nObj.users: ", obj.users, "\n\n\n");
 			dto.members = obj.members.map(user => user.nickname);
 			outputDto.chatrooms.push(dto);
 		}
