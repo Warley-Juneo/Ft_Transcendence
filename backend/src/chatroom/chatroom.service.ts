@@ -36,7 +36,7 @@ export class ChatroomService {
 		}
 
 		// console.log("\n\nQQQQQQQ\n\n", dto.password, "\n", dto.validate_password, "\n\n");
-		if (dto.validate_password) {
+		if (dto.password) {
 			
 			if (!await bcrypt.compare(dto.validate_password, dto.password)) {
 				throw new UnauthorizedException('Password incorrect')
@@ -70,8 +70,8 @@ export class ChatroomService {
 
 		let data_validation: OutputValidateDto = {} as OutputValidateDto;
 		if (chat.type == 'protected') {
-			data_validation.password = dto.password;
-			data_validation.validate_password = chat.password;
+			data_validation.validate_password = dto.password;
+			data_validation.password = chat.password;
 		}
 		await this.validate(data_validation);
 
