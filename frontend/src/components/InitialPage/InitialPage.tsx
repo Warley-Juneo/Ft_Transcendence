@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 import ConfigurationGame from './Configurations/Configurations';
 import { IoSettingsOutline } from 'react-icons/io5';
 import MiniProfile from '../Profiles/MiniProfile/MiniProfile';
+import DinamicProfile from '../Profiles/DinamicProfile/DinamicProfile';
 
 export type t_dataUser = {
 	id: string;
@@ -63,6 +64,8 @@ export default function InicialPage() {
 
 	return (
 		<DataUser.Provider value={{ user: InfoUser, updateDataUser: getInfoUser }}>
+
+			{/* Butão de settings e logica para printar as configurações na tela */}
 			<IoSettingsOutline
 				className="position-absolute top-0 end-0 m-3 text-white"
 				type='button'
@@ -70,6 +73,12 @@ export default function InicialPage() {
 				onClick={() => setShowConfigurations(!showConfigurations)}
 			/>
 			{showConfigurations ? <ConfigurationGame /> : null}
+
+
+			{/* Profile Dinamico que vai ser printado em cima de toda a tela */}
+			<DinamicProfile />
+
+			{/* Tela principal */}
 			<div className='row g-0' id='home-screen' style={{ height: '100vh', width: '100vw' }}>
 				<main className='col-9 h-100' id='left-screen'>
 					<BarOptions />
