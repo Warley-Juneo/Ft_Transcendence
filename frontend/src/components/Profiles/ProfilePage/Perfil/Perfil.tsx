@@ -2,15 +2,15 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import Profile from './Image';
 import { useContext, useEffect, useState } from 'react';
-import rank1 from '../../../static/rankLevel/rank1.png';
-import rank2 from '../../../static/rankLevel/rank2.png';
-import rank3 from '../../../static/rankLevel/rank3.png';
-import rank4 from '../../../static/rankLevel/rank4.png';
-import rank5 from '../../../static/rankLevel/rank5.png';
-import rank6 from '../../../static/rankLevel/rank6.png';
+import rank1 from '../../../../static/rankLevel/rank1.png';
+import rank2 from '../../../../static/rankLevel/rank2.png';
+import rank3 from '../../../../static/rankLevel/rank3.png';
+import rank4 from '../../../../static/rankLevel/rank4.png';
+import rank5 from '../../../../static/rankLevel/rank5.png';
+import rank6 from '../../../../static/rankLevel/rank6.png';
 import Rank from './rank';
 import Pointer from './pontos';
-import { DataUser } from '../../InitialPage/InitialPage';
+import { DataUser } from '../../../InitialPage/InitialPage';
 
 type infosUserPerfil = {
 	nickname: string;

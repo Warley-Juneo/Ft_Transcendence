@@ -7,7 +7,7 @@ import ListFriends from './ListFriends';
 import { Players } from './ListFriends';
 
 
-export default function MiniPerfil() {
+export default function MiniProfile() {
 	const [players, setPlayers] = useState<Players[]>([]);
 
 	function getPlayers(route: string) {
