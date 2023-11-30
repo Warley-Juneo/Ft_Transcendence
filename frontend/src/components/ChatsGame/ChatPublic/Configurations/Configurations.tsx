@@ -1,17 +1,18 @@
-import { useNavigate, useParams } from "react-router-dom";
 import { MdOutlinePersonAddDisabled, MdDeleteSweep } from 'react-icons/md';
+import { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import ButtonConfiguration from "./ButtonConfiguration";
+import { RiLockPasswordLine } from "react-icons/ri";
 import { AiOutlineUserAdd } from 'react-icons/ai';
 import { GiBroadDagger } from 'react-icons/gi';
-import ButtonConfiguration from "./ButtonConfiguration";
-import axios from "axios";
+import { ChatContext } from "../ChatPublic";
+import GetUsersGame from "./GetUsersGame";
+import InputButton from "./InputButton";
 import Cookies from "js-cookie";
-import Bar from "./Bar";
 import Perfil from "./Perfil";
 import Rules from "./Rules";
-import GetUsersGame from "./GetUsersGame";
-import React, { useEffect, useRef, useState } from "react";
-import { DataChat } from "../ChatPublic";
-import InputButton from "./InputButton";
+import axios from "axios";
+import Bar from "./Bar";
 
 const rules: string[] = [
 	"2 anos de Free Fire",
@@ -30,18 +31,17 @@ type UsersGame = {
 
 type propsConfigurations = {
 	openOrClosedConf: () => void,
-	setDataChat: React.Dispatch<React.SetStateAction<DataChat>>,
-	numberMembers: number,
 }
 
 export default function Configurations(props: propsConfigurations) {
+	const { dataChat: { members, name }, setDataChat } = useContext(ChatContext);
 	const [usersGame, setUsersGame] = useState<UsersGame[]>([]);
 	const chatName: string = useParams().chatName as string;
 	const navigate = useNavigate();
 
 	const deleteChat = (e: any): void => {
-		if (e.key !== 'Enter') return ;
-		if (refInputs.current?.value !== chatName) return ;
+		if (e.key !== 'Enter') return;
+		if (refInputs.current?.value !== chatName) return;
 		axios.delete('http://localhost:3000/chatroom/delete-group', {
 			data: {
 				chat_name: chatName,
@@ -67,12 +67,29 @@ export default function Configurations(props: propsConfigurations) {
 						Authorization: Cookies.get("jwtToken")
 					},
 				}).then((res) => {
-					props.setDataChat(res.data);
+					setDataChat(res.data);
 				}).catch((err) => {
 					console.log(err);
 				})
 			}
 		}
+	}
+
+	const changePassword = (e: any): void => {
+		axios.post('http://localhost:3000/chatroom/change-password-group', {
+			chat_name: name,
+			old_password: '123',
+			new_password: '321',
+			confirm_password: '321',
+		}, {
+			headers: {
+				Authorization: Cookies.get("jwtToken")
+			}
+		}).then((res) => {
+			console.log(res.data);
+		}).catch((err) => {
+			console.log(err);
+		})
 	}
 
 	useEffect(() => {
@@ -85,6 +102,7 @@ export default function Configurations(props: propsConfigurations) {
 	const [inputRemoveMember, setInputRemoveMember] = useState(false);
 	const [inputRemoverChat, setInputRemoverChat] = useState(false);
 	const [inputAddADM, setInputAddADM] = useState(false);
+	const [inputChangePassword, setInputChangePassword] = useState(false);
 	const refInputs = useRef<HTMLInputElement>(null);
 
 	return (
@@ -92,7 +110,7 @@ export default function Configurations(props: propsConfigurations) {
 			<Bar openOrClosedConf={props.openOrClosedConf} />
 			<Perfil chatName={chatName}
 				chatPhoto="https://i.etsystatic.com/37688069/r/il/d3e600/5143421340/il_600x600.5143421340_sm1f.jpg"
-				numberMembers={props.numberMembers}
+				numberMembers={members.length}
 			/>
 			<Rules rules={rules} />
 			<div className="p-3 text-start">
@@ -100,7 +118,7 @@ export default function Configurations(props: propsConfigurations) {
 					content="Adicionar Pessoas"
 					function={() => { setInputAddMember(!inputAddMember) }}
 				/>
-				{!inputAddMember === true ? null :
+				{!inputAddMember ? null :
 					<InputButton newMember={refInputs}
 						function={addedNewMember}
 					/>
@@ -109,7 +127,7 @@ export default function Configurations(props: propsConfigurations) {
 					content="Remover Militante"
 					function={() => { setInputRemoveMember(!inputRemoveMember) }}
 				/>
-				{!inputRemoveMember === true ? null :
+				{!inputRemoveMember ? null :
 					<InputButton newMember={refInputs}
 						function={() => { }}
 					/>
@@ -118,7 +136,7 @@ export default function Configurations(props: propsConfigurations) {
 					content="Adicionar ADM"
 					function={() => { setInputAddADM(!inputAddADM) }}
 				/>
-				{!inputAddADM === true ? null :
+				{!inputAddADM ? null :
 					<InputButton newMember={refInputs}
 						function={() => { }}
 					/>
@@ -127,9 +145,19 @@ export default function Configurations(props: propsConfigurations) {
 					content="Delete Chat"
 					function={() => { setInputRemoverChat(!inputRemoverChat) }}
 				/>
-				{!inputRemoverChat === true ? null :
+				{!inputRemoverChat ? null :
 					<InputButton newMember={refInputs}
 						function={deleteChat}
+					/>
+				}
+				<ButtonConfiguration Icon={RiLockPasswordLine}
+					content="Mudar Password"
+					function={() => { setInputChangePassword(!inputChangePassword) }}
+				/>
+				{!inputChangePassword ? null :
+					<InputButton newMember={refInputs}
+						function={changePassword}
+						placeholder='Digite a nova senha'
 					/>
 				}
 			</div>

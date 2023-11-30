@@ -1,23 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Messages } from "./ChatPublic";
+import  { useContext, useEffect, useState } from "react";
+import { ChatContext, Messages } from "./ChatPublic";
 import InputChats from "../InputChats";
 import io, { Socket } from 'socket.io-client';
 import { DataUser } from "../../InitialPage/InitialPage";
 import FormatMessages from "../FormatMessagens/FormatMessagens";
 
-type PropsInputChats = {
-	chatId: string,
-	messagens: Messages[],
-	dinamicChat: React.Dispatch<React.SetStateAction<{
-		show: boolean,
-		nickName: string
-		id: string
-	}
-	>>
-}
+export default function MessagensArea(): JSX.Element {
+	const { dataChat: {id, message}, setDinamicProfile } = useContext(ChatContext);
 
-export default function MessagensArea(props: PropsInputChats): JSX.Element {
-	const [messages, setMessages] = useState<Messages[]>(props.messagens);
+	const [messages, setMessages] = useState<Messages[]>(message);
 	const [socketIO] = useState<Socket>(io('http://localhost:3000'));
 	const user = useContext(DataUser);
 
@@ -43,7 +34,7 @@ export default function MessagensArea(props: PropsInputChats): JSX.Element {
 	}, [socketIO]);
 
 	let obj = {
-		chatId: props.chatId,
+		chatId: id,
 		user_id: user.user.id,
 		content: '',
 		route: 'group-message'
@@ -52,7 +43,6 @@ export default function MessagensArea(props: PropsInputChats): JSX.Element {
 		<>
 			<FormatMessages messagens={messages}
 				user={user.user}
-				dinamicChat={props.dinamicChat}
 			/>
 			<InputChats
 				socket={socketIO}

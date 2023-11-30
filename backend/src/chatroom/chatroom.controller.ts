@@ -31,6 +31,7 @@ export class ChatroomController {
 
 	@Post('change-password-group')
 	async	changePassword(@Req() request, @Body() dto: ChangePasswordDto): Promise<any> {
+		console.log("\n\n\n DTO:", dto, "\n\n\n")
 		return await this.chatroomService.changePassword(request.user.sub, dto);
 	}
 
