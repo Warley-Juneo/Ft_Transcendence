@@ -47,7 +47,7 @@ export default function InformationsUser() {
 	}
 
 	const getProfile = (): void => {
-		axios.get('http://localhost:3000/users/profile ', {
+		axios.get(`http://localhost:3000/users/profile/?nick_name=${dataUser.user.nickname}`, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
 			}
