@@ -31,9 +31,10 @@ export default function ChatPublic() {
 	const [dataChat, setDataChat] = useState<DataChat>(tmp);
 	const [dinamicProfile, setDinamicProfile] = useState<{
 		show: boolean,
-		nickName: string
+		nickName: string,
+		id: string,
 	}
-	>({ show: false, nickName: '' });
+	>({ show: false, nickName: '', id: ''});
 
 	console.log("dinamicProfile: ", dinamicProfile);
 	return (

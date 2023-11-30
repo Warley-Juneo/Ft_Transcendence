@@ -11,11 +11,12 @@ type MatchHistoryType = {
 	status: string;
 };
 
-export default function MatchHistory() {
+export default function MatchHistory({ userId }: { userId: string }) {
 	const [matchHistory, setMatchHistory] = useState<MatchHistoryType[]>([]);
 
-	useEffect(() => {
-		axios.get('http://localhost:3000/game/user/match-history', {
+	const getMatchHistory = (): void => {
+		const ENV = `user_id=${userId}`
+		axios.get(`http://localhost:3000/game/user/match-history/?${ENV}`, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
 			}
@@ -23,6 +24,9 @@ export default function MatchHistory() {
 			setMatchHistory(response.data.matches);
 		}).catch((error) => {
 		})
+	}
+	useEffect(() => {
+		getMatchHistory();
 	}, []);
 
 	if (!matchHistory) {

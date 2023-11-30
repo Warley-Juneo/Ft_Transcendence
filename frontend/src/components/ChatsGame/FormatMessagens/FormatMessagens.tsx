@@ -10,14 +10,14 @@ type propsFormatMessages = {
 	dinamicChat: React.Dispatch<React.SetStateAction<{
 		show: boolean,
 		nickName: string
+		id: string
 	}
 	>>
 }
 
 export default function FormatMessages(props: propsFormatMessages): JSX.Element {
-	const showDinamicProfile = (nickname: string) => {
-		console.log("nickname: ", nickname)
-		props.dinamicChat({ show: true, nickName: nickname });
+	const showDinamicProfile = (nickname: string, id: string) => {
+		props.dinamicChat({ show: true, nickName: nickname, id: id });
 	}
 
 	return (
