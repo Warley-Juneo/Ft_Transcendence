@@ -3,7 +3,7 @@ import BarConfigurations from "./barConfigurations";
 import Configurations from "./Configurations/Configurations";
 import { useLocation } from "react-router-dom";
 import MessagensArea from "./MessagensArea";
-import ListFriends, { Players } from "../../Profiles/MiniPerfil/ListFriends";
+import ListFriends, { Players } from "../../Profiles/MiniProfile/ListFriends";
 
 export type Messages = {
 	id:             string,

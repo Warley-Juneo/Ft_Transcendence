@@ -5,7 +5,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import ConfigurationGame from './Configurations/Configurations';
 import { IoSettingsOutline } from 'react-icons/io5';
-import MiniPerfil from '../Profiles/MiniPerfil/MiniPerfil';
+import MiniProfile from '../Profiles/MiniProfile/MiniProfile';
 
 export type t_dataUser = {
 	id: string;
@@ -79,7 +79,7 @@ export default function InicialPage() {
 					</div>
 				</main>
 				<aside className='col-3' id='right-screen'>
-					{<MiniPerfil />}
+					{<MiniProfile />}
 				</aside>
 			</div>
 		</DataUser.Provider>
