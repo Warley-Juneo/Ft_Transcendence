@@ -86,7 +86,7 @@ export class ChatroomService {
 		return response;
 	}
 
-	async	chagePassword(dto: ChangePasswordDto): Promise<any> {
+	async	changePassword(userId: string, dto: ChangePasswordDto): Promise<any> {
 
 		let chat = await this.findUniqueChatroom(dto);
 
@@ -98,6 +98,8 @@ export class ChatroomService {
 		data_validation.password = chat.password;
 		data_validation.new_password = dto.new_password;
 		data_validation.confirm_password = dto.confirm_password;
+		data_validation.owner_id = chat.owner_id;
+		data_validation.validate_owner_id = userId;
 		await this.validate(data_validation);
 
 		const saltOrRound = 8;

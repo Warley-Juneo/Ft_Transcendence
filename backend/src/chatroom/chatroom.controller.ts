@@ -29,9 +29,9 @@ export class ChatroomController {
 		return await this.chatroomService.deleteChatroom(request.user.sub, dto);
 	}
 
-	@Post('chage-password-group')
-	async	changePassword(@Body() request: ChangePasswordDto): Promise<any> {
-
+	@Post('change-password-group')
+	async	changePassword(@Req() request, @Body() dto: ChangePasswordDto): Promise<any> {
+		return await this.chatroomService.changePassword(request.user.sub, dto);
 	}
 
 	@Post('open-group')
