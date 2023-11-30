@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { GameRepository } from './game.repository';
 import { UserMatchDto, UserMatchesDto } from './dtos/output.dto';
+import { InputUserDto } from './dtos/input.dto';
 
 @Injectable()
 export class GameService {
   constructor(private readonly gameRepository: GameRepository) {}
 
-  async userMatchs(userId: string): Promise<UserMatchesDto> {
-    let matches = await this.gameRepository.userMatchs(userId);
+  async userMatchs(dto: InputUserDto): Promise<UserMatchesDto> {
+    let matches = await this.gameRepository.userMatchs(dto.user_id);
 
 
     let outpuDto = new UserMatchesDto;
