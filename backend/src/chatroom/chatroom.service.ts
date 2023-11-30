@@ -29,15 +29,15 @@ export class ChatroomService {
 
 	async deleteChatroom(userId: string, dto: InputChatroomDto): Promise<any> {
 
-		let response;
 		let chat = await this.findUniqueChatroom(dto);
-
+		
 		if (chat.owner_id == userId) {
-			response = await this.chatroomRepository.deleteChatroom(dto.chat_name);
+			await this.chatroomRepository.deleteChatroom(dto.chat_name);
 		}
 		else {
 			throw new UnauthorizedException('Only the owner can delete the chat');
 		}
+		let response = this.findPublicChatroom();
 
 		return response;
 	}
@@ -175,29 +175,28 @@ export class ChatroomService {
 
 	async findPublicChatroom(): Promise<ChatroomsDto> {
 
-		let chats = await this.chatroomRepository.findPublicChatroom();
-
-		let outputDto = new ChatroomsDto;
-		outputDto.chatrooms = [];
-
-		for (const obj of chats) {
-			let dto = new UniqueChatroomDto;
-			dto.id = obj.id;
-			dto.name = obj.name;
-			dto.type = obj.type;
-			dto.photoUrl = obj.photoUrl;
-			dto.owner_nickname = obj.owner.nickname;
-			dto.owner_id = obj.owner.id;
-			dto.members = obj.members;
-			outputDto.chatrooms.push(dto);
-		}
-
-		return outputDto;
+		let where_filter = {
+			type: {not: "private"},
+		};
+		return await this.findManyChatroom(where_filter);
 	}
 
 	async findPrivateChatroom(userId: string): Promise<ChatroomsDto> {
 
-		let chats = await this.chatroomRepository.findPrivateChatroom(userId);
+		let where_filter = {
+			members: {
+				some: {
+					id: userId,
+				},
+			},
+			type: "private",
+		};
+		return await this.findManyChatroom(where_filter);
+	}
+
+	async findManyChatroom(where_filter: any): Promise<ChatroomsDto> {
+	
+		let chats = await this.chatroomRepository.findManyChatroom(where_filter);
 
 		let outputDto = new ChatroomsDto;
 		outputDto.chatrooms = [];

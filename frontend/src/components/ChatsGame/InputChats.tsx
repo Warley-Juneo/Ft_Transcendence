@@ -13,6 +13,9 @@ export default function InputChats(props: PropsInputChats) {
 	const sendMessageClick = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
 		props.obj.content = inputChat.current?.value as string;
 		props.socket.emit(props.obj.route, props.obj);
+		if (inputChat.current?.value) {
+			inputChat.current.value = '';
+		}
 	}
 
 

@@ -38,7 +38,7 @@ export class ChatroomRepository {
 			},
 		});
 
-		return await this.findPublicChatroom();
+		return true;
 	}
 
 	async	openChatroom(name:string): Promise<any> {
@@ -187,11 +187,9 @@ export class ChatroomRepository {
 		return chat;
 	}
 
-	async findPublicChatroom(): Promise<any> {
+	async findManyChatroom(where_filter: any): Promise<any> {
 		let response = await this.prisma.chatRoom.findMany({
-			where: {
-				type: {not: "private"},
-			},
+			where: where_filter,
 			select: {
 				id: true,
 				name: true,
@@ -205,38 +203,6 @@ export class ChatroomRepository {
 				},
 				members: {
 					select: {
-						nickname: true,
-					},
-				},
-			},
-		});
-		return response;
-	}
-
-	async	findPrivateChatroom(userId: string): Promise<any> {
-
-		let response = await this.prisma.chatRoom.findMany({
-			where: {
-				members: {
-					some: {
-						id: userId,
-					},
-				},
-				type: "private",
-			},
-			select: {
-				id: true,
-				name: true,
-				photoUrl: true,
-				owner: {
-					select: {
-						id: true,
-						nickname: true,
-					},
-				},
-				members: {
-					select: {
-						id: true,
 						nickname: true,
 					},
 				},
