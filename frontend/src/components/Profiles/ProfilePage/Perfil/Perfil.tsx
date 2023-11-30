@@ -11,14 +11,9 @@ import rank6 from '../../../../static/rankLevel/rank6.png';
 import Rank from './rank';
 import Pointer from './pontos';
 import { DataUser } from '../../../InitialPage/InitialPage';
+import { InfosUserPerfil } from '../../typesProfile';
 
-type infosUserPerfil = {
-	nickname: string;
-	wins: number;
-	draws: number;
-	loses: number;
-	avatar: string;
-}
+
 
 const rankMappings = [
 	{ max: 5, rank: rank1, borderImg: 'mt-5 borderDivFotoRank1 d-flex', borderWrite: 'd-flex borderWriteRank1 w-100 justify-content-center align-items-center w-100' },
@@ -38,7 +33,7 @@ type formattingRankUser = {
 }
 
 export default function InformationsUser() {
-	const [user, setInfosUser] = useState<infosUserPerfil>({} as infosUserPerfil);
+	const [user, setInfosUser] = useState<InfosUserPerfil>({} as InfosUserPerfil);
 	const dataUser = useContext(DataUser);
 
 	const handleRank = (pointers: number): formattingRankUser => {

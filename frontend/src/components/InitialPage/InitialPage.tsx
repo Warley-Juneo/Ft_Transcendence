@@ -76,10 +76,10 @@ export default function InicialPage() {
 
 
 			{/* Profile Dinamico que vai ser printado em cima de toda a tela */}
-			<DinamicProfile />
 
 			{/* Tela principal */}
 			<div className='row g-0' id='home-screen' style={{ height: '100vh', width: '100vw' }}>
+				<DinamicProfile />
 				<main className='col-9 h-100' id='left-screen'>
 					<BarOptions />
 					<hr className='m-0 text-white'></hr>
