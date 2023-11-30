@@ -1,27 +1,10 @@
-import axios from "axios";
-import Cookies from "js-cookie";
-import { InfosUserPerfil } from "../typesProfile";
-import { useState } from "react";
+import { AiOutlineClose } from 'react-icons/ai';
 
-export default function Bar(): JSX.Element {
-	const [infosUser, setInfosUser] = useState<InfosUserPerfil>({} as InfosUserPerfil);
-
-	const getProfile = (): void => {
-		axios.get(`http://localhost:3000/users/profile/?nick_name=${dataUser.user.nickname}`, {
-			headers: {
-				Authorization: Cookies.get('jwtToken'),
-			}
-		})
-			.then((response) => {
-				setInfosUser(response.data);
-			}
-			).catch((error) => {
-			})
-	}
+export default function BarDinamicChat(): JSX.Element {
 
 	return (
-		<div className="text-white end-0 position-absolute">
-			<h1>Bar</h1>
+		<div className='d-flex justify-content-end'>
+			<AiOutlineClose className="ms-5" role="button" size={30}/>
 		</div>
 	);
 }
