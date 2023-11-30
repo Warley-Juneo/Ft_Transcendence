@@ -18,6 +18,11 @@ export class ChatroomService {
 				throw new UnauthorizedException('Only the owner can delete the chat');
 			}
 		}
+		if (dto.owner_id && dto.exclued_owner_id) {
+			if ((dto.owner_id == dto.validate_owner_id)) {
+				throw new UnauthorizedException('The owner can not be excluded');
+			}
+		}
 
 		// console.log("\n\nQQQQQQQ\n\n", dto.password, "\n", dto.validate_password, "\n\n");
 		if (dto.password) {
@@ -86,6 +91,38 @@ export class ChatroomService {
 		return response;
 	}
 
+	
+	
+	async openChatroom(userId: string, dto: InputChatroomDto): Promise<UniqueChatroomDto> {
+		
+		let chat = await this.findUniqueChatroom(dto);
+		
+		let data_validation: OutputValidateDto = {} as OutputValidateDto;
+		if (chat.type == 'protected') {
+			data_validation.validate_password = dto.password;
+			data_validation.password = chat.password;
+		}
+		if (chat.type == 'private') {
+			data_validation.members = chat.members;
+			data_validation.validate_member_id = userId;
+		}
+		await this.validate(data_validation);
+		
+		let outputDto = new UniqueChatroomDto;
+		outputDto.id = chat.id;
+		outputDto.name = chat.name;
+		outputDto.type = chat.type;
+		outputDto.members = chat.members;
+		outputDto.message = chat.message;
+		outputDto.owner_id = chat.owner_id;
+		outputDto.photoUrl = chat.photoUrl;
+		outputDto.owner_nickname = chat.owner_nickname;
+		outputDto.admin = chat.admin;
+		outputDto.banned = chat.banned;
+		
+		return outputDto;
+	}
+	
 	async	changePassword(userId: string, dto: ChangePasswordDto): Promise<any> {
 
 		let chat = await this.findUniqueChatroom(dto);
@@ -111,75 +148,118 @@ export class ChatroomService {
 		let data_filter = {
 			password: hash,
 		};
-		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
-	}
-
-	async openChatroom(userId: string, dto: InputChatroomDto): Promise<UniqueChatroomDto> {
-
-		let chat = await this.findUniqueChatroom(dto);
-
-		let data_validation: OutputValidateDto = {} as OutputValidateDto;
-		if (chat.type == 'protected') {
-			data_validation.validate_password = dto.password;
-			data_validation.password = chat.password;
-		}
-		if (chat.type == 'private') {
-			data_validation.members = chat.members;
-			data_validation.validate_member_id = userId;
-		}
-		await this.validate(data_validation);
-
-		let outputDto = new UniqueChatroomDto;
-		outputDto.id = chat.id;
-		outputDto.name = chat.name;
-		outputDto.type = chat.type;
-		outputDto.members = chat.members;
-		outputDto.message = chat.message;
-		outputDto.owner_id = chat.owner_id;
-		outputDto.photoUrl = chat.photoUrl;
-		outputDto.owner_nickname = chat.owner_nickname;
-		outputDto.admin = chat.admin;
-		outputDto.banned = chat.banned;
-
-		return outputDto;
+		await await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 	}
 
 	async	addAdmChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 
-
-		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
+		let chat = await this.findUniqueChatroom(dto);
 
 		let data_validation: OutputValidateDto = {} as OutputValidateDto;
-
-		data_validation.admin = chat.adm;
+		data_validation.admin = chat.admin;
 		data_validation.validate_admin_id = userId;
-		data_validation.members = chat.members;
-		data_validation.validate_member_id = userId;
+
 		await this.validate(data_validation);
 
-		await this.chatroomRepository.addAdminChatroom(dto.add_id, dto.chat_name);
+		let where_filter = {
+			name: chat.name,
+		};
+		let data_filter = {
+				admin: {
+					connect: {
+						id: dto.add_id,
+					},
+				},
+			};
+		await await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
 		let response = await this.findUniqueChatroom(dto);
 		response.password = '';
+
+		return response;
+	}
+
+	async	excludeAdmChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+
+		let chat = await this.findUniqueChatroom(dto);
 		
+		let data_validation: OutputValidateDto = {} as OutputValidateDto;
+
+		data_validation.admin = chat.admin;
+		data_validation.validate_admin_id = userId;
+		data_validation.owner_id = chat.owner_id;
+		data_validation.exclued_owner_id = dto.add_id;
+		await this.validate(data_validation);
+
+		let where_filter = {
+			name: chat.name,
+		};
+		let data_filter ={
+			admin: {
+				disconnect: {
+					id: dto.add_id,
+				},
+			},
+		};
+		await await this.chatroomRepository.updateChatroom(where_filter, data_filter);
+
+		let response = await this.findUniqueChatroom(dto);
+		response.password = '';
 		return response;
 	}
 
 	async	addMemberChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 
-		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
-
-		console.log("\n\nADD MEMBER", chat, "\n\n")
+		let chat = await this.findUniqueChatroom(dto);
 		
 		let data_validation: OutputValidateDto = {} as OutputValidateDto;
 
-		data_validation.admin = chat.adm;
+		data_validation.admin = chat.admin;
 		data_validation.validate_admin_id = userId;
 		data_validation.members = chat.members;
 		data_validation.validate_member_id = userId;
 		await this.validate(data_validation);
 
-		await this.chatroomRepository.addMemberChatroom(dto.add_id, dto.chat_name);
+		let where_filter = {
+			name: chat.name,
+		};
+		let data_filter ={
+			members: {
+				connect: {
+					id: dto.add_id,
+				},
+			},
+		};
+		await await this.chatroomRepository.updateChatroom(where_filter, data_filter);
+
+		let response = await this.findUniqueChatroom(dto);
+		response.password = '';
+		return response;
+	}
+
+	async	excludeMemberChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+
+		let chat = await this.findUniqueChatroom(dto);
+		
+		let data_validation: OutputValidateDto = {} as OutputValidateDto;
+
+		data_validation.admin = chat.admin;
+		data_validation.validate_admin_id = userId;
+		data_validation.owner_id = chat.owner_id;
+		data_validation.exclued_owner_id = dto.add_id;
+		await this.validate(data_validation);
+
+		let where_filter = {
+			name: chat.name,
+		};
+		let data_filter ={
+			members: {
+				disconnect: {
+					id: dto.add_id,
+				},
+			},
+		};
+		await await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
 		let response = await this.findUniqueChatroom(dto);
 		response.password = '';

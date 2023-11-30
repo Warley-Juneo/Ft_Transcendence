@@ -44,9 +44,20 @@ export class ChatroomController {
 		return await this.chatroomService.addMemberChatroom(request.user.sub, dto);
 	}
 
+	@Post('exclude-member-group')
+	async	excludeMemberChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+		console.log("\n\nAAAAAAA\n\n");
+		return await this.chatroomService.excludeMemberChatroom(request.user.sub, dto);
+	}
+
 	@Post('add-adm-group')
 	async	addAdmChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 		return await this.chatroomService.addAdmChatroom(request.user.sub, dto);
+	}
+
+	@Post('exclude-adm-group')
+	async	excludeAdmChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+		return await this.chatroomService.excludeAdmChatroom(request.user.sub, dto);
 	}
 
 	@Post('open-direct')

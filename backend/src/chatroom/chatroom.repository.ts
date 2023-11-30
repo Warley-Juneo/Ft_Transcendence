@@ -96,42 +96,6 @@ export class ChatroomRepository {
 		return chat;
 	}
 
-	async	addMemberChatroom(adm_id: string, chat_name: string) {
-
-		let chat = this.prisma.chatRoom.update({
-			where: {
-				name: chat_name,
-			},
-			data: {
-				members: {
-					connect: {
-						id: adm_id,
-					},
-				},
-			},
-		});
-		// console.log("\n\nADD USER Repository", chat, "\n\n");
-		return chat;
-	}
-
-	async	addAdminChatroom(adm_id: string, chat_name: string) {
-
-		let chat = await this.prisma.chatRoom.update({
-			where: {
-				name: chat_name,
-			},
-			data: {
-				admin: {
-					connect: {
-						id: adm_id,
-					},
-				},
-			},
-		});
-		console.log("\n\nADM", chat, "\n\n");
-		return chat;
-	}
-
 	async	findUniqueChatroom(name: string): Promise<any> {
 		let chat = await this.prisma.chatRoom.findUnique({
 			where: {

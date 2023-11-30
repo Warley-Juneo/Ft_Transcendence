@@ -47,6 +47,7 @@ export class OutputValidateDto {
 	
 	owner_id:			string;
 	validate_owner_id:	string;
+	exclued_owner_id:	string;
 
 	members:			UniqueUserChatrommDto[];
 	validate_member_id:	string;
