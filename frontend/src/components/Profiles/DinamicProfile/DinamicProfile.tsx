@@ -1,10 +1,16 @@
+import { useEffect, useState } from "react";
+import { InfosUserPerfil } from "../typesProfile";
 import Bar from "./Bar"
+import axios from "axios";
+import Cookies from "js-cookie";
+import InfosUser from "./InfosUser";
 
-export default function DinamicProfile() {
+export default function DinamicProfile({ nickName }: { nickName: string }) {
+
 	return (
-		<div className="text-white end-0 position-absolute">
+		<div className="text-white end-0 position-absolute bg-custon-roxo">
 			<Bar />
-			<h1>DinamicProfile</h1>
+			<InfosUser nickName={nickName}/>
 		</div>
 	)
 }

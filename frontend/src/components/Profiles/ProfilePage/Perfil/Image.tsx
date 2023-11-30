@@ -1,10 +1,6 @@
-type propsImageProfile = {
-	borderImg: string;
-	avatar: string;
-	nickname: string;
-}
+import { propsImageProfile } from "../../typesProfile";
 
-export default function Profile(props: propsImageProfile): JSX.Element {
+export default function ProfilePhoto(props: propsImageProfile): JSX.Element {
 	return (
 		<>
 			<div className={props.borderImg}>
