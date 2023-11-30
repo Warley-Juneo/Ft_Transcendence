@@ -10,16 +10,18 @@ type propsFormatMessages = {
 	dinamicChat: React.Dispatch<React.SetStateAction<{
 		show: boolean,
 		nickName: string
+		id: string
 	}
 	>>
 }
 
 export default function FormatMessages(props: propsFormatMessages): JSX.Element {
-	const showDinamicProfile = (nickname: string) => {
-		console.log("nickname: ", nickname)
-		props.dinamicChat({ show: true, nickName: nickname });
+	const showDinamicProfile = (nickname: string, id: string) => {
+		console.log("id: função", id);
+		props.dinamicChat({ show: true, nickName: nickname, id: id });
 	}
 
+	console.log("messagens: ", props.messagens);
 	return (
 		<div className="h-100 text-black p-3 overflow-auto">
 			{props.messagens.map((message: Messages) => {
@@ -32,8 +34,9 @@ export default function FormatMessages(props: propsFormatMessages): JSX.Element 
 								content={message.content}
 								avatarUrl={message.user.avatar}
 								dataFormating={dataFormating}
-								showDinamicProfile={showDinamicProfile}
 								nickname={message.user.nickname}
+								id={message.user.id}
+								showDinamicProfile={showDinamicProfile}
 							/>
 						);
 					} else {
@@ -44,6 +47,7 @@ export default function FormatMessages(props: propsFormatMessages): JSX.Element 
 								dataFormating={dataFormating}
 								nickname={message.user.nickname}
 								showDinamicProfile={showDinamicProfile}
+								id={message.user.id}
 							/>
 						);
 					};

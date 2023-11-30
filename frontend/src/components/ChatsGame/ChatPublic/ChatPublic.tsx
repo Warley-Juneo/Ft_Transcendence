@@ -13,6 +13,7 @@ export type Messages = {
 	user: {
 		nickname: string,
 		avatar: string,
+		id: string,
 	}
 }
 
@@ -26,16 +27,15 @@ export type DataChat = {
 }
 
 export default function ChatPublic() {
-	let tmp = useLocation().state?.data as DataChat;
+	const [dataChat, setDataChat] = useState<DataChat>(useLocation().state?.data);
 	const [showConfigurations, setShowConfigurations] = useState(false);
-	const [dataChat, setDataChat] = useState<DataChat>(tmp);
 	const [dinamicProfile, setDinamicProfile] = useState<{
 		show: boolean,
-		nickName: string
+		nickName: string,
+		id: string,
 	}
-	>({ show: false, nickName: '' });
+	>({ show: false, nickName: '', id: ''});
 
-	console.log("dinamicProfile: ", dinamicProfile);
 	return (
 		<div className="bg-custon-roxo rounded text-white h-100">
 			<div className="row g-0 h-100 p-2">
@@ -65,6 +65,7 @@ export default function ChatPublic() {
 			{!dinamicProfile.show ? null :
 				<DinamicProfile nickName={dinamicProfile.nickName}
 					dinamicProfile={setDinamicProfile}
+					id={dinamicProfile.id}
 				/>}
 		</div>
 	)

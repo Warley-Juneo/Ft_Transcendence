@@ -11,6 +11,7 @@ type PropsInputChats = {
 	dinamicChat: React.Dispatch<React.SetStateAction<{
 		show: boolean,
 		nickName: string
+		id: string
 	}
 	>>
 }

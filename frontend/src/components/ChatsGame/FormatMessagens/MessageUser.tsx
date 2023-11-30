@@ -18,7 +18,8 @@ type propsMessageUser = {
 	avatarUrl: string,
 	dataFormating: string,
 	nickname: string,
-	showDinamicProfile: (nickname: string) => void,
+	id: string
+	showDinamicProfile: (nickname: string, id: string) => void,
 }
 
 export default function MessageUser(props: propsMessageUser): JSX.Element {
@@ -31,10 +32,10 @@ export default function MessageUser(props: propsMessageUser): JSX.Element {
 				</div>
 				<p className="d-flex justify-content-end" style={cssDetails}>{props.dataFormating}</p>
 			</div>
-			<img	style={cssPhoto}
-					src={props.avatarUrl}
-					alt='foto'
-					onClick={() => props.showDinamicProfile(props.nickname)}
+			<img style={cssPhoto}
+				src={props.avatarUrl}
+				alt='foto'
+				onClick={() => props.showDinamicProfile(props.nickname, props.id)}
 			/>
 		</div>
 	)

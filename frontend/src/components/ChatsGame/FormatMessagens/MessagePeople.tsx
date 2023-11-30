@@ -19,7 +19,8 @@ type propsMessagePeople = {
 	avatarUrl: string,
 	dataFormating: string,
 	nickname: string,
-	showDinamicProfile: (nickname: string) => void,
+	id: string,
+	showDinamicProfile: (nickname: string, id: string) => void,
 }
 
 export default function MessagePeople(props: propsMessagePeople): JSX.Element {
@@ -28,7 +29,7 @@ export default function MessagePeople(props: propsMessagePeople): JSX.Element {
 			<img	style={cssPhoto}
 					src={props.avatarUrl}
 					alt='foto'
-					onClick={() => props.showDinamicProfile(props.nickname)}
+					onClick={() => props.showDinamicProfile(props.nickname, props.id)}
 			/>
 			<div className='bg-light rounded ms-2 p-2' style={{ whiteSpace: 'pre-line' }}>
 				<p>{props.nickname}</p>

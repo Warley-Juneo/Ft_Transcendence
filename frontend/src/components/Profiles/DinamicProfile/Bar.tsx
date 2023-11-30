@@ -4,6 +4,7 @@ export default function BarDinamicChat({ dinamicProfile }: {
 	dinamicProfile: React.Dispatch<React.SetStateAction<{
 		show: boolean,
 		nickName: string
+		id: string
 	}>>
 }): JSX.Element {
 
@@ -12,7 +13,7 @@ export default function BarDinamicChat({ dinamicProfile }: {
 			<AiOutlineClose	className="ms-5"
 							role="button"
 							size={30}
-							onClick={() => {dinamicProfile({ show: false, nickName: '' })}}/>
+							onClick={() => {dinamicProfile({ show: false, nickName: '', id: '' })}}/>
 		</div>
 	);
 }

@@ -1,21 +1,19 @@
-import { useEffect, useState } from "react";
-import { InfosUserPerfil } from "../typesProfile";
 import Bar from "./Bar"
-import axios from "axios";
-import Cookies from "js-cookie";
 import InfosUser from "./InfosUser";
 import MatchHistory from "../ProfilePage/MatchHistory";
 
 type propsDinamicProfile = {
 	nickName: string;
+	id: string;
 	dinamicProfile: React.Dispatch<React.SetStateAction<{
 		show: boolean,
 		nickName: string
+		id: string
 	}>>
 }
 
 export default function DinamicProfile(props: propsDinamicProfile): JSX.Element {
-
+	console.log("id: ", props.id);
 	return (
 		<div className="text-white top-0 end-0 position-absolute h-75 p-2 bg-degrader">
 			<div className="d-flex flex-column h-100">
@@ -23,10 +21,7 @@ export default function DinamicProfile(props: propsDinamicProfile): JSX.Element 
 				<InfosUser nickName={props.nickName} />
 			<div className='overflow-auto h-100 '>
 				<div className="p-3 rounded h-100" id="MatchHistory">
-					<MatchHistory />
-					<MatchHistory />
-					<MatchHistory />
-					<MatchHistory />
+					<MatchHistory userId={props.id}/>
 				</div>
 			</div>
 			</div>
