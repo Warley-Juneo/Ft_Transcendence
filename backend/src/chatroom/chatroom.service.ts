@@ -11,22 +11,6 @@ export class ChatroomService {
 	constructor(private readonly chatroomRepository: ChatroomRepository,
 		private readonly userService: UsersService) { }
 
-	async createChatroom(userId: string, dto: CreateChatroomDto): Promise<ChatroomsDto> {
-
-		if (dto.type == "protected") {
-			if (dto.password == '') {
-				throw new BadRequestException('Invalid password');
-			}
-			const saltOrRound = 8;
-			const hash = await bcrypt.hashSync(dto.password, saltOrRound);
-			dto.password = hash;
-		}
-		await this.chatroomRepository.createChatroom(userId, dto);
-		let response = await this.findPublicChatroom();
-
-		return response;
-	}
-
 	async	validate(dto: OutputValidateDto): Promise<OutputValidateDto> {
 		
 		if (dto.owner_id && dto.validate_owner_id) {
@@ -63,6 +47,22 @@ export class ChatroomService {
 			throw new UnauthorizedException('Not a admin of this chat');
 		}
 		return dto;
+	}
+
+	async createChatroom(userId: string, dto: CreateChatroomDto): Promise<ChatroomsDto> {
+
+		if (dto.type == "protected") {
+			if (dto.password == '') {
+				throw new BadRequestException('Invalid password');
+			}
+			const saltOrRound = 8;
+			const hash = await bcrypt.hashSync(dto.password, saltOrRound);
+			dto.password = hash;
+		}
+		await this.chatroomRepository.createChatroom(userId, dto);
+		let response = await this.findPublicChatroom();
+
+		return response;
 	}
 
 	async deleteChatroom(userId: string, dto: InputChatroomDto): Promise<any> {

@@ -46,8 +46,6 @@ export class UniqueChatroomDto {
 
 
 export class OutputValidateDto {
-	chat_name:			string;
-	type:				string;
 	
 	owner_id:			string;
 	validate_owner_id:	string;

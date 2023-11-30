@@ -15,40 +15,40 @@ export class GameService {
     outpuDto.matches = [];
 
     for(const obj of matches) {
-      let dto = new UserMatchDto;
-      if (userId == obj.player_1.id) {
-		dto.id = obj.id;
-        dto.opponent = obj.player_2.nickname;
-        dto.opponent_avatar = obj.player_2.avatar;
-        dto.opponent_score = obj.score_p2;
-        dto.my_score = obj.score_p1;
+      let match_dto = new UserMatchDto;
+      if (dto.user_id == obj.player_1.id) {
+		    match_dto.id = obj.id;
+        match_dto.opponent = obj.player_2.nickname;
+        match_dto.opponent_avatar = obj.player_2.avatar;
+        match_dto.opponent_score = obj.score_p2;
+        match_dto.my_score = obj.score_p1;
         if (obj.score_p1 == obj.score_p2){
-			dto.status = "EMPATE";
+          match_dto.status = "EMPATE";
         }
         else if (obj.score_p1 > obj.score_p2){
-          dto.status = "VITÓRIA";
+          match_dto.status = "VITÓRIA";
         }
         else if (obj.score_p1 < obj.score_p2){
-          dto.status = "DERROTA";
+          match_dto.status = "DERROTA";
         }
       }
       else {
-		dto.id = obj.id;
-        dto.opponent = obj.player_1.nickname;
-        dto.opponent_avatar = obj.player_1.avatar;
-        dto.opponent_score = obj.score_p1;
-        dto.my_score = obj.score_p2;
+        match_dto.id = obj.id;
+        match_dto.opponent = obj.player_1.nickname;
+        match_dto.opponent_avatar = obj.player_1.avatar;
+        match_dto.opponent_score = obj.score_p1;
+        match_dto.my_score = obj.score_p2;
         if (obj.score_p1 == obj.score_p2){
-          dto.status = "EMPATE";
+          match_dto.status = "EMPATE";
         }
         else if (obj.score_p2 > obj.score_p1){
-          dto.status = "VITÓRIA";
+          match_dto.status = "VITÓRIA";
         }
         else if (obj.score_p2 < obj.score_p1){
-          dto.status = "DERROTA";
+          match_dto.status = "DERROTA";
         }
       }
-      outpuDto.matches.push(dto);
+      outpuDto.matches.push(match_dto);
     }
     return outpuDto;
   }
