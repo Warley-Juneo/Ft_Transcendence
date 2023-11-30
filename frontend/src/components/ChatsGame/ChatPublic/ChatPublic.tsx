@@ -1,10 +1,11 @@
-import { useState } from "react";
-import BarConfigurations from "./barConfigurations";
-import Configurations from "./Configurations/Configurations";
-import { useLocation } from "react-router-dom";
-import MessagensArea from "./MessagensArea";
 import ListFriends, { Players } from "../../Profiles/MiniProfile/ListFriends";
 import DinamicProfile from "../../Profiles/DinamicProfile/DinamicProfile";
+import Configurations from "./Configurations/Configurations";
+import BarConfigurations from "./barConfigurations";
+import { useLocation } from "react-router-dom";
+import MessagensArea from "./MessagensArea";
+import { createContext } from "react";
+import React, { useState } from "react";
 
 export type Messages = {
 	id: string,
@@ -26,47 +27,57 @@ export type DataChat = {
 	message: Messages[],
 }
 
+type DinamicProfile = {
+	show: boolean,
+	nickName: string,
+	id: string,
+}
+
+export const ChatContext = createContext<{
+	dataChat: DataChat;
+	setDataChat: React.Dispatch<React.SetStateAction<DataChat>>;
+	setDinamicProfile: React.Dispatch<React.SetStateAction<DinamicProfile>>;
+}>({ dataChat: {} as DataChat, setDataChat: () => { }, setDinamicProfile: () => { } });
+
 export default function ChatPublic() {
 	const [dataChat, setDataChat] = useState<DataChat>(useLocation().state?.data);
 	const [showConfigurations, setShowConfigurations] = useState(false);
-	const [dinamicProfile, setDinamicProfile] = useState<{
-		show: boolean,
-		nickName: string,
-		id: string,
-	}
-	>({ show: false, nickName: '', id: ''});
+	const [dinamicProfile, setDinamicProfile] = useState<DinamicProfile>({} as DinamicProfile);
 
 	return (
 		<div className="bg-custon-roxo rounded text-white h-100">
 			<div className="row g-0 h-100 p-2">
-
-				{/* Lado esquerdo do chat que contem os amigos*/}
-				<div className="col-3 border-end h-100">
-					<ListFriends players={dataChat.members}
-						getPlayers={() => { }}
-					/>
-				</div>
-
-				{/* Lado direto do chat que cotem as mensagens*/}
-				<div className="col-9 d-flex flex-column h-100 position-relative">
-					<BarConfigurations openOrClosedConf={() => setShowConfigurations(!showConfigurations)} />
-					{!showConfigurations === true ? null :
-						<Configurations openOrClosedConf={() => setShowConfigurations(!showConfigurations)}
-							numberMembers={dataChat.members.length}
-							setDataChat={setDataChat}
+				<ChatContext.Provider value={{ dataChat, setDataChat, setDinamicProfile }}>
+					{/* Lado esquerdo do chat que contem os amigos*/}
+					<div className="col-3 border-end h-100">
+						<ListFriends
+							players={dataChat.members}
+							getPlayers={() => { }}
 						/>
-					}
-					<MessagensArea messagens={dataChat.message}
-						chatId={dataChat.id}
-						dinamicChat={setDinamicProfile}
-					/>
-				</div>
+					</div>
+
+					{/* Lado direto do chat que cotem as mensagens*/}
+					<div className="col-9 d-flex flex-column h-100 position-relative">
+						<BarConfigurations openOrClosedConf={
+							() => setShowConfigurations(!showConfigurations)
+						}
+						/>
+						{!showConfigurations === true ? null :
+							<Configurations openOrClosedConf={
+								() => setShowConfigurations(!showConfigurations)
+							}
+							/>
+						}
+						<MessagensArea />
+					</div>
+				</ChatContext.Provider>
 			</div>
 			{!dinamicProfile.show ? null :
 				<DinamicProfile nickName={dinamicProfile.nickName}
 					dinamicProfile={setDinamicProfile}
 					id={dinamicProfile.id}
-				/>}
+				/>
+			}
 		</div>
 	)
 }

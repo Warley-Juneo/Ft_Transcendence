@@ -1,24 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { t_dataUser } from "../../InitialPage/InitialPage";
-import { Messages } from "../ChatPublic/ChatPublic";
+import { ChatContext, Messages } from "../ChatPublic/ChatPublic";
 import MessageUser from "./MessageUser";
 import MessagePeople from "./MessagePeople";
 
 type propsFormatMessages = {
 	messagens: Messages[],
 	user: t_dataUser,
-	dinamicChat: React.Dispatch<React.SetStateAction<{
-		show: boolean,
-		nickName: string
-		id: string
-	}
-	>>
 }
 
 export default function FormatMessages(props: propsFormatMessages): JSX.Element {
+	const {setDinamicProfile} = useContext(ChatContext);
+
 	const showDinamicProfile = (nickname: string, id: string) => {
 		console.log("id: função", id);
-		props.dinamicChat({ show: true, nickName: nickname, id: id });
+		setDinamicProfile({ show: true, nickName: nickname, id: id });
 	}
 
 	console.log("messagens: ", props.messagens);
