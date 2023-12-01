@@ -1,16 +1,27 @@
+import { useState } from "react";
 import { IconType } from "react-icons";
+import InputButton from "./InputButton";
 
 type buttonConfigurationProps = {
 	Icon: IconType;
 	content: string;
-	function: () => void;
+	function: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 export default function Buttons(props: buttonConfigurationProps) : JSX.Element {
+	const [showInput, setShowInput] = useState<boolean>(false);
 	return (
-		<h5 className="p-2 hover" onClick={props.function}>
+		<>
+		<h5 className="p-2 hover" onClick={() => setShowInput(!showInput)}>
 			<props.Icon className="foto-list-friends bg-light text-black me-3 p-1" size={30} />
 			{props.content}
 		</h5>
+		{!showInput ? null :
+			<InputButton
+				// newMember={}
+				function={props.function}
+			/>
+		}
+		</>
 	)
 }

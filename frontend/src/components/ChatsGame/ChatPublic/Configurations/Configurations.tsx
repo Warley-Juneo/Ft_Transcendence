@@ -7,7 +7,9 @@ import { AiOutlineUserAdd } from 'react-icons/ai';
 import { GiBroadDagger } from 'react-icons/gi';
 import { ChatContext } from "../ChatPublic";
 import GetUsersGame from "./GetUsersGame";
+import { MdBlock } from "react-icons/md";
 import InputButton from "./InputButton";
+
 import Cookies from "js-cookie";
 import Perfil from "./Perfil";
 import Rules from "./Rules";
@@ -33,15 +35,84 @@ type propsConfigurations = {
 	openOrClosedConf: () => void,
 }
 
-export default function Configurations(props: propsConfigurations) {
+export default function Configurations(props: propsConfigurations): JSX.Element {
 	const { dataChat: { members, name }, setDataChat } = useContext(ChatContext);
-	const [usersGame, setUsersGame] = useState<UsersGame[]>([]);
+	const [playersGame, setPlayersGame] = useState<UsersGame[]>([]);
 	const chatName: string = useParams().chatName as string;
 	const navigate = useNavigate();
 
-	const deleteChat = (e: any): void => {
-		if (e.key !== 'Enter') return;
-		if (refInputs.current?.value !== chatName) return;
+	const getUserId = (nickname: string): string => {
+		const getDataNickname = playersGame.find((user) => user.nickname === nickname);
+		if (getDataNickname) return getDataNickname.id;
+		return '';
+	}
+
+	const addedNewMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+		if (event.key !== 'Enter') return;
+		const userId = getUserId(event.currentTarget.value);
+		if (userId) {
+			console.log("entrou")
+			axios.post('http://localhost:3000/chatroom/add-member-group', {
+				add_id: userId,
+				chat_name: chatName,
+			}, {
+				headers: {
+					Authorization: Cookies.get("jwtToken")
+				},
+			}).then((res) => {
+				setDataChat(res.data);
+				console.log("resData: ", res.data);
+			}).catch((err) => {
+				console.log(err);
+			})
+		}
+	}
+
+	const addedAdm = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+		if (event.key !== 'Enter') return;
+			const userId = getUserId(event.currentTarget.value);
+		if (userId) {
+			console.log("entrou")
+			axios.post('http://localhost:3000/chatroom/add-adm-group', {
+				add_id: userId,
+				chat_name: chatName,
+			}, {
+				headers: {
+					Authorization: Cookies.get("jwtToken")
+				},
+			}).then((res) => {
+				setDataChat(res.data);
+				console.log("resData: ", res.data);
+			}).catch((err) => {
+				console.log(err);
+			})
+		}
+	}
+
+	const excludeMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+		if (event.key !== 'Enter') return;
+			const userId = getUserId(event.currentTarget.value);
+		if (userId) {
+			console.log("entrou")
+			axios.post('http://localhost:3000/chatroom/exclude-member-group', {
+				add_id: userId,
+				chat_name: chatName,
+			}, {
+				headers: {
+					Authorization: Cookies.get("jwtToken")
+				},
+			}).then((res) => {
+				setDataChat(res.data);
+				console.log("resData: ", res.data);
+			}).catch((err) => {
+				console.log(err);
+			})
+		}
+	}
+
+	const deleteChat = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+		if (event.key !== 'Enter') return;
+		if (event.currentTarget.value !== chatName) return;
 		axios.delete('http://localhost:3000/chatroom/delete-group', {
 			data: {
 				chat_name: chatName,
@@ -54,28 +125,7 @@ export default function Configurations(props: propsConfigurations) {
 		})
 	}
 
-	const addedNewMember = (e: any): void => {
-		if (e.key === 'Enter') {
-			const user = usersGame.find((user) => user.nickname === refInputs.current?.value);
-			if (user) {
-
-				axios.post('http://localhost:3000/chatroom/add-member-group', {
-					add_id: user.id,
-					chat_name: chatName,
-				}, {
-					headers: {
-						Authorization: Cookies.get("jwtToken")
-					},
-				}).then((res) => {
-					setDataChat(res.data);
-				}).catch((err) => {
-					console.log(err);
-				})
-			}
-		}
-	}
-
-	const changePassword = (e: any): void => {
+	const changePassword = (event: React.KeyboardEvent<HTMLInputElement>): void => {
 		axios.post('http://localhost:3000/chatroom/change-password-group', {
 			chat_name: name,
 			old_password: '123',
@@ -94,16 +144,9 @@ export default function Configurations(props: propsConfigurations) {
 
 	useEffect(() => {
 		GetUsersGame().then((res) => {
-			setUsersGame(res);
+			setPlayersGame(res);
 		})
 	}, [])
-
-	const [inputAddMember, setInputAddMember] = useState(false);
-	const [inputRemoveMember, setInputRemoveMember] = useState(false);
-	const [inputRemoverChat, setInputRemoverChat] = useState(false);
-	const [inputAddADM, setInputAddADM] = useState(false);
-	const [inputChangePassword, setInputChangePassword] = useState(false);
-	const refInputs = useRef<HTMLInputElement>(null);
 
 	return (
 		<div className="position-absolute bg-dark text-center rounded h-100 w-50 overflow-auto top-0 end-0">
@@ -114,52 +157,36 @@ export default function Configurations(props: propsConfigurations) {
 			/>
 			<Rules rules={rules} />
 			<div className="p-3 text-start">
-				<ButtonConfiguration Icon={AiOutlineUserAdd}
+				<ButtonConfiguration
+					Icon={AiOutlineUserAdd}
 					content="Adicionar Pessoas"
-					function={() => { setInputAddMember(!inputAddMember) }}
+					function={addedNewMember}
 				/>
-				{!inputAddMember ? null :
-					<InputButton newMember={refInputs}
-						function={addedNewMember}
-					/>
-				}
-				<ButtonConfiguration Icon={MdOutlinePersonAddDisabled}
+				<ButtonConfiguration
+					Icon={GiBroadDagger}
+					content="Adicionar Administrador"
+					function={addedAdm}
+				/>
+				<ButtonConfiguration
+					Icon={MdOutlinePersonAddDisabled}
 					content="Remover Militante"
-					function={() => { setInputRemoveMember(!inputRemoveMember) }}
+					function={excludeMember}
 				/>
-				{!inputRemoveMember ? null :
-					<InputButton newMember={refInputs}
-						function={() => { }}
-					/>
-				}
-				<ButtonConfiguration Icon={GiBroadDagger}
-					content="Adicionar ADM"
-					function={() => { setInputAddADM(!inputAddADM) }}
+				<ButtonConfiguration
+					Icon={MdBlock}
+					content="Bloquear Militante"
+					function={() => { }}
 				/>
-				{!inputAddADM ? null :
-					<InputButton newMember={refInputs}
-						function={() => { }}
-					/>
-				}
-				<ButtonConfiguration Icon={MdDeleteSweep}
-					content="Delete Chat"
-					function={() => { setInputRemoverChat(!inputRemoverChat) }}
+				<ButtonConfiguration
+					Icon={MdDeleteSweep}
+					content="Apagar Grupo"
+					function={deleteChat}
 				/>
-				{!inputRemoverChat ? null :
-					<InputButton newMember={refInputs}
-						function={deleteChat}
-					/>
-				}
-				<ButtonConfiguration Icon={RiLockPasswordLine}
-					content="Mudar Password"
-					function={() => { setInputChangePassword(!inputChangePassword) }}
+				<ButtonConfiguration
+					Icon={RiLockPasswordLine}
+					content="Alterar Senha"
+					function={changePassword}
 				/>
-				{!inputChangePassword ? null :
-					<InputButton newMember={refInputs}
-						function={changePassword}
-						placeholder='Digite a nova senha'
-					/>
-				}
 			</div>
 		</div>
 	);
