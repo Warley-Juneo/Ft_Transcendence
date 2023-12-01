@@ -1,5 +1,5 @@
 import { MdOutlinePersonAddDisabled, MdDeleteSweep } from 'react-icons/md';
-import { useContext, useEffect, useRef, useState } from "react";
+import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ButtonConfiguration from "./ButtonConfiguration";
 import { RiLockPasswordLine } from "react-icons/ri";
@@ -15,6 +15,7 @@ import Perfil from "./Perfil";
 import Rules from "./Rules";
 import axios from "axios";
 import Bar from "./Bar";
+import AlterPassword from './AlterPassword';
 
 const rules: string[] = [
 	"2 anos de Free Fire",
@@ -70,7 +71,7 @@ export default function Configurations(props: propsConfigurations): JSX.Element 
 
 	const addedAdm = (event: React.KeyboardEvent<HTMLInputElement>): void => {
 		if (event.key !== 'Enter') return;
-			const userId = getUserId(event.currentTarget.value);
+		const userId = getUserId(event.currentTarget.value);
 		if (userId) {
 			console.log("entrou")
 			axios.post('http://localhost:3000/chatroom/add-adm-group', {
@@ -91,7 +92,7 @@ export default function Configurations(props: propsConfigurations): JSX.Element 
 
 	const excludeMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
 		if (event.key !== 'Enter') return;
-			const userId = getUserId(event.currentTarget.value);
+		const userId = getUserId(event.currentTarget.value);
 		if (userId) {
 			console.log("entrou")
 			axios.post('http://localhost:3000/chatroom/exclude-member-group', {
@@ -125,20 +126,22 @@ export default function Configurations(props: propsConfigurations): JSX.Element 
 		})
 	}
 
-	const changePassword = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+	const changePassword = (event: FormEvent<HTMLFormElement>): void => {
+		event.preventDefault();
+		const form = new FormData(event.currentTarget);
 		axios.post('http://localhost:3000/chatroom/change-password-group', {
 			chat_name: name,
-			old_password: '123',
-			new_password: '321',
-			confirm_password: '321',
+			old_password: form.get('password'),
+			new_password: form.get('newPassword'),
+			confirm_password: form.get('confirmNewPassword'),
 		}, {
 			headers: {
 				Authorization: Cookies.get("jwtToken")
 			}
 		}).then((res) => {
-			console.log(res.data);
+			console.log("Resposta alter senha: ", res.data);
 		}).catch((err) => {
-			console.log(err);
+			console.log("Resposta alter Error: ", err);
 		})
 	}
 
@@ -177,15 +180,11 @@ export default function Configurations(props: propsConfigurations): JSX.Element 
 					content="Bloquear Militante"
 					function={() => { }}
 				/>
+				<AlterPassword funcChange={changePassword} />
 				<ButtonConfiguration
 					Icon={MdDeleteSweep}
 					content="Apagar Grupo"
 					function={deleteChat}
-				/>
-				<ButtonConfiguration
-					Icon={RiLockPasswordLine}
-					content="Alterar Senha"
-					function={changePassword}
 				/>
 			</div>
 		</div>

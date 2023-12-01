@@ -16,12 +16,7 @@ export default function Buttons(props: buttonConfigurationProps) : JSX.Element {
 			<props.Icon className="foto-list-friends bg-light text-black me-3 p-1" size={30} />
 			{props.content}
 		</h5>
-		{!showInput ? null :
-			<InputButton
-				// newMember={}
-				function={props.function}
-			/>
-		}
+		{showInput ? <InputButton function={props.function}/> : null}
 		</>
 	)
 }
