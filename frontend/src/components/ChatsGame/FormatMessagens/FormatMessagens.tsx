@@ -13,11 +13,9 @@ export default function FormatMessages(props: propsFormatMessages): JSX.Element 
 	const {setDinamicProfile} = useContext(ChatContext);
 
 	const showDinamicProfile = (nickname: string, id: string) => {
-		console.log("id: função", id);
 		setDinamicProfile({ show: true, nickName: nickname, id: id });
 	}
 
-	console.log("messagens: ", props.messagens);
 	return (
 		<div className="h-100 text-black p-3 overflow-auto">
 			{props.messagens.map((message: Messages) => {
