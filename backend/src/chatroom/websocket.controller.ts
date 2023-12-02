@@ -4,6 +4,8 @@ import { SubscribeMessage, OnGatewayInit, OnGatewayConnection, OnGatewayDisconne
 import { Socket, Server } from "socket.io";
 import { CreateDirectMessageDto, InputChatroomMessageDto } from "./dto/input.dto";
 import { ChatroomService } from "./chatroom.service";
+import { DisconnectDto } from "src/game/dtos/input.dto";
+import { GameService } from "src/game/game.service";
 
 @WebSocketGateway(
   {
@@ -16,7 +18,9 @@ import { ChatroomService } from "./chatroom.service";
 )
 export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
 
-  constructor(private readonly service: ChatroomService) {}
+  constructor( private readonly service: ChatroomService
+	, private readonly gameService: GameService
+	) {}
 
   @WebSocketServer() server: Server;
 
@@ -44,5 +48,11 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
     let outputMsg: any = await this.service.createDirectMessage(dto);
     outputMsg = JSON.stringify(outputMsg);
     this.server.emit('directChatMessage', outputMsg);
+  }
+
+  @SubscribeMessage('check-status')
+  async checkStatus(client: Socket, dto: DisconnectDto) {
+	await this.gameService.disconnect(dto);
+	this.server.emit('checkStatus', 'Desconectado com sucesso!');
   }
 }

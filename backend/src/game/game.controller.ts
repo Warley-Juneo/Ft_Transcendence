@@ -11,9 +11,4 @@ export class GameController {
 	async userMatchs(@Query() dto: InputUserDto): Promise<UserMatchesDto> {
 		return await this.gameService.userMatchs(dto);
 	}
-
-	@Put('disconnect')
-	async disconnect(@Body() data: DisconnectDto ): Promise<void> {
-		return await this.gameService.disconnect(data);
-	}
 }
