@@ -1,10 +1,10 @@
-import { DataUser } from '../../InitialPage/Contexts/Contexts';
+import { UserData } from '../../InitialPage/Contexts/Contexts';
 import { StatusOnline } from "./PlayersStatus";
 import { useContext } from 'react';
 
 
 export default function MiniPerfilUser() {
-	const dataUser = useContext(DataUser);
+	const dataUser = useContext(UserData);
 
 	if (dataUser.user.nickname === '' || dataUser.user.avatar === '') {
 		return (

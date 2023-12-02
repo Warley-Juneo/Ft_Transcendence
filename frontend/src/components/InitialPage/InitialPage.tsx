@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 import ConfigurationGame from './Configurations/Configurations';
 import { IoSettingsOutline } from 'react-icons/io5';
 import MiniProfile from '../Profiles/MiniProfile/MiniProfile';
-import { DataUser, t_dataUser } from './Contexts/Contexts';
+import { UserData, t_dataUser } from './Contexts/Contexts';
 
 export default function InicialPage() {
 	let timeout: number = 0;
@@ -45,7 +45,7 @@ export default function InicialPage() {
 	}, []);
 
 	return (
-		<DataUser.Provider value={{ user: InfoUser, updateDataUser: getInfoUser }}>
+		<UserData.Provider value={{ user: InfoUser, updateDataUser: getInfoUser }}>
 
 			{/* Butão de settings e logica para printar as configurações na tela */}
 			<IoSettingsOutline
@@ -72,6 +72,6 @@ export default function InicialPage() {
 					{<MiniProfile />}
 				</aside>
 			</div>
-		</DataUser.Provider>
+		</UserData.Provider>
 	);
 }

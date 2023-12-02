@@ -1,4 +1,4 @@
-import { DataUser } from '../../../InitialPage/Contexts/Contexts';
+import { UserData } from '../../../InitialPage/Contexts/Contexts';
 import { useContext, useEffect, useState } from 'react';
 import { InfosUserPerfil } from '../../typesProfile';
 import HandleRank from '../../RankMapings';
@@ -11,7 +11,7 @@ import axios from 'axios';
 
 export default function InformationsUser() {
 	const [user, setInfosUser] = useState<InfosUserPerfil>({} as InfosUserPerfil);
-	const dataUser = useContext(DataUser);
+	const dataUser = useContext(UserData);
 
 	const getProfile = (): void => {
 		axios.get(`http://localhost:3000/users/profile/?nick_name=${dataUser.user.nickname}`, {

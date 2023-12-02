@@ -7,7 +7,7 @@ export type t_dataUser = {
 	avatar: string;
 };
 
-export const DataUser = createContext<{
+export const UserData = createContext<{
 	user: t_dataUser;
 	updateDataUser: () => void;
 }>({
@@ -18,4 +18,3 @@ export const DataUser = createContext<{
 	},
 	updateDataUser: () => { },
 })
-

@@ -1,4 +1,4 @@
-import { DataUser } from '../../InitialPage/Contexts/Contexts';
+import { UserData } from '../../InitialPage/Contexts/Contexts';
 import { useContext, useRef, useState } from 'react';
 import IdentifyInputName from "./IdentifyInputName";
 import { AiOutlineSound } from "react-icons/ai";
@@ -13,7 +13,7 @@ import axios from "axios";
 
 export default function ConfigurationGame(): JSX.Element {
 	const [handleOption, setHandleOption] = useState<boolean>(false);
-	const dataUser = useContext(DataUser);
+	const dataUser = useContext(UserData);
 	const newNickname = useRef<HTMLInputElement>(null);
 	const newAvatar = useRef<HTMLInputElement>(null);
 

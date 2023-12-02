@@ -2,7 +2,7 @@ import  { useContext, useEffect, useState } from "react";
 import { ChatContext, Messages } from "./ChatPublic";
 import InputChats from "../InputChats";
 import io, { Socket } from 'socket.io-client';
-import { DataUser } from '../../InitialPage/Contexts/Contexts';
+import { UserData } from '../../InitialPage/Contexts/Contexts';
 import FormatMessages from "../FormatMessagens/FormatMessagens";
 
 export default function MessagensArea(): JSX.Element {
@@ -10,7 +10,7 @@ export default function MessagensArea(): JSX.Element {
 
 	const [messages, setMessages] = useState<Messages[]>(message);
 	const [socketIO] = useState<Socket>(io('http://localhost:3000'));
-	const user = useContext(DataUser);
+	const user = useContext(UserData);
 
 	useEffect(() => {
 		socketIO.on('connect', () => {

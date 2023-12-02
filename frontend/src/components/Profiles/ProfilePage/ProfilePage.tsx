@@ -1,11 +1,11 @@
-import { DataUser } from '../../InitialPage/Contexts/Contexts';
+import { UserData } from '../../InitialPage/Contexts/Contexts';
 import MatchHistory from './MatchHistory';
 import Perfil from './Perfil/Perfil';
 import { useContext } from 'react';
 import './rank.css'
 
 export default function ProfileScreen() {
-	const dataUser = useContext(DataUser).user;
+	const dataUser = useContext(UserData).user;
 	return (
 		<div className="row g-0 p-2 bg-custon-roxo rounded h-100">
 			<div className='col-md-3 col-lg-2'>
