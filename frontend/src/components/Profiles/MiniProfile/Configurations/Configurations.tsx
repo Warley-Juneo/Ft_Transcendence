@@ -1,4 +1,4 @@
-import { UserData } from '../../InitialPage/Contexts/Contexts';
+import { UserData } from '../../../InitialPage/Contexts/Contexts';
 import { useContext, useRef, useState } from 'react';
 import IdentifyInputName from "./IdentifyInputName";
 import { AiOutlineSound } from "react-icons/ai";
@@ -29,9 +29,9 @@ export default function ConfigurationGame(): JSX.Element {
 				Authorization: Cookies.get('jwtToken'),
 			}
 		}).then((res) => {
-				setHandleOption(!handleOption);
-				dataUser.updateDataUser();
-			})
+			setHandleOption(!handleOption);
+			dataUser.updateDataUser();
+		})
 	}
 
 	return (
@@ -53,12 +53,12 @@ export default function ConfigurationGame(): JSX.Element {
 					</div>
 					<div className="d-flex justify-content-center">
 						{!handleOption ? (
-							<ButtonEdit addedInputNameDef180={() => {setHandleOption(!handleOption)}}
+							<ButtonEdit addedInputNameDef180={() => { setHandleOption(!handleOption) }}
 								content='Edit'
 							/>
 						) : (
 							<>
-								<ButtonEdit addedInputNameDef180={() => {setHandleOption(!handleOption)}}
+								<ButtonEdit addedInputNameDef180={() => { setHandleOption(!handleOption) }}
 									content='Cancel'
 								/>
 								<ButtonEdit addedInputNameDef180={EditProfile}
