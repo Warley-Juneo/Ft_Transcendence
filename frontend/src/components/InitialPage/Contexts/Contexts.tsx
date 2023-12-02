@@ -18,3 +18,5 @@ export const UserData = createContext<{
 	},
 	updateDataUser: () => { },
 })
+
+export const socketGame = createContext<Socket>(io('http://localhost:4000/game'));
