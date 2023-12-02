@@ -352,7 +352,6 @@ export class ChatroomService {
 	async	createChatroomMessage(dto: InputChatroomMessageDto): Promise<OutputMessageDto> {
 
 		let msg = await this.chatroomRepository.createChatroomMessage(dto);
-		console.log("MESSAGEM", msg);
 		let outpuDto = new OutputMessageDto;
 		outpuDto.id = msg.id;
 		outpuDto.content = msg.content;
@@ -365,13 +364,9 @@ export class ChatroomService {
 
 	async openDirectChatroom(dto: CreateDirectChatroomDto): Promise<OutputDirectMessagesDto> {
 
-		let comp = dto.my_nickname.localeCompare(dto.other_nickname);
-		let name;
-		if (comp < 0) {
+		let name = dto.other_nickname + dto.my_nickname;
+		if (dto.my_nickname.localeCompare(dto.other_nickname) < 0) {
 			name = dto.my_nickname + dto.other_nickname;
-		}
-		else {
-			name = dto.other_nickname + dto.my_nickname
 		}
 		let chat: DirectChatRoom = await this.chatroomRepository.findDirectChatroom(name);
 
@@ -384,21 +379,16 @@ export class ChatroomService {
 
 	async createDirectMessage(dto: CreateDirectMessageDto): Promise<OutputDirectMessageDto> {
 
-		let comp = dto.my_nickname.localeCompare(dto.other_nickname);
-		let name;
-		if (comp < 0) {
+		let name = dto.other_nickname + dto.my_nickname;
+		if (dto.my_nickname.localeCompare(dto.other_nickname) < 0) {
 			name = dto.my_nickname + dto.other_nickname;
 		}
-		else {
-			name = dto.other_nickname + dto.my_nickname
-		}
+
 		let chat: DirectChatRoom = await this.chatroomRepository.findDirectChatroom(name);
 
 		if (!chat) {
 			throw new BadRequestException('chat name do not exist.');
 		}
-
-		console.log("\n\nchat name", name, "\n\n");
 
 		let msg = await this.chatroomRepository.createDirectMessage(name, dto);
 

@@ -15,15 +15,15 @@ const cssOnline : React.CSSProperties = {
 	width: '8px',
 };
 
-const CSSOffline : React.CSSProperties = {
-	...cssOnline,
-	backgroundColor: '#d3d3d3',
-
-};
-
 const CSSOfflineBorder : React.CSSProperties = {
 	...cssOnlineBorder,
 	backgroundColor: '#d3d3d3',
+};
+
+const CSSOffline : React.CSSProperties = {
+	...cssOnline,
+	backgroundColor: '#666',
+
 };
 
 export function StatusOnline(name: string): JSX.Element {
