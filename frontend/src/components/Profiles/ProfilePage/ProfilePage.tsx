@@ -1,4 +1,4 @@
-import { DataUser } from '../../InitialPage/InitialPage';
+import { DataUser } from '../../InitialPage/Contexts/Contexts';
 import MatchHistory from './MatchHistory';
 import Perfil from './Perfil/Perfil';
 import { useContext } from 'react';

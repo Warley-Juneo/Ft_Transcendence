@@ -6,24 +6,7 @@ import Cookies from 'js-cookie';
 import ConfigurationGame from './Configurations/Configurations';
 import { IoSettingsOutline } from 'react-icons/io5';
 import MiniProfile from '../Profiles/MiniProfile/MiniProfile';
-
-export type t_dataUser = {
-	id: string;
-	nickname: string;
-	avatar: string;
-};
-
-export const DataUser = createContext<{
-	user: t_dataUser;
-	updateDataUser: () => void;
-}>({
-	user: {
-		nickname: '',
-		avatar: '',
-		id: '',
-	},
-	updateDataUser: () => { },
-})
+import { DataUser, t_dataUser } from './Contexts/Contexts';
 
 export default function InicialPage() {
 	let timeout: number = 0;

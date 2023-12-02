@@ -1,13 +1,12 @@
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import ProfilePhoto from './Image';
+import { DataUser } from '../../../InitialPage/Contexts/Contexts';
 import { useContext, useEffect, useState } from 'react';
-import Rank from './rank';
-import Pointer from './pontos';
-import { DataUser } from '../../../InitialPage/InitialPage';
-import { InfosUserPerfil, RankFormating } from '../../typesProfile';
-import { RankMappings } from '../../RankMapings'
+import { InfosUserPerfil } from '../../typesProfile';
 import HandleRank from '../../RankMapings';
+import ProfilePhoto from './Image';
+import Cookies from 'js-cookie';
+import Pointer from './pontos';
+import Rank from './rank';
+import axios from 'axios';
 
 
 export default function InformationsUser() {

@@ -3,10 +3,10 @@ import { Messages } from '../ChatPublic/ChatPublic';
 import FormatMessages from '../FormatMessagens/FormatMessagens';
 import InputChats from '../InputChats';
 import './ChatPrivate.css'
-import { DataUser } from '../../InitialPage/InitialPage';
 import { io, Socket } from 'socket.io-client';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { DataUser } from '../../InitialPage/Contexts/Contexts';
 
 export type DataChat = {
 	id: string,

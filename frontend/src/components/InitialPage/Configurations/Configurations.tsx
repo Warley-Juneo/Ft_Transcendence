@@ -1,15 +1,15 @@
-import { AiOutlineSound } from "react-icons/ai";
-import { BsSoundwave } from "react-icons/bs";
+import { DataUser } from '../../InitialPage/Contexts/Contexts';
 import { useContext, useRef, useState } from 'react';
 import IdentifyInputName from "./IdentifyInputName";
+import { AiOutlineSound } from "react-icons/ai";
+import { BsSoundwave } from "react-icons/bs";
 import InputEditName from "./InputEditName";
-import ButtonEdit from "./ButtonEdit";
-import AudioRanger from "./AudioRanger";
 import FolderSettingsGame from "./Folder";
-import Cookies from "js-cookie";
+import AudioRanger from "./AudioRanger";
+import ButtonEdit from "./ButtonEdit";
 import './animationEditInputName.css';
+import Cookies from "js-cookie";
 import axios from "axios";
-import { DataUser } from "../InitialPage";
 
 export default function ConfigurationGame(): JSX.Element {
 	const [handleOption, setHandleOption] = useState<boolean>(false);

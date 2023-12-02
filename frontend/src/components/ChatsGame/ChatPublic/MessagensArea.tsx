@@ -2,7 +2,7 @@ import  { useContext, useEffect, useState } from "react";
 import { ChatContext, Messages } from "./ChatPublic";
 import InputChats from "../InputChats";
 import io, { Socket } from 'socket.io-client';
-import { DataUser } from "../../InitialPage/InitialPage";
+import { DataUser } from '../../InitialPage/Contexts/Contexts';
 import FormatMessages from "../FormatMessagens/FormatMessagens";
 
 export default function MessagensArea(): JSX.Element {

@@ -1,4 +1,4 @@
-import { DataUser } from "../../InitialPage/InitialPage";
+import { DataUser } from '../../InitialPage/Contexts/Contexts';
 import { StatusOnline } from "./PlayersStatus";
 import { useContext } from 'react';
 
