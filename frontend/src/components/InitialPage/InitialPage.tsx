@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 import ConfigurationGame from './Configurations/Configurations';
 import { IoSettingsOutline } from 'react-icons/io5';
 import MiniProfile from '../Profiles/MiniProfile/MiniProfile';
-import { UserData, t_dataUser } from './Contexts/Contexts';
+import { UserData, socket, t_dataUser } from './Contexts/Contexts';
 
 export default function InicialPage() {
 	let timeout: number = 0;
@@ -42,6 +42,12 @@ export default function InicialPage() {
 
 	useEffect(() => {
 		getInfoUser();
+	}, []);
+
+	useEffect(() => {
+		return () => {
+			socket.disconnect();
+		}
 	}, []);
 
 	return (

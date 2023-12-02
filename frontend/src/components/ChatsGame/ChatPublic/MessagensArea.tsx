@@ -1,19 +1,17 @@
 import  { useContext, useEffect, useState } from "react";
 import { ChatContext, Messages } from "./ChatPublic";
 import InputChats from "../InputChats";
-import io, { Socket } from 'socket.io-client';
-import { UserData, SocketGame } from '../../InitialPage/Contexts/Contexts';
+import { UserData, socket } from '../../InitialPage/Contexts/Contexts';
 import FormatMessages from "../FormatMessagens/FormatMessagens";
 
 export default function MessagensArea(): JSX.Element {
 	const { dataChat: {id, message}, setDinamicProfile } = useContext(ChatContext);
 
 	const [messages, setMessages] = useState<Messages[]>(message);
-	const socketIO = useContext(SocketGame);
 	const user = useContext(UserData);
 
 	useEffect(() => {
-		socketIO.on('chatMessage', (data) => {
+		socket.on('chatMessage', (data) => {
 			try {
 				data = JSON.parse(data) as Messages;
 				setMessages((prevMessagens) => [...prevMessagens, data]);
@@ -21,7 +19,7 @@ export default function MessagensArea(): JSX.Element {
 				console.log(error);
 			}
 		});
-	}, [socketIO]);
+	}, [socket]);
 
 	let obj = {
 		chatId: id,
@@ -35,7 +33,7 @@ export default function MessagensArea(): JSX.Element {
 				user={user.user}
 			/>
 			<InputChats
-				socket={socketIO}
+				socket={socket}
 				obj={obj}
 			/>
 		</>

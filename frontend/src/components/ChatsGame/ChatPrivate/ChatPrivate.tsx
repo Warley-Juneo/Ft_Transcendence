@@ -3,10 +3,9 @@ import { Messages } from '../ChatPublic/ChatPublic';
 import FormatMessages from '../FormatMessagens/FormatMessagens';
 import InputChats from '../InputChats';
 import './ChatPrivate.css'
-import { io, Socket } from 'socket.io-client';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { UserData, SocketGame } from '../../InitialPage/Contexts/Contexts';
+import { UserData, socket } from '../../InitialPage/Contexts/Contexts';
 
 export type DataChat = {
 	id: string,
@@ -16,7 +15,6 @@ export type DataChat = {
 export default function ChatPrivate({ nick_name }: { nick_name: string }) {
 	const [messages, setMessages] = useState<Messages[]>([]);
 	const user = useContext(UserData);
-	const socketIO = useContext(SocketGame);
 
 	const OpenDirectChat = () => {
 		axios.post('http://localhost:3000/chatroom/open-direct', {
@@ -38,7 +36,7 @@ export default function ChatPrivate({ nick_name }: { nick_name: string }) {
 	}, [])
 
 	useEffect(() => {
-		socketIO.on('directChatMessage', data => {
+		socket.on('directChatMessage', data => {
 			try {
 				data = JSON.parse(data);
 				console.log("data: ", data);
@@ -48,7 +46,7 @@ export default function ChatPrivate({ nick_name }: { nick_name: string }) {
 				console.log("error no cat: ", error);
 			}
 		});
-	}, [socketIO])
+	}, [socket])
 
 
 	let obj = {
@@ -68,7 +66,7 @@ export default function ChatPrivate({ nick_name }: { nick_name: string }) {
 				/>
 			</div>
 			<InputChats
-				socket={socketIO}
+				socket={socket}
 				obj={obj}
 			/>
 		</div>
