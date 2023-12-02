@@ -1,17 +1,14 @@
 import { Outlet } from 'react-router-dom';
 import BarOptions from './BarOptions/BarOptions';
-import { createContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import ConfigurationGame from './Configurations/Configurations';
-import { IoSettingsOutline } from 'react-icons/io5';
 import MiniProfile from '../Profiles/MiniProfile/MiniProfile';
-import { UserData, socket, t_dataUser } from './Contexts/Contexts';
+import { UserData, t_dataUser } from './Contexts/Contexts';
 
 export default function InicialPage() {
 	let timeout: number = 0;
 	let timeForNewRequestAxios: number = 10000;
-	const [showConfigurations, setShowConfigurations] = useState<boolean>(false);
 	const [InfoUser, setGetInfoUser] = useState<t_dataUser>({
 		nickname: '',
 		avatar: '',
@@ -44,24 +41,8 @@ export default function InicialPage() {
 		getInfoUser();
 	}, []);
 
-	useEffect(() => {
-		return () => {
-			socket.disconnect();
-		}
-	}, []);
-
 	return (
 		<UserData.Provider value={{ user: InfoUser, updateDataUser: getInfoUser }}>
-
-			{/* Butão de settings e logica para printar as configurações na tela */}
-			<IoSettingsOutline
-				className="position-absolute top-0 end-0 m-3 text-white"
-				type='button'
-				size={30}
-				onClick={() => setShowConfigurations(!showConfigurations)}
-			/>
-			{showConfigurations ? <ConfigurationGame /> : null}
-
 
 			{/* Profile Dinamico que vai ser printado em cima de toda a tela */}
 

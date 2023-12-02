@@ -8,6 +8,7 @@ import { createContext, useEffect } from "react";
 import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { socket } from "../../InitialPage/Contexts/Contexts";
 
 export type Messages = {
 	id: string,
@@ -63,6 +64,12 @@ export default function ChatPublic() {
 	useEffect(() => {
 		getDataChat()
 	}, [])
+
+	useEffect(() => {
+		socket.on('checkStatus', (data: any) => {
+			getDataChat();
+		})
+	}, [socket])
 
 	if (!dataChat.name) return <div>Carregando...</div>
 
