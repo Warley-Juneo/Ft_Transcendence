@@ -2,25 +2,15 @@ import  { useContext, useEffect, useState } from "react";
 import { ChatContext, Messages } from "./ChatPublic";
 import InputChats from "../InputChats";
 import io, { Socket } from 'socket.io-client';
-import { UserData } from '../../InitialPage/Contexts/Contexts';
+import { UserData, SocketGame } from '../../InitialPage/Contexts/Contexts';
 import FormatMessages from "../FormatMessagens/FormatMessagens";
 
 export default function MessagensArea(): JSX.Element {
 	const { dataChat: {id, message}, setDinamicProfile } = useContext(ChatContext);
 
 	const [messages, setMessages] = useState<Messages[]>(message);
-	const [socketIO] = useState<Socket>(io('http://localhost:3000'));
+	const socketIO = useContext(SocketGame);
 	const user = useContext(UserData);
-
-	useEffect(() => {
-		socketIO.on('connect', () => {
-			console.log('Conectei no backend');
-		});
-
-		return () => {
-			socketIO.disconnect();
-		}
-	}, []);
 
 	useEffect(() => {
 		socketIO.on('chatMessage', (data) => {

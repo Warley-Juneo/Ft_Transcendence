@@ -6,7 +6,7 @@ import './ChatPrivate.css'
 import { io, Socket } from 'socket.io-client';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { UserData } from '../../InitialPage/Contexts/Contexts';
+import { UserData, SocketGame } from '../../InitialPage/Contexts/Contexts';
 
 export type DataChat = {
 	id: string,
@@ -15,8 +15,8 @@ export type DataChat = {
 
 export default function ChatPrivate({ nick_name }: { nick_name: string }) {
 	const [messages, setMessages] = useState<Messages[]>([]);
-	const [socketIO] = useState<Socket>(io('http://localhost:3000'));
 	const user = useContext(UserData);
+	const socketIO = useContext(SocketGame);
 
 	const OpenDirectChat = () => {
 		axios.post('http://localhost:3000/chatroom/open-direct', {
@@ -33,19 +33,9 @@ export default function ChatPrivate({ nick_name }: { nick_name: string }) {
 		})
 	}
 
-	const connectSocketMessagens = () => {
-		socketIO.on('connect', () => {
-			console.log('Conectei no backend');
-		});
-	}
-
 	useEffect(() => {
 		OpenDirectChat();
-		connectSocketMessagens();
-		return () => {
-			socketIO.disconnect();
-		}
-	}, []);
+	}, [])
 
 	useEffect(() => {
 		socketIO.on('directChatMessage', data => {
