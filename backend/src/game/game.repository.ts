@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Match } from '@prisma/client';
 import e from 'express';
 import { PrismaService } from 'src/database/prisma.service';
+import { DisconnectDto } from './dtos/input.dto';
 
 @Injectable()
 export class GameRepository {
@@ -101,5 +102,18 @@ export class GameRepository {
     });
     let response = as_Player1.draws + as_Player2.draws;
     return response;
+  }
+
+  async updateStatusUser(DataUser: DisconnectDto): Promise<void> {
+	const {user_id, is_active} = DataUser;
+
+	await this.prisma.user.update({
+	  where: {
+		id: user_id,
+	  },
+	  data: {
+		is_active: is_active,
+	  },
+	});
   }
 }

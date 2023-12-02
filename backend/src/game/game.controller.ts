@@ -1,8 +1,7 @@
-import { Controller, Get, Query, Req } from '@nestjs/common';
+import { Body, Controller, Get, Put, Query } from '@nestjs/common';
 import { GameService } from './game.service';
-import { Match } from '@prisma/client';
 import { UserMatchesDto } from './dtos/output.dto';
-import { InputUserDto } from './dtos/input.dto';
+import { InputUserDto, DisconnectDto } from './dtos/input.dto';
 
 @Controller('game')
 export class GameController {
@@ -11,5 +10,10 @@ export class GameController {
 	@Get('user/match-history')
 	async userMatchs(@Query() dto: InputUserDto): Promise<UserMatchesDto> {
 		return await this.gameService.userMatchs(dto);
+	}
+
+	@Put('disconnect')
+	async disconnect(@Body() data: DisconnectDto ): Promise<void> {
+		return await this.gameService.disconnect(data);
 	}
 }

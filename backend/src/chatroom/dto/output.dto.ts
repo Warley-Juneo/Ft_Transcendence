@@ -44,7 +44,7 @@ export class UniqueChatroomDto {
 }
 
 export class OutputValidateDto {
-	
+
 	owner_id:			string;
 	validate_owner_id:	string;
 	exclued_owner_id:	string;

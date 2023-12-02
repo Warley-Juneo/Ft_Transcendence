@@ -12,7 +12,7 @@ export class ChatroomService {
 		private readonly userService: UsersService) { }
 
 	async	validate(dto: OutputValidateDto): Promise<OutputValidateDto> {
-		
+
 		if (dto.owner_id && dto.validate_owner_id) {
 			if ((dto.owner_id !== dto.validate_owner_id)) {
 				throw new UnauthorizedException('Only the owner can delete the chat');
@@ -26,7 +26,7 @@ export class ChatroomService {
 
 		// console.log("\n\nQQQQQQQ\n\n", dto.password, "\n", dto.validate_password, "\n\n");
 		if (dto.password) {
-			
+
 			if (!await bcrypt.compare(dto.validate_password, dto.password)) {
 				throw new UnauthorizedException('Password incorrect')
 			}
@@ -57,6 +57,7 @@ export class ChatroomService {
 		return dto;
 	}
 
+
 	async createChatroom(userId: string, dto: CreateChatroomDto): Promise<ChatroomsDto> {
 
 		if (dto.type == "protected") {
@@ -68,7 +69,7 @@ export class ChatroomService {
 			dto.password = hash;
 		}
 		await this.chatroomRepository.createChatroom(userId, dto);
-		let response = await this.findPublicChatroom();
+		let response = await this.findAllPublicChatrooms();
 
 		return response;
 	}
@@ -81,22 +82,22 @@ export class ChatroomService {
 		data_validation.validate_owner_id = userId;
 		data_validation.owner_id = chat.owner_id;
 		await this.validate(data_validation);
-		
+
 		await this.chatroomRepository.deleteChatroom(dto.chat_name);
-		
-		let response = await this.findPublicChatroom();
+
+		let response = await this.findAllPublicChatrooms();
 
 		console.log("\n\nResponse ", response, "\n\n");
 
 		return response;
 	}
 
-	
-	
+
+
 	async openChatroom(userId: string, dto: InputChatroomDto): Promise<UniqueChatroomDto> {
-		
+
 		let chat = await this.findUniqueChatroom(dto);
-		
+
 		let data_validation: OutputValidateDto = {} as OutputValidateDto;
 		if (chat.type == 'protected') {
 			data_validation.validate_password = dto.password;
@@ -107,7 +108,7 @@ export class ChatroomService {
 			data_validation.validate_member_id = userId;
 		}
 		await this.validate(data_validation);
-		
+
 		let outputDto = new UniqueChatroomDto;
 		outputDto.id = chat.id;
 		outputDto.name = chat.name;
@@ -119,10 +120,10 @@ export class ChatroomService {
 		outputDto.owner_nickname = chat.owner_nickname;
 		outputDto.admin = chat.admin;
 		outputDto.banned = chat.banned;
-		
+
 		return outputDto;
 	}
-	
+
 	async	changePassword(userId: string, dto: ChangePasswordDto): Promise<any> {
 
 		let chat = await this.findUniqueChatroom(dto);
@@ -182,7 +183,7 @@ export class ChatroomService {
 	async	excludeAdmChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.findUniqueChatroom(dto);
-		
+
 		let data_validation: OutputValidateDto = {} as OutputValidateDto;
 
 		data_validation.admin = chat.admin;
@@ -211,7 +212,7 @@ export class ChatroomService {
 	async	addMemberChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.findUniqueChatroom(dto);
-		
+
 		let data_validation: OutputValidateDto = {} as OutputValidateDto;
 
 		data_validation.admin = chat.admin;
@@ -240,7 +241,7 @@ export class ChatroomService {
 	async	excludeMemberChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.findUniqueChatroom(dto);
-		
+
 		let data_validation: OutputValidateDto = {} as OutputValidateDto;
 
 		data_validation.admin = chat.admin;
@@ -268,7 +269,6 @@ export class ChatroomService {
 
 	async findUniqueChatroom(dto: InputChatroomDto | AddChatUserDto | ChangePasswordDto): Promise<UniqueChatroomDto> {
 
-		console.log("findUniqueDto chat_name", dto.chat_name);
 		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
 
 		if (!chat) {
@@ -301,13 +301,18 @@ export class ChatroomService {
 		return outputDto;
 	}
 
-	async findPublicChatroom(): Promise<ChatroomsDto> {
+	async findAllPublicChatrooms(): Promise<ChatroomsDto> {
 
 		let where_filter = {
 			type: {not: "private"},
 		};
 		return await this.findManyChatroom(where_filter);
 	}
+
+	async findPublicChatroom(dto: InputChatroomDto): Promise<UniqueChatroomDto> {
+		return this.findUniqueChatroom(dto);
+	}
+
 
 	async findPrivateChatroom(userId: string): Promise<ChatroomsDto> {
 
@@ -323,7 +328,7 @@ export class ChatroomService {
 	}
 
 	async findManyChatroom(where_filter: any): Promise<ChatroomsDto> {
-	
+
 		let chats = await this.chatroomRepository.findManyChatroom(where_filter);
 
 		let outputDto = new ChatroomsDto;

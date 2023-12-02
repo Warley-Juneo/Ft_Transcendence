@@ -1,5 +1,5 @@
 import { DataUser } from "../../InitialPage/InitialPage";
-import StatusOnline from "./StatusOnline";
+import { StatusOnline } from "./PlayersStatus";
 import { useContext } from 'react';
 
 

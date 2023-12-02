@@ -21,7 +21,7 @@ export default function PageChats() {
 	const [showCreateChat, setShowCreateChat] = useState(false);
 
 	const getListPublicChats = () => {
-		axios.get("http://localhost:3000/chatroom/find-public", {
+		axios.get("http://localhost:3000/chatroom/find-all-public", {
 			headers: {
 				Authorization: Cookies.get("jwtToken"),
 			}

@@ -1,4 +1,4 @@
-import StatusOnline from './StatusOnline';
+import {StatusOnline, StatusOffline} from './PlayersStatus';
 import { useState } from 'react';
 import ChatPrivate from '../../ChatsGame/ChatPrivate/ChatPrivate';
 import { MdDeleteForever } from 'react-icons/md';
@@ -59,7 +59,7 @@ export default function ListFriends(props: PropsListFriends) {
 					<div className='d-flex hover' key={play.id}>
 						<div className='d-flex' onClick={() => handleOpenChatPrivate(play.nickname)}>
 							<img className="foto-list-friends" src={play.avatar} alt='foto' />
-							{StatusOnline(play.nickname)}
+							{play.is_active ? StatusOnline(play.nickname) : StatusOffline(play.nickname)}
 						</div>
 						<div className='d-flex align-items-end p-2'>
 							<MdDeleteForever size={20} onClick={() => { handleDeleteFriend(play.nickname) }} />

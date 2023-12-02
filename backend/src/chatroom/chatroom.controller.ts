@@ -8,9 +8,16 @@ import { ChatroomsDto, OutputDirectMessagesDto, UniqueChatroomDto } from './dto/
 export class ChatroomController {
 	constructor(private readonly chatroomService: ChatroomService) { }
 
+	@Get('find-all-public')
+	async findAllPublicChatrooms(): Promise<ChatroomsDto> {
+		return await this.chatroomService.findAllPublicChatrooms();
+	}
+
+	//TODO: Criei essa rota como prova de conceito mas o faustão vai validar ela
 	@Get('find-public')
-	async findPublicChatrooms(): Promise<ChatroomsDto> {
-		return await this.chatroomService.findPublicChatroom();
+	async findPublicChatroom(@Query() dto: InputChatroomDto): Promise<UniqueChatroomDto> {
+		console.log("\n\n\n DTO:", dto, "\n\n\n")
+		return await this.chatroomService.findPublicChatroom(dto);
 	}
 
 	@Get('find-private')

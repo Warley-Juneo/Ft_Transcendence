@@ -4,8 +4,10 @@ import Configurations from "./Configurations/Configurations";
 import BarConfigurations from "./barConfigurations";
 import { useLocation } from "react-router-dom";
 import MessagensArea from "./MessagensArea";
-import { createContext } from "react";
+import { createContext, useEffect } from "react";
 import React, { useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 export type Messages = {
 	id: string,
@@ -40,9 +42,29 @@ export const ChatContext = createContext<{
 }>({ dataChat: {} as DataChat, setDataChat: () => { }, setDinamicProfile: () => { } });
 
 export default function ChatPublic() {
-	const [dataChat, setDataChat] = useState<DataChat>(useLocation().state?.data);
+	const ChatName = useLocation().state?.data.name;
+	const [dataChat, setDataChat] = useState<DataChat>({} as DataChat);
 	const [showConfigurations, setShowConfigurations] = useState(false);
 	const [dinamicProfile, setDinamicProfile] = useState<DinamicProfile>({} as DinamicProfile);
+
+	const getDataChat = () => {
+		const ENV = `chat_name=${ChatName}&password=''`
+		axios.get(`http://localhost:3000/chatroom/find-public/?${ENV}`, {
+			headers: {
+				Authorization: Cookies.get("jwtToken")
+			}
+		}).then((response) => {
+			setDataChat(response.data)
+			console.log(response.data)
+		}).catch((error) => {
+			console.log(error)
+		})
+	}
+	useEffect(() => {
+		getDataChat()
+	}, [])
+
+	if (!dataChat.name) return <div>Carregando...</div>
 
 	return (
 		<div className="bg-custon-roxo rounded text-white h-100">
