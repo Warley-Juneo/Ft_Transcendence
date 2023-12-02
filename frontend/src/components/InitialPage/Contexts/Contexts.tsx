@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { Socket, io } from "socket.io-client";
+import { io } from "socket.io-client";
 
 export type t_dataUser = {
 	id: string;

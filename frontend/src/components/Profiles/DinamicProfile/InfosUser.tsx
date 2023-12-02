@@ -27,6 +27,7 @@ export default function InfosUser({ nickName }: { nickName: string }): JSX.Eleme
 			setInfosUser(response.data);
 		}
 		).catch((error) => {
+			console.log(error);
 		})
 	}
 

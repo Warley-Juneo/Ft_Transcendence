@@ -2,13 +2,11 @@ import { MdOutlinePersonAddDisabled, MdDeleteSweep } from 'react-icons/md';
 import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ButtonConfiguration from "./ButtonConfiguration";
-import { RiLockPasswordLine } from "react-icons/ri";
 import { AiOutlineUserAdd } from 'react-icons/ai';
 import { GiBroadDagger } from 'react-icons/gi';
 import { ChatContext } from "../ChatPublic";
 import GetUsersGame from "./GetUsersGame";
 import { MdBlock } from "react-icons/md";
-import InputButton from "./InputButton";
 
 import Cookies from "js-cookie";
 import Perfil from "./Perfil";

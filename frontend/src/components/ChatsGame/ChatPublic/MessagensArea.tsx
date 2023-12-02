@@ -5,7 +5,7 @@ import { UserData, socket } from '../../InitialPage/Contexts/Contexts';
 import FormatMessages from "../FormatMessagens/FormatMessagens";
 
 export default function MessagensArea(): JSX.Element {
-	const { dataChat: {id, message}, setDinamicProfile } = useContext(ChatContext);
+	const { dataChat: {id, message} } = useContext(ChatContext);
 
 	const [messages, setMessages] = useState<Messages[]>(message);
 	const user = useContext(UserData);

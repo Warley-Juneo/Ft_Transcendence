@@ -5,14 +5,6 @@ import { useContext, useState } from 'react';
 import { MdModeEdit } from 'react-icons/md';
 import ConfigurationGame from './Configurations/Configurations';
 
-const cssSelect: React.CSSProperties = {
-	backgroundColor: 'transparent',
-	border: 'none',
-	color: 'white',
-	fontSize: '1.5rem',
-	outline: 'none !important',
-};
-
 export default function MiniPerfilUser() {
 	const dataUser = useContext(UserData);
 	const [optionsConf, setOptionsConf] = useState<boolean>(false);

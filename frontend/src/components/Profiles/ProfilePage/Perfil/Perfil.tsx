@@ -23,6 +23,7 @@ export default function InformationsUser() {
 				setInfosUser(response.data);
 			}
 			).catch((error) => {
+				console.log(error);
 			})
 	}
 
