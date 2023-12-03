@@ -18,12 +18,7 @@ export class OutputDirectMessagesDto {
 	direct_message: OutputDirectMessageDto[];
 }
 
-export class OutputMessageDto {
-	id: string;
-	content: string;
-	img_url: string;
-	user: UniqueUserChatrommDto;
-	date: Date;
+export class OutputMessageDto extends OutputDirectMessageDto {
 }
 
 export class ChatroomsDto {

@@ -289,13 +289,7 @@ export class ChatroomService {
 
 		outputDto.message = [];
 		for (const obj of chat.message) {
-			let dto = new OutputMessageDto;
-			dto.id = obj.id;
-			dto.content = obj.content;
-			dto.img_url = obj.imgUrl;
-			dto.user = obj.user;
-			dto.date = obj.createdAt;
-			outputDto.message.push(dto);
+			outputDto.message.push(new OutputMessageDto(obj));
 		}
 		// console.log("\n\nFindUniqueChatroomDto", outputDto, "\n\n");
 		return outputDto;
@@ -352,11 +346,7 @@ export class ChatroomService {
 	async	createChatroomMessage(dto: InputChatroomMessageDto): Promise<OutputMessageDto> {
 
 		let msg = await this.chatroomRepository.createChatroomMessage(dto);
-		let outpuDto = new OutputMessageDto;
-		outpuDto.id = msg.id;
-		outpuDto.content = msg.content;
-		outpuDto.user = msg.user;
-		outpuDto.date = msg.createdAt;
+		let outpuDto = new OutputMessageDto(msg);
 
 
 		return outpuDto;
