@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Put, Query } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { GameService } from './game.service';
 import { UserMatchesDto } from './dtos/output.dto';
-import { InputUserDto, DisconnectDto } from './dtos/input.dto';
+import { InputUserDto } from './dtos/input.dto';
 
 @Controller('game')
 export class GameController {

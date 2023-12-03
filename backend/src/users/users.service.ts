@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { UsersRepository } from './users.repository';
-import { UserResumeDto, UserProfileDto, OutputUserMatchesDto, UserMatchesDto, OutputLadderDto, UserLadderDto } from './dtos/output.dtos';
+import { UserResumeDto, UserProfileDto, UserMatchesDto, OutputLadderDto, UserLadderDto } from './dtos/output.dtos';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { GameService } from 'src/game/game.service';
 import { AddFriendDto, ProfileDto, UpdateProfileDto } from './dtos/input.dtos';
@@ -98,19 +98,18 @@ export class UsersService {
     return userProfileDto;
   }
 
-  async findUserMatches(userId: string): Promise<OutputUserMatchesDto> {
+  async findUserMatches(userId: string): Promise<UserMatchesDto[]> {
     let as_player_1 =  await this.userRepository.findMatchesAsPlayer1(userId);
     let as_player_2 =  await this.userRepository.findMatchesAsPlayer2(userId);
 
-    let outputUserMatchesDto = new OutputUserMatchesDto()
-    outputUserMatchesDto.users = [];
+    let outputUserMatchesDto: UserMatchesDto[] = [];
 
     for (const obj of as_player_1) {
-      outputUserMatchesDto.users.push(new UserMatchesDto(obj));
+      outputUserMatchesDto.push(new UserMatchesDto(obj));
     };
 
     for (const obj of as_player_2) {
-      outputUserMatchesDto.users.push(new UserMatchesDto(obj));
+      outputUserMatchesDto.push(new UserMatchesDto(obj));
     };
 
     return outputUserMatchesDto;

@@ -56,9 +56,9 @@ export class UserMatchesDto {
   }
 }
 
-export class OutputUserMatchesDto {
-  users: UserMatchesDto[];
-}
+// export class OutputUserMatchesDto {
+//   users: UserMatchesDto[];
+// }
 
 export class UserLadderDto {
   id:        string;
