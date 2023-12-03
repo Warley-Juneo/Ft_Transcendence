@@ -4,6 +4,14 @@ export class OutputDirectMessageDto {
 	img_url: string;
 	user: UniqueUserChatrommDto;
 	date: Date;
+
+	constructor(obj: any) {
+		this.id = obj.id;
+		this.content = obj.content;
+		this.img_url = obj.img_url;
+		this.user = obj.user;
+		this.date = obj.date;
+	}
 }
 
 export class OutputDirectMessagesDto {

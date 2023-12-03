@@ -362,13 +362,17 @@ export class ChatroomService {
 		return outpuDto;
 	}
 
-	async openDirectChatroom(dto: CreateDirectChatroomDto): Promise<OutputDirectMessagesDto> {
-
+	async getChatroomMessage(dto: CreateDirectChatroomDto): Promise<{chat: DirectChatRoom, name: string}> {
 		let name = dto.other_nickname + dto.my_nickname;
 		if (dto.my_nickname.localeCompare(dto.other_nickname) < 0) {
 			name = dto.my_nickname + dto.other_nickname;
 		}
 		let chat: DirectChatRoom = await this.chatroomRepository.findDirectChatroom(name);
+		return {chat, name};
+	}
+
+	async openDirectChatroom(dto: CreateDirectChatroomDto): Promise<OutputDirectMessagesDto> {
+		let {chat, name} = await this.getChatroomMessage(dto);
 
 		if (!chat) {
 			chat = await this.chatroomRepository.openDirectChatRoom(name);
@@ -378,13 +382,7 @@ export class ChatroomService {
 	}
 
 	async createDirectMessage(dto: CreateDirectMessageDto): Promise<OutputDirectMessageDto> {
-
-		let name = dto.other_nickname + dto.my_nickname;
-		if (dto.my_nickname.localeCompare(dto.other_nickname) < 0) {
-			name = dto.my_nickname + dto.other_nickname;
-		}
-
-		let chat: DirectChatRoom = await this.chatroomRepository.findDirectChatroom(name);
+		let {chat, name} = await this.getChatroomMessage(dto);
 
 		if (!chat) {
 			throw new BadRequestException('chat name do not exist.');
@@ -392,11 +390,7 @@ export class ChatroomService {
 
 		let msg = await this.chatroomRepository.createDirectMessage(name, dto);
 
-		let outpuDto = new OutputDirectMessageDto;
-		outpuDto.id = msg.id;
-		outpuDto.content = msg.content;
-		outpuDto.user = msg.user;
-		outpuDto.date = msg.createdAt;
+		let outpuDto = new OutputDirectMessageDto(msg);
 		return outpuDto;
 	}
 
@@ -407,12 +401,7 @@ export class ChatroomService {
 		outputDto.direct_message = [];
 
 		for (const obj of msg) {
-			let dto = new OutputDirectMessageDto();
-			dto.id = obj.id;
-			dto.content = obj.content;
-			dto.img_url = obj.img_url;
-			dto.user = obj.user;
-			dto.date = obj.createdAt;
+			let dto = new OutputDirectMessageDto(msg);
 			outputDto.direct_message.push(dto);
 		}
 
