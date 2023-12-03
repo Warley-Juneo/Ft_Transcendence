@@ -97,18 +97,12 @@ export class AuthService {
 	dto.first_name = 'firtsname';
 	dto.last_name = 'lastName';
 
-	console.log("1")
     const user = await this.verifyUser(dto);
-	console.log("1")
-
     let jwt_token = await this.jwtSign(user);
-	console.log("1")
-
 
     const outputLoginDto = new OutputLoginDto();
     outputLoginDto._access_token = jwt_token;
-	  
-    // console.log("OUTPUT LOGIN DTO: ", outputLoginDto);
+
     return outputLoginDto;
   }
 
