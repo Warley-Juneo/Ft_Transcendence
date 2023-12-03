@@ -53,7 +53,6 @@ export class ChatroomController {
 
 	@Post('exclude-member-group')
 	async	excludeMemberChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
-		console.log("\n\nAAAAAAA\n\n");
 		return await this.chatroomService.excludeMemberChatroom(request.user.sub, dto);
 	}
 
@@ -69,6 +68,7 @@ export class ChatroomController {
 
 	@Post('open-direct')
 	async openDirectChatroom(@Body() dto: CreateDirectChatroomDto): Promise<OutputDirectMessageDto[]> {
+		console.log("\n\n\n DTO:", dto, "\n\n\n")
 		return await this.chatroomService.openDirectChatroom(dto);
 	}
 

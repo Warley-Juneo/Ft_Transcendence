@@ -18,7 +18,6 @@ export default function MiniProfile() {
 			}
 		}).then((res) => {
 			setPlayers(res.data.users);
-			console.log("Users: ", res.data.users);
 		}).catch((err) => {
 			console.log(err);
 		})
