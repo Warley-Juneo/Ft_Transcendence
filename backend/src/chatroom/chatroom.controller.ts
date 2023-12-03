@@ -2,7 +2,7 @@ import { Controller, Body, Post, Req, Get, Delete, Query } from '@nestjs/common'
 import { ChangePasswordDto, CreateChatroomDto, InputChatroomDto } from './dto/input.dto';
 import { ChatroomService } from './chatroom.service';
 import { CreateDirectChatroomDto, AddChatUserDto } from './dto/input.dto';
-import { ChatroomsDto, OutputDirectMessagesDto, UniqueChatroomDto } from './dto/output.dto';
+import { ChatroomsDto, OutputDirectMessageDto, UniqueChatroomDto } from './dto/output.dto';
 
 @Controller('chatroom')
 export class ChatroomController {
@@ -69,7 +69,7 @@ export class ChatroomController {
 	}
 
 	@Post('open-direct')
-	async openDirectChatroom(@Body() dto: CreateDirectChatroomDto): Promise<OutputDirectMessagesDto> {
+	async openDirectChatroom(@Body() dto: CreateDirectChatroomDto): Promise<OutputDirectMessageDto[]> {
 		return await this.chatroomService.openDirectChatroom(dto);
 	}
 

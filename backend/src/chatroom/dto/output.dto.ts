@@ -14,9 +14,9 @@ export class OutputDirectMessageDto {
 	}
 }
 
-export class OutputDirectMessagesDto {
-	direct_message: OutputDirectMessageDto[];
-}
+// export class OutputDirectMessagesDto {
+// 	direct_message: OutputDirectMessageDto[];
+// }
 
 export class OutputMessageDto extends OutputDirectMessageDto {
 }

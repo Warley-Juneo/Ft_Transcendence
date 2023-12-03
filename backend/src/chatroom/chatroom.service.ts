@@ -3,7 +3,7 @@ import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
 import { AddChatUserDto, ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto, InputChatroomMessageDto } from './dto/input.dto';
-import { ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto, OutputMessageDto, OutputValidateDto, UniqueChatroomDto } from './dto/output.dto';
+import { ChatroomsDto, OutputDirectMessageDto, OutputMessageDto, OutputValidateDto, UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -361,7 +361,7 @@ export class ChatroomService {
 		return {chat, name};
 	}
 
-	async openDirectChatroom(dto: CreateDirectChatroomDto): Promise<OutputDirectMessagesDto> {
+	async openDirectChatroom(dto: CreateDirectChatroomDto): Promise<OutputDirectMessageDto[]> {
 		let {chat, name} = await this.getChatroomMessage(dto);
 
 		if (!chat) {
@@ -384,15 +384,14 @@ export class ChatroomService {
 		return outpuDto;
 	}
 
-	async findAllDirectMessage(name: string): Promise<OutputDirectMessagesDto> {
+	async findAllDirectMessage(name: string): Promise<OutputDirectMessageDto[]> {
 		let msg = await this.chatroomRepository.findAllDirectMessage(name);
 
-		let outputDto = new OutputDirectMessagesDto;
-		outputDto.direct_message = [];
+		let outputDto: OutputDirectMessageDto[] = [];
 
 		for (const obj of msg) {
 			let dto = new OutputDirectMessageDto(msg);
-			outputDto.direct_message.push(dto);
+			outputDto.push(dto);
 		}
 
 		return outputDto;
