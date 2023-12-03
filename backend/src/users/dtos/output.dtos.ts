@@ -21,11 +21,18 @@ export class UserResumeDto {
   nickname: string;
   avatar: string;
   is_active: boolean;
+
+  constructor(obj: any) {
+	this.id = obj.id;
+	this.nickname = obj.nickname;
+	this.avatar = obj.avatar;
+	this.is_active = obj.is_active;
+  }
 }
 
-export class OutputUsersResumeDto {
-  users: UserResumeDto[];
-}
+// export class OutputUsersResumeDto {
+//   users: UserResumeDto[];
+// }
 
 export class UserMatchesDto {
   opponent:        string;
@@ -53,5 +60,5 @@ export class UserLadderDto {
 }
 
 export class OutputLadderDto {
-  ladder: UserLadderDto[]; 
+  ladder: UserLadderDto[];
 }

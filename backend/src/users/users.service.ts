@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { UsersRepository } from './users.repository';
-import { userInfo } from 'os';
-import { AuthService } from 'src/auth/auth.service';
-import { UserResumeDto, OutputUsersResumeDto, UserProfileDto, OutputUserMatchesDto, UserMatchesDto, OutputLadderDto, UserLadderDto } from './dtos/output.dtos';
+import { UserResumeDto, UserProfileDto, OutputUserMatchesDto, UserMatchesDto, OutputLadderDto, UserLadderDto } from './dtos/output.dtos';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { GameService } from 'src/game/game.service';
 import { AddFriendDto, ProfileDto, UpdateProfileDto } from './dtos/input.dtos';
@@ -29,53 +27,27 @@ export class UsersService {
       user = await this.userRepository.updateNickname(userId, dto);
     }
 
-    let userResumeDto = new UserResumeDto;
-    userResumeDto.id = user.id;
-    userResumeDto.avatar = user.avatar;
-    userResumeDto.nickname = user.nickname;
-    userResumeDto.is_active = user.is_active;
-
-    return userResumeDto;
+    return new UserResumeDto(user);
   }
 
-  async addFriend(userId: string, nick_name: AddFriendDto): Promise<OutputUsersResumeDto> {
+  async fillUserResumeDto(Data: any): Promise<UserResumeDto[]> {
+	let outputUsersResumeDto: UserResumeDto[] = [];
+
+	for (const obj of Data) {
+	  outputUsersResumeDto.push(new UserResumeDto(obj));
+	};
+
+	return outputUsersResumeDto;
+  }
+
+  async addFriend(userId: string, nick_name: AddFriendDto): Promise<UserResumeDto[]> {
     let friends = await this.userRepository.addFriend(userId, nick_name);
-    if (!friends) {
-      return null
-    }
-    let outputUsersResumeDto = new OutputUsersResumeDto();
-    outputUsersResumeDto.users = [];
+	return friends ? await this.fillUserResumeDto(friends) : null;
+}
 
-    for (const obj of friends) {
-      let userResumeDto = new UserResumeDto();
-      userResumeDto.id = obj.id;
-      userResumeDto.avatar = obj.avatar;
-      userResumeDto.nickname = obj.nickname;
-      userResumeDto.is_active = obj.is_active;
-      outputUsersResumeDto.users.push(userResumeDto);
-    };
-    return outputUsersResumeDto;
-  }
-
-  async deleteFriend(userId: string, nick_name: AddFriendDto): Promise<OutputUsersResumeDto> {
+  async deleteFriend(userId: string, nick_name: AddFriendDto): Promise<UserResumeDto[]> {
     let friends =  await this.userRepository.deleteFriend(userId, nick_name);
-
-    if (!friends) {
-      return null
-    }
-
-    let outputUsersResumeDto = new OutputUsersResumeDto();
-    outputUsersResumeDto.users = [];
-
-    for (const obj of friends) {
-      let userResumeDto = new UserResumeDto();
-      userResumeDto.id = obj.id;
-      userResumeDto.avatar = obj.avatar;
-      userResumeDto.nickname = obj.nickname;
-      userResumeDto.is_active = obj.is_active;
-      outputUsersResumeDto.users.push(userResumeDto);
-    };
-    return outputUsersResumeDto;
+	return friends ? await this.fillUserResumeDto(friends) : null;
   }
 
   async findUserAuth(userEmail: string): Promise<User> {
@@ -86,77 +58,25 @@ export class UsersService {
     return await this.userRepository.findUser(userId);
   }
 
-  async findFriends(userId: string): Promise<OutputUsersResumeDto> {
+  async findFriends(userId: string): Promise<UserResumeDto[]> {
     let user = await this.userRepository.findUserWithFriends(userId);
-
-    if (!user) {
-      return null
-    }
-
-    let outputUsersResumeDto = new OutputUsersResumeDto();
-    outputUsersResumeDto.users = [];
-
-    for (const obj of user.friends) {
-      let userResumeDto = new UserResumeDto();
-      userResumeDto.id = obj.id;
-      userResumeDto.avatar = obj.avatar;
-      userResumeDto.nickname = obj.nickname;
-      userResumeDto.is_active = obj.is_active;
-      outputUsersResumeDto.users.push(userResumeDto);
-    };
-
-    return outputUsersResumeDto;
+	return user ? await this.fillUserResumeDto(user.friends) : null;
   }
 
-  async findUserAll(): Promise<OutputUsersResumeDto> {
+  async findUserAll(): Promise<UserResumeDto[]> {
     let users = await this.userRepository.findAllUsers();
-
-    if (!users) {
-      return null
-    }
-
-    let outputUsersResumeDto = new OutputUsersResumeDto();
-    outputUsersResumeDto.users = [];
-
-    for (const obj of users) {
-      let userResumeDto = new UserResumeDto();
-      userResumeDto.id = obj.id;
-      userResumeDto.avatar = obj.avatar;
-      userResumeDto.nickname = obj.nickname;
-      userResumeDto.is_active = obj.is_active;
-      outputUsersResumeDto.users.push(userResumeDto);
-    };
-
-    return outputUsersResumeDto;
+	return users ? await this.fillUserResumeDto(users) : null;
   }
 
-  async findOnlineUsers(userId: string): Promise<OutputUsersResumeDto> {
-
+  async findOnlineUsers(userId: string): Promise<UserResumeDto[]> {
     let users = await this.userRepository.findOnlineUsers(userId);
-
-    if (!users) {
-      return null
-    }
-
-    let outputUsersResumeDto = new OutputUsersResumeDto();
-    outputUsersResumeDto.users = [];
-
-    for (const obj of users) {
-      let userResumeDto = new UserResumeDto();
-      userResumeDto.id = obj.id;
-      userResumeDto.avatar = obj.avatar;
-      userResumeDto.nickname = obj.nickname;
-      userResumeDto.is_active = obj.is_active;
-      outputUsersResumeDto.users.push(userResumeDto);
-    };
-
-    return outputUsersResumeDto;
+	return users ? await this.fillUserResumeDto(users) : null;
   }
 
   async findProfile(dto: ProfileDto): Promise<UserProfileDto> {
 
     let user = await this.userRepository.findUserByNickname(dto.nick_name);
-    
+
     console.log("\n\nfindProfile Service DTO: ", user);
 
     let wins = await this.gameService.numberOfUserMatchWins(user.id);
