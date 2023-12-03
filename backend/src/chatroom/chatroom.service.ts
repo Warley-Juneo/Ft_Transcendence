@@ -291,7 +291,6 @@ export class ChatroomService {
 		for (const obj of chat.message) {
 			outputDto.message.push(new OutputMessageDto(obj));
 		}
-		// console.log("\n\nFindUniqueChatroomDto", outputDto, "\n\n");
 		return outputDto;
 	}
 
@@ -387,10 +386,10 @@ export class ChatroomService {
 		let outputDto: OutputDirectMessageDto[] = [];
 
 		for (const obj of msg) {
-			let dto = new OutputDirectMessageDto(msg);
-			outputDto.push(dto);
+			outputDto.push(new OutputDirectMessageDto(obj));
 		}
 
+		console.log("\n\nFindAllDirectMessageDto", outputDto, "\n\n");
 		return outputDto;
 	}
 }

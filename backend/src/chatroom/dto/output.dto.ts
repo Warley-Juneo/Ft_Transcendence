@@ -10,7 +10,7 @@ export class OutputDirectMessageDto {
 		this.content = obj.content;
 		this.img_url = obj.img_url;
 		this.user = obj.user;
-		this.date = obj.date;
+		this.date = obj.createdAt;
 	}
 }
 

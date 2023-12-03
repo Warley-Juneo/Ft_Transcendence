@@ -16,7 +16,6 @@ export class ChatroomController {
 	//TODO: Criei essa rota como prova de conceito mas o faustão vai validar ela
 	@Get('find-public')
 	async findPublicChatroom(@Query() dto: InputChatroomDto): Promise<UniqueChatroomDto> {
-		console.log("\n\n\n DTO:", dto, "\n\n\n")
 		return await this.chatroomService.findPublicChatroom(dto);
 	}
 
