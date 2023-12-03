@@ -46,7 +46,6 @@ export class UsersController {
 
   @Get('profile')
   async findProfile(@Query() dto: ProfileDto): Promise<UserProfileDto> {
-    console.log("\n\nfindProfile DTO: ", dto);
     return await this.service.findProfile(dto);
   }
 

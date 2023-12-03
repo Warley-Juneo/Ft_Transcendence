@@ -77,8 +77,6 @@ export class UsersService {
 
     let user = await this.userRepository.findUserByNickname(dto.nick_name);
 
-    console.log("\n\nfindProfile Service DTO: ", user);
-
     let wins = await this.gameService.numberOfUserMatchWins(user.id);
     let loses = await this.gameService.numberOfUserMatchLoses(user.id);
     let draws = await this.gameService.numberOfUserMatchDraws(user.id);
@@ -108,37 +106,11 @@ export class UsersService {
     outputUserMatchesDto.users = [];
 
     for (const obj of as_player_1) {
-      let userMatchesDto = new UserMatchesDto();
-      userMatchesDto.opponent = obj.player_2.nickname;
-      userMatchesDto.opponent_avatar = obj.player_2.avatar;
-      userMatchesDto.opponent_score = obj.score_p2;
-      userMatchesDto.my_score = obj.score_p1;
-      if (obj.draws == true){
-        userMatchesDto.status = "DRAW";
-      }
-      else if (userMatchesDto.opponent_score < userMatchesDto.my_score) {
-        userMatchesDto.status = "WINNER";
-      }
-      else
-      userMatchesDto.status = "LOSER";
-      outputUserMatchesDto.users.push(userMatchesDto);
+      outputUserMatchesDto.users.push(new UserMatchesDto(obj));
     };
 
     for (const obj of as_player_2) {
-      let userMatchesDto = new UserMatchesDto();
-      userMatchesDto.opponent = obj.player_1.nickname;
-      userMatchesDto.opponent_avatar = obj.player_1.avatar;
-      userMatchesDto.opponent_score = obj.score_p1;
-      userMatchesDto.my_score = obj.score_p2;
-      if (obj.draws == true){
-        userMatchesDto.status = "DRAW";
-      }
-      else if (userMatchesDto.opponent_score < userMatchesDto.my_score) {
-        userMatchesDto.status = "WINNER";
-      }
-      else
-      userMatchesDto.status = "LOSER";
-      outputUserMatchesDto.users.push(userMatchesDto);
+      outputUserMatchesDto.users.push(new UserMatchesDto(obj));
     };
 
     return outputUserMatchesDto;

@@ -39,7 +39,21 @@ export class UserMatchesDto {
   opponent_avatar: string;
   opponent_score:  number;
   my_score:        number;
-  status:          string
+  status:          string;
+
+  constructor(obj: any) {
+	this.opponent = obj.player_2.nickname;
+    this.opponent_avatar = obj.player_2.avatar;
+    this.opponent_score = obj.score_p2;
+    this.my_score = obj.score_p1;
+
+    if (obj.draws == true){
+      this.status = "DRAW";
+    }
+	else {
+		this.opponent_score < this.my_score ? this.status = "WINNER" : this.status = "LOSER";
+	}
+  }
 }
 
 export class OutputUserMatchesDto {
