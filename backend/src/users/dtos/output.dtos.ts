@@ -30,10 +30,6 @@ export class UserResumeDto {
   }
 }
 
-// export class OutputUsersResumeDto {
-//   users: UserResumeDto[];
-// }
-
 export class UserMatchesDto {
   opponent:        string;
   opponent_avatar: string;
