@@ -49,12 +49,6 @@ export class UsersController {
     return await this.service.findProfile(dto);
   }
 
-
-  // @Get('find-user')
-  // async findUser(@Body() userId: string): Promise<User> {
-  //   return await this.service.findUser(userId);
-  // }
-
   @Get('matches')
   async findUserMatches(@Req() request): Promise<UserMatchesDto[]> {
     return  this.service.findUserMatches(request.user.sub);
