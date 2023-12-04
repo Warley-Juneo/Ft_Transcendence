@@ -98,23 +98,6 @@ export class UsersService {
     return userProfileDto;
   }
 
-  async findUserMatches(userId: string): Promise<UserMatchesDto[]> {
-    let as_player_1 =  await this.userRepository.findMatchesAsPlayer1(userId);
-    let as_player_2 =  await this.userRepository.findMatchesAsPlayer2(userId);
-
-    let outputUserMatchesDto: UserMatchesDto[] = [];
-
-    for (const obj of as_player_1) {
-      outputUserMatchesDto.push(new UserMatchesDto(obj));
-    };
-
-    for (const obj of as_player_2) {
-      outputUserMatchesDto.push(new UserMatchesDto(obj));
-    };
-
-    return outputUserMatchesDto;
-  }
-
   async ladder(): Promise<OutputLadderDto> {
     let ladder = await this.userRepository.ladder();
 

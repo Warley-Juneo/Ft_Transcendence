@@ -49,10 +49,10 @@ export class UsersController {
     return await this.service.findProfile(dto);
   }
 
-  @Get('matches')
-  async findUserMatches(@Req() request): Promise<UserMatchesDto[]> {
-    return  this.service.findUserMatches(request.user.sub);
-  }
+//   @Get('matches')
+//   async findUserMatches(@Req() request): Promise<UserMatchesDto[]> {
+//     return  this.service.findUserMatches(request.user.sub);
+//   }
 
   @Get('ladder')
   async ladder(): Promise<OutputLadderDto> {
