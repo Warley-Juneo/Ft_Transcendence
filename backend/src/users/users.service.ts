@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { UsersRepository } from './users.repository';
-import { UserResumeDto, UserProfileDto, UserMatchesDto, OutputLadderDto, UserLadderDto } from './dtos/output.dtos';
+import { UserResumeDto, UserProfileDto, UserLadderDto } from './dtos/output.dtos';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { GameService } from 'src/game/game.service';
 import { AddFriendDto, ProfileDto, UpdateProfileDto } from './dtos/input.dtos';
@@ -74,49 +74,26 @@ export class UsersService {
   }
 
   async findProfile(dto: ProfileDto): Promise<UserProfileDto> {
-
     let user = await this.userRepository.findUserByNickname(dto.nick_name);
-
     let wins = await this.gameService.numberOfUserMatchWins(user.id);
     let loses = await this.gameService.numberOfUserMatchLoses(user.id);
     let draws = await this.gameService.numberOfUserMatchDraws(user.id);
     let ladder = await this.userRepository.findAllUsers();
 
     const position = ladder.findIndex(u => u.id === user.id) + 1;
-
-    let userProfileDto = new UserProfileDto();
-    userProfileDto.login = user.login;
-    userProfileDto.avatar = user.avatar;
-    userProfileDto.first_name = user.first_name;
-    userProfileDto.last_name = user.last_name;
-    userProfileDto.nickname = user.nickname;
-    userProfileDto.wins = wins;
-    userProfileDto.loses = loses;
-    userProfileDto.draws = draws;
-    userProfileDto.ladder = position;
-
-    return userProfileDto;
+	let objaux = {...user, wins, loses, draws, position}
+    return new UserProfileDto(objaux);
   }
 
-  async ladder(): Promise<OutputLadderDto> {
+  async ladder(): Promise<UserLadderDto[]> {
     let ladder = await this.userRepository.ladder();
 
-    let outputLadderDto = new OutputLadderDto();
-    outputLadderDto.ladder = [];
+    let outputLadderDto: UserLadderDto[] = [];
 
     for(const obj of ladder) {
-      let userLadderDto = new UserLadderDto();
-      userLadderDto.id = obj.id;
-      userLadderDto.avatar = obj.avatar;
-      userLadderDto.nickname = obj.nickname;
-      userLadderDto.points = obj.points;
-      userLadderDto.matches = obj._count.match_as_player_1 + obj._count.match_as_player_2;
-      userLadderDto.wins = obj._count.match_wins;
-      userLadderDto.loses = obj._count.math_loses;
-      userLadderDto.draws = userLadderDto.matches - (userLadderDto.wins + userLadderDto.loses);
       const position = ladder.findIndex(u => u.nickname === obj.nickname) + 1;
-      userLadderDto.ladder = position;
-      outputLadderDto.ladder.push(userLadderDto);
+	  const objAux = {...obj, lander: position}
+      outputLadderDto.push(new UserLadderDto(obj));
     };
     return outputLadderDto;
   }

@@ -25,7 +25,7 @@ export default function TopRank() {
 				Authorization: Cookies.get('jwtToken')
 			}, timeout: 5000
 		}).then((res) => {
-			setRanking(res.data.ladder)
+			setRanking(res.data)
 		}
 		)
 	}

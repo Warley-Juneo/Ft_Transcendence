@@ -1,4 +1,3 @@
-import { Match } from '@prisma/client';
 
 export class UserProfileDto {
   login: string;
@@ -13,6 +12,19 @@ export class UserProfileDto {
   loses: number;
   draws: number;
   ladder: number;
+
+  constructor(obj: any) {
+	this.login = obj.login;
+    this.avatar = obj.avatar;
+    this.first_name = obj.first_name;
+    this.last_name = obj.last_name;
+    this.nickname = obj.nickname;
+    this.wins = obj.wins;
+    this.loses = obj.loses;
+    this.draws = obj.draws;
+    this.ladder = obj.position;
+  }
+
   // _statusConnection?:  boolean; // podemos colocar um enum aqui para ter mais status de conexão
 }
 
@@ -63,8 +75,20 @@ export class UserLadderDto {
   loses:     number;
   draws:     number;
   ladder:    number;
+
+  constructor(obj: any) {
+	this.id = obj.id;
+	this.avatar = obj.avatar;
+	this.nickname = obj.nickname;
+	this.points = obj.points;
+	this.matches = obj.matches;
+	this.wins = obj.wins;
+	this.loses = obj.loses;
+	this.ladder = obj.lander;
+	this.draws = this.matches - (this.wins + this.loses);
+  }
 }
 
-export class OutputLadderDto {
-  ladder: UserLadderDto[];
-}
+// export class OutputLadderDto {
+//   ladder: UserLadderDto[];
+// }

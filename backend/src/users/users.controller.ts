@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, Query, Req} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from '@prisma/client';
 import { CreateUserDto } from './dtos/createUser.dto';
-import { UserResumeDto, UserProfileDto, OutputLadderDto, UserMatchesDto } from './dtos/output.dtos';
+import { UserResumeDto, UserProfileDto, UserLadderDto } from './dtos/output.dtos';
 import { AddFriendDto, ProfileDto, UpdateProfileDto } from './dtos/input.dtos';
 
 @Controller('users')
@@ -55,7 +55,7 @@ export class UsersController {
 //   }
 
   @Get('ladder')
-  async ladder(): Promise<OutputLadderDto> {
+  async ladder(): Promise<UserLadderDto[]> {
     return this.service.ladder();
   }
 }
