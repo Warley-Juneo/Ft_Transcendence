@@ -48,3 +48,7 @@ Agora, acesse a página em seu navegador para interagir com o projeto.
 - Para obter mais detalhes sobre o projeto ou solucionar problemas comuns, consulte a documentação no nosso [portfólio](https://wallas-portfolio.netlify.app/).
 
 Divirta-se explorando o Ft_Transcendence!
+
+
+Ignorar avisos front-end useEffect
+// eslint-disable-next-line react-hooks/exhaustive-deps
