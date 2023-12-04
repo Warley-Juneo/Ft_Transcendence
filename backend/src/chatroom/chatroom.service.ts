@@ -59,7 +59,6 @@ export class ChatroomService {
 
 
 	async createChatroom(userId: string, dto: CreateChatroomDto): Promise<ChatroomsDto> {
-
 		if (dto.type == "protected") {
 			if (dto.password == '') {
 				throw new BadRequestException('Invalid password');
@@ -87,12 +86,8 @@ export class ChatroomService {
 
 		let response = await this.findAllPublicChatrooms();
 
-		console.log("\n\nResponse ", response, "\n\n");
-
 		return response;
 	}
-
-
 
 	async openChatroom(userId: string, dto: InputChatroomDto): Promise<UniqueChatroomDto> {
 
@@ -108,20 +103,7 @@ export class ChatroomService {
 			data_validation.validate_member_id = userId;
 		}
 		await this.validate(data_validation);
-
-		let outputDto = new UniqueChatroomDto;
-		outputDto.id = chat.id;
-		outputDto.name = chat.name;
-		outputDto.type = chat.type;
-		outputDto.members = chat.members;
-		outputDto.message = chat.message;
-		outputDto.owner_id = chat.owner_id;
-		outputDto.photoUrl = chat.photoUrl;
-		outputDto.owner_nickname = chat.owner_nickname;
-		outputDto.admin = chat.admin;
-		outputDto.banned = chat.banned;
-
-		return outputDto;
+		return new UniqueChatroomDto(chat);
 	}
 
 	async	changePassword(userId: string, dto: ChangePasswordDto): Promise<any> {
@@ -275,18 +257,7 @@ export class ChatroomService {
 			throw new BadRequestException('Chatroom do not exist');
 		}
 
-		let outputDto = new UniqueChatroomDto;
-		outputDto.id = chat.id;
-		outputDto.name = chat.name;
-		outputDto.password = chat.password;
-		outputDto.type = chat.type;
-		outputDto.photoUrl = chat.photoUrl;
-		outputDto.owner_id = chat.owner.id;
-		outputDto.owner_nickname = chat.owner.nickname;
-		outputDto.members = chat.members;
-		outputDto.admin = chat.admin;
-		outputDto.banned = chat.banned;
-
+		let outputDto = new UniqueChatroomDto(chat);
 		outputDto.message = [];
 		for (const obj of chat.message) {
 			outputDto.message.push(new OutputMessageDto(obj));
@@ -328,15 +299,9 @@ export class ChatroomService {
 		outputDto.chatrooms = [];
 
 		for (const obj of chats) {
-			let dto = new UniqueChatroomDto;
-			dto.id = obj.id;
-			dto.name = obj.name;
-			dto.type = obj.type;
-			dto.photoUrl = obj.photoUrl;
-			dto.owner_nickname = obj.owner.nickname;
-			dto.owner_id = obj.owner.id;
-			dto.members = obj.members.map(user => user.nickname);
-			outputDto.chatrooms.push(dto);
+			obj.members = obj.members.map(user => user.id);
+			let dto = new UniqueChatroomDto(obj);
+			outputDto.chatrooms.push(new UniqueChatroomDto(obj));
 		}
 
 		return outputDto;

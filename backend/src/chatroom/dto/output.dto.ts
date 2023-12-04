@@ -44,6 +44,20 @@ export class UniqueChatroomDto {
 	admin: UniqueUserChatrommDto[];
 	banned: UniqueUserChatrommDto[];
 	message: OutputMessageDto[];
+
+	constructor(obj: any) {
+		this.id = obj.id;
+		this.name = obj.name;
+		this.type = obj.type;
+		this.password = obj.password;
+		this.photoUrl = obj.photoUrl;
+		this.owner_nickname = obj.owner_nickname;
+		this.owner_id = obj.owner_id;
+		this.members = obj.members;
+		this.admin = obj.admin;
+		this.banned = obj.banned;
+		this.message = obj.message;
+	}
 }
 
 export class OutputValidateDto {
