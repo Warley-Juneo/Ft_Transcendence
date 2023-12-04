@@ -7,6 +7,6 @@ export default function GetUsersGame() {
 			Authorization: Cookies.get("jwtToken")
 		},
 	}).then((res) => {
-		return res.data.users;
+		return res.data;
 	})
 }

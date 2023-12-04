@@ -41,16 +41,15 @@ export default function Configurations(props: propsConfigurations): JSX.Element 
 	const navigate = useNavigate();
 
 	const getUserId = (nickname: string): string => {
-		const getDataNickname = playersGame.find((user) => user.nickname === nickname);
-		if (getDataNickname) return getDataNickname.id;
-		return '';
+		if (!playersGame) return ''
+		const getDataNickname = playersGame.find((user) => user.nickname === nickname) || '';
+		return getDataNickname ?  getDataNickname.id : ''
 	}
 
 	const addedNewMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
 		if (event.key !== 'Enter') return;
 		const userId = getUserId(event.currentTarget.value);
 		if (userId) {
-			console.log("entrou")
 			axios.post('http://localhost:3000/chatroom/add-member-group', {
 				add_id: userId,
 				chat_name: chatName,
