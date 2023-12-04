@@ -26,7 +26,7 @@ export default function ChatPrivate(props: propsChatPrivate) {
 				Authorization: Cookies.get('jwtToken'),
 			}
 		}).then((res) => {
-			setMessages(res.data.direct_message);
+			setMessages(res.data);
 		}).catch((err) => {
 			console.log(err);
 		})
@@ -40,9 +40,7 @@ export default function ChatPrivate(props: propsChatPrivate) {
 		socket.on('directChatMessage', data => {
 			try {
 				data = JSON.parse(data);
-				console.log("data: ", data);
 				setMessages((messages) => [...messages, data]);
-				console.log("messages: ", messages);
 			} catch (error) {
 				console.log("error no cat: ", error);
 			}

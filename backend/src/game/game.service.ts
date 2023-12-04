@@ -1,36 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { GameRepository } from './game.repository';
-import { UserMatchDto, UserMatchesDto } from './dtos/output.dto';
+import { UserMatchDto } from './dtos/output.dto';
 import { DisconnectDto, InputUserDto } from './dtos/input.dto';
 
 @Injectable()
 export class GameService {
   constructor(private readonly gameRepository: GameRepository) {}
 
-  async userMatchs(dto: InputUserDto): Promise<UserMatchesDto> {
+  async getStatusMatch(player_1, player_2) {
+	if (player_1 === player_2) {
+		return "EMPATE";
+	} else if (player_1 > player_2) {
+		return "VITÓRIA";
+	} else {
+		return "DERROTA";
+	}
+  }
+
+  async userMatchs(dto: InputUserDto): Promise<UserMatchDto[]> {
     let matches = await this.gameRepository.userMatchs(dto.user_id);
-
-
-    let outpuDto = new UserMatchesDto;
-    outpuDto.matches = [];
+	let outpuDto: UserMatchDto[] = [];
 
     for(const obj of matches) {
       let match_dto = new UserMatchDto;
       if (dto.user_id == obj.player_1.id) {
-		    match_dto.id = obj.id;
+        match_dto.id = obj.id;
         match_dto.opponent = obj.player_2.nickname;
         match_dto.opponent_avatar = obj.player_2.avatar;
         match_dto.opponent_score = obj.score_p2;
         match_dto.my_score = obj.score_p1;
-        if (obj.score_p1 == obj.score_p2){
-          match_dto.status = "EMPATE";
-        }
-        else if (obj.score_p1 > obj.score_p2){
-          match_dto.status = "VITÓRIA";
-        }
-        else if (obj.score_p1 < obj.score_p2){
-          match_dto.status = "DERROTA";
-        }
+        match_dto.status = await this.getStatusMatch(obj.score_p1, obj.score_p2);
       }
       else {
         match_dto.id = obj.id;
@@ -38,17 +37,9 @@ export class GameService {
         match_dto.opponent_avatar = obj.player_1.avatar;
         match_dto.opponent_score = obj.score_p1;
         match_dto.my_score = obj.score_p2;
-        if (obj.score_p1 == obj.score_p2){
-          match_dto.status = "EMPATE";
-        }
-        else if (obj.score_p2 > obj.score_p1){
-          match_dto.status = "VITÓRIA";
-        }
-        else if (obj.score_p2 < obj.score_p1){
-          match_dto.status = "DERROTA";
-        }
+        match_dto.status = await this.getStatusMatch(obj.score_p2, obj.score_p1);
       }
-      outpuDto.matches.push(match_dto);
+      outpuDto.push(match_dto);
     }
     return outpuDto;
   }

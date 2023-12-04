@@ -17,8 +17,7 @@ export default function MiniProfile() {
 				Authorization: Cookies.get('jwtToken'),
 			}
 		}).then((res) => {
-			setPlayers(res.data.users);
-			console.log("Users: ", res.data.users);
+			setPlayers(res.data);
 		}).catch((err) => {
 			console.log(err);
 		})

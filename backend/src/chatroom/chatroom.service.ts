@@ -3,7 +3,7 @@ import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
 import { AddChatUserDto, ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto, InputChatroomMessageDto } from './dto/input.dto';
-import { ChatroomsDto, OutputDirectMessageDto, OutputDirectMessagesDto, OutputMessageDto, OutputValidateDto, UniqueChatroomDto } from './dto/output.dto';
+import { ChatroomsDto, OutputDirectMessageDto, OutputMessageDto, OutputValidateDto, UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -59,7 +59,6 @@ export class ChatroomService {
 
 
 	async createChatroom(userId: string, dto: CreateChatroomDto): Promise<ChatroomsDto> {
-
 		if (dto.type == "protected") {
 			if (dto.password == '') {
 				throw new BadRequestException('Invalid password');
@@ -87,12 +86,8 @@ export class ChatroomService {
 
 		let response = await this.findAllPublicChatrooms();
 
-		console.log("\n\nResponse ", response, "\n\n");
-
 		return response;
 	}
-
-
 
 	async openChatroom(userId: string, dto: InputChatroomDto): Promise<UniqueChatroomDto> {
 
@@ -108,20 +103,7 @@ export class ChatroomService {
 			data_validation.validate_member_id = userId;
 		}
 		await this.validate(data_validation);
-
-		let outputDto = new UniqueChatroomDto;
-		outputDto.id = chat.id;
-		outputDto.name = chat.name;
-		outputDto.type = chat.type;
-		outputDto.members = chat.members;
-		outputDto.message = chat.message;
-		outputDto.owner_id = chat.owner_id;
-		outputDto.photoUrl = chat.photoUrl;
-		outputDto.owner_nickname = chat.owner_nickname;
-		outputDto.admin = chat.admin;
-		outputDto.banned = chat.banned;
-
-		return outputDto;
+		return new UniqueChatroomDto(chat);
 	}
 
 	async	changePassword(userId: string, dto: ChangePasswordDto): Promise<any> {
@@ -275,29 +257,11 @@ export class ChatroomService {
 			throw new BadRequestException('Chatroom do not exist');
 		}
 
-		let outputDto = new UniqueChatroomDto;
-		outputDto.id = chat.id;
-		outputDto.name = chat.name;
-		outputDto.password = chat.password;
-		outputDto.type = chat.type;
-		outputDto.photoUrl = chat.photoUrl;
-		outputDto.owner_id = chat.owner.id;
-		outputDto.owner_nickname = chat.owner.nickname;
-		outputDto.members = chat.members;
-		outputDto.admin = chat.admin;
-		outputDto.banned = chat.banned;
-
+		let outputDto = new UniqueChatroomDto(chat);
 		outputDto.message = [];
 		for (const obj of chat.message) {
-			let dto = new OutputMessageDto;
-			dto.id = obj.id;
-			dto.content = obj.content;
-			dto.img_url = obj.imgUrl;
-			dto.user = obj.user;
-			dto.date = obj.createdAt;
-			outputDto.message.push(dto);
+			outputDto.message.push(new OutputMessageDto(obj));
 		}
-		// console.log("\n\nFindUniqueChatroomDto", outputDto, "\n\n");
 		return outputDto;
 	}
 
@@ -335,15 +299,9 @@ export class ChatroomService {
 		outputDto.chatrooms = [];
 
 		for (const obj of chats) {
-			let dto = new UniqueChatroomDto;
-			dto.id = obj.id;
-			dto.name = obj.name;
-			dto.type = obj.type;
-			dto.photoUrl = obj.photoUrl;
-			dto.owner_nickname = obj.owner.nickname;
-			dto.owner_id = obj.owner.id;
-			dto.members = obj.members.map(user => user.nickname);
-			outputDto.chatrooms.push(dto);
+			obj.members = obj.members.map(user => user.id);
+			let dto = new UniqueChatroomDto(obj);
+			outputDto.chatrooms.push(new UniqueChatroomDto(obj));
 		}
 
 		return outputDto;
@@ -352,14 +310,7 @@ export class ChatroomService {
 	async	createChatroomMessage(dto: InputChatroomMessageDto): Promise<OutputMessageDto> {
 
 		let msg = await this.chatroomRepository.createChatroomMessage(dto);
-		let outpuDto = new OutputMessageDto;
-		outpuDto.id = msg.id;
-		outpuDto.content = msg.content;
-		outpuDto.user = msg.user;
-		outpuDto.date = msg.createdAt;
-
-
-		return outpuDto;
+		return  new OutputMessageDto(msg);
 	}
 
 	async getChatroomMessage(dto: CreateDirectChatroomDto): Promise<{chat: DirectChatRoom, name: string}> {
@@ -371,7 +322,7 @@ export class ChatroomService {
 		return {chat, name};
 	}
 
-	async openDirectChatroom(dto: CreateDirectChatroomDto): Promise<OutputDirectMessagesDto> {
+	async openDirectChatroom(dto: CreateDirectChatroomDto): Promise<OutputDirectMessageDto[]> {
 		let {chat, name} = await this.getChatroomMessage(dto);
 
 		if (!chat) {
@@ -394,17 +345,16 @@ export class ChatroomService {
 		return outpuDto;
 	}
 
-	async findAllDirectMessage(name: string): Promise<OutputDirectMessagesDto> {
+	async findAllDirectMessage(name: string): Promise<OutputDirectMessageDto[]> {
 		let msg = await this.chatroomRepository.findAllDirectMessage(name);
 
-		let outputDto = new OutputDirectMessagesDto;
-		outputDto.direct_message = [];
+		let outputDto: OutputDirectMessageDto[] = [];
 
 		for (const obj of msg) {
-			let dto = new OutputDirectMessageDto(msg);
-			outputDto.direct_message.push(dto);
+			outputDto.push(new OutputDirectMessageDto(obj));
 		}
 
+		console.log("\n\nFindAllDirectMessageDto", outputDto, "\n\n");
 		return outputDto;
 	}
 }

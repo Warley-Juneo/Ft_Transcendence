@@ -187,46 +187,6 @@ export class UsersRepository implements UsersRepositoryInterface {
     }
   }
 
-  async findMatchesAsPlayer1(userId: string): Promise<any> {
-    let response = await this.prisma.match.findMany({
-      where: {
-        player1_id: userId,
-      },
-      select: {
-        player_2: {
-          select: {
-            nickname: true,
-            avatar: true,
-          },
-        },
-        score_p2: true,
-        score_p1: true,
-        draws: true,
-      },
-    });
-    return response;
-  }
-
-  async findMatchesAsPlayer2(userId: string): Promise<any> {
-    let response = await this.prisma.match.findMany({
-      where: {
-        player2_id: userId,
-      },
-      select: {
-        player_1: {
-          select: {
-            nickname: true,
-            avatar: true,
-          },
-        },
-        score_p1: true,
-        score_p2: true,
-        draws: true,
-      },
-    });
-    return response;
-  }
-
   async ladder(): Promise<any> {
     let response = await this.prisma.user.findMany({
       select: {

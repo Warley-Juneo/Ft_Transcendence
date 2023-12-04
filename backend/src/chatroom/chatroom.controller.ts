@@ -2,7 +2,7 @@ import { Controller, Body, Post, Req, Get, Delete, Query } from '@nestjs/common'
 import { ChangePasswordDto, CreateChatroomDto, InputChatroomDto } from './dto/input.dto';
 import { ChatroomService } from './chatroom.service';
 import { CreateDirectChatroomDto, AddChatUserDto } from './dto/input.dto';
-import { ChatroomsDto, OutputDirectMessagesDto, UniqueChatroomDto } from './dto/output.dto';
+import { ChatroomsDto, OutputDirectMessageDto, UniqueChatroomDto } from './dto/output.dto';
 
 @Controller('chatroom')
 export class ChatroomController {
@@ -16,7 +16,6 @@ export class ChatroomController {
 	//TODO: Criei essa rota como prova de conceito mas o faustão vai validar ela
 	@Get('find-public')
 	async findPublicChatroom(@Query() dto: InputChatroomDto): Promise<UniqueChatroomDto> {
-		console.log("\n\n\n DTO:", dto, "\n\n\n")
 		return await this.chatroomService.findPublicChatroom(dto);
 	}
 
@@ -54,7 +53,6 @@ export class ChatroomController {
 
 	@Post('exclude-member-group')
 	async	excludeMemberChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
-		console.log("\n\nAAAAAAA\n\n");
 		return await this.chatroomService.excludeMemberChatroom(request.user.sub, dto);
 	}
 
@@ -69,7 +67,8 @@ export class ChatroomController {
 	}
 
 	@Post('open-direct')
-	async openDirectChatroom(@Body() dto: CreateDirectChatroomDto): Promise<OutputDirectMessagesDto> {
+	async openDirectChatroom(@Body() dto: CreateDirectChatroomDto): Promise<OutputDirectMessageDto[]> {
+		console.log("\n\n\n DTO:", dto, "\n\n\n")
 		return await this.chatroomService.openDirectChatroom(dto);
 	}
 

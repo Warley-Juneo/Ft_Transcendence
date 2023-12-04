@@ -7,6 +7,6 @@ export class UserMatchDto {
 	status:				string;
 }
 
-export class UserMatchesDto {
-	matches:	UserMatchDto[];
-}
+// export class UserMatchesDto {
+// 	matches:	UserMatchDto[];
+// }

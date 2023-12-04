@@ -1,4 +1,3 @@
-import { Match } from '@prisma/client';
 
 export class UserProfileDto {
   login: string;
@@ -13,6 +12,19 @@ export class UserProfileDto {
   loses: number;
   draws: number;
   ladder: number;
+
+  constructor(obj: any) {
+	this.login = obj.login;
+    this.avatar = obj.avatar;
+    this.first_name = obj.first_name;
+    this.last_name = obj.last_name;
+    this.nickname = obj.nickname;
+    this.wins = obj.wins;
+    this.loses = obj.loses;
+    this.draws = obj.draws;
+    this.ladder = obj.position;
+  }
+
   // _statusConnection?:  boolean; // podemos colocar um enum aqui para ter mais status de conexão
 }
 
@@ -21,10 +33,13 @@ export class UserResumeDto {
   nickname: string;
   avatar: string;
   is_active: boolean;
-}
 
-export class OutputUsersResumeDto {
-  users: UserResumeDto[];
+  constructor(obj: any) {
+	this.id = obj.id;
+	this.nickname = obj.nickname;
+	this.avatar = obj.avatar;
+	this.is_active = obj.is_active;
+  }
 }
 
 export class UserMatchesDto {
@@ -32,11 +47,21 @@ export class UserMatchesDto {
   opponent_avatar: string;
   opponent_score:  number;
   my_score:        number;
-  status:          string
-}
+  status:          string;
 
-export class OutputUserMatchesDto {
-  users: UserMatchesDto[];
+  constructor(obj: any) {
+	this.opponent = obj.player_2.nickname;
+    this.opponent_avatar = obj.player_2.avatar;
+    this.opponent_score = obj.score_p2;
+    this.my_score = obj.score_p1;
+
+    if (obj.draws == true){
+      this.status = "DRAW";
+    }
+	else {
+		this.opponent_score < this.my_score ? this.status = "WINNER" : this.status = "LOSER";
+	}
+  }
 }
 
 export class UserLadderDto {
@@ -50,8 +75,20 @@ export class UserLadderDto {
   loses:     number;
   draws:     number;
   ladder:    number;
+
+  constructor(obj: any) {
+	this.id = obj.id;
+	this.avatar = obj.avatar;
+	this.nickname = obj.nickname;
+	this.points = obj.points;
+	this.matches = obj.matches;
+	this.wins = obj.wins;
+	this.loses = obj.loses;
+	this.ladder = obj.lander;
+	this.draws = this.matches - (this.wins + this.loses);
+  }
 }
 
-export class OutputLadderDto {
-  ladder: UserLadderDto[]; 
-}
+// export class OutputLadderDto {
+//   ladder: UserLadderDto[];
+// }

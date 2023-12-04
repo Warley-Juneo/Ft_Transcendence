@@ -21,7 +21,7 @@ export default function MatchHistory({ userId }: { userId: string }) {
 				Authorization: Cookies.get('jwtToken'),
 			}
 		}).then((response) => {
-			setMatchHistory(response.data.matches);
+			setMatchHistory(response.data);
 		}).catch((error) => {
 		})
 	}
