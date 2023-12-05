@@ -59,6 +59,7 @@ export default function DivSettingsGame(): JSX.Element {
 		opacity: 0.7,
 		backgroundColor: '#ed9121',
 	}
+
 	return (
 		<div className="m-auto">
 			<div className="d-flex">

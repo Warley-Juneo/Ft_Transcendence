@@ -1,9 +1,12 @@
+import { useState } from "react"
+
 type propsButtonPlay = {
 	photo: string,
 	content: string,
 }
 
 export default function PhotoMode(props: propsButtonPlay): JSX.Element {
+	const [isHover, setIsHover] = useState(false)
 	const cssDiv: React.CSSProperties = {
 		height: '8rem',
 		width: '8rem',
@@ -11,6 +14,8 @@ export default function PhotoMode(props: propsButtonPlay): JSX.Element {
 		backgroundColor: '#666',
 		padding: '0.5rem',
 		borderRadius: '0.5rem',
+		transition: 'all 0.5s',
+		transform: isHover ? 'scale(1.1)' : 'scale(1)',
 	}
 
 	const cssPhoto: React.CSSProperties = {
@@ -29,14 +34,17 @@ export default function PhotoMode(props: propsButtonPlay): JSX.Element {
 	}
 
 	return (
-		<div style={cssDiv}>
+		<div style={cssDiv}
+			onMouseEnter={() =>setIsHover(true)}
+			onMouseLeave={() =>setIsHover(false)}
+			data-toggle="tooltip"
+			data-placement="top"
+			title="Tooltip on top"
+		>
 			<div style={cssPhoto}>
 				<img className='h-100 w-100 rounded' src={props.photo} alt="playPong" />
 			</div>
-			<button type="button" style={cssButton}
-				data-bs-toggle="tooltip" data-bs-placement="top"
-				data-bs-custom-class="custom-tooltip"
-				data-bs-title="This top tooltip is themed via CSS variables.">
+			<button type="button" style={cssButton}>
 				{props.content}
 			</button>
 		</div>
