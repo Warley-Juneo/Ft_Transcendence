@@ -1,8 +1,8 @@
-import ButtonPlay from "../OptionsGame.tsx/ButtonPlay";
+import PhotoMode from "./PhotoMode";
 import playPong from '../../../static/game/playPong.jpg'
 import playSpecialPong from '../../../static/game/playSpecialPong.jpg'
 
-export default function ButtonDiv() : JSX.Element {
+export default function PhotoModeDiv() : JSX.Element {
 	const cssDivFilhoSelectGame: React.CSSProperties = {
 		position: 'relative',
 		zIndex: 2,
@@ -16,12 +16,16 @@ export default function ButtonDiv() : JSX.Element {
 	return (
 		<div style={cssDivFilhoSelectGame}>
 			<div className="d-flex p-3" id='divOptionsStartGame'>
-				<ButtonPlay photo={playPong} content="Normal Classico" />
-				<ButtonPlay photo={playPong} content="Ranqued Classico" />
+				<PhotoMode photo={playPong} content="Normal " />
+				<PhotoMode photo={playPong} content="Ranqueado" />
 			</div>
 			<div className="d-flex p-3">
-				<ButtonPlay photo={playSpecialPong} content="Normal Power" />
-				<ButtonPlay photo={playSpecialPong} content="Ranqued Power" />
+				<PhotoMode photo={playSpecialPong} content="Normal " />
+				<PhotoMode photo={playSpecialPong} content="Ranqueado" />
+			</div>
+			<div className="d-flex p-3">
+				<PhotoMode photo={playPong} content="VS COOP" />
+				<PhotoMode photo={playSpecialPong} content="VS COOP" />
 			</div>
 		</div>
 	)

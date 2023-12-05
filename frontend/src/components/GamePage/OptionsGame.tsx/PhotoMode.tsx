@@ -3,32 +3,37 @@ type propsButtonPlay = {
 	content: string,
 }
 
-export default function ButtonPlay(props: propsButtonPlay): JSX.Element {
+export default function PhotoMode(props: propsButtonPlay): JSX.Element {
 	const cssDiv: React.CSSProperties = {
-		height: '10rem',
-		width: '10rem',
+		height: '8rem',
+		width: '8rem',
 		margin: '1rem',
 		backgroundColor: '#666',
 		padding: '0.5rem',
 		borderRadius: '0.5rem',
 	}
 
-	const cssButtonPlay: React.CSSProperties = {
+	const cssPhoto: React.CSSProperties = {
+		height: '80%',
 		width: '100%',
-		padding: '0.5rem',
-		border: 'none',
-		// borderBottomLeftRadius: '0.5rem',
-		// borderBottomRightRadius: '0.5rem',
+		marginBottom: '0.5rem',
 		borderRadius: '0.5rem',
-		backgroundColor: '#FFD700',
+	}
+
+	const cssButton: React.CSSProperties = {
+		width: '100%',
+		height: '40%',
+		border: 'none',
+		borderRadius: '0.5rem',
+		backgroundColor: '#ffbf00',
 	}
 
 	return (
 		<div style={cssDiv}>
-			<div style={{height: '7.5rem', marginBottom: '0.5rem'}}>
+			<div style={cssPhoto}>
 				<img className='h-100 w-100 rounded' src={props.photo} alt="playPong" />
 			</div>
-			<button type="button" style={cssButtonPlay}
+			<button type="button" style={cssButton}
 				data-bs-toggle="tooltip" data-bs-placement="top"
 				data-bs-custom-class="custom-tooltip"
 				data-bs-title="This top tooltip is themed via CSS variables.">
