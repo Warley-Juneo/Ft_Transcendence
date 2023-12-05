@@ -10,19 +10,15 @@ export default function Game(): JSX.Element {
 		backgroundPosition: "center",
 		backgroundRepeat: "no-repeat",
 		height: "100%",
+		display: "flex",
 	}
 
 	return (
-		<div className="h-100 bg-custon-roxo rounded p-3">
+		<div className="h-100 bg-custon-roxo rounded p-3 position-relative">
 			<Coins />
 			<div style={principalPhoto}>
-				<div className="row g-0 h-100">
-					<div className="col-6 d-flex flex-column justify-content-center">
-						<DivSettingsGame />
-					</div>
-					<div className="col">
-					</div>
-				</div>
+				<DivSettingsGame />
+				<div className="col"></div>
 			</div>
 		</div>
 	)

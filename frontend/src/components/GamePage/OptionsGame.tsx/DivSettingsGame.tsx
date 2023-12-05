@@ -60,10 +60,10 @@ export default function DivSettingsGame(): JSX.Element {
 		backgroundColor: '#ed9121',
 	}
 	return (
-		<>
+		<div className="m-auto">
 			<div className="d-flex">
 				<button style={ButtonSelected}>Game</button>
-				<button style={ButtonUnselected}>Rounds</button>
+				<button style={ButtonUnselected}>Custon</button>
 			</div>
 			<div style={{ display: 'inline-flex' }}>
 				<div style={firtdivSelectGame}>
@@ -72,6 +72,6 @@ export default function DivSettingsGame(): JSX.Element {
 					<div style={principaldivSelectGame}></div>
 				</div>
 			</div>
-		</>
+		</div>
 	)
 }
