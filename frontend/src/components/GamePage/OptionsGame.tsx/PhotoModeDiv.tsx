@@ -16,16 +16,40 @@ export default function PhotoModeDiv() : JSX.Element {
 	return (
 		<div style={cssDivFilhoSelectGame}>
 			<div className="d-flex p-3" id='divOptionsStartGame'>
-				<PhotoMode photo={playPong} content="Normal " />
-				<PhotoMode photo={playPong} content="Ranqueado" />
+				<PhotoMode	photo={playPong}
+					content="Normal"
+					explanation="Modelo casual sem perca ou ganhos de prontos"
+					id="normalPong"
+				/>
+				<PhotoMode	photo={playPong}
+					content="Ranqueado"
+					explanation="Modelo ranqueado valendo pontos"
+					id="ranquedPong"
+				/>
 			</div>
 			<div className="d-flex p-3">
-				<PhotoMode photo={playSpecialPong} content="Normal " />
-				<PhotoMode photo={playSpecialPong} content="Ranqueado" />
+				<PhotoMode	photo={playSpecialPong}
+					content="Normal"
+					explanation="Modelo casual com poderes adicionados no mapa para uma melhor diversão "
+					id="normalSpecialPong"
+				/>
+				<PhotoMode	photo={playSpecialPong}
+					content="Ranqueado"
+					explanation="Modelo com powers Ranqueado valendo pontos"
+					id="ranquedSpecialPong"
+				/>
 			</div>
 			<div className="d-flex p-3">
-				<PhotoMode photo={playPong} content="VS COOP" />
-				<PhotoMode photo={playSpecialPong} content="VS COOP" />
+				<PhotoMode	photo={playPong}
+					content="VS COOP"
+					explanation="Modelo normal contra bot"
+					id="contraBotPong"
+				/>
+				<PhotoMode	photo={playSpecialPong}
+					content="VS COOP"
+					explanation="Modelo com powers contra bot"
+					id="contraBotSpecialPong"
+				/>
 			</div>
 		</div>
 	)

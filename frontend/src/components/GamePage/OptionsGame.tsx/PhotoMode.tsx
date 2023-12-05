@@ -1,8 +1,11 @@
 import { useState } from "react"
+import { Tooltip } from 'react-tooltip'
 
 type propsButtonPlay = {
 	photo: string,
 	content: string,
+	explanation: string,
+	id: string,
 }
 
 export default function PhotoMode(props: propsButtonPlay): JSX.Element {
@@ -34,20 +37,21 @@ export default function PhotoMode(props: propsButtonPlay): JSX.Element {
 	}
 
 	return (
-		<div style={cssDiv}
-			onMouseEnter={() =>setIsHover(true)}
-			onMouseLeave={() =>setIsHover(false)}
-			data-toggle="tooltip"
-			data-placement="top"
-			title="Tooltip on top"
-		>
-			<div style={cssPhoto}>
-				<img className='h-100 w-100 rounded' src={props.photo} alt="playPong" />
+		<>
+			<Tooltip id={props.id} place="top">{props.explanation}</Tooltip>
+			<div style={cssDiv}
+				onMouseEnter={() => setIsHover(true)}
+				onMouseLeave={() => setIsHover(false)}
+				data-tooltip-id={props.id}
+			>
+				<div style={cssPhoto}>
+					<img className='h-100 w-100 rounded' src={props.photo} alt="playPong" />
+				</div>
+				<button type="button" style={cssButton}>
+					{props.content}
+				</button>
 			</div>
-			<button type="button" style={cssButton}>
-				{props.content}
-			</button>
-		</div>
+		</>
 	)
 
 }

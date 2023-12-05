@@ -6,7 +6,7 @@ export default function DivSettingsGame(): JSX.Element {
 		position: 'absolute',
 		top: '0',
 		right: '-0.6rem',
-		zIndex: 4,
+		zIndex: 3,
 
 		height: '3rem',
 		width: '3rem',
@@ -51,6 +51,7 @@ export default function DivSettingsGame(): JSX.Element {
 		position: 'absolute',
 		top: 0,
 		left: 0,
+		zIndex: 1,
 
 		height: 'calc(100% + 0.5rem)',
 		width: '100%',
