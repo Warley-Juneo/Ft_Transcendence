@@ -18,7 +18,7 @@ export default function Game(): JSX.Element {
 		<div className="h-100 bg-custon-roxo rounded p-3 position-relative">
 			<Coins />
 			<div style={principalPhoto}>
-				{/* <SettingsGame /> */}
+				<SettingsGame />
 				<SettingsStore />
 				<div className="col"></div>
 			</div>

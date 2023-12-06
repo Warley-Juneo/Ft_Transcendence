@@ -1,4 +1,4 @@
-import ModelsGame from "./ModelsGame";
+import ItemsStore from "./ItemsStore";
 import { IoMdClose } from "react-icons/io";
 
 export default function SettingsStore(): JSX.Element {
@@ -70,7 +70,7 @@ export default function SettingsStore(): JSX.Element {
 			<div style={{ display: 'inline-flex' }}>
 				<div style={firtdivSelectGame}>
 					<IoMdClose style={cssButtonClosed} />
-					<ModelsGame />
+					<ItemsStore />
 					<div style={principaldivSelectGame}></div>
 				</div>
 			</div>

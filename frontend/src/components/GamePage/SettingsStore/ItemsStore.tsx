@@ -4,10 +4,10 @@ import faixa3 from '../../../static/faixas/faixa3.svg'
 import faixa4 from '../../../static/faixas/faixa4.svg'
 import faixa5 from '../../../static/faixas/faixa5.svg'
 import faixa6 from '../../../static/faixas/faixa6.svg'
-import PhotoModelsGame from './PhotoModelsGame'
+import PhotoItemsStore from './PhotoItemsStore'
 
 
-export default function ModelsGame() : JSX.Element {
+export default function ItemsStore() : JSX.Element {
 	const cssDivFilhoSelectGame: React.CSSProperties = {
 		position: 'relative',
 		zIndex: 2,
@@ -21,18 +21,18 @@ export default function ModelsGame() : JSX.Element {
 	return (
 		<div style={cssDivFilhoSelectGame}>
 			<div className="d-flex p-3" id='divOptionsStartGame'>
-				<PhotoModelsGame	photo={faixa1}
+				<PhotoItemsStore	photo={faixa1}
 					explanation="Modelo casual sem perca ou ganhos de prontos"
 					id="normalPong"
 					price={5}
 				/>
-				<PhotoModelsGame	photo={faixa2}
+				<PhotoItemsStore	photo={faixa2}
 					explanation="Modelo ranqueado valendo pontos"
 					id="ranquedPong"
 					price={10}
 
 				/>
-				<PhotoModelsGame	photo={faixa3}
+				<PhotoItemsStore	photo={faixa3}
 					explanation="Modelo normal contra bot"
 					id="contraBotPong"
 					price={15}
@@ -40,19 +40,19 @@ export default function ModelsGame() : JSX.Element {
 				/>
 			</div>
 			<div className="d-flex p-3">
-				<PhotoModelsGame	photo={faixa4}
+				<PhotoItemsStore	photo={faixa4}
 					explanation="Modelo casual com poderes adicionados no mapa para uma melhor diversão "
 					id="normalSpecialPong"
 					price={20}
 
 				/>
-				<PhotoModelsGame	photo={faixa5}
+				<PhotoItemsStore	photo={faixa5}
 					explanation="Modelo com powers Ranqueado valendo pontos"
 					id="ranquedSpecialPong"
 					price={25}
 
 				/>
-				<PhotoModelsGame	photo={faixa6}
+				<PhotoItemsStore	photo={faixa6}
 					explanation="Modelo com powers contra bot"
 					id="contraBotSpecialPong"
 					price={30}

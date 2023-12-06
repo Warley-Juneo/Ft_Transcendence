@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Tooltip } from 'react-tooltip'
-import {ReactComponent as UnicCoin} from '../../../static/game/unicCoin.svg'
+import { ReactComponent as UnicCoin } from '../../../static/game/unicCoin.svg'
 import BordaItems from '../../../static/game/bordaLojaPlata.svg'
 
 type propsButtonPlay = {
@@ -10,11 +10,11 @@ type propsButtonPlay = {
 	price: number,
 }
 
-export default function PhotoModelsGame(props: propsButtonPlay): JSX.Element {
+export default function PhotoItemsStore(props: propsButtonPlay): JSX.Element {
 	const [isHover, setIsHover] = useState(false)
 	const cssDiv: React.CSSProperties = {
-		height: '10rem',
-		width: '10rem',
+		height: '8rem',
+		width: '8rem',
 		margin: '1rem',
 		padding: '0.5rem',
 		borderRadius: '0.5rem',
@@ -35,7 +35,7 @@ export default function PhotoModelsGame(props: propsButtonPlay): JSX.Element {
 	}
 
 	const cssDivPrice: React.CSSProperties = {
-		height: '2rem',
+		height: '1.5rem',
 		marginBottom: '0.5rem',
 		border: '1px solid #ffbf00',
 
@@ -48,7 +48,7 @@ export default function PhotoModelsGame(props: propsButtonPlay): JSX.Element {
 
 	const cssButton: React.CSSProperties = {
 		width: '100%',
-		height: '5rem',
+		height: '2rem',
 		border: 'none',
 		borderRadius: '0.5rem',
 		backgroundColor: 'transparent',
@@ -58,25 +58,20 @@ export default function PhotoModelsGame(props: propsButtonPlay): JSX.Element {
 	}
 
 	return (
-		<>
-			<Tooltip id={props.id} place="top">{props.explanation}</Tooltip>
-			<div style={cssDiv}
-				onMouseEnter={() => setIsHover(true)}
-				onMouseLeave={() => setIsHover(false)}
-				data-tooltip-id={props.id}
-			>
-				<div style={cssPhoto}>
-					<img className='h-100 w-100 rounded' src={props.photo} alt="playPong" />
-				</div>
-				<div style={cssDivPrice}>
-					<p>{props.price}</p>
-					<UnicCoin style={{height: '2rem'}}/>
-				</div>
-				<button type="button" style={cssButton}>
-					Buy
-				</button>
+		<div style={cssDiv}
+			onMouseEnter={() => setIsHover(true)}
+			onMouseLeave={() => setIsHover(false)}
+		>
+			<div style={cssPhoto}>
+				<img className='h-100 w-100 rounded' src={props.photo} alt="playPong" />
 			</div>
-		</>
+			<div style={cssDivPrice}>
+				<p>{props.price}</p>
+				<UnicCoin style={{ height: '2rem' }} />
+			</div>
+			<button type="button" style={cssButton}>
+				Buy
+			</button>
+		</div>
 	)
-
 }
