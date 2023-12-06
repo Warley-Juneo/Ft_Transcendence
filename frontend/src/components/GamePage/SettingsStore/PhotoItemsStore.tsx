@@ -19,8 +19,8 @@ export default function PhotoItemsStore(props: propsButtonPlay): JSX.Element {
 		padding: '0.5rem',
 		borderRadius: '0.5rem',
 		transition: 'all 0.5s',
-		backgroundColor: '#666',
-		boxShadow: '2px 2px 10px black inset, -2px -2px 10px #FFF inset',
+		backgroundColor: '#9400d3',
+		boxShadow: '2px 2px 10px #FFF inset, -2px -2px 10px black inset',
 		transform: isHover ? 'scale(1.1)' : 'scale(1)',
 		backgroundImage: `url(${BordaItems})`,
 		backgroundSize: '100% 100%',
@@ -54,9 +54,11 @@ export default function PhotoItemsStore(props: propsButtonPlay): JSX.Element {
 		backgroundColor: 'transparent',
 		backgroundImage: `url(${props.photo})`,
 		backgroundSize: '100% 100%',
-
 	}
 
+	const buyBar = () => {
+		alert('comprado')
+	}
 	return (
 		<div style={cssDiv}
 			onMouseEnter={() => setIsHover(true)}
@@ -69,8 +71,8 @@ export default function PhotoItemsStore(props: propsButtonPlay): JSX.Element {
 				<p>{props.price}</p>
 				<UnicCoin style={{ height: '2rem' }} />
 			</div>
-			<button type="button" style={cssButton}>
-				Buy
+			<button type="button" style={cssButton} onClick={buyBar}>
+				<p className="fw-bold">Buy</p>
 			</button>
 		</div>
 	)

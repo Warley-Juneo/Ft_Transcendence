@@ -12,7 +12,7 @@ export default function ItemsStore() : JSX.Element {
 		position: 'relative',
 		zIndex: 2,
 
-		backgroundColor: '#ed9121',
+		backgroundColor: '#3b0054',
 		borderRadius: '1rem',
 		boxShadow: '1px 2px 2px black inset, 0px -2px 2px #FFF inset',
 		opacity: '1 !important',

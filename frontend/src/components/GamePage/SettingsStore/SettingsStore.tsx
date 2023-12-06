@@ -1,7 +1,10 @@
+import { useState } from "react";
 import ItemsStore from "./ItemsStore";
 import { IoMdClose } from "react-icons/io";
 
 export default function SettingsStore(): JSX.Element {
+	const [barPerfil, setBarPerfil] = useState(true)
+
 	const cssButtonClosed: React.CSSProperties = {
 		position: 'absolute',
 		top: '0',
@@ -11,37 +14,37 @@ export default function SettingsStore(): JSX.Element {
 		height: '3rem',
 		width: '3rem',
 		borderRadius: '0.5rem',
-		backgroundColor: '#ffbf00',
-		boxShadow: '2px 2px 1px #FFF inset, -8px -8px 8px #ed9121 inset',
+		backgroundColor: '#9400d3',
+		boxShadow: '2px 2px 1px #FFF inset, -8px -8px 8px #9400d3 inset',
 
 		cursor: 'pointer',
 	}
 
-	const ButtonSelected: React.CSSProperties = {
-		marginLeft: '1.5rem',
-		padding: '1rem',
+	const ButtonBarPerfil: React.CSSProperties = {
 		color: 'white',
-		fontSize: '1.5rem',
+		padding: '1rem',
+		marginLeft: '1.5rem',
+		marginBottom: barPerfil ? '0' : '0.5rem	',
+
 		fontWeight: 'bold',
+		fontSize: '1.5rem',
 
 		border: 'none',
 		borderTopLeftRadius: '1rem',
 		borderTopRightRadius: '1rem',
-		backgroundColor: '#ed9121',
-		boxShadow: '6px 4px 2px #ffbf00 inset, 2px 0px 2px #ffbf00',
+		backgroundColor: '#7600a8',
+		boxShadow: '6px 4px 2px #9400d3 inset, 2px 0px 2px #9400d3',
 	}
 
-	const ButtonUnselected: React.CSSProperties = {
-		...ButtonSelected,
+	const ButtonBarGame: React.CSSProperties = {
+		...ButtonBarPerfil,
 		marginLeft: '1rem',
-		marginBottom: '2px',
-		borderBottomLeftRadius: '0.5rem',
-		borderBottomRightRadius: '0.5rem',
+		marginBottom: barPerfil ? '0.5rem	' : '0',
 	}
 
 	const firtdivSelectGame: React.CSSProperties = {
 		position: 'relative',
-		backgroundColor: '#ffbf00',
+		backgroundColor: '#9400d3',
 		padding: '1.3rem',
 		borderRadius: '1.5rem',
 		color: 'white',
@@ -58,14 +61,25 @@ export default function SettingsStore(): JSX.Element {
 		marginLeft: '0.5rem',
 		borderRadius: '1.5rem',
 		opacity: 0.7,
-		backgroundColor: '#ed9121',
+		backgroundColor: '#7600a8',
 	}
 
 	return (
 		<div className="m-auto">
 			<div className="d-flex">
-				<button style={ButtonSelected}>Bar Perfil</button>
-				<button style={ButtonUnselected}>Bar Game</button>
+				<button
+					style={ButtonBarPerfil}
+					onClick={() => setBarPerfil(true)}
+				>
+					Bar Perfil
+				</button>
+				<button
+					style={ButtonBarGame}
+					onClick={() => setBarPerfil(false)}
+				>
+					Bar Game
+				</button>
+
 			</div>
 			<div style={{ display: 'inline-flex' }}>
 				<div style={firtdivSelectGame}>
