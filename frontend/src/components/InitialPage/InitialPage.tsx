@@ -11,6 +11,7 @@ export default function InicialPage() {
 	let timeForNewRequestAxios: number = 10000;
 	const [InfoUser, setGetInfoUser] = useState<t_dataUser>({
 		nickname: '',
+		coins: 0,
 		avatar: '',
 		id: '',
 	});
@@ -26,6 +27,7 @@ export default function InicialPage() {
 					res.data.avatar = "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg";
 				}
 				setGetInfoUser(res.data);
+				console.log(res.data);
 			})
 			.catch((err) => {
 				timeout++

@@ -5,6 +5,7 @@ export type t_dataUser = {
 	id: string;
 	nickname: string;
 	avatar: string;
+	coins: number;
 };
 
 export const UserData = createContext<{
@@ -15,6 +16,7 @@ export const UserData = createContext<{
 		nickname: '',
 		avatar: '',
 		id: '',
+		coins: 0,
 	},
 	updateDataUser: () => { },
 })

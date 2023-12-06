@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { Tooltip } from 'react-tooltip'
 import { ReactComponent as UnicCoin } from '../../../static/game/unicCoin.svg'
 import BordaItems from '../../../static/game/bordaLojaPlata.svg'
 
@@ -16,6 +15,7 @@ export default function PhotoItemsStore(props: propsButtonPlay): JSX.Element {
 		height: '8rem',
 		width: '8rem',
 		margin: '1rem',
+		marginTop: '0',
 		padding: '0.5rem',
 		borderRadius: '0.5rem',
 		transition: 'all 0.5s',

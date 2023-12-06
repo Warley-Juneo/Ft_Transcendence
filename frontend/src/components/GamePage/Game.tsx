@@ -1,5 +1,4 @@
 import React from "react";
-import Coins from "./Coins";
 import InitalPhoto from "./warwick.png";
 import SettingsGame from "./SettingsGame/SettingsGame";
 import SettingsStore from "./SettingsStore/SettingsStore";
@@ -16,7 +15,6 @@ export default function Game(): JSX.Element {
 
 	return (
 		<div className="h-100 bg-custon-roxo rounded p-3 position-relative">
-			<Coins />
 			<div style={principalPhoto}>
 				{/* <SettingsGame /> */}
 				<SettingsStore />
