@@ -1,7 +1,7 @@
 import ModelsGame from "./ModelsGame";
 import { IoMdClose } from "react-icons/io";
 
-export default function SettingsGame(): JSX.Element {
+export default function SettingsStore(): JSX.Element {
 	const cssButtonClosed: React.CSSProperties = {
 		position: 'absolute',
 		top: '0',
@@ -64,8 +64,8 @@ export default function SettingsGame(): JSX.Element {
 	return (
 		<div className="m-auto">
 			<div className="d-flex">
-				<button style={ButtonSelected}>Game</button>
-				<button style={ButtonUnselected}>Custon</button>
+				<button style={ButtonSelected}>Bar Perfil</button>
+				<button style={ButtonUnselected}>Bar Game</button>
 			</div>
 			<div style={{ display: 'inline-flex' }}>
 				<div style={firtdivSelectGame}>

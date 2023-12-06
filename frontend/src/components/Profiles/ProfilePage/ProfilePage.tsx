@@ -12,9 +12,11 @@ export default function ProfileScreen() {
 				<Perfil />
 			</div>
 			<div className='col-md-9 col-lg-10 text-white d-flex flex-column h-100 p-5'>
-				<h2 className='fst-italic ps-3 faixa-amarela'>PARTIDAS RECENTES</h2>
+				<div className='faixa-amarela p-2'>
+					<h2 className='fst-italic ms-5 p-2'>PARTIDAS</h2>
+				</div>
 				<div className='overflow-auto' id='MatchHistory'>
-					<MatchHistory userId={dataUser.id}/>
+					<MatchHistory userId={dataUser.id} />
 				</div>
 			</div>
 		</div>
