@@ -1,4 +1,4 @@
-import PhotoModeDiv from "./PhotoModeDiv";
+import ModelsGame from "./ModelsGame";
 import { IoMdClose } from "react-icons/io";
 
 export default function DivSettingsGame(): JSX.Element {
@@ -70,7 +70,7 @@ export default function DivSettingsGame(): JSX.Element {
 			<div style={{ display: 'inline-flex' }}>
 				<div style={firtdivSelectGame}>
 					<IoMdClose style={cssButtonClosed} />
-					<PhotoModeDiv />
+					<ModelsGame />
 					<div style={principaldivSelectGame}></div>
 				</div>
 			</div>

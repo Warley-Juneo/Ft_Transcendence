@@ -1,7 +1,7 @@
 import React from "react";
 import Coins from "./Coins";
 import InitalPhoto from "./warwick.png";
-import DivSettingsGame from "./OptionsGame.tsx/DivSettingsGame";
+import SettingsGame from "./SettingsGame/SettingsGame";
 
 export default function Game(): JSX.Element {
 	const principalPhoto: React.CSSProperties = {
@@ -17,7 +17,7 @@ export default function Game(): JSX.Element {
 		<div className="h-100 bg-custon-roxo rounded p-3 position-relative">
 			<Coins />
 			<div style={principalPhoto}>
-				<DivSettingsGame />
+				<SettingsGame />
 				<div className="col"></div>
 			</div>
 		</div>

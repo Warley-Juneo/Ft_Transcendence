@@ -1,8 +1,8 @@
-import PhotoMode from "./PhotoMode";
+import PhotoModelsGame from "./PhotoModelsGame";
 import playPong from '../../../static/game/playPong.jpg'
 import playSpecialPong from '../../../static/game/playSpecialPong.jpg'
 
-export default function PhotoModeDiv() : JSX.Element {
+export default function ModelsGame() : JSX.Element {
 	const cssDivFilhoSelectGame: React.CSSProperties = {
 		position: 'relative',
 		zIndex: 2,
@@ -16,36 +16,36 @@ export default function PhotoModeDiv() : JSX.Element {
 	return (
 		<div style={cssDivFilhoSelectGame}>
 			<div className="d-flex p-3" id='divOptionsStartGame'>
-				<PhotoMode	photo={playPong}
+				<PhotoModelsGame	photo={playPong}
 					content="Normal"
 					explanation="Modelo casual sem perca ou ganhos de prontos"
 					id="normalPong"
 				/>
-				<PhotoMode	photo={playPong}
+				<PhotoModelsGame	photo={playPong}
 					content="Ranqueado"
 					explanation="Modelo ranqueado valendo pontos"
 					id="ranquedPong"
 				/>
 			</div>
 			<div className="d-flex p-3">
-				<PhotoMode	photo={playSpecialPong}
+				<PhotoModelsGame	photo={playSpecialPong}
 					content="Normal"
 					explanation="Modelo casual com poderes adicionados no mapa para uma melhor diversão "
 					id="normalSpecialPong"
 				/>
-				<PhotoMode	photo={playSpecialPong}
+				<PhotoModelsGame	photo={playSpecialPong}
 					content="Ranqueado"
 					explanation="Modelo com powers Ranqueado valendo pontos"
 					id="ranquedSpecialPong"
 				/>
 			</div>
 			<div className="d-flex p-3">
-				<PhotoMode	photo={playPong}
+				<PhotoModelsGame	photo={playPong}
 					content="VS COOP"
 					explanation="Modelo normal contra bot"
 					id="contraBotPong"
 				/>
-				<PhotoMode	photo={playSpecialPong}
+				<PhotoModelsGame	photo={playSpecialPong}
 					content="VS COOP"
 					explanation="Modelo com powers contra bot"
 					id="contraBotSpecialPong"
