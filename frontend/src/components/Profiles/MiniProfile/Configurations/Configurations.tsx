@@ -21,7 +21,7 @@ export default function ConfigurationGame(): JSX.Element {
 		const nickName = newNickname.current?.value ? newNickname.current?.value : dataUser.user.nickname;
 		const avatar = newAvatar.current?.value ? newAvatar.current?.value : dataUser.user.avatar;
 
-		axios.post('http://localhost:3000/users/update', {
+		axios.post('http://localhost:3000/users/updateProfile', {
 			nick_name: nickName,
 			avatar: avatar,
 		}, {

@@ -14,8 +14,13 @@ export class UsersController {
     return await this.service.createUser(dto);
   }
 
-  @Post('update')
+  @Post('updateProfile')
   async updateProfile(@Req() request, @Body() dto: UpdateProfileDto): Promise<UserResumeDto> {
+	return await this.service.updateProfile(request.user.sub, dto);
+  }
+
+  @Post('updateCoins')
+  async updateCoins(@Req() request, @Body() dto: UpdateProfileDto): Promise<UserResumeDto> {
 	return await this.service.updateProfile(request.user.sub, dto);
   }
 
