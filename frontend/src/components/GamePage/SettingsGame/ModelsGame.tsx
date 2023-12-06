@@ -26,6 +26,11 @@ export default function ModelsGame() : JSX.Element {
 					explanation="Modelo ranqueado valendo pontos"
 					id="ranquedPong"
 				/>
+				<PhotoModelsGame	photo={playPong}
+					content="VS COOP"
+					explanation="Modelo normal contra bot"
+					id="contraBotPong"
+				/>
 			</div>
 			<div className="d-flex p-3">
 				<PhotoModelsGame	photo={playSpecialPong}
@@ -37,13 +42,6 @@ export default function ModelsGame() : JSX.Element {
 					content="Ranqueado"
 					explanation="Modelo com powers Ranqueado valendo pontos"
 					id="ranquedSpecialPong"
-				/>
-			</div>
-			<div className="d-flex p-3">
-				<PhotoModelsGame	photo={playPong}
-					content="VS COOP"
-					explanation="Modelo normal contra bot"
-					id="contraBotPong"
 				/>
 				<PhotoModelsGame	photo={playSpecialPong}
 					content="VS COOP"
