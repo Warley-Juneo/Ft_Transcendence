@@ -18,6 +18,7 @@ model User {
   last_name         String
   nickname          String    @unique
   avatar            String?
+  coins			 	Int       @default(0)
 
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
@@ -42,7 +43,7 @@ model User {
   chat_message      Message[]         @relation(name: "user_mesage")
 
   direct_message    DirectMessage[]   @relation(name: "user_direct_message")
-  
+
   @@map("user")
 }
 
@@ -54,11 +55,11 @@ model Match {
   player_1   User?      @relation(name: "player_1", fields: [player1_id], references: [id])
   score_p1   Int        @default(0)
 
-  player2_id String   
+  player2_id String
   player_2   User?      @relation(name: "player_2", fields: [player2_id], references: [id])
   score_p2   Int        @default(0)
 
-  winner_id String?   
+  winner_id String?
   winner    User?       @relation(name: "winner", fields: [winner_id], references: [id])
 
   loser_id String?
@@ -77,7 +78,7 @@ model DirectChatRoom {
 
   createdAt               DateTime          @default(now())
   updatedAt               DateTime          @updatedAt
-  
+
   @@map("direct_chat_room")
 }
 
@@ -115,7 +116,7 @@ model ChatRoom {
 
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
-  
+
   @@map("chat_room")
 }
 

@@ -7,6 +7,7 @@ CREATE TABLE "user" (
     "last_name" TEXT NOT NULL,
     "nickname" TEXT NOT NULL,
     "avatar" TEXT,
+    "coins" INTEGER NOT NULL DEFAULT 0,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     "is_active" BOOLEAN NOT NULL DEFAULT true,
