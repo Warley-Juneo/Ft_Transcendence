@@ -4,7 +4,7 @@ import { UsersRepository } from './users.repository';
 import { UserResumeDto, UserProfileDto, UserLadderDto } from './dtos/output.dtos';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { GameService } from 'src/game/game.service';
-import { AddFriendDto, ProfileDto, UpdateProfileDto } from './dtos/input.dtos';
+import { AddFriendDto, ProfileDto, UpdateCoinsDto, UpdateProfileDto } from './dtos/input.dtos';
 
 @Injectable()
 export class UsersService {
@@ -27,6 +27,11 @@ export class UsersService {
       user = await this.userRepository.updateNickname(userId, dto);
     }
 
+    return new UserResumeDto(user);
+  }
+
+  async updateCoins(userId: string, dto: UpdateCoinsDto): Promise<UserResumeDto> {
+    let	user = await this.userRepository.updateCoins(userId, dto);
     return new UserResumeDto(user);
   }
 

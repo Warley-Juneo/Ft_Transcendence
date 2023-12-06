@@ -4,7 +4,7 @@ import { UsersRepositoryInterface } from './interface/users.repository.interface
 import { User, Match } from '@prisma/client';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { UserResumeDto } from './dtos/output.dtos';
-import { AddFriendDto, UpdateProfileDto } from './dtos/input.dtos';
+import { AddFriendDto, UpdateCoinsDto, UpdateProfileDto } from './dtos/input.dtos';
 
 @Injectable()
 export class UsersRepository implements UsersRepositoryInterface {
@@ -47,6 +47,18 @@ export class UsersRepository implements UsersRepositoryInterface {
         nickname: dto.nick_name,
       },
     });
+    return response;
+  }
+
+  async updateCoins(userId: string, dto: UpdateCoinsDto): Promise<User> {
+    let response = await this.prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          coins: dto.coins,
+        },
+      });
     return response;
   }
 

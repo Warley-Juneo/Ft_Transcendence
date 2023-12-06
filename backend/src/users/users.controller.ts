@@ -3,7 +3,7 @@ import { UsersService } from './users.service';
 import { User } from '@prisma/client';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { UserResumeDto, UserProfileDto, UserLadderDto } from './dtos/output.dtos';
-import { AddFriendDto, ProfileDto, UpdateProfileDto } from './dtos/input.dtos';
+import { AddFriendDto, ProfileDto, UpdateCoinsDto, UpdateProfileDto } from './dtos/input.dtos';
 
 @Controller('users')
 export class UsersController {
@@ -20,8 +20,8 @@ export class UsersController {
   }
 
   @Post('updateCoins')
-  async updateCoins(@Req() request, @Body() dto: UpdateProfileDto): Promise<UserResumeDto> {
-	return await this.service.updateProfile(request.user.sub, dto);
+  async updateCoins(@Req() request, @Body() dto: UpdateCoinsDto): Promise<UserResumeDto> {
+	return await this.service.updateCoins(request.user.sub, dto);
   }
 
   @Post('add_friend')

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString, IsNumber } from "class-validator";
 
 export class AddFriendDto {
 	@IsNotEmpty()
@@ -11,6 +11,14 @@ export class UpdateProfileDto {
 
 	@IsString()
 	nick_name:	string;
+}
+
+export class UpdateCoinsDto {
+	@IsString()
+	nick_name:	string;
+
+	@IsNumber()
+	coins: number;
 }
 
 export class ProfileDto {
