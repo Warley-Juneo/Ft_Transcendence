@@ -1,4 +1,4 @@
-import PhotoModelsGame from "./PhotoModelsGame";
+import ButtonModelsGame from "./ButtonModelsGame";
 import playPong from '../../../assets/settingsGame/playPong.jpg'
 import playSpecialPong from '../../../assets/settingsGame/playSpecialPong.jpg'
 
@@ -16,34 +16,34 @@ export default function ModelsGame() : JSX.Element {
 	return (
 		<div style={cssDivFilhoSelectGame}>
 			<div className="d-flex p-3" id='divOptionsStartGame'>
-				<PhotoModelsGame	photo={playPong}
+				<ButtonModelsGame	photo={playPong}
 					content="Normal"
 					explanation="Modelo casual sem perca ou ganhos de prontos"
 					id="normalPong"
 				/>
-				<PhotoModelsGame	photo={playPong}
+				<ButtonModelsGame	photo={playPong}
 					content="Ranqueado"
 					explanation="Modelo ranqueado valendo pontos"
 					id="ranquedPong"
 				/>
-				<PhotoModelsGame	photo={playPong}
+				<ButtonModelsGame	photo={playPong}
 					content="VS COOP"
 					explanation="Modelo normal contra bot"
 					id="contraBotPong"
 				/>
 			</div>
 			<div className="d-flex p-3">
-				<PhotoModelsGame	photo={playSpecialPong}
+				<ButtonModelsGame	photo={playSpecialPong}
 					content="Normal"
 					explanation="Modelo casual com poderes adicionados no mapa para uma melhor diversão "
 					id="normalSpecialPong"
 				/>
-				<PhotoModelsGame	photo={playSpecialPong}
+				<ButtonModelsGame	photo={playSpecialPong}
 					content="Ranqueado"
 					explanation="Modelo com powers Ranqueado valendo pontos"
 					id="ranquedSpecialPong"
 				/>
-				<PhotoModelsGame	photo={playSpecialPong}
+				<ButtonModelsGame	photo={playSpecialPong}
 					content="VS COOP"
 					explanation="Modelo com powers contra bot"
 					id="contraBotSpecialPong"

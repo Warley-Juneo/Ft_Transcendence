@@ -26,14 +26,14 @@ export default function FakeApiStore(type: string): StoreItems {
 			[
 				{
 					photo: Ace,
-					explanation: "Icon Ace churrasqueiro",
+					explanation: "Ace churrasqueiro",
 					id: "AceIcon",
 					prie: 25,
 					backgroundBuy: '',
 				},
 				{
 					photo: Brook,
-					explanation: "Icon Brook Yohohohoho",
+					explanation: "Brook Yohohohoho",
 					id: "BrookIcon",
 					prie: 25,
 					backgroundBuy: '',
@@ -41,7 +41,7 @@ export default function FakeApiStore(type: string): StoreItems {
 				},
 				{
 					photo: Law,
-					explanation: "Icon Law nefado",
+					explanation: "Law nefado",
 					id: "Law",
 					prie: 30,
 					backgroundBuy: '',
@@ -51,7 +51,7 @@ export default function FakeApiStore(type: string): StoreItems {
 			[
 				{
 					photo: BarbaBranca,
-					explanation: "Icon Barba Branca sem barba",
+					explanation: "Barba Branca sem barba",
 					id: "BarbaBranca",
 					prie: 35,
 					backgroundBuy: '',
@@ -59,7 +59,7 @@ export default function FakeApiStore(type: string): StoreItems {
 				},
 				{
 					photo: Luffy,
-					explanation: "Icon Luffy chapeu de plastico",
+					explanation: "Luffy chapeu de plastico",
 					id: "LuffyIcon",
 					prie: 45,
 					backgroundBuy: '',
@@ -67,9 +67,9 @@ export default function FakeApiStore(type: string): StoreItems {
 				},
 				{
 					photo: Ussop,
-					explanation: "!!!Icon Lendario!!! GOD USOPP O BRAVO GUERREIRO DOS MAR",
+					explanation: "O Lendario GOD USOPP",
 					id: "UssopIcon",
-					prie: 75,
+					prie: 200,
 					backgroundBuy: '',
 				},
 			]

@@ -8,7 +8,7 @@ type propsButtonPlay = {
 	id: string,
 }
 
-export default function PhotoModelsGame(props: propsButtonPlay): JSX.Element {
+export default function ButtonModelsGame(props: propsButtonPlay): JSX.Element {
 	const [isHover, setIsHover] = useState(false)
 	const cssDiv: React.CSSProperties = {
 		height: '8rem',

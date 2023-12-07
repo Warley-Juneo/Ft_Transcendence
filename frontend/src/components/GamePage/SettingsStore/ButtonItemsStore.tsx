@@ -2,6 +2,7 @@ import { useContext, useState } from "react"
 import { ReactComponent as UnicCoin } from '../../../assets/store/unicCoin.svg'
 import BordaItems from '../../../assets/store/bordaLojaPlata.svg'
 import { UserData } from "../../InitialPage/Contexts/Contexts"
+import { Tooltip } from "react-tooltip"
 
 type propsButtonPlay = {
 	photo: string,
@@ -56,7 +57,7 @@ export default function ButtonsItemsStore(props: propsButtonPlay): JSX.Element {
 		border: 'none',
 		borderRadius: '0.5rem',
 		backgroundColor: props.backgroundBuy ? 'transparent' : 'gold',
-		backgroundImage: props.backgroundBuy ? `url(${props.photo})`: '',
+		backgroundImage: props.backgroundBuy ? `url(${props.photo})` : '',
 		backgroundSize: '100% 100%',
 	}
 
@@ -68,20 +69,24 @@ export default function ButtonsItemsStore(props: propsButtonPlay): JSX.Element {
 
 	}
 	return (
-		<div style={cssDiv}
-			onMouseEnter={() => setIsHover(true)}
-			onMouseLeave={() => setIsHover(false)}
-		>
-			<div style={cssPhoto}>
-				<img className='h-100 w-100 rounded' src={props.photo} alt="playPong" />
+		<>
+			<Tooltip id={props.id} place='top'>{props.explanation}</Tooltip>
+			<div style={cssDiv}
+				onMouseEnter={() => setIsHover(true)}
+				onMouseLeave={() => setIsHover(false)}
+				data-tooltip-id={props.id}
+			>
+				<div style={cssPhoto}>
+					<img className='h-100 w-100 rounded' src={props.photo} alt="playPong" />
+				</div>
+				<div style={cssDivPrice}>
+					<p>{props.price}</p>
+					<UnicCoin style={{ height: '2rem' }} />
+				</div>
+				<button type="button" style={cssButton} onClick={() => { buyBar(props) }}>
+					<p className="fw-bold">Buy</p>
+				</button>
 			</div>
-			<div style={cssDivPrice}>
-				<p>{props.price}</p>
-				<UnicCoin style={{ height: '2rem' }} />
-			</div>
-			<button type="button" style={cssButton} onClick={() => {buyBar(props)}}>
-				<p className="fw-bold">Buy</p>
-			</button>
-		</div>
+		</>
 	)
 }
