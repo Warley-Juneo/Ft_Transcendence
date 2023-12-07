@@ -20,9 +20,9 @@ export default function ShowItemsStore({items}: {items: StoreItems}): JSX.Elemen
 	return (
 		<div style={cssDivFilhoSelectGame}>
 			<Coins />
-			{items.map((listItems) => {
+			{items.map((listItems, index) => {
 				return (
-					<div className="d-flex p-3" id='divOptionsStartGame'>
+					<div className="d-flex p-3" id='divOptionsStartGame' key={index}>
 						{listItems.map((item) => {
 							return (
 								<ButtonsItemsStore

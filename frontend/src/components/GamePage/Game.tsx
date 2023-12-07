@@ -39,10 +39,9 @@ export default function Game(): JSX.Element {
 
 				</div>
 				<div className="col-8 d-flex">
-					<SettingsPath />
+					{/* <SettingsPath /> */}
+					<SettingsStore />
 				</div>
-
-				{/* <SettingsStore /> */}
 			</div>
 		</div>
 	)

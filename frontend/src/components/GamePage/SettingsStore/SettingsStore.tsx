@@ -80,16 +80,13 @@ export default function SettingsStore(): JSX.Element {
 				>
 					Bar Game
 				</button>
-
 			</div>
-			<div style={{ display: 'inline-flex' }}>
-				<div style={firtdivSelectGame}>
-					<IoMdClose style={cssButtonClosed} />
-					{barPerfil ? <ShowItemsStore items={FakeApiStore('skinsBar')} /> :
-						<ShowItemsStore items={FakeApiStore('skinsGame')} />
-					}
-					<div style={principaldivSelectGame}></div>
-				</div>
+			<div style={firtdivSelectGame}>
+				<IoMdClose style={cssButtonClosed} />
+				{barPerfil ? <ShowItemsStore items={FakeApiStore('skinsBar')} /> :
+					<ShowItemsStore items={FakeApiStore('skinsGame')} />
+				}
+				<div style={principaldivSelectGame}></div>
 			</div>
 		</div>
 	)
