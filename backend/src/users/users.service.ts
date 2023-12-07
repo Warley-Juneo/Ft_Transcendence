@@ -31,8 +31,8 @@ export class UsersService {
   }
 
   async updateCoins(userId: string, dto: UpdateCoinsDto): Promise<UserResumeDto> {
-    let	user = await this.userRepository.updateCoins(userId, dto);
-    return new UserResumeDto(user);
+	const user = await this.userRepository.updateCoins(userId, dto);
+	return new UserResumeDto(user);
   }
 
   async fillUserResumeDto(Data: any): Promise<UserResumeDto[]> {

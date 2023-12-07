@@ -51,7 +51,8 @@ export class UsersRepository implements UsersRepositoryInterface {
   }
 
   async updateCoins(userId: string, dto: UpdateCoinsDto): Promise<User> {
-    let response = await this.prisma.user.update({
+    console.log(typeof dto.coins);
+	let response = await this.prisma.user.update({
         where: {
           id: userId,
         },

@@ -1,6 +1,7 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { ReactComponent as UnicCoin } from '../../../static/game/unicCoin.svg'
 import BordaItems from '../../../static/game/bordaLojaPlata.svg'
+import { UserData } from "../../InitialPage/Contexts/Contexts"
 
 type propsButtonPlay = {
 	photo: string,
@@ -9,8 +10,10 @@ type propsButtonPlay = {
 	price: number,
 }
 
-export default function PhotoItemsStore(props: propsButtonPlay): JSX.Element {
+export default function ButtonsItemsStore(props: propsButtonPlay): JSX.Element {
 	const [isHover, setIsHover] = useState(false)
+	const userData = useContext(UserData)
+
 	const cssDiv: React.CSSProperties = {
 		height: '8rem',
 		width: '8rem',
@@ -56,8 +59,12 @@ export default function PhotoItemsStore(props: propsButtonPlay): JSX.Element {
 		backgroundSize: '100% 100%',
 	}
 
-	const buyBar = () => {
-		alert('comprado')
+	const buyBar = (itemData: propsButtonPlay) => {
+		if (itemData.price > userData.user.coins) {
+			alert("You don't have enough coins")
+			return
+		}
+
 	}
 	return (
 		<div style={cssDiv}
@@ -71,7 +78,7 @@ export default function PhotoItemsStore(props: propsButtonPlay): JSX.Element {
 				<p>{props.price}</p>
 				<UnicCoin style={{ height: '2rem' }} />
 			</div>
-			<button type="button" style={cssButton} onClick={buyBar}>
+			<button type="button" style={cssButton} onClick={() => {buyBar(props)}}>
 				<p className="fw-bold">Buy</p>
 			</button>
 		</div>

@@ -5,7 +5,7 @@ import faixa4 from '../../../static/faixas/faixa4.svg'
 import faixa5 from '../../../static/faixas/faixa5.svg'
 import faixa6 from '../../../static/faixas/faixa6.svg'
 import Coins from '../Coins'
-import PhotoItemsStore from './PhotoItemsStore'
+import ButtonsItemsStore from './ButtonItemsStore'
 
 
 export default function ItemsStore(): JSX.Element {
@@ -25,18 +25,18 @@ export default function ItemsStore(): JSX.Element {
 		<div style={cssDivFilhoSelectGame}>
 			<Coins />
 			<div className="d-flex p-3" id='divOptionsStartGame'>
-				<PhotoItemsStore photo={faixa1}
+				<ButtonsItemsStore photo={faixa1}
 					explanation="Modelo casual sem perca ou ganhos de prontos"
 					id="normalPong"
 					price={5}
 				/>
-				<PhotoItemsStore photo={faixa2}
+				<ButtonsItemsStore photo={faixa2}
 					explanation="Modelo ranqueado valendo pontos"
 					id="ranquedPong"
 					price={10}
 
 				/>
-				<PhotoItemsStore photo={faixa3}
+				<ButtonsItemsStore photo={faixa3}
 					explanation="Modelo normal contra bot"
 					id="contraBotPong"
 					price={15}
@@ -44,19 +44,19 @@ export default function ItemsStore(): JSX.Element {
 				/>
 			</div>
 			<div className="d-flex p-3">
-				<PhotoItemsStore photo={faixa4}
+				<ButtonsItemsStore photo={faixa4}
 					explanation="Modelo casual com poderes adicionados no mapa para uma melhor diversão "
 					id="normalSpecialPong"
 					price={20}
 
 				/>
-				<PhotoItemsStore photo={faixa5}
+				<ButtonsItemsStore photo={faixa5}
 					explanation="Modelo com powers Ranqueado valendo pontos"
 					id="ranquedSpecialPong"
 					price={25}
 
 				/>
-				<PhotoItemsStore photo={faixa6}
+				<ButtonsItemsStore photo={faixa6}
 					explanation="Modelo com powers contra bot"
 					id="contraBotSpecialPong"
 					price={30}
