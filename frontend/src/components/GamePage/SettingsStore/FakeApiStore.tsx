@@ -95,7 +95,7 @@ export default function FakeApiStore(type: string): StoreItems {
 				},
 				{
 					photo: faixa3,
-					explanation: "Começando a elegante",
+					explanation: "Começando a ficar elegante",
 					id: "faixa3",
 					prie: 25,
 					backgroundBuy: faixa3,
@@ -119,9 +119,9 @@ export default function FakeApiStore(type: string): StoreItems {
 				},
 				{
 					photo: faixa6,
-					explanation: "Barra feita por GOOD USOPP",
+					explanation: "Barra do GOOD USOPP",
 					id: "faixa6",
-					prie: 75,
+					prie: 200,
 					backgroundBuy: faixa6,
 				}
 			]
