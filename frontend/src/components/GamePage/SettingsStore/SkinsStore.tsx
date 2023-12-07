@@ -1,9 +1,10 @@
-import faixa1 from '../../../assets/faixas/faixa1.svg'
-import faixa2 from '../../../assets/faixas/faixa2.svg'
-import faixa3 from '../../../assets/faixas/faixa3.svg'
-import faixa4 from '../../../assets/faixas/faixa4.svg'
-import faixa5 from '../../../assets/faixas/faixa5.svg'
-import faixa6 from '../../../assets/faixas/faixa6.svg'
+import faixa1 from '../../../static/faixas/faixa1.svg'
+import faixa2 from '../../../static/faixas/faixa2.svg'
+import faixa3 from '../../../static/faixas/faixa3.svg'
+import faixa4 from '../../../static/faixas/faixa4.svg'
+import faixa5 from '../../../static/faixas/faixa5.svg'
+import faixa6 from '../../../static/faixas/faixa6.svg'
+import faixa7 from '../Luffys_flag_2_icon-icons.com_76119.png'
 import Coins from '../Coins'
 import ButtonsItemsStore from './ButtonItemsStore'
 
@@ -25,12 +26,12 @@ export default function BarrasStore(): JSX.Element {
 		<div style={cssDivFilhoSelectGame}>
 			<Coins />
 			<div className="d-flex p-3" id='divOptionsStartGame'>
-				<ButtonsItemsStore photo={faixa1}
+				<ButtonsItemsStore photo={faixa7}
 					explanation="Modelo casual sem perca ou ganhos de prontos"
 					id="normalPong"
 					price={5}
 				/>
-				<ButtonsItemsStore photo={faixa2}
+				<ButtonsItemsStore photo={faixa7}
 					explanation="Modelo ranqueado valendo pontos"
 					id="ranquedPong"
 					price={10}

@@ -1,6 +1,6 @@
 import { useContext, useState } from "react"
-import { ReactComponent as UnicCoin } from '../../../static/game/unicCoin.svg'
-import BordaItems from '../../../static/game/bordaLojaPlata.svg'
+import { ReactComponent as UnicCoin } from '../../../assets/game/unicCoin.svg'
+import BordaItems from '../../../assets/game/bordaLojaPlata.svg'
 import { UserData } from "../../InitialPage/Contexts/Contexts"
 
 type propsButtonPlay = {

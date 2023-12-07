@@ -1,6 +1,6 @@
 import PhotoModelsGame from "./PhotoModelsGame";
-import playPong from '../../../static/game/playPong.jpg'
-import playSpecialPong from '../../../static/game/playSpecialPong.jpg'
+import playPong from '../../../assets/game/playPong.jpg'
+import playSpecialPong from '../../../assets/game/playSpecialPong.jpg'
 
 export default function ModelsGame() : JSX.Element {
 	const cssDivFilhoSelectGame: React.CSSProperties = {

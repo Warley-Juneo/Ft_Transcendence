@@ -1,9 +1,9 @@
-import rank1 from '../../static/rankLevel/rank1.png';
-import rank2 from '../../static/rankLevel/rank2.png';
-import rank3 from '../../static/rankLevel/rank3.png';
-import rank4 from '../../static/rankLevel/rank4.png';
-import rank5 from '../../static/rankLevel/rank5.png';
-import rank6 from '../../static/rankLevel/rank6.png';
+import rank1 from '../../assets/rankLevel/rank1.png';
+import rank2 from '../../assets/rankLevel/rank2.png';
+import rank3 from '../../assets/rankLevel/rank3.png';
+import rank4 from '../../assets/rankLevel/rank4.png';
+import rank5 from '../../assets/rankLevel/rank5.png';
+import rank6 from '../../assets/rankLevel/rank6.png';
 import { RankFormating } from './typesProfile';
 
 export const RankMappings = [
