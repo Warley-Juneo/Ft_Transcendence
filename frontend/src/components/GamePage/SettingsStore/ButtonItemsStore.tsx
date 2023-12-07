@@ -8,6 +8,7 @@ type propsButtonPlay = {
 	explanation: string,
 	id: string,
 	price: number,
+	backgroundBuy?: string,
 }
 
 export default function ButtonsItemsStore(props: propsButtonPlay): JSX.Element {
@@ -54,8 +55,8 @@ export default function ButtonsItemsStore(props: propsButtonPlay): JSX.Element {
 		height: '2rem',
 		border: 'none',
 		borderRadius: '0.5rem',
-		backgroundColor: 'transparent',
-		backgroundImage: `url(${props.photo})`,
+		backgroundColor: props.backgroundBuy ? 'transparent' : 'gold',
+		backgroundImage: props.backgroundBuy ? `url(${props.photo})`: '',
 		backgroundSize: '100% 100%',
 	}
 

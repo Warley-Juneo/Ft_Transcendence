@@ -1,6 +1,7 @@
 import { useState } from "react";
-import BarrasStore from "./ItemsStore";
 import { IoMdClose } from "react-icons/io";
+import ShowItemsStore from "./ShowItemsStore";
+import FakeApiStore from "./FakeApiStore";
 
 export default function SettingsStore(): JSX.Element {
 	const [barPerfil, setBarPerfil] = useState(true)
@@ -84,8 +85,9 @@ export default function SettingsStore(): JSX.Element {
 			<div style={{ display: 'inline-flex' }}>
 				<div style={firtdivSelectGame}>
 					<IoMdClose style={cssButtonClosed} />
-					<BarrasStore />
-					
+					{barPerfil ? <ShowItemsStore items={FakeApiStore('skinsBar')} /> :
+						<ShowItemsStore items={FakeApiStore('skinsGame')} />
+					}
 					<div style={principaldivSelectGame}></div>
 				</div>
 			</div>
