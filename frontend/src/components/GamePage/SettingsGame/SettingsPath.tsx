@@ -1,5 +1,5 @@
 import ModelsGame from "./ModelsGame";
-import { IoMdClose as ButtonClosed } from "react-icons/io";
+import { IoMdClose } from "react-icons/io";
 
 export default function SettingsPath(): JSX.Element {
 	const cssButtonClosed: React.CSSProperties = {
@@ -45,6 +45,7 @@ export default function SettingsPath(): JSX.Element {
 		padding: '1.3rem',
 		borderRadius: '1.5rem',
 		color: 'white',
+		height: "100%"
 	}
 
 	const principaldivSelectGame: React.CSSProperties = {
@@ -62,13 +63,10 @@ export default function SettingsPath(): JSX.Element {
 	}
 
 	return (
-		<div className="m-auto">
-			<div className="d-flex">
-				<button style={ButtonSelected}>Game</button>
-				<button style={ButtonUnselected}>Custon</button>
-			</div>
+		<div className="h-100">
+			<button style={ButtonSelected}>Settings</button>
 			<div style={firtdivSelectGame}>
-				<ButtonClosed style={cssButtonClosed} />
+				<IoMdClose style={cssButtonClosed} />
 				<ModelsGame />
 				<div style={principaldivSelectGame}></div>
 			</div>

@@ -1,20 +1,19 @@
 import React, { useContext } from "react";
 import InitalPhoto from "./warwick.png";
-import SettingsGame from "./SettingsGame/SettingsGame";
+import SettingsPath from "./SettingsGame/SettingsGame";
 import SettingsStore from "./SettingsStore/SettingsStore";
 import axios from "axios";
 import { UserData } from "../InitialPage/Contexts/Contexts";
 import Cookies from "js-cookie";
 
 export default function Game(): JSX.Element {
-	const { user: {nickname}, updateDataUser } = useContext(UserData)
+	const { user: { nickname }, updateDataUser } = useContext(UserData)
 	const principalPhoto: React.CSSProperties = {
 		backgroundImage: `url(${InitalPhoto})`,
 		backgroundSize: "contain",
 		backgroundPosition: "center",
 		backgroundRepeat: "no-repeat",
 		height: "100%",
-		display: "flex",
 	}
 
 	const addedCoins = () => {
@@ -34,10 +33,16 @@ export default function Game(): JSX.Element {
 		})
 	}
 	return (
-		<div className="h-100 bg-custon-roxo rounded p-3 position-relative">
-			<div style={principalPhoto}>
-				<SettingsGame />
-				<SettingsStore />
+		<div className="h-100 bg-custon-roxo rounded p-3 position-relative" style={principalPhoto}>
+			<div className="row g-0 h-100">
+				<div className="col-4">
+
+				</div>
+				<div className="col-8 d-flex">
+					<SettingsPath />
+				</div>
+
+				{/* <SettingsStore /> */}
 			</div>
 		</div>
 	)
