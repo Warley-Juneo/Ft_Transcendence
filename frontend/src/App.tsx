@@ -7,8 +7,7 @@ import ChatPublic from './components/ChatsGame/ChatPublic/ChatPublic';
 import Ranking from './components/Rankingpage/Ranking';
 import LoginFake from './components/LoginPage/LoginFake';
 import ProfileScreen from './components/Profiles/ProfilePage/ProfilePage';
-import Game from './components/GamePage/Game';
-
+import PongGame from './components/GamePage/Game';
 export default function App() {
 	return (
 		<div>
@@ -17,7 +16,7 @@ export default function App() {
 					<Route path='/' element={< Login /> } />
 					<Route path='/fake' element={< LoginFake /> } />
 					<Route path='/game/' element={< InicialPage /> } >
-						<Route path='game' element={<Game />} />
+						<Route path='game' element={<PongGame />} />
 						<Route path='profile' element={<ProfileScreen />} />
 						<Route path='chats' element={<ListChats />} />
 						<Route path='chats/:chatName' element={<ChatPublic />} />
