@@ -5,15 +5,26 @@ import SettingsStore from "./SettingsStore/SettingsStore";
 import axios from "axios";
 import { UserData } from "../InitialPage/Contexts/Contexts";
 import Cookies from "js-cookie";
+import { ReactComponent as Store } from '../../assets/store/store.svg'
+import { ReactComponent as BackPack } from '../../assets/backpack.svg'
+import ButtonsMain from "./ButtonsMain";
 
 export default function Game(): JSX.Element {
 	const { user: { nickname }, updateDataUser } = useContext(UserData)
+	const [isHover, setIsHover] = React.useState(false)
+
 	const principalPhoto: React.CSSProperties = {
 		backgroundImage: `url(${InitalPhoto})`,
 		backgroundSize: "contain",
 		backgroundPosition: "center",
 		backgroundRepeat: "no-repeat",
 		height: "100%",
+		display: "flex",
+	}
+
+	const CSSButtonsScreen : React.CSSProperties = {
+		cursor: 'pointer',
+		transition: '0.3s',
 	}
 
 	const addedCoins = () => {
@@ -33,16 +44,11 @@ export default function Game(): JSX.Element {
 		})
 	}
 	return (
-		<div className="h-100 bg-custon-roxo rounded p-3 position-relative" style={principalPhoto}>
-			<div className="row g-0 h-100">
-				<div className="col-4">
-
-				</div>
-				<div className="col-8 d-flex">
-					{/* <SettingsPath /> */}
-					<SettingsStore />
-				</div>
-			</div>
+		<div className="h-100 bg-custon-roxo rounded position-relative" style={principalPhoto}>
+			<ButtonsMain Photo={Store} position="top-0 end-0" />
+			<ButtonsMain Photo={BackPack} position="bottom-0 end-0" />
+			{/* <SettingsPath /> */}
+			{/* <SettingsStore /> */}
 		</div>
 	)
 }

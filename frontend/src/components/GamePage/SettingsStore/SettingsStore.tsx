@@ -81,7 +81,7 @@ export default function SettingsStore(): JSX.Element {
 					Bar Game
 				</button>
 			</div>
-			<div style={firtdivSelectGame}>
+			<div style={firtdivSelectGame} >
 				<IoMdClose style={cssButtonClosed} />
 				{barPerfil ? <ShowItemsStore items={FakeApiStore('skinsBar')} /> :
 					<ShowItemsStore items={FakeApiStore('skinsGame')} />
