@@ -8,6 +8,7 @@ import naveFrente from '../../assets/game/nave/naveFrente.png';
 import naveCostas from '../../assets/game/nave/naveCostas.png';
 import naveDescendo from '../../assets/game/nave/naveDescendo.png';
 import naveLateral from '../../assets/game/nave/naveLateral.png';
+import SettingsStore from "./SettingsStore/SettingsStore";
 
 
 export default function Game(): JSX.Element {
@@ -173,5 +174,7 @@ export default function Game(): JSX.Element {
 		};
 	}, []); // A dependência vazia garante que isso só seja executado uma vez
 
-	return <div ref={gameContainerRef} className="h-100 rounded"></div>;
+	return <div ref={gameContainerRef} className="h-100 rounded">
+		<SettingsStore />
+	</div>;
 }

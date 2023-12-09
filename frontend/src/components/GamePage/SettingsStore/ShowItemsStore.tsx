@@ -29,7 +29,7 @@ export default function ShowItemsStore({items}: {items: StoreItems}): JSX.Elemen
 									photo={item.photo}
 									explanation={item.explanation}
 									id={item.id}
-									price={item.prie}
+									price={item.price}
 									backgroundBuy={item.backgroundBuy}
 									key={item.id}
 								/>

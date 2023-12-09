@@ -16,7 +16,7 @@ export type StoreItems = {
 	photo: string,
 	explanation: string,
 	id: string,
-	prie: number,
+	price: number,
 	backgroundBuy: string,
 }[][]
 
@@ -28,14 +28,14 @@ export default function FakeApiStore(type: string): StoreItems {
 					photo: Ace,
 					explanation: "Ace churrasqueiro",
 					id: "AceIcon",
-					prie: 25,
+					price: 25,
 					backgroundBuy: '',
 				},
 				{
 					photo: Brook,
 					explanation: "Brook Yohohohoho",
 					id: "BrookIcon",
-					prie: 25,
+					price: 25,
 					backgroundBuy: '',
 
 				},
@@ -43,7 +43,7 @@ export default function FakeApiStore(type: string): StoreItems {
 					photo: Law,
 					explanation: "Law nefado",
 					id: "Law",
-					prie: 30,
+					price: 30,
 					backgroundBuy: '',
 
 				},
@@ -53,7 +53,7 @@ export default function FakeApiStore(type: string): StoreItems {
 					photo: BarbaBranca,
 					explanation: "Barba Branca sem barba",
 					id: "BarbaBranca",
-					prie: 35,
+					price: 35,
 					backgroundBuy: '',
 
 				},
@@ -61,7 +61,7 @@ export default function FakeApiStore(type: string): StoreItems {
 					photo: Luffy,
 					explanation: "Luffy chapeu de plastico",
 					id: "LuffyIcon",
-					prie: 45,
+					price: 45,
 					backgroundBuy: '',
 
 				},
@@ -69,7 +69,7 @@ export default function FakeApiStore(type: string): StoreItems {
 					photo: Ussop,
 					explanation: "O Lendario GOD USOPP",
 					id: "UssopIcon",
-					prie: 200,
+					price: 200,
 					backgroundBuy: '',
 				},
 			]
@@ -82,14 +82,14 @@ export default function FakeApiStore(type: string): StoreItems {
 					photo: faixa1,
 					explanation: "Barra Simples",
 					id: "faixa1",
-					prie: 15,
+					price: 15,
 					backgroundBuy: faixa1,
 				},
 				{
 					photo: faixa2,
 					explanation: "Continua Simples",
 					id: "faixa2",
-					prie: 20,
+					price: 20,
 					backgroundBuy: faixa2,
 
 				},
@@ -97,7 +97,7 @@ export default function FakeApiStore(type: string): StoreItems {
 					photo: faixa3,
 					explanation: "Começando a ficar elegante",
 					id: "faixa3",
-					prie: 25,
+					price: 25,
 					backgroundBuy: faixa3,
 
 				},
@@ -107,21 +107,21 @@ export default function FakeApiStore(type: string): StoreItems {
 					photo: faixa4,
 					explanation: "Barra elegante",
 					id: "faixa4",
-					prie: 30,
+					price: 30,
 					backgroundBuy: faixa4,
 				},
 				{
 					photo: faixa5,
 					explanation: "Barra de um verdareiro HUNTER",
 					id: "faixa5",
-					prie: 50,
+					price: 50,
 					backgroundBuy: faixa5,
 				},
 				{
 					photo: faixa6,
 					explanation: "Barra do GOOD USOPP",
 					id: "faixa6",
-					prie: 200,
+					price: 200,
 					backgroundBuy: faixa6,
 				}
 			]
