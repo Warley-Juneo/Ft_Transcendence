@@ -1,9 +1,9 @@
-import { useState } from "react";
+import React, { SetStateAction, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import ShowItemsStore from "./ShowItemsStore";
 import FakeApiStore from "./FakeApiStore";
 
-export default function SettingsStore(): JSX.Element {
+export default function SettingsStore({openStore}: {openStore: React.Dispatch<SetStateAction<boolean>>}): JSX.Element {
 	const [barPerfil, setBarPerfil] = useState(true)
 
 	const cssButtonClosed: React.CSSProperties = {
@@ -66,7 +66,7 @@ export default function SettingsStore(): JSX.Element {
 	}
 
 	return (
-		<div className="m-auto">
+		<div className="position-absolute top-50 start-50 translate-middle">
 			<div className="d-flex">
 				<button
 					style={ButtonBarPerfil}
@@ -82,7 +82,7 @@ export default function SettingsStore(): JSX.Element {
 				</button>
 			</div>
 			<div style={firtdivSelectGame} >
-				<IoMdClose style={cssButtonClosed} />
+				<IoMdClose style={cssButtonClosed} onClick={() => openStore(false)}/>
 				{barPerfil ? <ShowItemsStore items={FakeApiStore('skinsBar')} /> :
 					<ShowItemsStore items={FakeApiStore('skinsGame')} />
 				}

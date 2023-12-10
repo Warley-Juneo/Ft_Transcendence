@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Phaser from "phaser";
 import backgroundSpace from "../../assets/game/backgroundSpace.png";
 import planetaAnel from '../../assets/game/planets/planetaJupter.png';
@@ -17,6 +17,8 @@ export default function Game(): JSX.Element {
 	const pntAnel = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
 	const pntFire = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
 	const pntLua = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
+	const [collisionStore, setCollisionStore] = useState(false);
+
 
 
 	useEffect(() => {
@@ -94,9 +96,9 @@ export default function Game(): JSX.Element {
 
 			pntLua.current.setScale(0.5);
 
-			// pntAnel.current.setName("Anel");
-			// pntFire.current.setName("Fire");
-			// pntLua.current.setName("Lua");
+			pntAnel.current.setName("Anel");
+			pntFire.current.setName("Fire");
+			pntLua.current.setName("Lua");
 
 			this.physics.world.setBounds(0, 0, containerWidth, containerHeight); // Define os limites do mundo para que a nave não possa sair da tela
 		}
@@ -161,8 +163,10 @@ export default function Game(): JSX.Element {
 
 			this.physics.world.collide(nave.current, [pntAnel.current, pntFire.current, pntLua.current], (rocket, planet) => {
 				// Verifica se 'planet' é do tipo Sprite antes de acessar a propriedade 'name'
-				if (planet instanceof Phaser.Physics.Arcade.Sprite && planet.name) {
-					console.log(`A nave colidiu com o planeta: ${planet.name}`);
+				if (planet instanceof Phaser.Physics.Arcade.Sprite) {
+					if (planet.name === 'Lua' && !collisionStore) {
+						setCollisionStore(true);
+					}
 				}
 			});
 
@@ -174,7 +178,7 @@ export default function Game(): JSX.Element {
 		};
 	}, []); // A dependência vazia garante que isso só seja executado uma vez
 
-	return <div ref={gameContainerRef} className="h-100 rounded">
-		<SettingsStore />
+	return <div ref={gameContainerRef} className="h-100 position-relative">
+		{collisionStore ? <SettingsStore openStore={setCollisionStore} /> : null}
 	</div>;
 }
