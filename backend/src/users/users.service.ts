@@ -5,6 +5,8 @@ import { UserResumeDto, UserProfileDto, UserLadderDto } from './dtos/output.dtos
 import { CreateUserDto } from './dtos/createUser.dto';
 import { GameService } from 'src/game/game.service';
 import { AddFriendDto, ProfileDto, UpdateCoinsDto, UpdateProfileDto } from './dtos/input.dtos';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export class UsersService {
@@ -17,14 +19,28 @@ export class UsersService {
     return await this.userRepository.createUser(dto);
   }
 
-  async updateProfile(userId: string, dto: UpdateProfileDto): Promise<UserResumeDto> {
+  async uploadPhoto(user_id: string, avatar: string): Promise<void> {
+	const base64Data = avatar.replace(/^data:image\/png;base64,/, "");
+	const uploadDir = path.resolve(__dirname, '..', 'uploads');
+	const uploadPhotoPath = path.resolve(__dirname, '..', 'uploads', `${user_id}.png`);
 
-    let user;
-    if (dto.avatar) {
-      user = await this.userRepository.updateAvatar(userId, dto);
-    }
-    if (dto.nick_name) {
-      user = await this.userRepository.updateNickname(userId, dto);
+	try {
+		if (!fs.existsSync(uploadDir)) {
+			await fs.promises.mkdir(uploadDir, { recursive: true });
+		}
+		await fs.promises.writeFile(uploadPhotoPath, base64Data, 'base64');
+	} catch (error) {
+		throw new Error(`\n\nError saving file: ${error.message}`); //TODO: change to custom error
+	}
+}
+
+  async updateProfile(user_id: string, dto: UpdateProfileDto): Promise<UserResumeDto> {
+	let user;
+	if (dto.avatar) {
+		await this.uploadPhoto(user_id, dto.avatar);
+	}
+	if (dto.nick_name) {
+      user = await this.userRepository.updateNickname(user_id, dto);
     }
 
     return new UserResumeDto(user);
