@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Phaser from "phaser";
-import backgroundSpace from "../../../assets/game/backgroundSpace.png";
+import backgroundSpace from "../../../assets/game/planets/backgrounds/backgroundSpace.png";
 import planetaAnel from '../../../assets/game/planets/planetaJupter.png';
 import planetaFire from '../../../assets/game/planets/planetaFire.png';
 import planetaLua from '../../../assets/game/planets/PlanetaLua.png';

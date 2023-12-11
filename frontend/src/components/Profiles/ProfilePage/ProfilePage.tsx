@@ -15,7 +15,10 @@ export default function ProfileScreen() {
 				<div className='faixa-amarela p-2'>
 					<h2 className='fst-italic ms-5 p-2'>PARTIDAS</h2>
 				</div>
-				<div className='overflow-auto' id='MatchHistory'>
+				<div className='overflow-y-auto' id='MatchHistory'>
+					<MatchHistory userId={dataUser.id} />
+					<MatchHistory userId={dataUser.id} />
+					<MatchHistory userId={dataUser.id} />
 					<MatchHistory userId={dataUser.id} />
 				</div>
 			</div>

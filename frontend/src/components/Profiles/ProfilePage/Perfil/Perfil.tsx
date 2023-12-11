@@ -32,11 +32,11 @@ export default function InformationsUser() {
 	}, []);
 
 	let pointers: number = user.wins - user.loses;
-	const { rank, borderImg, borderWrite } = HandleRank(30);
+	const { rank, borderImg, borderWrite } = HandleRank(5);
 	let aux = user.wins + user.draws;
 	let kda: number = aux === 0 ? user.loses : aux / user.loses;
 	return (
-		<div className='text-center text-white'>
+		<div className='text-center text-white bg- h-100'>
 			<ProfilePhoto
 				borderImg={borderImg}
 				avatar={dataUser.user.avatar}

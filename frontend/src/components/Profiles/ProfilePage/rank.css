@@ -18,9 +18,8 @@
 /*##############################################################*/
 
 .borderDivFotoRank1 {
-	background-image: url('../../../assets/bordaFoto/bordaFotoRank1.png');
-	background-size: contain;
-	background-repeat: no-repeat;
+	background-image: url('../../../assets/bordaFoto/bordaFotoRank1.svg');
+	background-size: cover;
 }
 
 .borderDivFotoRank1 img {
@@ -29,7 +28,6 @@
 
 .borderWriteRank1 {
 	background-image: url('../../../assets/bordaWriteRank/bordaWriteRank1.png');
-	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
 
@@ -38,7 +36,7 @@
 /*##############################################################*/
 
 .borderDivFotoRank2 {
-	background-image: url('../../../assets/bordaFoto/bordaFotoRank2.png');
+	background-image: url('../../../assets/bordaFoto/bordaFotoRank2.svg');
 	background-size: contain;
 	background-repeat: no-repeat;
 }
@@ -62,7 +60,7 @@
 /*##############################################################*/
 
 .borderDivFotoRank3 {
-	background-image: url('../../../assets/bordaFoto/bordaFotoRank3.png');
+	background-image: url('../../../assets/bordaFoto/bordaFotoRank3.svg');
 	background-size: contain;
 	background-repeat: no-repeat;
 }
@@ -85,7 +83,7 @@
 /*##############################################################*/
 
 .borderDivFotoRank4 {
-	background-image: url('../../../assets/bordaFoto/bordaFotoRank4.png');
+	background-image: url('../../../assets/bordaFoto/bordaFotoRank4.svg');
 	background-size: contain;
 	height: 100%;
 	width: 100%;
@@ -109,7 +107,7 @@
 /*##############################################################*/
 
 .borderDivFotoRank5 {
-	background-image: url('../../../assets/bordaFoto/bordaFotoRank5.png');
+	background-image: url('../../../assets/bordaFoto/bordaFotoRank5.svg');
 	background-size: contain;
 	background-repeat: no-repeat;
 }
@@ -133,7 +131,7 @@
 /*##############################################################*/
 
 .borderDivFotoRank6 {
-	background-image: url('../../../assets/bordaFoto/bordaFotoRank6.png');
+	background-image: url('../../../assets/bordaFoto/bordaFotoRank6.svg');
 	background-size: contain;
 	background-repeat: no-repeat;
 }

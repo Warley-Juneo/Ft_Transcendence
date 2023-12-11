@@ -2,7 +2,7 @@ import { useContext, useState } from "react"
 import { ReactComponent as UnicCoin } from '../../../assets/store/unicCoin.svg'
 import { UserData } from "../../InitialPage/Contexts/Contexts"
 // import { Tooltip } from "react-tooltip"
-import bgLua from "../../../assets/game/backgroundLua2.jpg";
+import bgLua from "../../../assets/game/planets/backgrounds/backgroundLuaStore.jpg";
 
 type propsButtonPlay = {
 	photo: string,

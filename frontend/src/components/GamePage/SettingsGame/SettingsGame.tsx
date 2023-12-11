@@ -1,15 +1,15 @@
 import { SetStateAction } from "react";
 import ModelsGame from "./ModelsGame";
 import { IoMdClose as ButtonClosed } from "react-icons/io";
-import bgFire from "../../../assets/game/backgroundFire.jpg";
-import bgFireCima from "../../../assets/game/backgroundFireCima.jpg";
+import bgFire from "../../../assets/game/planets/backgrounds/backgroundFire.jpg";
+import bgFireCima from "../../../assets/game/planets/backgrounds/backgroundFireCima.jpg";
+import bgFireCima2 from "../../../assets/game/planets/backgrounds/backgroundFireCima2.jpg";
 
 type propsSettingsPath = {
 	openStore: React.Dispatch<SetStateAction<boolean>>;
 }
 
 export default function SettingsPath(props: propsSettingsPath): JSX.Element {
-	console.log("Eu")
 	const cssButtonClosed: React.CSSProperties = {
 		position: 'absolute',
 		top: '0',
@@ -48,6 +48,7 @@ export default function SettingsPath(props: propsSettingsPath): JSX.Element {
 		marginBottom: '2px',
 		borderBottomLeftRadius: '0.5rem',
 		borderBottomRightRadius: '0.5rem',
+		backgroundImage: `url(${bgFireCima2})`,
 	}
 
 	const firtdivSelectGame: React.CSSProperties = {
@@ -72,7 +73,7 @@ export default function SettingsPath(props: propsSettingsPath): JSX.Element {
 		borderRadius: '1.5rem',
 		opacity: 0.7,
 		backgroundColor: '#e56e23',
-		backgroundSize: 'cover',
+		// backgroundSize: 'cover',
 	}
 
 	return (
