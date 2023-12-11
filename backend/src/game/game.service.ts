@@ -46,24 +46,6 @@ export class GameService {
 		return outpuDto;
 	}
 
-	async userPhoto(file: any, nickname: string): Promise<string> {
-
-		try {
-			const uploadFolder = path.resolve(__dirname, '..', 'uploads');
-			if (!fs.existsSync(uploadFolder)) {
-				fs.mkdirSync(uploadFolder); // Crie a pasta 'uploads', se ela não existir
-			}
-			const extension = path.extname(file.originalname);
-			const FilePath = path.resolve(uploadFolder, `${nickname}${extension}`);
-
-			fs.writeFileSync(FilePath, file.buffer);
-			return `Foto do usuário salva com sucesso em: ${FilePath}`;
-		} catch (error) {
-			console.error('Erro ao salvar a foto:', error);
-			throw new Error('Erro ao salvar a foto'); // Lançar uma exceção para o cliente
-		}
-	}
-
 	async numberOfUserMatchWins(userId: string): Promise<number> {
 		return this.gameRepository.numberOfUserMatchWins(userId);
 	}

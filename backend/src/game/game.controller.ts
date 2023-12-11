@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { GameService } from './game.service';
 import { UserMatchDto } from './dtos/output.dto';
-import { InputUserDto, UploadedFileDto } from './dtos/input.dto';
+import { InputUserDto } from './dtos/input.dto';
 
 @Controller('game')
 export class GameController {
@@ -12,10 +12,5 @@ export class GameController {
 		return await this.gameService.userMatchs(dto);
 	}
 
-	@Post('user/photo')
-	async userPhoto(dto: UploadedFileDto): Promise<string> {
-		console.log(dto.content);
-		return await this.gameService.userPhoto(dto.content, dto.nickname);  // Corrigir aqui para passar o arquivo para o serviço
-	}
 
 }

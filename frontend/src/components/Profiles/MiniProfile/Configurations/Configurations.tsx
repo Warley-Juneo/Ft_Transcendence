@@ -1,35 +1,68 @@
 import { UserData } from '../../../InitialPage/Contexts/Contexts';
-import { useContext, useRef, useState } from 'react';
+import { FormEvent, useContext, useRef, useState } from 'react';
 import IdentifyInputName from "./IdentifyInputName";
 import InputEditName from "./InputEditName";
 import FolderSettingsGame from "./Folder";
 import AudioRanger from "./AudioRanger";
-import ButtonEdit from "./ButtonEdit";
+import ButtonsConf from "./ButtonsConf";
 import './animationEditInputName.css';
 import Cookies from "js-cookie";
 import axios from "axios";
+import ButtonEdit from './ButtonsEdit';
 
 export default function ConfigurationGame(): JSX.Element {
 	const [handleOption, setHandleOption] = useState<boolean>(false);
+
 	const dataUser = useContext(UserData);
-	const newNickname = useRef<HTMLInputElement>(null);
-	const newAvatar = useRef<HTMLInputElement>(null);
 
-	const EditProfile = () => {
-		const nickName = newNickname.current?.value ? newNickname.current?.value : dataUser.user.nickname;
-		const avatar = newAvatar.current?.value ? newAvatar.current?.value : dataUser.user.avatar;
+	const editProfile = (event: FormEvent<HTMLFormElement>): void => {
+		event.preventDefault();
+		const form = new FormData(event.currentTarget);
 
-		axios.post('http://localhost:3000/users/updateProfile', {
-			nick_name: nickName,
-			avatar: avatar,
-		}, {
-			headers: {
-				Authorization: Cookies.get('jwtToken'),
+		const avatarInput = event.currentTarget.querySelector('input[name="avatar"]') as HTMLInputElement;
+		const avatarFile = avatarInput.files?.[0];
+		const nickname = form.get('nickname');
+
+		if (avatarFile) {
+			const reader = new FileReader();
+			reader.onloadend = () => {
+				const base64 = reader.result;
+					axios.post('http://localhost:3000/users/updateProfile', {
+						nick_name: nickname,
+						avatar: base64,
+					}, {
+						headers: {
+							Authorization: Cookies.get('jwtToken'),
+						}
+					}).then((res) => {
+						setHandleOption(!handleOption);
+						dataUser.updateDataUser();
+					})
 			}
-		}).then((res) => {
-			setHandleOption(!handleOption);
-			dataUser.updateDataUser();
-		})
+			reader.readAsDataURL(avatarFile);
+		}
+
+	}
+
+	const getCorrectDiv = (isEditing: boolean) => {
+		if (isEditing) return <InputEditName/>
+		return (
+			<IdentifyInputName
+				_avatar={dataUser.user.avatar}
+				_nickname={dataUser.user.nickname}
+			/>
+		)
+	}
+
+	const getCorrectButton = (isEditing: boolean) => {
+		if (isEditing) {
+			return <ButtonEdit setEditProfile={setHandleOption} />
+		}
+		return (
+			<ButtonsConf addedInputNameDef180={() => { setHandleOption(!handleOption) }}
+				content='Edit'
+			/>
+		)
 	}
 
 	return (
@@ -37,39 +70,15 @@ export default function ConfigurationGame(): JSX.Element {
 			style={{ backgroundColor: '#653b1e', width: '600px' }}
 		>
 			<h2 className='text-center text-white'>Game Settings</h2>
-			<div className='bg-white rounded p-5'>
-				<div>
-					<div className='div-nickname'>
-						{!handleOption ?
-							<IdentifyInputName
-								_avatar={dataUser.user.avatar}
-								_nickname={dataUser.user.nickname}
-							/> :
-							<InputEditName
-								newAvatar={newAvatar}
-								newNickname={newNickname}
-							/>
-						}
-					</div>
-					<div className="d-flex justify-content-center">
-						{!handleOption ? (
-							<ButtonEdit addedInputNameDef180={() => { setHandleOption(!handleOption) }}
-								content='Edit'
-							/>
-						) : (
-							<>
-								<ButtonEdit addedInputNameDef180={() => { setHandleOption(!handleOption) }}
-									content='Cancel'
-								/>
-								<ButtonEdit addedInputNameDef180={EditProfile}
-									content='Save'
-								/>
-							</>
-						)}
-					</div>
+			<form onSubmit={editProfile} className='bg-white rounded p-5'>
+				<div className='div-nickname'>
+					{getCorrectDiv(handleOption)}
+				</div>
+				<div className="d-flex justify-content-center">
+					{getCorrectButton(handleOption)}
 				</div>
 				<AudioRanger />
-			</div>
+			</form>
 			<FolderSettingsGame />
 		</div>
 	)

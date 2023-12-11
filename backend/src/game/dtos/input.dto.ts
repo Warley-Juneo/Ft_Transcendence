@@ -5,14 +5,6 @@ export class InputUserDto {
 	user_id:	string;
 }
 
-export class UploadedFileDto {
-	@IsNotEmpty()
-	content:	BinaryData;
-
-	@IsNotEmpty()
-	nickname:	string;
-}
-
 export class DisconnectDto {
 	@IsNotEmpty()
 	user_id:	string;
