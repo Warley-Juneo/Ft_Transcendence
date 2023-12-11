@@ -12,10 +12,5 @@ export class GameController {
 		return await this.gameService.userMatchs(dto);
 	}
 
-	@Post('user/photo')
-	async userPhoto(dto: UploadedFileDto): Promise<string> {
-		console.log(dto.content);
-		return await this.gameService.userPhoto(dto.content, dto.nickname);  // Corrigir aqui para passar o arquivo para o serviço
-	}
 
 }
