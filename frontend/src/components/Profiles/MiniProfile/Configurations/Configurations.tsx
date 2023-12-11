@@ -1,8 +1,6 @@
 import { UserData } from '../../../InitialPage/Contexts/Contexts';
 import { useContext, useRef, useState } from 'react';
 import IdentifyInputName from "./IdentifyInputName";
-import { AiOutlineSound } from "react-icons/ai";
-import { BsSoundwave } from "react-icons/bs";
 import InputEditName from "./InputEditName";
 import FolderSettingsGame from "./Folder";
 import AudioRanger from "./AudioRanger";
@@ -35,7 +33,9 @@ export default function ConfigurationGame(): JSX.Element {
 	}
 
 	return (
-		<div className='position-absolute top-50 start-50 translate-middle p-2 rounded' style={{ backgroundColor: '#653b1e', width: '600px' }}>
+		<div className='position-absolute top-50 start-50 translate-middle p-2 rounded'
+			style={{ backgroundColor: '#653b1e', width: '600px' }}
+		>
 			<h2 className='text-center text-white'>Game Settings</h2>
 			<div className='bg-white rounded p-5'>
 				<div>
@@ -68,8 +68,7 @@ export default function ConfigurationGame(): JSX.Element {
 						)}
 					</div>
 				</div>
-				<AudioRanger Icone={AiOutlineSound} />
-				<AudioRanger Icone={BsSoundwave} />
+				<AudioRanger />
 			</div>
 			<FolderSettingsGame />
 		</div>
