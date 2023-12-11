@@ -3,18 +3,18 @@ import Coins from '../Coins'
 import ButtonsItemsStore from './ButtonItemsStore'
 import { StoreItems } from './FakeApiStore'
 
+import bgLua from "../../../assets/game/backgroundLua.jpg";
 
 export default function ShowItemsStore({items}: {items: StoreItems}): JSX.Element {
-	const cssDivFilhoSelectGame: React.CSSProperties = {
-		position: 'relative',
-		zIndex: 2,
+	const cssbgLua: React.CSSProperties = {
+		backgroundImage: `url(${bgLua})`,
+		backgroundSize: 'cover',
+		backgroundPosition: 'center',
+		backgroundRepeat: 'no-repeat',
+	}
 
-		backgroundColor: '#3b0054',
-		borderRadius: '1rem',
-		boxShadow: '1px 2px 2px black inset, 0px -2px 2px #FFF inset',
-		opacity: '1 !important',
-		display: 'flex',
-		flexDirection: 'column',
+	const cssDivFilhoSelectGame: React.CSSProperties = {
+		...cssbgLua,
 	}
 
 	return (

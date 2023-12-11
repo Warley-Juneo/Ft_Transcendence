@@ -38,7 +38,7 @@ export default function ButtonModelsGame(props: propsButtonPlay): JSX.Element {
 
 	return (
 		<>
-			<Tooltip id={props.id} place="top">{props.explanation}</Tooltip>
+			{/* <Tooltip id={props.id} place="top">{props.explanation}</Tooltip> */}
 			<div style={cssDiv}
 				onMouseEnter={() => setIsHover(true)}
 				onMouseLeave={() => setIsHover(false)}

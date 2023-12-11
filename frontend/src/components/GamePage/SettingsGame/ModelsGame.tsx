@@ -1,6 +1,8 @@
 import ButtonModelsGame from "./ButtonModelsGame";
 import playPong from '../../../assets/settingsGame/playPong.jpg'
 import playSpecialPong from '../../../assets/settingsGame/playSpecialPong.jpg'
+import bgFire from "../../../assets/game/backgroundFire.jpg";
+
 
 export default function ModelsGame() : JSX.Element {
 	const cssDivFilhoSelectGame: React.CSSProperties = {
@@ -11,6 +13,8 @@ export default function ModelsGame() : JSX.Element {
 		borderRadius: '1rem',
 		boxShadow: '1px 2px 2px black inset, 0px -2px 2px #FFF inset',
 		opacity: '1 !important',
+		backgroundImage: `url(${bgFire})`,
+		backgroundSize: 'cover',
 	}
 
 	return (

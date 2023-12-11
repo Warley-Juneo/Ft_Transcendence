@@ -1,7 +1,15 @@
+import { SetStateAction } from "react";
 import ModelsGame from "./ModelsGame";
 import { IoMdClose as ButtonClosed } from "react-icons/io";
+import bgFire from "../../../assets/game/backgroundFire.jpg";
+import bgFireCima from "../../../assets/game/backgroundFireCima.jpg";
 
-export default function SettingsPath(): JSX.Element {
+type propsSettingsPath = {
+	openStore: React.Dispatch<SetStateAction<boolean>>;
+}
+
+export default function SettingsPath(props: propsSettingsPath): JSX.Element {
+	console.log("Eu")
 	const cssButtonClosed: React.CSSProperties = {
 		position: 'absolute',
 		top: '0',
@@ -11,8 +19,8 @@ export default function SettingsPath(): JSX.Element {
 		height: '3rem',
 		width: '3rem',
 		borderRadius: '0.5rem',
-		backgroundColor: '#ffbf00',
-		boxShadow: '2px 2px 1px #FFF inset, -8px -8px 8px #ed9121 inset',
+		backgroundColor: '#e56e23',
+		boxShadow: '2px 2px 1px #FFF inset, -8px -8px 8px #d81716 inset',
 
 		cursor: 'pointer',
 	}
@@ -27,8 +35,11 @@ export default function SettingsPath(): JSX.Element {
 		border: 'none',
 		borderTopLeftRadius: '1rem',
 		borderTopRightRadius: '1rem',
-		backgroundColor: '#ed9121',
-		boxShadow: '6px 4px 2px #ffbf00 inset, 2px 0px 2px #ffbf00',
+		// backgroundColor: '#ed9121',
+		boxShadow: '6px 4px 2px #d81716 inset, 2px 0px 2px #d81716',
+		backgroundImage: `url(${bgFireCima})`,
+		backgroundSize: 'cover',
+
 	}
 
 	const ButtonUnselected: React.CSSProperties = {
@@ -41,10 +52,12 @@ export default function SettingsPath(): JSX.Element {
 
 	const firtdivSelectGame: React.CSSProperties = {
 		position: 'relative',
-		backgroundColor: '#ffbf00',
 		padding: '1.3rem',
 		borderRadius: '1.5rem',
 		color: 'white',
+		backgroundImage: `url(${bgFire})`,
+		backgroundSize: 'cover',
+
 	}
 
 	const principaldivSelectGame: React.CSSProperties = {
@@ -58,17 +71,19 @@ export default function SettingsPath(): JSX.Element {
 		marginLeft: '0.5rem',
 		borderRadius: '1.5rem',
 		opacity: 0.7,
-		backgroundColor: '#ed9121',
+		backgroundColor: '#e56e23',
+		backgroundSize: 'cover',
 	}
 
 	return (
-		<div className="m-auto">
+		<div className="position-absolute top-50 start-50 translate-middle">
 			<div className="d-flex">
 				<button style={ButtonSelected}>Game</button>
 				<button style={ButtonUnselected}>Custon</button>
+				<ButtonClosed style={cssButtonClosed} onClick={() => props.openStore(false)}/>
+
 			</div>
 			<div style={firtdivSelectGame}>
-				<ButtonClosed style={cssButtonClosed} />
 				<ModelsGame />
 				<div style={principaldivSelectGame}></div>
 			</div>

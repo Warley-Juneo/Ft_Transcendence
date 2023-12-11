@@ -32,7 +32,7 @@ export default function InformationsUser() {
 	}, []);
 
 	let pointers: number = user.wins - user.loses;
-	const { rank, borderImg, borderWrite } = HandleRank(pointers);
+	const { rank, borderImg, borderWrite } = HandleRank(30);
 	let aux = user.wins + user.draws;
 	let kda: number = aux === 0 ? user.loses : aux / user.loses;
 	return (

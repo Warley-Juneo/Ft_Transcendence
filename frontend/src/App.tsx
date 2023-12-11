@@ -7,7 +7,7 @@ import ChatPublic from './components/ChatsGame/ChatPublic/ChatPublic';
 import Ranking from './components/Rankingpage/Ranking';
 import LoginFake from './components/LoginPage/LoginFake';
 import ProfileScreen from './components/Profiles/ProfilePage/ProfilePage';
-import Game from './components/GamePage/Game';
+import Game from './components/GamePage/Game/Game';
 
 export default function App() {
 	return (

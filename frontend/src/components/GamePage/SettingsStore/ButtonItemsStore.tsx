@@ -1,8 +1,8 @@
 import { useContext, useState } from "react"
 import { ReactComponent as UnicCoin } from '../../../assets/store/unicCoin.svg'
-import BordaItems from '../../../assets/store/bordaLojaPlata.svg'
 import { UserData } from "../../InitialPage/Contexts/Contexts"
-import { Tooltip } from "react-tooltip"
+// import { Tooltip } from "react-tooltip"
+import bgLua from "../../../assets/game/backgroundLua2.jpg";
 
 type propsButtonPlay = {
 	photo: string,
@@ -16,7 +16,15 @@ export default function ButtonsItemsStore(props: propsButtonPlay): JSX.Element {
 	const [isHover, setIsHover] = useState(false)
 	const userData = useContext(UserData)
 
+	const cssBgLua: React.CSSProperties = {
+		backgroundImage: `url(${bgLua})`,
+		backgroundSize: 'cover',
+		backgroundPosition: 'center',
+		backgroundRepeat: 'no-repeat',
+	}
+
 	const cssDiv: React.CSSProperties = {
+		...cssBgLua,
 		height: '8rem',
 		width: '8rem',
 		margin: '1rem',
@@ -25,9 +33,8 @@ export default function ButtonsItemsStore(props: propsButtonPlay): JSX.Element {
 		borderRadius: '0.5rem',
 		transition: 'all 0.5s',
 		backgroundColor: '#9400d3',
-		boxShadow: '2px 2px 10px #FFF inset, -2px -2px 10px black inset',
+		boxShadow: '1px 1px 10px #FFF inset, -1px -1px 10px black inset',
 		transform: isHover ? 'scale(1.1)' : 'scale(1)',
-		backgroundImage: `url(${BordaItems})`,
 		backgroundSize: '100% 100%',
 
 	}
@@ -39,26 +46,17 @@ export default function ButtonsItemsStore(props: propsButtonPlay): JSX.Element {
 		borderRadius: '0.5rem',
 	}
 
-	const cssDivPrice: React.CSSProperties = {
-		height: '1.5rem',
-		marginBottom: '0.5rem',
-		border: '1px solid #ffbf00',
-
-		fontWeight: 'bold',
-
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-	}
-
 	const cssButton: React.CSSProperties = {
-		width: '100%',
-		height: '2rem',
+		width: '115%',
+		marginLeft: '-8%',
+		height: '4rem',
 		border: 'none',
-		borderRadius: '0.5rem',
 		backgroundColor: props.backgroundBuy ? 'transparent' : 'gold',
 		backgroundImage: props.backgroundBuy ? `url(${props.photo})` : '',
 		backgroundSize: '100% 100%',
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
 	}
 
 	const buyBar = (itemData: propsButtonPlay) => {
@@ -69,24 +67,18 @@ export default function ButtonsItemsStore(props: propsButtonPlay): JSX.Element {
 
 	}
 	return (
-		<>
-			{/* <Tooltip id={props.id} place='top'>{props.explanation}</Tooltip> */}
-			<div style={cssDiv}
-				onMouseEnter={() => setIsHover(true)}
-				onMouseLeave={() => setIsHover(false)}
-				data-tooltip-id={props.id}
-			>
-				<div style={cssPhoto}>
-					<img className='h-100 w-100 rounded' src={props.photo} alt="playPong" />
-				</div>
-				<div style={cssDivPrice}>
-					<p>{props.price}</p>
-					<UnicCoin style={{ height: '2rem' }} />
-				</div>
-				<button type="button" style={cssButton} onClick={() => { buyBar(props) }}>
-					<p className="fw-bold">Buy</p>
-				</button>
+		<div style={cssDiv}
+			onMouseEnter={() => setIsHover(true)}
+			onMouseLeave={() => setIsHover(false)}
+		>
+			<div style={cssPhoto}>
+				<img className='h-100 w-100 rounded' src={props.photo} alt="playPong" />
 			</div>
-		</>
+			<button type="button" style={cssButton} onClick={() => { buyBar(props) }}>
+				<p className="fw-bold me-1">Buy</p>
+				<p>{props.price}</p>
+				<UnicCoin style={{ height: '2rem' }} />
+			</button>
+		</div>
 	)
 }

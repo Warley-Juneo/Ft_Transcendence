@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import Phaser from "phaser";
-import backgroundSpace from "../../assets/game/backgroundSpace.png";
-import planetaAnel from '../../assets/game/planets/planetaJupter.png';
-import planetaFire from '../../assets/game/planets/planetaFire.png';
-import planetaLua from '../../assets/game/planets/PlanetaLua.png';
-import naveFrente from '../../assets/game/nave/naveFrente.png';
-import naveCostas from '../../assets/game/nave/naveCostas.png';
-import naveDescendo from '../../assets/game/nave/naveDescendo.png';
-import naveLateral from '../../assets/game/nave/naveLateral.png';
-import SettingsStore from "./SettingsStore/SettingsStore";
+import backgroundSpace from "../../../assets/game/backgroundSpace.png";
+import planetaAnel from '../../../assets/game/planets/planetaJupter.png';
+import planetaFire from '../../../assets/game/planets/planetaFire.png';
+import planetaLua from '../../../assets/game/planets/PlanetaLua.png';
+import naveFrente from '../../../assets/game/nave/naveFrente.png';
+import naveCostas from '../../../assets/game/nave/naveCostas.png';
+import naveDescendo from '../../../assets/game/nave/naveDescendo.png';
+import naveLateral from '../../../assets/game/nave/naveLateral.png';
+import SettingsStore from "../SettingsStore/SettingsStore";
+import SettingsPath from "../SettingsGame/SettingsGame";
 
 
 export default function Game(): JSX.Element {
@@ -18,8 +19,7 @@ export default function Game(): JSX.Element {
 	const pntFire = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
 	const pntLua = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
 	const [collisionStore, setCollisionStore] = useState(false);
-
-
+	const planetName = useRef<string>('');
 
 	useEffect(() => {
 		if (!gameContainerRef.current) return;
@@ -164,12 +164,12 @@ export default function Game(): JSX.Element {
 			this.physics.world.collide(nave.current, [pntAnel.current, pntFire.current, pntLua.current], (rocket, planet) => {
 				// Verifica se 'planet' é do tipo Sprite antes de acessar a propriedade 'name'
 				if (planet instanceof Phaser.Physics.Arcade.Sprite) {
-					if (planet.name === 'Lua' && !collisionStore) {
+					if (!collisionStore) {
 						setCollisionStore(true);
+						planetName.current = planet.name;
 					}
 				}
 			});
-
 		}
 
 		// Limpeza quando o componente for desmontado
@@ -179,6 +179,7 @@ export default function Game(): JSX.Element {
 	}, []); // A dependência vazia garante que isso só seja executado uma vez
 
 	return <div ref={gameContainerRef} className="h-100 position-relative">
-		{collisionStore ? <SettingsStore openStore={setCollisionStore} /> : null}
+		{collisionStore && planetName.current === 'Lua' ? <SettingsStore openStore={setCollisionStore}/> : null}
+		{collisionStore && planetName.current === 'Fire' ? <SettingsPath openStore={setCollisionStore}/> : null}
 	</div>;
 }

@@ -19,7 +19,7 @@ function BarOptions(props: any) {
 							<span></span>
 							<span></span>
 							<span></span>
-							Inital Page
+							Home
 						</span>
 					</div>
 					<div className='div-bottom-animation'>
