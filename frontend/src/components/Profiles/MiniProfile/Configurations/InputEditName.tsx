@@ -1,35 +1,31 @@
-import { RefObject } from "react";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 
-type InputEditNameProps = {
-	newNickname: RefObject<HTMLInputElement>;
-	newAvatar: RefObject<HTMLInputElement>;
-}
-export default function InputEditName(props: InputEditNameProps): JSX.Element {
+export default function InputEditName(): JSX.Element {
 	return (
-		<div className={'d-flex justify-content-between w-100 animation-div-nickname'}>
-			<div className="d-flex">
+		<div className='d-flex w-100 animation-div-nickname'>
+			<div className="d-flex w-50">
 				<input
 					className="remove-format-input p-0"
 					type="text"
-					id="editNameInput"
+					name="nickname"
 					placeholder='nickName'
-					ref={props.newNickname}
 				/>
 				<label htmlFor="editNameInput">
 					<CiEdit size={35} type="button" />
 				</label>
 			</div>
-			<div className="d-flex">
+			<div className="d-flex align-items-center ms-1 w-50">
+				<p style={{color: '#6b6475'}}>Photo</p>
 				<input
-					className="remove-format-input p-0"
-					type="text"
-					id="editPhotoInput"
+					className="remove-format-input p-0 d-none"
+					type="file"
+					name="avatar"
 					placeholder='Photo'
-					ref={props.newAvatar}
 				/>
-				<MdOutlineAddAPhoto size={35} type="button" />
+				<MdOutlineAddAPhoto size={35} type="button" className="ms-auto"
+					onClick={() => { document.getElementsByName('avatar')[0].click() }}
+				/>
 			</div>
 		</div>
 
