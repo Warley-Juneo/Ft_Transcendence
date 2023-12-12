@@ -111,7 +111,7 @@ export default function Game(): JSX.Element {
 
 			pntLua.current.setScale(0.4);
 			pntTerra.current.setScale(0.7)
-			sateleteChat.current.setScale(0.1)
+			sateleteChat.current.setScale(0.2)
 			sateleteChat.current.setAngle(295)
 
 			pntAnel.current.setName("Anel");
