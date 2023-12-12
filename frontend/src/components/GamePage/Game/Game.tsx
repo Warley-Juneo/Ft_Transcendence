@@ -18,7 +18,7 @@ export default function Game(): JSX.Element {
 	const pntAnel = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
 	const pntFire = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
 	const pntLua = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
-	const [collisionStore, setCollisionStore] = useState(false);
+	const [collisionStore, setCollisionStore] = useState<boolean>(false);
 	const planetName = useRef<string>('');
 
 	useEffect(() => {
@@ -164,10 +164,14 @@ export default function Game(): JSX.Element {
 			this.physics.world.collide(nave.current, [pntAnel.current, pntFire.current, pntLua.current], (rocket, planet) => {
 				// Verifica se 'planet' é do tipo Sprite antes de acessar a propriedade 'name'
 				if (planet instanceof Phaser.Physics.Arcade.Sprite) {
-					if (!collisionStore) {
-						setCollisionStore(true);
-						planetName.current = planet.name;
-					}
+					setCollisionStore((prev) => {
+						if (!prev) {
+							console.log("entrei")
+							planetName.current = planet.name;
+							prev = true;
+						}
+						return prev;
+					})
 				}
 			});
 		}

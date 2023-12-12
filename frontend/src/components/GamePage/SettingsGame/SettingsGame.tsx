@@ -10,6 +10,7 @@ type propsSettingsPath = {
 }
 
 export default function SettingsPath(props: propsSettingsPath): JSX.Element {
+	console.log("entrou")
 	const cssButtonClosed: React.CSSProperties = {
 		position: 'absolute',
 		top: '0',
@@ -35,7 +36,6 @@ export default function SettingsPath(props: propsSettingsPath): JSX.Element {
 		border: 'none',
 		borderTopLeftRadius: '1rem',
 		borderTopRightRadius: '1rem',
-		// backgroundColor: '#ed9121',
 		boxShadow: '6px 4px 2px #d81716 inset, 2px 0px 2px #d81716',
 		backgroundImage: `url(${bgFireCima})`,
 		backgroundSize: 'cover',
@@ -73,7 +73,6 @@ export default function SettingsPath(props: propsSettingsPath): JSX.Element {
 		borderRadius: '1.5rem',
 		opacity: 0.7,
 		backgroundColor: '#e56e23',
-		// backgroundSize: 'cover',
 	}
 
 	return (
