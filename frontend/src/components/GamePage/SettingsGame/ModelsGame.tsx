@@ -1,7 +1,7 @@
 import ButtonModelsGame from "./ButtonModelsGame";
 import playPong from '../../../assets/settingsGame/playPong.jpg'
 import playSpecialPong from '../../../assets/settingsGame/playSpecialPong.jpg'
-import bgFire from "../../../assets/game/planets/backgrounds/backgroundFire.jpg";
+import bgFire from "../../../assets/game/planets/backgrounds/bgFire.jpg";
 
 
 export default function ModelsGame() : JSX.Element {

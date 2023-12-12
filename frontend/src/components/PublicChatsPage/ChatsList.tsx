@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { BiSolidLock } from 'react-icons/bi';
 import { t_chat } from './PublicChats';
-import { ReactElement } from 'react';
+import bgChat from '../../assets/game/planets/backgrounds/bgChat.jpg'
+import React, { ReactElement } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -114,6 +115,33 @@ export default function ChatList(props: propsChatList) {
 	}
 	return (
 		<div className='row g-0 w-100'>
+			{props.listChats.map((chat) => (
+				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
+			))}
+			{props.listChats.map((chat) => (
+				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
+			))}
+			{props.listChats.map((chat) => (
+				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
+			))}
+			{props.listChats.map((chat) => (
+				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
+			))}
+			{props.listChats.map((chat) => (
+				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
+			))}
+			{props.listChats.map((chat) => (
+				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
+			))}
+			{props.listChats.map((chat) => (
+				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
+			))}
+			{props.listChats.map((chat) => (
+				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
+			))}
+			{props.listChats.map((chat) => (
+				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
+			))}
 			{props.listChats.map((chat) => (
 				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
 			))}

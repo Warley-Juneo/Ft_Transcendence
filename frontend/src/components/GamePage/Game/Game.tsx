@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import Phaser from "phaser";
-import backgroundSpace from "../../../assets/game/planets/backgrounds/backgroundSpace.png";
+import backgroundSpace from "../../../assets/game/planets/backgrounds/bgSpace.png";
 
 import planetaAnel from '../../../assets/game/planets/planetaJupter.png';
 import planetaFire from '../../../assets/game/planets/planetaFire.png';
@@ -111,7 +111,7 @@ export default function Game(): JSX.Element {
 
 			pntLua.current.setScale(0.4);
 			pntTerra.current.setScale(0.7)
-			sateleteChat.current.setScale(0.4)
+			sateleteChat.current.setScale(0.1)
 			sateleteChat.current.setAngle(295)
 
 			pntAnel.current.setName("Anel");

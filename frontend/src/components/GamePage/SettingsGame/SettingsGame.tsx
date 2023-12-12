@@ -1,9 +1,9 @@
 import { SetStateAction } from "react";
 import ModelsGame from "./ModelsGame";
 import { IoMdClose as ButtonClosed } from "react-icons/io";
-import bgFire from "../../../assets/game/planets/backgrounds/backgroundFire.jpg";
-import bgFireCima from "../../../assets/game/planets/backgrounds/backgroundFireCima.jpg";
-import bgFireCima2 from "../../../assets/game/planets/backgrounds/backgroundFireCima2.jpg";
+import bgFire from "../../../assets/game/planets/backgrounds/bgFire.jpg";
+import bgFireCima from "../../../assets/game/planets/backgrounds/bgFireCima.jpg";
+import bgFireCima2 from "../../../assets/game/planets/backgrounds/bgFireCima2.jpg";
 
 type propsSettingsPath = {
 	openStore: React.Dispatch<SetStateAction<boolean>>;

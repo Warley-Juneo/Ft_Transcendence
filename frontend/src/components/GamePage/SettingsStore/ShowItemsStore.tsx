@@ -3,7 +3,7 @@ import Coins from '../Coins'
 import ButtonsItemsStore from './ButtonItemsStore'
 import { StoreItems } from './FakeApiStore'
 
-import bgLua from "../../../assets/game/planets/backgrounds/backgroundLua.jpg";
+import bgLua from "../../../assets/game/planets/backgrounds/bgLua.jpg";
 
 export default function ShowItemsStore({items}: {items: StoreItems}): JSX.Element {
 	const cssbgLua: React.CSSProperties = {

@@ -1,12 +1,12 @@
 import React, { SetStateAction, useEffect, useState } from 'react';
-import bgChats from '../../assets/game/planets/backgrounds/backgroundChats.jpg'
-import { IoMdClose as ButtonClosed } from "react-icons/io";
+import bgChats from '../../assets/game/planets/backgrounds/bgChats.jpg'
 import ScreenCreateNewChat from './ScreemCreateNewChat';
 import BarOptions from './BarOptions';
 import ChatList from './ChatsList';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import './PublicChats.css';
+import ButtonClosed from '../GamePage/Game/ButtonClosed';
 
 export type t_chat = {
 	id: string;
@@ -100,27 +100,34 @@ export default function PageChats(props: propsRanking) {
 
 	const cssDivChats: React.CSSProperties = {
 		backgroundImage: `url(${bgChats})`,
-		backgroundSize: 'cover',
+		backgroundSize: '100% 100%',
+		backgroundRepeat: 'no-repeat',
 		color: 'white',
 		height: '75%',
-		width: '75%'
+		width: '75%',
+		padding: '7%'
 	}
 
-	
+
 	return (
-		<div className='d-flex flex-column bg-custon-roxo rounded p-2 position-absolute top-50 start-50 translate-middle'
+		<div className='bg-custon-roxo rounded position-absolute top-50 start-50 translate-middle'
 			style={cssDivChats}
 		>
-			<ButtonClosed className='position-absolute top-0 end-0 m-2' size='2rem' onClick={() => props.openStore(false)} />
-			<BarOptions
-				handleSearchChats={handleSearchChats}
-				setShowCreateChat={setShowCreateChat}
-				getListPublicChats={getListPublicChats}
-				getListPrivateChats={getListPrivateChats}
+			<ButtonClosed backgroundColor="#46668a"
+				backgroundShadow="#0c1d3b"
+				openStore={props.openStore}
 			/>
-			{showCreateChat ? <ScreenCreateNewChat setShowCreateChat={setShowCreateChat} createNewChat={createNewChat} /> : null}
-			<div className='d-flex p-3 overflow-auto' id='showChats'>
-				<ChatList listChats={chatList} openChatSelected={openChatSelected} />
+			<div className='d-flex flex-column h-100'>
+				<BarOptions
+					handleSearchChats={handleSearchChats}
+					setShowCreateChat={setShowCreateChat}
+					getListPublicChats={getListPublicChats}
+					getListPrivateChats={getListPrivateChats}
+				/>
+				{showCreateChat ? <ScreenCreateNewChat setShowCreateChat={setShowCreateChat} createNewChat={createNewChat} /> : null}
+				<div className='d-flex p-3 overflow-auto' id='showChats'>
+					<ChatList listChats={chatList} openChatSelected={openChatSelected} />
+				</div>
 			</div>
 		</div>
 	)

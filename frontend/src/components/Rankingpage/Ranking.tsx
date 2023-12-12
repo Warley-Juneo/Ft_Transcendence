@@ -1,6 +1,6 @@
 import Bar from "./Bar/Bar";
 import TopRank from "./TopRank/TopRank";
-import bgTerra from '../../assets/game/planets/backgrounds/backgroundTerra.jpg'
+import bgTerra from '../../assets/game/planets/backgrounds/bgTerra.jpg'
 import { SetStateAction } from "react";
 import ButtonClosed from "../GamePage/Game/ButtonClosed";
 
