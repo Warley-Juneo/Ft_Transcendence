@@ -196,8 +196,6 @@ export default function Game(): JSX.Element {
 	return <div ref={gameContainerRef} className="h-100 position-relative">
 		{collisionStore && planetName.current === 'Lua' ? <SettingsStore openStore={setCollisionStore}/> : null}
 		{collisionStore && planetName.current === 'Fire' ? <SettingsPath openStore={setCollisionStore}/> : null}
-		{/* {collisionStore && planetName.current === 'Terra' ? <Ranking openStore={setCollisionStore}/> : null} */}
-		{/* {collisionStore && planetName.current === 'Terra' ? <Ranking /> : null} */}
-		<Ranking />
+		{collisionStore && planetName.current === 'Terra' ? <Ranking openStore={setCollisionStore}/> : null}
 	</div>;
 }

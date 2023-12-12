@@ -1,6 +1,6 @@
 import axios from "axios"
 import Cookies from "js-cookie"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import AvatarAndUser from "./AvatarAndUser"
 import Score from "./Score"
 
@@ -36,10 +36,17 @@ export default function TopRank() {
 
 	let itemsCenter = "row g-0 h-100 d-flex align-items-center justify-content-center"
 
+	const cssDivRanking: React.CSSProperties = {
+		// backgroundColor: '#7cdedb',
+		backgroundColor: '#684640',
+		// backgroundColor: 'transparent',
+		height: '4rem',
+		// 4c264b
+	}
 	return (
 		<>
 			{ranking.map((user, index) => (
-				<div className="row g-0 text-center shadow-grounps p-1 mt-2 fw-bold" key={user.id} style={{height: '4rem'}}>
+				<div className="row g-0 text-center shadow-grounps p-1 mt-2 fw-bold" key={user.id} style={cssDivRanking}>
 					<div className="col-5 h-100">
 						<div className={itemsCenter}>
 							<div className="col-2">

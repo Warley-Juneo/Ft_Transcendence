@@ -21,7 +21,7 @@ export default function App() {
 						<Route path='profile' element={<ProfileScreen />} />
 						<Route path='chats' element={<ListChats />} />
 						<Route path='chats/:chatName' element={<ChatPublic />} />
-						<Route path='ranking' element={<Ranking />} />
+						{/* <Route path='ranking' element={<Ranking />} /> */}
 					</Route>
 				</Routes>
 			</BrowserRouter>
