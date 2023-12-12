@@ -6,13 +6,13 @@ import Score from "./Score"
 
 export type typeRaking = {
 	id: string
-	points: number,
 	avatar: string
+	nickname: string
+	points: number,
 	draws: number,
 	ladder: number,
 	loses: number,
 	matches: number,
-	nickname: string
 	wins: number,
 }
 
@@ -26,6 +26,7 @@ export default function TopRank() {
 			}, timeout: 5000
 		}).then((res) => {
 			setRanking(res.data)
+			console.log(res.data)
 		}
 		)
 	}
@@ -33,18 +34,18 @@ export default function TopRank() {
 		getRanking()
 	}, [])
 
-	let itemsCenter = "row g-0 h-100 d-flex d-flex align-items-center justify-content-center"
+	let itemsCenter = "row g-0 h-100 d-flex align-items-center justify-content-center"
 
 	return (
 		<>
 			{ranking.map((user, index) => (
-				<div className="row g-0 text-center shadow-grounps p-2 mt-2 fw-bold" key={user.id}>
+				<div className="row g-0 text-center shadow-grounps p-1 mt-2 fw-bold" key={user.id} style={{height: '4rem'}}>
 					<div className="col-5 h-100">
 						<div className={itemsCenter}>
 							<div className="col-2">
 								<p>{index + 1}</p>
 							</div>
-							<div className="col-10 h-100">
+							<div className="col-10 h-100 p-1">
 								<AvatarAndUser avatarUrl={user.avatar}
 									nickname={user.nickname}
 								/>
@@ -56,11 +57,11 @@ export default function TopRank() {
 
 					<div className="col-5 h-100">
 						<div className={itemsCenter}>
-							<div className="col-10">
+							<div className="col-10 h-100">
 								<Score statusPart={user} />
 							</div>
-							<div className="col-2 h-100">
-								<p>100</p>
+							<div className="col-2 h-100 d-flex">
+								<p className="m-auto">100</p>
 							</div>
 						</div>
 					</div>

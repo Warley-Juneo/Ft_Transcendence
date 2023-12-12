@@ -33,7 +33,7 @@ model User {
   match_as_player_2 Match[]           @relation(name: "player_2")
 
   match_wins        Match[]           @relation(name: "winner")
-  math_loses        Match[]           @relation(name: "loser")
+  match_loses        Match[]           @relation(name: "loser")
 
   chat_owner        ChatRoom[]        @relation(name: "owner")
   chat_admin        ChatRoom[]        @relation(name: "admin")

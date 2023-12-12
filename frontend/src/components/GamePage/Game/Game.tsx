@@ -1,23 +1,30 @@
 import { useEffect, useRef, useState } from "react";
 import Phaser from "phaser";
 import backgroundSpace from "../../../assets/game/planets/backgrounds/backgroundSpace.png";
+
 import planetaAnel from '../../../assets/game/planets/planetaJupter.png';
 import planetaFire from '../../../assets/game/planets/planetaFire.png';
 import planetaLua from '../../../assets/game/planets/PlanetaLua.png';
+import planetaTerra from '../../../assets/game/planets/PlanetaTerra.png';
+
 import naveFrente from '../../../assets/game/nave/naveFrente.png';
 import naveCostas from '../../../assets/game/nave/naveCostas.png';
 import naveDescendo from '../../../assets/game/nave/naveDescendo.png';
 import naveLateral from '../../../assets/game/nave/naveLateral.png';
 import SettingsStore from "../SettingsStore/SettingsStore";
 import SettingsPath from "../SettingsGame/SettingsGame";
+import Ranking from "../../Rankingpage/Ranking";
 
 
 export default function Game(): JSX.Element {
 	const gameContainerRef = useRef<HTMLDivElement>(null);
+
 	const nave = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite);
 	const pntAnel = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
 	const pntFire = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
 	const pntLua = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
+	const pntTerra = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
+
 	const [collisionStore, setCollisionStore] = useState<boolean>(false);
 	const planetName = useRef<string>('');
 
@@ -73,6 +80,7 @@ export default function Game(): JSX.Element {
 			this.load.image('naveCostas', naveCostas);
 			this.load.image('naveDescendo', naveDescendo);
 			this.load.image('naveLateral', naveLateral);
+			this.load.image('planetaTerra', planetaTerra);
 
 		}
 
@@ -93,12 +101,15 @@ export default function Game(): JSX.Element {
 			pntFire.current = this.physics.add.sprite((containerWidth * 0.1), (containerHeight * 0.2), "planetaFire").setImmovable() as Phaser.Physics.Arcade.Sprite
 			pntLua.current = this.physics.add.sprite((containerWidth * 0.9), (containerHeight * 0.1), "planetaLua").setImmovable() as Phaser.Physics.Arcade.Sprite
 			pntAnel.current = this.physics.add.sprite((containerWidth * 0.9), (containerHeight * 0.8), "planetaAnel").setImmovable() as Phaser.Physics.Arcade.Sprite
+			pntTerra.current = this.physics.add.sprite((containerWidth * 0.6), (containerHeight * 0.3), "planetaTerra").setImmovable() as Phaser.Physics.Arcade.Sprite
 
-			pntLua.current.setScale(0.5);
+			pntLua.current.setScale(0.4);
+			pntTerra.current.setScale(0.7)
 
 			pntAnel.current.setName("Anel");
 			pntFire.current.setName("Fire");
 			pntLua.current.setName("Lua");
+			pntTerra.current.setName("Terra");
 
 			this.physics.world.setBounds(0, 0, containerWidth, containerHeight); // Define os limites do mundo para que a nave não possa sair da tela
 		}
@@ -161,7 +172,7 @@ export default function Game(): JSX.Element {
 				nave.current.setVelocityX(0);
 			}
 
-			this.physics.world.collide(nave.current, [pntAnel.current, pntFire.current, pntLua.current], (rocket, planet) => {
+			this.physics.world.collide(nave.current, [pntAnel.current, pntFire.current, pntLua.current, pntTerra.current], (rocket, planet) => {
 				// Verifica se 'planet' é do tipo Sprite antes de acessar a propriedade 'name'
 				if (planet instanceof Phaser.Physics.Arcade.Sprite) {
 					setCollisionStore((prev) => {
@@ -185,5 +196,8 @@ export default function Game(): JSX.Element {
 	return <div ref={gameContainerRef} className="h-100 position-relative">
 		{collisionStore && planetName.current === 'Lua' ? <SettingsStore openStore={setCollisionStore}/> : null}
 		{collisionStore && planetName.current === 'Fire' ? <SettingsPath openStore={setCollisionStore}/> : null}
+		{/* {collisionStore && planetName.current === 'Terra' ? <Ranking openStore={setCollisionStore}/> : null} */}
+		{/* {collisionStore && planetName.current === 'Terra' ? <Ranking /> : null} */}
+		<Ranking />
 	</div>;
 }

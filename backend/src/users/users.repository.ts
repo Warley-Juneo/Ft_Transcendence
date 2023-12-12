@@ -212,7 +212,7 @@ export class UsersRepository implements UsersRepositoryInterface {
             match_as_player_1: true,
             match_as_player_2: true,
             match_wins: true,
-            math_loses: true,
+            match_loses: true,
           },
         },
       },

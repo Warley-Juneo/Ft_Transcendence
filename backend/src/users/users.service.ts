@@ -108,13 +108,12 @@ export class UsersService {
 
   async ladder(): Promise<UserLadderDto[]> {
     let ladder = await this.userRepository.ladder();
-
     let outputLadderDto: UserLadderDto[] = [];
 
     for(const obj of ladder) {
       const position = ladder.findIndex(u => u.nickname === obj.nickname) + 1;
 	  const objAux = {...obj, lander: position}
-      outputLadderDto.push(new UserLadderDto(obj));
+      outputLadderDto.push(new UserLadderDto(objAux));
     };
     return outputLadderDto;
   }
