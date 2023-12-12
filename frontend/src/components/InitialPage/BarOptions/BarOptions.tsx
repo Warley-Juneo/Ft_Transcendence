@@ -23,24 +23,6 @@ function BarOptions(props: any) {
 						</span>
 					</div>
 					<div className='div-bottom-animation'>
-						<span className={randomButtonClass()} onClick={() => navigate("/game/chats")}>
-							<span></span>
-							<span></span>
-							<span></span>
-							<span></span>
-							Chats
-						</span>
-					</div>
-					<div className='div-bottom-animation'>
-						<span className={randomButtonClass()} onClick={() => navigate("/game/ranking")}>
-							<span></span>
-							<span></span>
-							<span></span>
-							<span></span>
-							Ranking
-						</span>
-					</div>
-					<div className='div-bottom-animation'>
 						<span className={randomButtonClass()} onClick={() => navigate("/game/profile")}>
 							<span></span>
 							<span></span>

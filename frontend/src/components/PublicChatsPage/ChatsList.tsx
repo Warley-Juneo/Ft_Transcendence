@@ -69,9 +69,10 @@ export default function ChatList(props: propsChatList) {
 			</div>
 		)
 	}
+
 	const divPublicChats = (chat: t_chat): ReactElement => {
 		return (
-			<div className="col-md-4 border-bottom border-end hover"
+			<div className="border-bottom border-end hover"
 				key={chat.id}
 				onClick={() => getDataChatPublic(chat.name)}
 			>
@@ -91,7 +92,7 @@ export default function ChatList(props: propsChatList) {
 
 	const divProtectChats = (chat: t_chat): ReactElement => {
 		return (
-			<div className="col-md-4 border-bottom border-end hover"
+			<div className="border-bottom border-end hover"
 				onClick={() => showModal(chat.name)}
 				key={chat.id}
 			>

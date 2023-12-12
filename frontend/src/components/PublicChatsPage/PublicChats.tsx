@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
+import bgChats from '../../assets/game/planets/backgrounds/backgroundChats.jpg'
+import { IoMdClose as ButtonClosed } from "react-icons/io";
 import ScreenCreateNewChat from './ScreemCreateNewChat';
 import BarOptions from './BarOptions';
 import ChatList from './ChatsList';
@@ -16,7 +18,11 @@ export type t_chat = {
 	onlines: number;
 };
 
-export default function PageChats() {
+type propsRanking = {
+	openStore: React.Dispatch<SetStateAction<boolean>>;
+}
+
+export default function PageChats(props: propsRanking) {
 	const [chatList, setChatList] = useState<t_chat[]>([]);
 	const [showCreateChat, setShowCreateChat] = useState(false);
 
@@ -31,7 +37,7 @@ export default function PageChats() {
 	}
 
 	const getListPrivateChats = () => {
- 		axios.get("http://localhost:3000/chatroom/find-private", {
+		axios.get("http://localhost:3000/chatroom/find-private", {
 			headers: {
 				Authorization: Cookies.get("jwtToken"),
 			}
@@ -91,8 +97,21 @@ export default function PageChats() {
 	function openChatSelected(chatName: string) {
 		alert('abrir chat selecionado');
 	}
+
+	const cssDivChats: React.CSSProperties = {
+		backgroundImage: `url(${bgChats})`,
+		backgroundSize: 'cover',
+		color: 'white',
+		height: '75%',
+		width: '75%'
+	}
+
+	
 	return (
-		<div className='d-flex flex-column bg-custon-roxo rounded h-100 p-2 text-white'>
+		<div className='d-flex flex-column bg-custon-roxo rounded p-2 position-absolute top-50 start-50 translate-middle'
+			style={cssDivChats}
+		>
+			<ButtonClosed className='position-absolute top-0 end-0 m-2' size='2rem' onClick={() => props.openStore(false)} />
 			<BarOptions
 				handleSearchChats={handleSearchChats}
 				setShowCreateChat={setShowCreateChat}

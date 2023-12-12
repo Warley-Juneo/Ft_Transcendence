@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+
 import Phaser from "phaser";
 import backgroundSpace from "../../../assets/game/planets/backgrounds/backgroundSpace.png";
 
@@ -6,6 +7,7 @@ import planetaAnel from '../../../assets/game/planets/planetaJupter.png';
 import planetaFire from '../../../assets/game/planets/planetaFire.png';
 import planetaLua from '../../../assets/game/planets/PlanetaLua.png';
 import planetaTerra from '../../../assets/game/planets/PlanetaTerra.png';
+import satelete from '../../../assets/game/planets/satelete.png';
 
 import naveFrente from '../../../assets/game/nave/naveFrente.png';
 import naveCostas from '../../../assets/game/nave/naveCostas.png';
@@ -14,6 +16,7 @@ import naveLateral from '../../../assets/game/nave/naveLateral.png';
 import SettingsStore from "../SettingsStore/SettingsStore";
 import SettingsPath from "../SettingsGame/SettingsGame";
 import Ranking from "../../Rankingpage/Ranking";
+import PageChats from "../../PublicChatsPage/PublicChats";
 
 
 export default function Game(): JSX.Element {
@@ -24,6 +27,7 @@ export default function Game(): JSX.Element {
 	const pntFire = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
 	const pntLua = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
 	const pntTerra = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
+	const sateleteChat = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
 
 	const [collisionStore, setCollisionStore] = useState<boolean>(false);
 	const planetName = useRef<string>('');
@@ -37,9 +41,10 @@ export default function Game(): JSX.Element {
 		const calculeScaleNave = (valueEixoX: number, valueEixoY: number) => {
 			let percentageX = (valueEixoX * 100 / containerWidth) / 1000;
 			percentageX *= percentageX > 0.06 ? 2 : 1;
-			let percentageY = (valueEixoY * 100 / containerHeight) / 1000;
-			percentageY *= percentageY > 0.06 ? 2 : 1;
-			return percentageX + percentageY + 0.1;
+			// let percentageY = (valueEixoY * 100 / containerHeight) / 1000;
+			// percentageY *= percentageY > 0.06 ? 2 : 1;
+			// return percentageX + percentageY + 0.1;
+			return percentageX +  0.1;
 		}
 
 		// Configurações básicas do jogo Phaser
@@ -81,7 +86,7 @@ export default function Game(): JSX.Element {
 			this.load.image('naveDescendo', naveDescendo);
 			this.load.image('naveLateral', naveLateral);
 			this.load.image('planetaTerra', planetaTerra);
-
+			this.load.image('satelete', satelete);
 		}
 
 		// Criação de elementos do jogo
@@ -102,14 +107,18 @@ export default function Game(): JSX.Element {
 			pntLua.current = this.physics.add.sprite((containerWidth * 0.9), (containerHeight * 0.1), "planetaLua").setImmovable() as Phaser.Physics.Arcade.Sprite
 			pntAnel.current = this.physics.add.sprite((containerWidth * 0.9), (containerHeight * 0.8), "planetaAnel").setImmovable() as Phaser.Physics.Arcade.Sprite
 			pntTerra.current = this.physics.add.sprite((containerWidth * 0.6), (containerHeight * 0.3), "planetaTerra").setImmovable() as Phaser.Physics.Arcade.Sprite
+			sateleteChat.current = this.physics.add.sprite((containerWidth * 0.6), (containerHeight * 0.7	), "satelete").setImmovable() as Phaser.Physics.Arcade.Sprite
 
 			pntLua.current.setScale(0.4);
 			pntTerra.current.setScale(0.7)
+			sateleteChat.current.setScale(0.4)
+			sateleteChat.current.setAngle(295)
 
 			pntAnel.current.setName("Anel");
 			pntFire.current.setName("Fire");
 			pntLua.current.setName("Lua");
 			pntTerra.current.setName("Terra");
+			sateleteChat.current.setName("Satelete");
 
 			this.physics.world.setBounds(0, 0, containerWidth, containerHeight); // Define os limites do mundo para que a nave não possa sair da tela
 		}
@@ -172,7 +181,12 @@ export default function Game(): JSX.Element {
 				nave.current.setVelocityX(0);
 			}
 
-			this.physics.world.collide(nave.current, [pntAnel.current, pntFire.current, pntLua.current, pntTerra.current], (rocket, planet) => {
+			this.physics.world.collide(nave.current, [pntAnel.current,
+				pntFire.current,
+				pntLua.current,
+				pntTerra.current,
+				sateleteChat.current
+			], (rocket, planet) => {
 				// Verifica se 'planet' é do tipo Sprite antes de acessar a propriedade 'name'
 				if (planet instanceof Phaser.Physics.Arcade.Sprite) {
 					setCollisionStore((prev) => {
@@ -197,5 +211,6 @@ export default function Game(): JSX.Element {
 		{collisionStore && planetName.current === 'Lua' ? <SettingsStore openStore={setCollisionStore}/> : null}
 		{collisionStore && planetName.current === 'Fire' ? <SettingsPath openStore={setCollisionStore}/> : null}
 		{collisionStore && planetName.current === 'Terra' ? <Ranking openStore={setCollisionStore}/> : null}
+		{collisionStore && planetName.current === 'Satelete' ? <PageChats openStore={setCollisionStore}/> : null}
 	</div>;
 }
