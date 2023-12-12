@@ -10,9 +10,10 @@ import { GameModule } from './game/game.module';
 import { JwtMiddleware } from './middleware/auth.middleware';
 import { LandingPageModule } from './landing-page/landingPage.module';
 import { ChatroomModule } from './chatroom/chatroom.module';
+import { TFAModule } from './2FA/2FA.module';
 
 @Module({
-  imports: [UsersModule, AuthModule, GameModule, LandingPageModule, ChatroomModule],
+  imports: [UsersModule, AuthModule, GameModule, LandingPageModule, ChatroomModule, TFAModule],
   controllers: [],
   providers: [],
 })
@@ -21,7 +22,7 @@ export class AppModule implements NestModule {
     consumer
       .apply(JwtMiddleware)
       .exclude({path: 'auth', method: RequestMethod.POST})
-      .forRoutes('*');
-      // .exclude('*');
+      //.forRoutes('*');
+      .exclude('*');
   }
 }
