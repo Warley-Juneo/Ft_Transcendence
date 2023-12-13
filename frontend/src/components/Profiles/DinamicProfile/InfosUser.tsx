@@ -36,7 +36,7 @@ export default function InfosUser({ nickName }: { nickName: string }): JSX.Eleme
 	}, []);
 
 	let pointers: number = infosUser.wins - infosUser.loses;
-	const { rank, borderImg, borderWrite } = HandleRank(60);
+	const { rank, borderImg, borderWrite } = HandleRank(pointers);
 	let aux = infosUser.wins + infosUser.draws;
 	let kda: number = aux === 0 ? infosUser.loses : aux / infosUser.loses;
 
