@@ -18,7 +18,7 @@ export default function App() {
 					<Route path='/fake' element={< LoginFake /> } />
 					<Route path='/game/' element={< InicialPage /> } >
 						<Route path='game' element={<Game />} />
-						<Route path='profile' element={<ProfileScreen />} />
+						{/* <Route path='profile' element={<ProfileScreen />} /> */}
 						<Route path='chats/:chatName' element={<ChatPublic />} />
 						{/* <Route path='chats' element={<ListChats />} /> */}
 						{/* <Route path='ranking' element={<Ranking />} /> */}

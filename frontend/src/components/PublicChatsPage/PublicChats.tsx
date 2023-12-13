@@ -18,11 +18,11 @@ export type t_chat = {
 	onlines: number;
 };
 
-type propsRanking = {
+type propsPageChats = {
 	openStore: React.Dispatch<SetStateAction<boolean>>;
 }
 
-export default function PageChats(props: propsRanking) {
+export default function PageChats(props: propsPageChats) {
 	const [chatList, setChatList] = useState<t_chat[]>([]);
 	const [showCreateChat, setShowCreateChat] = useState(false);
 
@@ -94,9 +94,6 @@ export default function PageChats(props: propsRanking) {
 	useEffect(() => {
 		getListPublicChats()
 	}, [])
-	function openChatSelected(chatName: string) {
-		alert('abrir chat selecionado');
-	}
 
 	const cssDivChats: React.CSSProperties = {
 		backgroundImage: `url(${bgChats})`,
@@ -126,7 +123,7 @@ export default function PageChats(props: propsRanking) {
 				/>
 				{showCreateChat ? <ScreenCreateNewChat setShowCreateChat={setShowCreateChat} createNewChat={createNewChat} /> : null}
 				<div className='d-flex p-3 overflow-auto' id='showChats'>
-					<ChatList listChats={chatList} openChatSelected={openChatSelected} />
+					<ChatList listChats={chatList}/>
 				</div>
 			</div>
 		</div>

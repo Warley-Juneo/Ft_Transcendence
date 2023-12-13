@@ -9,7 +9,6 @@ import Cookies from 'js-cookie';
 
 type propsChatList = {
 	listChats: t_chat[];
-	openChatSelected: (chatName: string) => void;
 }
 
 export default function ChatList(props: propsChatList) {

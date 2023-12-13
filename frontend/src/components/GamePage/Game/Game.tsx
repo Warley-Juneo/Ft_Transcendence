@@ -17,6 +17,7 @@ import SettingsStore from "../SettingsStore/SettingsStore";
 import SettingsPath from "../SettingsGame/SettingsGame";
 import Ranking from "../../Rankingpage/Ranking";
 import PageChats from "../../PublicChatsPage/PublicChats";
+import ProfileScreen from "../../Profiles/ProfilePage/ProfilePage";
 
 
 export default function Game(): JSX.Element {
@@ -210,7 +211,8 @@ export default function Game(): JSX.Element {
 	return <div ref={gameContainerRef} className="h-100 position-relative">
 		{collisionStore && planetName.current === 'Lua' ? <SettingsStore openStore={setCollisionStore}/> : null}
 		{collisionStore && planetName.current === 'Fire' ? <SettingsPath openStore={setCollisionStore}/> : null}
-		{collisionStore && planetName.current === 'Terra' ? <Ranking openStore={setCollisionStore}/> : null}
+		{/* {collisionStore && planetName.current === 'Terra' ? <Ranking openStore={setCollisionStore}/> : null} */}
+		{collisionStore && planetName.current === 'Terra' ? <ProfileScreen openStore={setCollisionStore}/> : null}
 		{collisionStore && planetName.current === 'Satelete' ? <PageChats openStore={setCollisionStore}/> : null}
 	</div>;
 }
