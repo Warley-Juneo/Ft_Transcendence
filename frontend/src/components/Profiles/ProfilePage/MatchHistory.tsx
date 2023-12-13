@@ -59,3 +59,5 @@ export default function MatchHistory({ userId }: { userId: string }) {
 		</div>
 	);
 }
+
+//TODO: Remover outro Profile
