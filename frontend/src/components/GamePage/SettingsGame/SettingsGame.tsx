@@ -1,4 +1,3 @@
-import { SetStateAction } from "react";
 import ModelsGame from "./ModelsGame";
 import { IoMdClose as ButtonClosed } from "react-icons/io";
 import bgFire from "../../../assets/game/planets/backgrounds/bgFire.jpg";
@@ -6,7 +5,7 @@ import bgFireCima from "../../../assets/game/planets/backgrounds/bgFireCima.jpg"
 import bgFireCima2 from "../../../assets/game/planets/backgrounds/bgFireCima2.jpg";
 
 type propsSettingsPath = {
-	openSettingsPath: React.Dispatch<SetStateAction<boolean>>;
+	openSettingsPath: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function SettingsPath(props: propsSettingsPath): JSX.Element {
@@ -80,7 +79,7 @@ export default function SettingsPath(props: propsSettingsPath): JSX.Element {
 			<div className="d-flex">
 				<button style={ButtonSelected}>Game</button>
 				<button style={ButtonUnselected}>Custon</button>
-				<ButtonClosed style={cssButtonClosed} onClick={() => props.openStore(false)}/>
+				<ButtonClosed style={cssButtonClosed} onClick={() => props.openSettingsPath(false)}/>
 
 			</div>
 			<div style={firtdivSelectGame}>

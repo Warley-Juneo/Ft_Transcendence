@@ -31,35 +31,35 @@ export default function InfosUser({ nickName }: { nickName: string }): JSX.Eleme
 		})
 	}
 
-
 	useEffect(() => {
 		getProfile();
 	}, []);
 
 	let pointers: number = infosUser.wins - infosUser.loses;
-	const { rank, borderImg, borderWrite } = HandleRank(pointers);
+	const { rank, borderImg, borderWrite } = HandleRank(60);
 	let aux = infosUser.wins + infosUser.draws;
 	let kda: number = aux === 0 ? infosUser.loses : aux / infosUser.loses;
-	console.log(infosUser);
+
+	const cssPointers = 'col-4 ps-4 h-100';
 	return (
-		<div className="row g-0 d-flex align-items-center text-center">
-			<div className="col-4 ps-4">
+		<div className="row g-0 align-items-center text-center h-100">
+			<div className="col-4 h-100">
 				<ProfilePhoto
-					borderImg={''}
+					borderImg={borderImg}
 					avatar={infosUser.avatar}
 					nickname={infosUser.nickname}
 				/>
 			</div>
-			<div className="col-4 ps-4">
+			<div className="col-4 h-100">
 				<Rank rank={rank} />
 			</div>
-			<div className="col-4 ps-4">
-				<Pointer	wins={infosUser.wins}
-							loses={infosUser.loses}
-							draws={infosUser.draws}
-							kda={kda}
-							borderWrite={borderWrite}
-							pointers={pointers}
+			<div className="col-4 h-100">
+				<Pointer wins={infosUser.wins}
+					loses={infosUser.loses}
+					draws={infosUser.draws}
+					kda={kda}
+					borderWrite={borderWrite}
+					pointers={pointers}
 				/>
 			</div>
 		</div>

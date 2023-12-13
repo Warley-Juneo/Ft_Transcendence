@@ -101,12 +101,12 @@ export default function ChatPublic() {
 					</div>
 				</ChatContext.Provider>
 			</div>
-			{!dinamicProfile.show ? null :
+			{/* {!dinamicProfile.show ? null :
 				<DinamicProfile nickName={dinamicProfile.nickName}
 					dinamicProfile={setDinamicProfile}
 					id={dinamicProfile.id}
 				/>
-			}
+			} */}
 		</div>
 	)
 }

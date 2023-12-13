@@ -9,7 +9,7 @@ type propsPointer = {
 
 export default function Pointer(props: propsPointer): JSX.Element {
 	return (
-		<div className={props.borderWrite} style={props.pointers > 15 ? { height: '200px' } : { height: '150px' }}>
+		<div className={props.borderWrite}>
 			<p className='fw-bold me-2'>VT<br></br>{props.wins}</p>
 			<p className='fw-bold me-2'>DR<br></br>{props.loses}</p>
 			<p className='fw-bold me-2'>EPT<br></br>{props.draws}</p>
