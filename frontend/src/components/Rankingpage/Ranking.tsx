@@ -18,7 +18,7 @@ export default function Ranking(props: propsRanking): JSX.Element {
 
 	return (
 		<div className="h-75 w-75 rounded position-absolute top-50 start-50 translate-middle" style={cssBackgroundTerra}>
-			<ButtonClosed backgroundColor='#7cdedb' backgroundShadow='#0f3a28' openStore={props.openStore} />
+			<ButtonClosed backgroundColor='#7cdedb' backgroundShadow='#0f3a28' closed={props.openStore} />
 			<div className="d-flex flex-column h-100 p-5">
 				<Bar />
 				<div className="h-100 overflow-auto">

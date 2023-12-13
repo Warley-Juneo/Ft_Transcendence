@@ -112,7 +112,7 @@ export default function PageChats(props: propsPageChats) {
 		>
 			<ButtonClosed backgroundColor="#46668a"
 				backgroundShadow="#0c1d3b"
-				openStore={props.openPageChats}
+				closed={props.openPageChats}
 			/>
 			<div className='d-flex flex-column h-100'>
 				<BarOptions

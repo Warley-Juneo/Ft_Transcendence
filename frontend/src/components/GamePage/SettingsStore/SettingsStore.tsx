@@ -78,7 +78,7 @@ export default function SettingsStore(props: propsSettingsStore): JSX.Element {
 				</button>
 				<ButtonClosed backgroundColor="#46668a"
 					backgroundShadow="#0c1d3b"
-					openStore={props.openSettingsStore}
+					closed={props.openSettingsStore}
 				/>
 			</div>
 			<div style={firtdivSelectGame}>

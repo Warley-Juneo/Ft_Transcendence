@@ -1,7 +1,7 @@
-import Bar from "./Bar"
 import InfosUser from "./InfosUser";
 import MatchHistory from "../ProfilePage/MatchHistory";
 import '../ProfilePage/rank.css'
+import ButtonClosed from "../../GamePage/Game/ButtonClosed";
 type propsDinamicProfile = {
 	nickName: string;
 	id: string;
@@ -10,9 +10,9 @@ type propsDinamicProfile = {
 
 export default function DinamicProfile(props: propsDinamicProfile): JSX.Element {
 	return (
-		<div className="text-white position-absolute top-0 start-50 h-75 w-75 p-2 bg-degrader ">
+		<div className="text-white h-75 w-75 p-2 bg-degrader position-absolute top-50 start-50 translate-middle">
 			<div className="d-flex flex-column h-100 position-relative">
-				<Bar openDinamicPerfil={props.openDinamicProfile} />
+				<ButtonClosed backgroundColor="" backgroundShadow="" closed={props.openDinamicProfile} />
 				<div style={{height: '35%'}}>
 					<InfosUser nickName={props.nickName} />
 				</div>
