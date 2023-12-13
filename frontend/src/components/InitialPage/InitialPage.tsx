@@ -1,10 +1,10 @@
 import { Outlet } from 'react-router-dom';
-import BarOptions from './BarOptions/BarOptions';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import MiniProfile from '../Profiles/MiniProfile/MiniProfile';
 import { UserData, t_dataUser } from './Contexts/Contexts';
+import Game from '../GamePage/Game/Game';
 
 export default function InicialPage() {
 	let timeout: number = 0;
@@ -45,22 +45,10 @@ export default function InicialPage() {
 
 	return (
 		<UserData.Provider value={{ user: InfoUser, updateDataUser: getInfoUser }}>
-
-			{/* Profile Dinamico que vai ser printado em cima de toda a tela */}
-
-			{/* Tela principal */}
-			<div className='row g-0' id='home-screen' style={{ height: '100vh', width: '100vw' }}>
-				<main className='col-9 h-100' id='left-screen'>
-					<BarOptions />
-					<hr className='m-0 text-white'></hr>
-					<div className='p-3 rounded' id='dinamicScreen' style={{ height: 'calc(100vh - 15vh)' }}>
-						<Outlet />
-					</div>
-				</main>
-				<aside className='col-3' id='right-screen'>
+			<Game />
+			{/* <aside className='col-3' id='right-screen'>
 					{<MiniProfile />}
-				</aside>
-			</div>
+				</aside> */}
 		</UserData.Provider>
 	);
 }

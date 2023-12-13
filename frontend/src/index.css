@@ -1,6 +1,7 @@
 body {
 	background-color: #4c264b !important;
 	box-sizing: border-box !important;
+	overflow: hidden !important;
 }
 
 body p {

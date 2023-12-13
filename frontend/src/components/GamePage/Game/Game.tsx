@@ -38,8 +38,8 @@ export default function Game(): JSX.Element {
 	useEffect(() => {
 		if (!gameContainerRef.current) return;
 
-		const containerHeight = gameContainerRef.current?.clientHeight || window.innerHeight; // Altura do container ou da janela
-		const containerWidth = gameContainerRef.current?.clientWidth || window.innerWidth; // Largura do container ou da janela
+		const containerHeight = window.innerHeight; // Altura do container ou da janela
+		const containerWidth = window.innerWidth; // Largura do container ou da janela
 
 		const calculeScaleNave = (valueEixoX: number, valueEixoY: number) => {
 			let percentageX = (valueEixoX * 100 / containerWidth) / 1000;
@@ -55,7 +55,7 @@ export default function Game(): JSX.Element {
 			type: Phaser.AUTO, // WebGL ou Canvas esse e o tipo de renderização
 			parent: gameContainerRef.current, // Onde o jogo será renderizado
 			scale: { // Configurações de escala do jogo
-				mode: Phaser.Scale.ScaleModes.RESIZE, // Modo de escala
+				mode: Phaser.Scale.ScaleModes.NONE, // Modo de escala
 				autoCenter: Phaser.Scale.CENTER_BOTH, // Centralizar o jogo
 				width: containerWidth, // Largura do jogo
 				height: containerHeight, // Altura do jogo
@@ -69,7 +69,7 @@ export default function Game(): JSX.Element {
 				default: 'arcade', // Motor de física padrão
 				arcade: { // Configurações do motor de física arcade
 					gravity: { y: 0 }, // Gravidade do jogo
-					debug: true, // Mostrar colisões
+					debug: false, // Mostrar colisões
 				},
 			},
 		};
@@ -209,7 +209,7 @@ export default function Game(): JSX.Element {
 		};
 	}, []); // A dependência vazia garante que isso só seja executado uma vez
 
-	return <div ref={gameContainerRef} className="h-100 position-relative">
+	return <div ref={gameContainerRef} className="h-100 position-relative" style={{height: '100vh', width: '100vw'}}>
 		{collisionStore && planetName.current === 'Lua' ? <SettingsStore openSettingsStore={setCollisionStore}/> : null}
 		{collisionStore && planetName.current === 'Fire' ? <SettingsPath openSettingsPath={setCollisionStore}/> : null}
 		{/* {collisionStore && planetName.current === 'Terra' ? <Ranking openStore={setCollisionStore}/> : null} */}
@@ -218,3 +218,6 @@ export default function Game(): JSX.Element {
 			nickName={dataUser.nickname} id={dataUser.id}/> : null}
 	</div>;
 }
+
+//TODO Aidicionar mini perfil do usuario
+//Adicionar Ranking
