@@ -194,7 +194,6 @@ export default function Game(): JSX.Element {
 				if (planet instanceof Phaser.Physics.Arcade.Sprite) {
 					setCollisionStore((prev) => {
 						if (!prev) {
-							console.log("entrei")
 							planetName.current = planet.name;
 							prev = true;
 						}

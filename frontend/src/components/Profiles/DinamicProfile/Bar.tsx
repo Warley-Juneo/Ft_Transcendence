@@ -4,7 +4,6 @@ type propsDinamicProfile = {
 	openDinamicPerfil: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export default function BarDinamicChat(props: propsDinamicProfile): JSX.Element {
-
 	return (
 		<div className='d-flex justify-content-end mb-2'>
 			<AiOutlineClose className="ms-5"

@@ -19,16 +19,19 @@
 
 .borderDivFotoRank1 {
 	background-image: url('../../../assets/bordaFoto/bordaFotoRank1.svg');
-	background-size: cover;
+	background-size: 100% 100%;
 }
 
 .borderDivFotoRank1 img {
-	padding: 13%;
+	padding: 1rem;
 }
 
 .borderWriteRank1 {
 	background-image: url('../../../assets/bordaWriteRank/bordaWriteRank1.png');
 	background-size: 100% 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 /*##############################################################*/
@@ -37,22 +40,21 @@
 
 .borderDivFotoRank2 {
 	background-image: url('../../../assets/bordaFoto/bordaFotoRank2.svg');
-	background-size: contain;
-	background-repeat: no-repeat;
+	background-size: 100% 100%;
 }
 
 
 .borderDivFotoRank2 img {
-	padding: 20%;
-	padding-left: 19%;
-	height: 100%;
-	width: 100%;
+	padding: 1.5rem;
 }
 
 .borderWriteRank2{
 	background-image: url('../../../assets/bordaWriteRank/bordaWriteRank2.png');
-	background-repeat: no-repeat;
 	background-size: 100% 100%;
+	display: flex;
+	justify-content: center;
+	align-items: start;
+	padding: 2rem;
 }
 
 /*##############################################################*/
@@ -61,21 +63,19 @@
 
 .borderDivFotoRank3 {
 	background-image: url('../../../assets/bordaFoto/bordaFotoRank3.svg');
-	background-size: contain;
-	background-repeat: no-repeat;
+	background-size: 100% 100%;
 }
 
 .borderDivFotoRank3 img {
-	padding: 21%;
-	padding-left: 20%;
-	height: 100%;
-	width: 100%;
+	padding: 10%;
 }
 
 .borderWriteRank3{
 	background-image: url('../../../assets/bordaWriteRank/bordaWriteRank3.png');
-	background-repeat: no-repeat;
 	background-size: 100% 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 /*##############################################################*/
@@ -84,22 +84,20 @@
 
 .borderDivFotoRank4 {
 	background-image: url('../../../assets/bordaFoto/bordaFotoRank4.svg');
-	background-size: contain;
-	height: 100%;
-	width: 100%;
-	background-repeat: no-repeat;
+	background-size: 100% 100%;
 }
 
 .borderDivFotoRank4 img {
-	padding: 25%;
-	height: 100%;
-	width: 100%;
+	padding: 12%;
 }
 
 .borderWriteRank4 {
 	background-image: url('../../../assets/bordaWriteRank/bordaWriteRank4.png');
-	background-repeat: no-repeat;
 	background-size: 100% 100%;
+	display: flex;
+	justify-content: center;
+	align-items: end;
+	padding: 1.5rem
 }
 
 /*##############################################################*/
@@ -108,22 +106,20 @@
 
 .borderDivFotoRank5 {
 	background-image: url('../../../assets/bordaFoto/bordaFotoRank5.svg');
-	background-size: contain;
-	background-repeat: no-repeat;
+	background-size: 100% 100%;
 }
 
 .borderDivFotoRank5 img {
-	padding: 25%;
-	padding-top: 32%;
-	padding-left: 25%;
-	padding-right: 25%;
-	padding-bottom: 29%;
+	padding: 1.7rem;
+	padding-top: 2.3rem;
 }
 
 .borderWriteRank5 {
 	background-image: url('../../../assets/bordaWriteRank/bordaWriteRank4.png');
-	background-repeat: no-repeat;
 	background-size: 100% 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 /*##############################################################*/
@@ -132,15 +128,15 @@
 
 .borderDivFotoRank6 {
 	background-image: url('../../../assets/bordaFoto/bordaFotoRank6.svg');
-	background-size: contain;
-	background-repeat: no-repeat;
+	background-size: 100% 100%;
 }
 
 .borderDivFotoRank6 img {
-	padding-top: 31%;
-	padding-right: 29%;
-	padding-left: 29%;
-	padding-bottom: 40%;
+	padding-top: 2rem;
+	padding-left: 2.4rem;
+	padding-right: 2.2rem;
+	padding-bottom: 2.6rem;
+
 }
 
 .borderWriteRank6 {

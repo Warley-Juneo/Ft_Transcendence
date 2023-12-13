@@ -7,14 +7,12 @@ import rank6 from '../../assets/rankLevel/rank6.png';
 import { RankFormating } from './typesProfile';
 
 export const RankMappings = [
-	{ max: 5, rank: rank1, borderImg: 'mt-2 borderDivFotoRank1 d-flex', borderWrite: 'd-flex borderWriteRank1 w-100 justify-content-center align-items-center w-100' },
-	{ max: 10, rank: rank2, borderImg: 'mt-2 borderDivFotoRank2 d-flex', borderWrite: 'd-flex borderWriteRank2 w-100 justify-content-center align-items-center pb-5' },
-	{ max: 15, rank: rank3, borderImg: 'mt-2 borderDivFotoRank3 d-flex', borderWrite: 'd-flex borderWriteRank3 w-100 justify-content-center align-items-center w-100' },
-	{ max: 20, rank: rank4, borderImg: 'mt-2 borderDivFotoRank4 d-flex', borderWrite: 'd-flex borderWriteRank4 w-100 justify-content-center align-items-end pb-5 w-100' },
-	{ max: 25, rank: rank4, borderImg: 'mt-2 borderDivFotoRank4 d-flex', borderWrite: 'd-flex borderWriteRank4 w-100 justify-content-center align-items-end pb-5 w-100' },
-	{ max: 30, rank: rank4, borderImg: 'mt-2 borderDivFotoRank4 d-flex', borderWrite: 'd-flex borderWriteRank4 w-100 justify-content-center align-items-end pb-5 w-100' },
-	{ max: 35, rank: rank5, borderImg: 'mt-2 borderDivFotoRank5 d-flex', borderWrite: 'd-flex borderWriteRank4 w-100 justify-content-center align-items-end pb-5 w-100' },
-	{ max: Infinity, rank: rank6, borderImg: 'mt-2 borderDivFotoRank6 d-flex', borderWrite: 'd-flex borderWriteRank4 w-100 justify-content-center align-items-end pb-5 w-100' },
+	{ max: 5, rank: rank1, borderImg: 'mt-2 borderDivFotoRank1 h-75', borderWrite: 'borderWriteRank1'},
+	{ max: 10, rank: rank2, borderImg: 'mt-2 borderDivFotoRank2 h-75', borderWrite: 'borderWriteRank2'},
+	{ max: 15, rank: rank3, borderImg: 'mt-2 borderDivFotoRank3 h-75', borderWrite: 'borderWriteRank3'},
+	{ max: 30, rank: rank4, borderImg: 'mt-2 borderDivFotoRank4 h-75', borderWrite: 'borderWriteRank4'},
+	{ max: 35, rank: rank5, borderImg: 'mt-2 borderDivFotoRank5 h-75', borderWrite: 'borderWriteRank4'},
+	{ max: Infinity, rank: rank6, borderImg: 'mt-2 borderDivFotoRank6 h-75', borderWrite: 'borderWriteRank4'},
 ];
 
 export default function HandleRank(pointers: number): RankFormating  {
