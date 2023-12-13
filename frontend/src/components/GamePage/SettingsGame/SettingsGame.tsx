@@ -6,7 +6,7 @@ import bgFireCima from "../../../assets/game/planets/backgrounds/bgFireCima.jpg"
 import bgFireCima2 from "../../../assets/game/planets/backgrounds/bgFireCima2.jpg";
 
 type propsSettingsPath = {
-	openStore: React.Dispatch<SetStateAction<boolean>>;
+	openSettingsPath: React.Dispatch<SetStateAction<boolean>>;
 }
 
 export default function SettingsPath(props: propsSettingsPath): JSX.Element {

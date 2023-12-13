@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import Phaser from "phaser";
 import backgroundSpace from "../../../assets/game/planets/backgrounds/bgSpace.png";
@@ -17,10 +17,12 @@ import SettingsStore from "../SettingsStore/SettingsStore";
 import SettingsPath from "../SettingsGame/SettingsGame";
 import Ranking from "../../Rankingpage/Ranking";
 import PageChats from "../../PublicChatsPage/PublicChats";
-import ProfileScreen from "../../Profiles/ProfilePage/ProfilePage";
+import DinamicProfile from "../../Profiles/DinamicProfile/DinamicProfile";
+import { UserData } from "../../InitialPage/Contexts/Contexts";
 
 
 export default function Game(): JSX.Element {
+	const dataUser = useContext(UserData).user;
 	const gameContainerRef = useRef<HTMLDivElement>(null);
 
 	const nave = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite);
@@ -209,10 +211,11 @@ export default function Game(): JSX.Element {
 	}, []); // A dependência vazia garante que isso só seja executado uma vez
 
 	return <div ref={gameContainerRef} className="h-100 position-relative">
-		{collisionStore && planetName.current === 'Lua' ? <SettingsStore openStore={setCollisionStore}/> : null}
-		{collisionStore && planetName.current === 'Fire' ? <SettingsPath openStore={setCollisionStore}/> : null}
+		{collisionStore && planetName.current === 'Lua' ? <SettingsStore openSettingsStore={setCollisionStore}/> : null}
+		{collisionStore && planetName.current === 'Fire' ? <SettingsPath openSettingsPath={setCollisionStore}/> : null}
 		{/* {collisionStore && planetName.current === 'Terra' ? <Ranking openStore={setCollisionStore}/> : null} */}
-		{collisionStore && planetName.current === 'Terra' ? <ProfileScreen openStore={setCollisionStore}/> : null}
-		{collisionStore && planetName.current === 'Satelete' ? <PageChats openStore={setCollisionStore}/> : null}
+		{collisionStore && planetName.current === 'Satelete' ? <PageChats openPageChats={setCollisionStore}/> : null}
+		{collisionStore && planetName.current === 'Terra' ? <DinamicProfile openDinamicProfile={setCollisionStore}
+			nickName={dataUser.nickname} id={dataUser.id}/> : null}
 	</div>;
 }

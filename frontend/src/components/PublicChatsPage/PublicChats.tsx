@@ -19,7 +19,7 @@ export type t_chat = {
 };
 
 type propsPageChats = {
-	openStore: React.Dispatch<SetStateAction<boolean>>;
+	openPageChats: React.Dispatch<SetStateAction<boolean>>;
 }
 
 export default function PageChats(props: propsPageChats) {
