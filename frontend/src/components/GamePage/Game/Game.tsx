@@ -1,13 +1,14 @@
 import { useContext, useEffect, useRef, useState } from "react";
 
 import Phaser from "phaser";
-import backgroundSpace from "../../../assets/game/planets/backgrounds/bgSpace.png";
+import backgroundSpace from "../../../assets/game/planets/backgrounds/bgSpace2.png";
 
 import planetaAnel from '../../../assets/game/planets/planetaJupter.png';
 import planetaFire from '../../../assets/game/planets/planetaFire.png';
 import planetaLua from '../../../assets/game/planets/PlanetaLua.png';
 import planetaTerra from '../../../assets/game/planets/PlanetaTerra.png';
 import satelete from '../../../assets/game/planets/satelete.png';
+import bgCity from '../../../assets/game/planets/city.png';
 
 import naveFrente from '../../../assets/game/nave/naveFrente.png';
 import naveCostas from '../../../assets/game/nave/naveCostas.png';
@@ -31,6 +32,7 @@ export default function Game(): JSX.Element {
 	const pntLua = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
 	const pntTerra = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
 	const sateleteChat = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
+	const city = useRef<Phaser.Physics.Arcade.Sprite>({} as Phaser.Physics.Arcade.Sprite)
 
 	const [collisionStore, setCollisionStore] = useState<boolean>(false);
 	const planetName = useRef<string>('');
@@ -84,12 +86,15 @@ export default function Game(): JSX.Element {
 			this.load.image("planetaAnel", planetaAnel);
 			this.load.image("planetaFire", planetaFire);
 			this.load.image("planetaLua", planetaLua);
+			this.load.image('planetaTerra', planetaTerra);
+			this.load.image('satelete', satelete);
+			this.load.image('city', bgCity);
+
 			this.load.image('naveFrente', naveFrente);
 			this.load.image('naveCostas', naveCostas);
 			this.load.image('naveDescendo', naveDescendo);
 			this.load.image('naveLateral', naveLateral);
-			this.load.image('planetaTerra', planetaTerra);
-			this.load.image('satelete', satelete);
+
 		}
 
 		// Criação de elementos do jogo
@@ -111,7 +116,9 @@ export default function Game(): JSX.Element {
 			pntAnel.current = this.physics.add.sprite((containerWidth * 0.9), (containerHeight * 0.8), "planetaAnel").setImmovable() as Phaser.Physics.Arcade.Sprite
 			pntTerra.current = this.physics.add.sprite((containerWidth * 0.6), (containerHeight * 0.3), "planetaTerra").setImmovable() as Phaser.Physics.Arcade.Sprite
 			sateleteChat.current = this.physics.add.sprite((containerWidth * 0.6), (containerHeight * 0.7	), "satelete").setImmovable() as Phaser.Physics.Arcade.Sprite
+			// city.current = this.physics.add.sprite((containerWidth * 0.2), (containerHeight * 0.8), "city").setImmovable() as Phaser.Physics.Arcade.Sprite
 
+			// city.current.setScale(0.4)
 			pntLua.current.setScale(0.4);
 			pntTerra.current.setScale(0.7)
 			sateleteChat.current.setScale(0.2)
@@ -212,10 +219,10 @@ export default function Game(): JSX.Element {
 	return <div ref={gameContainerRef} className="h-100 position-relative" style={{height: '100vh', width: '100vw'}}>
 		{collisionStore && planetName.current === 'Lua' ? <SettingsStore openSettingsStore={setCollisionStore}/> : null}
 		{collisionStore && planetName.current === 'Fire' ? <SettingsPath openSettingsPath={setCollisionStore}/> : null}
-		{/* {collisionStore && planetName.current === 'Terra' ? <Ranking openStore={setCollisionStore}/> : null} */}
+		{collisionStore && planetName.current === 'Terra' ? <Ranking openStore={setCollisionStore}/> : null}
 		{collisionStore && planetName.current === 'Satelete' ? <PageChats openPageChats={setCollisionStore}/> : null}
-		{collisionStore && planetName.current === 'Terra' ? <DinamicProfile openDinamicProfile={setCollisionStore}
-			nickName={dataUser.nickname} id={dataUser.id}/> : null}
+		{/* {collisionStore && planetName.current === 'Terra' ? <DinamicProfile openDinamicProfile={setCollisionStore} */}
+			{/* nickName={dataUser.nickname} id={dataUser.id}/> : null} */}
 	</div>;
 }
 
