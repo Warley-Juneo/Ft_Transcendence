@@ -68,14 +68,14 @@ export default function Game(): JSX.Element {
 			}
 
 			handleCollision(planetName: string) {
-				setCollisionPnt(planetName);
+				if (collisionPnt !== planetName) setCollisionPnt(planetName);
 			}
 
 			setupColliders() {
-				this.physics.add.collider(this.nave, this.pntTerra, () => this.handleCollision("planetaTerra"));
-				this.physics.add.collider(this.nave, this.pntLua, () => this.handleCollision("planetaLua"));
-				this.physics.add.collider(this.nave, this.pntFire, () => this.handleCollision("planetaFire"));
-				this.physics.add.collider(this.nave, this.pntAnel, () => this.handleCollision("planetaAnel"));
+				this.physics.add.collider(this.nave, this.pntTerra, () => this.handleCollision("planetTerra"));
+				this.physics.add.collider(this.nave, this.pntLua, () => this.handleCollision("planetLua"));
+				this.physics.add.collider(this.nave, this.pntFire, () => this.handleCollision("planetFire"));
+				this.physics.add.collider(this.nave, this.pntAnel, () => this.handleCollision("planetAnel"));
 				this.physics.add.collider(this.nave, this.sateleteChat, () => this.handleCollision("satelite"));
 				this.physics.add.collider(this.nave, this.base, () => this.handleCollision("base"));
 			}
@@ -127,12 +127,7 @@ export default function Game(): JSX.Element {
 				this.sateleteChat.setScale(0.2)
 				this.sateleteChat.setAngle(295) //rotate the satelete
 
-				this.base.setName("Base");
-				this.pntAnel.setName("PntAnel");
-				this.pntFire.setName("PntFire");
-				this.pntLua.setName("PntLua");
-				this.pntTerra.setName("PntTerra");
-				this.sateleteChat.setName("Satelete");
+
 				this.physics.world.setBounds(0, 0, containerWidth, containerHeight); // Define os limites do mundo para que a nave não possa sair da tela
 				this.setupColliders(); // Configura os colisores para que possamos detectar colisões entre a nave e os planetas
 			}
@@ -218,12 +213,16 @@ export default function Game(): JSX.Element {
 		};
 	}, []); // A dependência vazia garante que isso só seja executado uma vez
 
-	console.log(collisionPnt);
-	return <div ref={gameContainerRef} className="h-100 position-relative" style={{ height: '100vh', width: '100vw' }}>
+	const cssGameContainer: React.CSSProperties = {
+		height: '100vh !important',
+		width: '100vw !important',
+	}
+	console.log("eu")
+	return <div ref={gameContainerRef} style={cssGameContainer}>
 		{collisionPnt === 'planetLua' ? <SettingsStore openSettingsStore={setCollisionPnt} /> : null}
 		{collisionPnt === 'planetFire' ? <SettingsPath openSettingsPath={setCollisionPnt} /> : null}
 		{collisionPnt === 'planetTerra' ? <MiniProfile propsMiniProfile={setCollisionPnt} /> : null}
-		{collisionPnt === 'satelete' ? <PageChats openPageChats={setCollisionPnt} /> : null}
+		{collisionPnt === 'satelite' ? <PageChats openPageChats={setCollisionPnt} /> : null}
 		{collisionPnt === 'base' ? <Ranking openStore={setCollisionPnt} /> : null}
 		{/* {collisionStore && planetName.current === 'Terra' ? <DinamicProfile openDinamicProfile={setCollisionStore} */}
 		{/* nickName={dataUser.nickname} id={dataUser.id}/> : null} */}

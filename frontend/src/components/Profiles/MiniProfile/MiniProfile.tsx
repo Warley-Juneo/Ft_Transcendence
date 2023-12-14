@@ -39,10 +39,11 @@ export default function MiniProfile(props: propsMiniProfile) {
 	}, [socket])
 
 	const cssMiniprfile: React.CSSProperties = {
-		backgroundImage: `url(https://s0.smartresize.com/wallpaper/400/885/HD-wallpaper-8-bit-moonlight-8bit-arcade-blue-cloud-moon-pixel.jpg)`,
+		backgroundImage: `url('https://s0.smartresize.com/wallpaper/400/885/HD-wallpaper-8-bit-moonlight-8bit-arcade-blue-cloud-moon-pixel.jpg')`,
 		backgroundSize: 'cover',
 		backgroundPosition: 'center',
 		minWidth: '15vw',
+		height: '100% !important',
 	}
 	return (
 		<div className='d-flex flex-column position-absolute top-0 end-0 h-100' style={cssMiniprfile}>
