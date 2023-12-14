@@ -5,7 +5,7 @@ import { SetStateAction } from "react";
 import ButtonClosed from "../GamePage/Game/ButtonClosed";
 
 type propsRanking= {
-	openStore: React.Dispatch<SetStateAction<boolean>>;
+	openStore: React.Dispatch<SetStateAction<string>>;
 }
 
 export default function Ranking(props: propsRanking): JSX.Element {

@@ -7,7 +7,7 @@ import bgTerra from '../../../assets/game/planets/backgrounds/bgTerra.jpg'
 type propsDinamicProfile = {
 	nickName: string;
 	id: string;
-	openDinamicProfile: React.Dispatch<React.SetStateAction<boolean>>;
+	openDinamicProfile: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function DinamicProfile(props: propsDinamicProfile): JSX.Element {

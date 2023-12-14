@@ -7,7 +7,7 @@ import bgLua2 from "../../../assets/game/planets/backgrounds/bgLua2.jpg";
 import ButtonClosed from "../Game/ButtonClosed";
 
 type propsSettingsStore = {
-	openSettingsStore: React.Dispatch<SetStateAction<boolean>>;
+	openSettingsStore: React.Dispatch<SetStateAction<string>>;
 }
 
 export default function SettingsStore(props: propsSettingsStore): JSX.Element {

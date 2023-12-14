@@ -4,7 +4,7 @@ import { IoMdClose as Closed } from "react-icons/io";
 type propsButtonClosed = {
 	backgroundColor: string;
 	backgroundShadow: string;
-	closed: React.Dispatch<SetStateAction<boolean>>;
+	closed: React.Dispatch<SetStateAction<string>>;
 }
 
 export default function ButtonClosed(props: propsButtonClosed): JSX.Element {
@@ -23,6 +23,6 @@ export default function ButtonClosed(props: propsButtonClosed): JSX.Element {
 		cursor: 'pointer',
 	}
 	return (
-		<Closed style={cssButtonClosed} onClick={() => props.closed(false)}/>
+		<Closed style={cssButtonClosed} onClick={() => props.closed('')}/>
 	)
 }

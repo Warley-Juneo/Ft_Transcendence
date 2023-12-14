@@ -5,7 +5,7 @@ import bgFireCima from "../../../assets/game/planets/backgrounds/bgFireCima.jpg"
 import bgFireCima2 from "../../../assets/game/planets/backgrounds/bgFireCima2.jpg";
 
 type propsSettingsPath = {
-	openSettingsPath: React.Dispatch<React.SetStateAction<boolean>>;
+	openSettingsPath: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function SettingsPath(props: propsSettingsPath): JSX.Element {
@@ -79,7 +79,7 @@ export default function SettingsPath(props: propsSettingsPath): JSX.Element {
 			<div className="d-flex">
 				<button style={ButtonSelected}>Game</button>
 				<button style={ButtonUnselected}>Custon</button>
-				<ButtonClosed style={cssButtonClosed} onClick={() => props.openSettingsPath(false)}/>
+				<ButtonClosed style={cssButtonClosed} onClick={() => props.openSettingsPath('')}/>
 
 			</div>
 			<div style={firtdivSelectGame}>
