@@ -1,13 +1,13 @@
 import Phaser from 'phaser';
-import test from '../../assets/game/barrafuncional.png';
+import test from '../../../assets/game/barrafuncional.png';
 
 export class CustomScene extends Phaser.Scene {
 	paddle1: Phaser.Physics.Arcade.Sprite;
 	paddle2: Phaser.Physics.Arcade.Sprite;
 	paddle1UpKey: Phaser.Input.Keyboard.Key;
-	paddle1DownKey: Phaser.Input.Keyboard.Key;;
-	paddle2UpKey: Phaser.Input.Keyboard.Key;;
-	paddle2DownKey: Phaser.Input.Keyboard.Key;;
+	paddle1DownKey: Phaser.Input.Keyboard.Key;
+	paddle2UpKey: Phaser.Input.Keyboard.Key;
+	paddle2DownKey: Phaser.Input.Keyboard.Key;
 	ball: Phaser.Physics.Arcade.Sprite;
 	dataBallGame: { x: number, y: number, lastpaddle: string };
 

@@ -1,7 +1,7 @@
 import { CustomScene } from "./Config";
 import React, { useEffect } from 'react';
 
-const PongGame = () => {
+export default function PongGame(): JSX.Element {
 	const gameContainerRef = React.useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -33,7 +33,4 @@ const PongGame = () => {
 	}, []);
 
 	return <div ref={gameContainerRef} className="h-100 rounded bg-custon-roxo" />;
-
 };
-
-export default PongGame;
