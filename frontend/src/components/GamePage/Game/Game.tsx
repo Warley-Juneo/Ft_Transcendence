@@ -36,7 +36,7 @@ export default function Game(): JSX.Element {
 			pntAnel: Phaser.Physics.Arcade.Sprite
 			pntFire: Phaser.Physics.Arcade.Sprite
 			pntLua: Phaser.Physics.Arcade.Sprite
-			LuaTerra: Phaser.Physics.Arcade.Sprite
+			luaTerra: Phaser.Physics.Arcade.Sprite
 			pntTerra: Phaser.Physics.Arcade.Sprite
 			sateleteChat: Phaser.Physics.Arcade.Sprite
 			base: Phaser.Physics.Arcade.Sprite
@@ -50,7 +50,7 @@ export default function Game(): JSX.Element {
 				this.pntAnel = {} as Phaser.Physics.Arcade.Sprite;
 				this.pntFire = {} as Phaser.Physics.Arcade.Sprite;
 				this.pntLua = {} as Phaser.Physics.Arcade.Sprite;
-				this.LuaTerra = {} as Phaser.Physics.Arcade.Sprite;
+				this.luaTerra = {} as Phaser.Physics.Arcade.Sprite;
 				this.pntTerra = {} as Phaser.Physics.Arcade.Sprite;
 				this.sateleteChat = {} as Phaser.Physics.Arcade.Sprite;
 				this.base = {} as Phaser.Physics.Arcade.Sprite;
@@ -78,6 +78,7 @@ export default function Game(): JSX.Element {
 				this.physics.add.collider(this.nave, this.pntAnel, () => this.handleCollision("planetAnel"));
 				this.physics.add.collider(this.nave, this.sateleteChat, () => this.handleCollision("satelite"));
 				this.physics.add.collider(this.nave, this.base, () => this.handleCollision("base"));
+				this.physics.add.collider(this.nave, this.luaTerra, () => this.handleCollision("Lua"));
 			}
 
 
@@ -116,17 +117,16 @@ export default function Game(): JSX.Element {
 				this.pntLua = this.physics.add.sprite((containerWidth * 0.9), (containerHeight * 0.1), "planetLua").setImmovable()
 				this.pntAnel = this.physics.add.sprite((containerWidth * 0.9), (containerHeight * 0.8), "planetAnel").setImmovable()
 				this.pntTerra = this.physics.add.sprite((containerWidth * 0.6), (containerHeight * 0.3), "planetTerra").setImmovable()
-				this.LuaTerra = this.physics.add.sprite((containerWidth * 0.57), (containerHeight * 0.25), "Lua").setImmovable()
+				this.luaTerra = this.physics.add.sprite((containerWidth * 0.57), (containerHeight * 0.25), "Lua").setImmovable()
 				this.sateleteChat = this.physics.add.sprite((containerWidth * 0.6), (containerHeight * 0.7), "satelete").setImmovable()
 				this.base = this.physics.add.sprite((containerWidth * 0.1), (containerHeight * 0.9), "base").setImmovable()
 
 				this.base.setScale(0.1)
-				this.LuaTerra.setScale(0.3)
+				this.luaTerra.setScale(0.3)
 				this.pntLua.setScale(0.4);
 				this.pntTerra.setScale(0.7)
 				this.sateleteChat.setScale(0.2)
 				this.sateleteChat.setAngle(295) //rotate the satelete
-
 
 				this.physics.world.setBounds(0, 0, containerWidth, containerHeight); // Define os limites do mundo para que a nave não possa sair da tela
 				this.setupColliders(); // Configura os colisores para que possamos detectar colisões entre a nave e os planetas
@@ -224,8 +224,8 @@ export default function Game(): JSX.Element {
 		{collisionPnt === 'planetTerra' ? <MiniProfile propsMiniProfile={setCollisionPnt} /> : null}
 		{collisionPnt === 'satelite' ? <PageChats openPageChats={setCollisionPnt} /> : null}
 		{collisionPnt === 'base' ? <Ranking openStore={setCollisionPnt} /> : null}
-		{/* {collisionStore && planetName.current === 'Terra' ? <DinamicProfile openDinamicProfile={setCollisionStore} */}
-		{/* nickName={dataUser.nickname} id={dataUser.id}/> : null} */}
+		{collisionPnt === 'Lua' ? <DinamicProfile openDinamicProfile={setCollisionPnt}
+			nickName={dataUser.nickname} id={dataUser.id} /> : null}
 	</div>;
 }
 
