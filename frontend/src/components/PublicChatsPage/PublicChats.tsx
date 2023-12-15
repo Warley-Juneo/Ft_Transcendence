@@ -7,6 +7,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import './PublicChats.css';
 import ButtonClosed from '../GamePage/Game/ButtonClosed';
+import ChatPublic from '../ChatsGame/ChatPublic/ChatPublic';
 
 export type t_chat = {
 	id: string;
@@ -25,6 +26,7 @@ type propsPageChats = {
 export default function PageChats(props: propsPageChats) {
 	const [chatList, setChatList] = useState<t_chat[]>([]);
 	const [showCreateChat, setShowCreateChat] = useState(false);
+	const [selectedChat, setSelectedChat] = useState({ click: false, chatName: '' });
 
 	const getListPublicChats = () => {
 		axios.get("http://localhost:3000/chatroom/find-all-public", {
@@ -73,11 +75,9 @@ export default function PageChats(props: propsPageChats) {
 			password: form.get('passwordChat'),
 			photoUrl: "https://photografos.com.br/wp-content/uploads/2020/09/fotografia-para-perfil.jpg",
 		}
-		if (form.get('privateChat') === 'private') {
-			dataPost.type = 'private'
-		} else if (form.get('protectChat') === 'protected') {
-			dataPost.type = 'protected'
-		}
+
+		if (form.get('privateChat') === 'private') dataPost.type = 'private'
+		else if (form.get('protectChat') === 'protected') dataPost.type = 'protected'
 
 		axios.post('http://localhost:3000/chatroom/create-group',
 			dataPost, {
@@ -105,12 +105,16 @@ export default function PageChats(props: propsPageChats) {
 		padding: '7%'
 	}
 
-
+	if (selectedChat.click === true) return <ChatPublic
+		chatName={selectedChat.chatName}
+		openPageChats={props.openPageChats}
+	/>
 	return (
-		<div className='bg-custon-roxo rounded position-absolute top-50 start-50 translate-middle'
+		<div className='rounded position-absolute top-50 start-50 translate-middle'
 			style={cssDivChats}
 		>
-			<ButtonClosed backgroundColor="#46668a"
+			<ButtonClosed
+				backgroundColor="#46668a"
 				backgroundShadow="#0c1d3b"
 				closed={props.openPageChats}
 			/>
@@ -121,9 +125,19 @@ export default function PageChats(props: propsPageChats) {
 					getListPublicChats={getListPublicChats}
 					getListPrivateChats={getListPrivateChats}
 				/>
-				{showCreateChat ? <ScreenCreateNewChat setShowCreateChat={setShowCreateChat} createNewChat={createNewChat} /> : null}
+				{!showCreateChat ? null :
+					<ScreenCreateNewChat
+						setShowCreateChat={setShowCreateChat}
+						createNewChat={createNewChat}
+					/>
+				}
 				<div className='d-flex p-3 overflow-auto' id='showChats'>
-					<ChatList listChats={chatList}/>
+					<ChatList
+						listChats={chatList}
+						clickedChat={(ChatName: string) => {
+							setSelectedChat({ click: true, chatName: ChatName })
+						}}
+					/>
 				</div>
 			</div>
 		</div>

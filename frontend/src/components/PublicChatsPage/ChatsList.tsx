@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { BiSolidLock } from 'react-icons/bi';
 import { t_chat } from './PublicChats';
 import bgChat from '../../assets/game/planets/backgrounds/bgChat.jpg'
@@ -9,10 +8,10 @@ import Cookies from 'js-cookie';
 
 type propsChatList = {
 	listChats: t_chat[];
+	clickedChat: (chatName: string) => void;
 }
 
 export default function ChatList(props: propsChatList) {
-	const navigate = useNavigate();
 
 	const getDataChat = (chatName: string, password: string) => {
 		return axios.post(`http://localhost:3000/chatroom/open-group`, {
@@ -29,7 +28,7 @@ export default function ChatList(props: propsChatList) {
 
 	const getDataChatPublic = (chatName: string) => {
 		getDataChat(chatName, '').then((response) => {
-			navigate(`/game/chats/${chatName}`, { state: { data: response } });
+			props.clickedChat(chatName);
 		}).catch((error) => {
 			console.log(error);
 		});
@@ -46,7 +45,7 @@ export default function ChatList(props: propsChatList) {
 			showLoaderOnConfirm: true,
 			confirmButtonText: 'Entrar',
 			cancelButtonText: 'Cancelar',
-			preConfirm: (password) => {
+			preConfirm: async (password) => {
 				return getDataChat(chatName, password).catch(error => {
 					Swal.showValidationMessage(`Erro: ${error.response.data.msg}`);
 				});;
@@ -57,7 +56,7 @@ export default function ChatList(props: propsChatList) {
 			},
 		}).then((result) => {
 			if (result.isConfirmed) {
-				navigate(`/game/chats/${chatName}`, { state: { data: result.value } });
+				props.clickedChat(chatName);
 			}
 		});
 	}
@@ -114,33 +113,6 @@ export default function ChatList(props: propsChatList) {
 	}
 	return (
 		<div className='row g-0 w-100'>
-			{props.listChats.map((chat) => (
-				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
-			))}
-			{props.listChats.map((chat) => (
-				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
-			))}
-			{props.listChats.map((chat) => (
-				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
-			))}
-			{props.listChats.map((chat) => (
-				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
-			))}
-			{props.listChats.map((chat) => (
-				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
-			))}
-			{props.listChats.map((chat) => (
-				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
-			))}
-			{props.listChats.map((chat) => (
-				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
-			))}
-			{props.listChats.map((chat) => (
-				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
-			))}
-			{props.listChats.map((chat) => (
-				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
-			))}
 			{props.listChats.map((chat) => (
 				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
 			))}

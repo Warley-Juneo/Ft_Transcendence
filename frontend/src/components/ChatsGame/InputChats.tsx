@@ -18,7 +18,6 @@ export default function InputChats(props: PropsInputChats) {
 		}
 	}
 
-
 	const sendMessageEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === 'Enter') {
 			props.obj.content = event.currentTarget.value;

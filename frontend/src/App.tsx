@@ -17,8 +17,8 @@ export default function App() {
 					<Route path="/game/" element={<InicialPage />}>
 						<Route path="gameLobby/" element={<Game />} />
 						<Route path="pong/" element={<GamePong />} />
+						{/* <Route path="chats/:chatName" element={<ChatPublic />} /> */}
 					</Route>
-					<Route path="chats/:chatName" element={<ChatPublic />} />
 				</Routes>
 			</BrowserRouter>
 		</div>
