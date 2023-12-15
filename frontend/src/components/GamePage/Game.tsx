@@ -2,15 +2,21 @@ import { CustomScene } from "./Config";
 import React, { useEffect } from 'react';
 
 const PongGame = () => {
+  const gameContainerRef = React.useRef<HTMLDivElement>(null);
+
   useEffect(() => {
+    if (!gameContainerRef.current) return;
     const config = {
       type: Phaser.AUTO,
-      width: 1000,
-      height: 600,
+      parent: gameContainerRef.current,
+      
+      width:  gameContainerRef.current?.clientWidth || window.innerWidth,
+      height: gameContainerRef.current?.clientHeight || window.innerHeight,
       physics: {
         default: 'arcade',
         arcade: {
-          gravity: { y: 0 }
+          gravity: { y: 0 },
+          debug: true
         }
       },
       scene: [CustomScene]
@@ -25,7 +31,8 @@ const PongGame = () => {
     };
   }, []);
 
-  return <div id="phaser-game-container" />;
+  return <div ref={gameContainerRef} className="h-100 rounded bg-custon-roxo" />;
+
 };
 
 export default PongGame;
