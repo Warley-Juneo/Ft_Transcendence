@@ -37,7 +37,7 @@ export default function ButtonModelsGame(props: propsButtonPlay): JSX.Element {
 	}
 
 	function handleClick() {
-		navigation(`/game/pong/?model=${props.model}`)
+		navigation(`/game/pong/`)
 	}
 
 	return (

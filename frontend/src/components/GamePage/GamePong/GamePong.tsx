@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 export default function PongGame(): JSX.Element {
 	const gameContainerRef = React.useRef<HTMLDivElement>(null);
-
+	console.log("entrei");
 	useEffect(() => {
 		if (!gameContainerRef.current) return;
 

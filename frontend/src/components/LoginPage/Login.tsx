@@ -45,7 +45,7 @@ export function Login() {
 					</div>
 				</form>
 			</div>
-			{auth && <Navigate to='/game/' replace={true} />}
+			{auth && <Navigate to='/game/gameLobby/' replace={true} />}
 		</div>
 	);
 }
