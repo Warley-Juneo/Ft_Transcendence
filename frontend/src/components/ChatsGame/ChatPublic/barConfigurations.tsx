@@ -1,5 +1,4 @@
 import { AiTwotoneSetting } from 'react-icons/ai';
-import { useParams } from 'react-router-dom';
 import { LiaWindowClose } from "react-icons/lia";
 import React from 'react';
 

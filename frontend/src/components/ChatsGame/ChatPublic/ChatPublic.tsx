@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { socket } from "../../InitialPage/Contexts/Contexts";
+import bgChatPublic from "../../../assets/game/bgChatPublic.png";
 
 export type Messages = {
 	id: string,
@@ -81,6 +82,7 @@ export default function ChatPublic(props: propsPageChats) {
 	return (
 		<div className="bg-custon-roxo rounded text-white
 			position-absolute top-50 start-50 translate-middle h-75 w-75"
+			style={{backgroundImage: `url(${bgChatPublic})`, backgroundSize: 'cover'}}
 		>
 			<div className="row g-0 h-100 p-2">
 				<ChatContext.Provider value={{ dataChat, setDataChat, setDinamicProfile }}>
