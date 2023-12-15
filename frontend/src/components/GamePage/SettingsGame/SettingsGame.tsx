@@ -9,7 +9,6 @@ type propsSettingsPath = {
 }
 
 export default function SettingsPath(props: propsSettingsPath): JSX.Element {
-	console.log("entrou")
 	const cssButtonClosed: React.CSSProperties = {
 		position: 'absolute',
 		top: '0',
@@ -79,8 +78,9 @@ export default function SettingsPath(props: propsSettingsPath): JSX.Element {
 			<div className="d-flex">
 				<button style={ButtonSelected}>Game</button>
 				<button style={ButtonUnselected}>Custon</button>
-				<ButtonClosed style={cssButtonClosed} onClick={() => props.openSettingsPath('')}/>
-
+				<ButtonClosed style={cssButtonClosed}
+					onClick={() => props.openSettingsPath('')}
+				/>
 			</div>
 			<div style={firtdivSelectGame}>
 				<ModelsGame />

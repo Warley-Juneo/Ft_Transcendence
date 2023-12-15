@@ -1,15 +1,15 @@
 import { useState } from "react"
-import { Tooltip } from 'react-tooltip'
+import { useNavigate } from "react-router-dom"
 
 type propsButtonPlay = {
 	photo: string,
-	content: string,
-	explanation: string,
-	id: string,
+	model: string,
 }
 
 export default function ButtonModelsGame(props: propsButtonPlay): JSX.Element {
 	const [isHover, setIsHover] = useState(false)
+	const navigation = useNavigate()
+
 	const cssDiv: React.CSSProperties = {
 		height: '8rem',
 		width: '8rem',
@@ -36,19 +36,22 @@ export default function ButtonModelsGame(props: propsButtonPlay): JSX.Element {
 		backgroundColor: '#ffbf00',
 	}
 
+	function handleClick() {
+		navigation(`/game/pong/?model=${props.model}`)
+	}
+
 	return (
 		<>
-			{/* <Tooltip id={props.id} place="top">{props.explanation}</Tooltip> */}
 			<div style={cssDiv}
 				onMouseEnter={() => setIsHover(true)}
 				onMouseLeave={() => setIsHover(false)}
-				data-tooltip-id={props.id}
+				onClick={handleClick}
 			>
 				<div style={cssPhoto}>
 					<img className='h-100 w-100 rounded' src={props.photo} alt="playPong" />
 				</div>
 				<button type="button" style={cssButton}>
-					{props.content}
+					{props.model}
 				</button>
 			</div>
 		</>

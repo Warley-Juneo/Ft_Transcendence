@@ -217,7 +217,7 @@ export default function Game(): JSX.Element {
 		height: '100vh !important',
 		width: '100vw !important',
 	}
-	console.log("eu")
+
 	return <div ref={gameContainerRef} style={cssGameContainer}>
 		{collisionPnt === 'planetLua' ? <SettingsStore openSettingsStore={setCollisionPnt} /> : null}
 		{collisionPnt === 'planetFire' ? <SettingsPath openSettingsPath={setCollisionPnt} /> : null}

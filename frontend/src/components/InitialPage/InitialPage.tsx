@@ -2,7 +2,6 @@ import { Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import MiniProfile from '../Profiles/MiniProfile/MiniProfile';
 import { UserData, t_dataUser } from './Contexts/Contexts';
 import Game from '../GamePage/Game/Game';
 
