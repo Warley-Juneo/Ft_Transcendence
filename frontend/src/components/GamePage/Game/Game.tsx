@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Phaser from "phaser";
 import background from "../../../assets/game/planets/backgrounds/bgSpace2.png";
@@ -117,8 +117,6 @@ export default function Game(): JSX.Element {
 				this.physics.add.collider(this.nave, this.base, () => this.handleCollision("base"));
 				this.physics.add.collider(this.nave, this.luaTerra, () => this.handleCollision("Lua"));
 			}
-
-
 
 			preload(this: Phaser.Scene) {
 				// Carregue suas imagens aqui, se necessário

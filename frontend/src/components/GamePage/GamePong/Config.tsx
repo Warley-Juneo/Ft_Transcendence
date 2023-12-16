@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import test from '../../../assets/game/barrafuncional.png';
+import barInitial from '../../../assets/store/Bar/barInitial.png';
 
 export class CustomScene extends Phaser.Scene {
 	paddle1: Phaser.Physics.Arcade.Sprite;
@@ -20,11 +20,11 @@ export class CustomScene extends Phaser.Scene {
 		this.paddle2UpKey = {} as Phaser.Input.Keyboard.Key;
 		this.paddle2DownKey = {} as Phaser.Input.Keyboard.Key;
 		this.ball = {} as Phaser.Physics.Arcade.Sprite;
-		this.dataBallGame = { x: 200, y: 0, lastpaddle: '' };
+		this.dataBallGame = { x: 300, y: 0, lastpaddle: '' };
 	}
 
 	preload() {
-		this.load.image('paddle', test);
+		this.load.image('paddle', barInitial);
 		this.load.image('ball', 'caminho/para/imagem/da/bola.png');
 	}
 
@@ -32,11 +32,12 @@ export class CustomScene extends Phaser.Scene {
 		this.add.text(this.scale.width / 2, 10, 'Space Pong', { font: '16px Courier', color: '#00ff00' });
 
 		this.paddle1 = this.physics.add.sprite(50, this.scale.height / 2, 'paddle')
-			.setImmovable(true)
-			.setScale(0.1);
+		this.paddle1.setImmovable(true)
+		this.paddle1.setScale(0.1);
+
 		this.paddle2 = this.physics.add.sprite(this.scale.width - 50, this.scale.height / 2, 'paddle')
-			.setImmovable(true)
-			.setScale(0.1);
+		this.paddle2.setImmovable(true)
+		this.paddle2.setScale(0.1);
 
 		if (this.input && this.input.keyboard) {
 			this.paddle1UpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -47,7 +48,7 @@ export class CustomScene extends Phaser.Scene {
 
 		this.ball = this.physics.add.sprite(this.scale.width / 2, this.scale.height / 2, 'ball');
 
-		this.ball.setVelocity(200, 0);
+		this.ball.setVelocity(350, 0);
 		this.ball.setCollideWorldBounds(true);
 
 		this.paddle1.setCollideWorldBounds(true);
@@ -58,13 +59,12 @@ export class CustomScene extends Phaser.Scene {
 	}
 
 	ballHitPaddle(paddle: string) {
-		let { lastpaddle, x, y } = this.dataBallGame;
+		let { lastpaddle, x} = this.dataBallGame;
 
 		if (lastpaddle === paddle) return;
 
 		this.dataBallGame.lastpaddle = paddle;
-		x = x < 0 ? (x - 20) * -1 : (x + 20) * -1;
-		// y = y < 0 ? (y - 20) * -1 : (y + 20) * -1;
+		x = x < 0 ? (x - 40) * -1 : (x + 40) * -1;
 
 		this.dataBallGame.x = x;
 		this.dataBallGame.y = Phaser.Math.Between(-200, 200);

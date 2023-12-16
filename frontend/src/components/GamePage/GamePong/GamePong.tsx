@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 
 export default function PongGame(): JSX.Element {
 	const gameContainerRef = React.useRef<HTMLDivElement>(null);
-	console.log("entrei");
 	useEffect(() => {
 		if (!gameContainerRef.current) return;
 
@@ -17,7 +16,7 @@ export default function PongGame(): JSX.Element {
 				default: 'arcade',
 				arcade: {
 					gravity: { y: 0 },
-					debug: true
+					debug: false
 				}
 			},
 			scene: [CustomScene]

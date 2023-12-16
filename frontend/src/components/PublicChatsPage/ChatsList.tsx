@@ -1,7 +1,6 @@
 import { BiSolidLock } from 'react-icons/bi';
 import { t_chat } from './PublicChats';
-import bgChat from '../../assets/game/planets/backgrounds/bgChat.jpg'
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import Cookies from 'js-cookie';
