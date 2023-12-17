@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import barInitial from '../../../assets/store/Bar/barInitial.png';
+import barInitial from '../../../assets/game/bar/barInitial.png';
 
 export class CustomScene extends Phaser.Scene {
 	paddle1: Phaser.Physics.Arcade.Sprite;

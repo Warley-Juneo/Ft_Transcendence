@@ -23,40 +23,28 @@ export default function ModelsGame() : JSX.Element {
 				<ButtonModelsGame
 					photo={playPong}
 					model="Normal"
-					// explanation="Modelo casual sem perca ou ganhos de prontos"
-					// id="normalPong"
 				/>
 				<ButtonModelsGame
 					photo={playPong}
 					model="Ranqueado"
-					// explanation="Modelo ranqueado valendo pontos"
-					// id="ranquedPong"
 				/>
 				<ButtonModelsGame
 					photo={playPong}
 					model="VS COOP"
-					// explanation="Modelo normal contra bot"
-					// id="contraBotPong"
 				/>
 			</div>
 			<div className="d-flex p-3">
 				<ButtonModelsGame
 					photo={playSpecialPong}
 					model="Normal"
-					// explanation="Modelo casual com poderes adicionados no mapa para uma melhor diversão "
-					// id="normalSpecialPong"
 				/>
 				<ButtonModelsGame
 					photo={playSpecialPong}
 					model="Ranqueado"
-					// explanation="Modelo com powers Ranqueado valendo pontos"
-					// id="ranquedSpecialPong"
 				/>
 				<ButtonModelsGame
 					photo={playSpecialPong}
 					model="VS COOP"
-					// explanation="Modelo com powers contra bot"
-					// id="contraBotSpecialPong"
 				/>
 			</div>
 		</div>

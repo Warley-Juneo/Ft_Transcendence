@@ -1,9 +1,9 @@
-import Ace from '../../../assets/store/skins/AceIcon.svg'
-import BarbaBranca from '../../../assets/store/skins/BarbaBranca.svg'
-import Brook from '../../../assets/store/skins/BrookIcon.svg'
-import Luffy from '../../../assets/store/skins/LuffyIcon.svg'
-import Ussop from '../../../assets/store/skins/UssopIcon.svg'
-import Law from '../../../assets/store/skins/Law.svg'
+import argentina from '../../../assets/store/Bar/argentina.svg'
+import brasil from '../../../assets/store/Bar/brasil.svg'
+import portugual from '../../../assets/store/Bar/portugal.svg'
+import USA from '../../../assets/store/Bar/estados-unidos.svg'
+import china from '../../../assets/store/Bar/china.svg'
+import espanha from '../../../assets/store/Bar/espanha.svg'
 
 import faixa1 from '../../../assets/store/faixas/faixa1.svg'
 import faixa2 from '../../../assets/store/faixas/faixa2.svg'
@@ -25,14 +25,14 @@ export default function FakeApiStore(type: string): StoreItems {
 		return  [
 			[
 				{
-					photo: Ace,
+					photo: argentina,
 					explanation: "Ace churrasqueiro",
 					id: "AceIcon",
 					price: 25,
 					backgroundBuy: '',
 				},
 				{
-					photo: Brook,
+					photo: portugual,
 					explanation: "Brook Yohohohoho",
 					id: "BrookIcon",
 					price: 25,
@@ -40,7 +40,7 @@ export default function FakeApiStore(type: string): StoreItems {
 
 				},
 				{
-					photo: Law,
+					photo: china,
 					explanation: "Law nefado",
 					id: "Law",
 					price: 30,
@@ -50,7 +50,7 @@ export default function FakeApiStore(type: string): StoreItems {
 			],
 			[
 				{
-					photo: BarbaBranca,
+					photo: espanha,
 					explanation: "Barba Branca sem barba",
 					id: "BarbaBranca",
 					price: 35,
@@ -58,7 +58,7 @@ export default function FakeApiStore(type: string): StoreItems {
 
 				},
 				{
-					photo: Luffy,
+					photo: USA,
 					explanation: "Luffy chapeu de plastico",
 					id: "LuffyIcon",
 					price: 45,
@@ -66,7 +66,7 @@ export default function FakeApiStore(type: string): StoreItems {
 
 				},
 				{
-					photo: Ussop,
+					photo: brasil,
 					explanation: "O Lendario GOD USOPP",
 					id: "UssopIcon",
 					price: 200,

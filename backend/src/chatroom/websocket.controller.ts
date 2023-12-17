@@ -7,53 +7,61 @@ import { ChatroomService } from "./chatroom.service";
 import { DisconnectDto } from "src/game/dtos/input.dto";
 import { GameService } from "src/game/game.service";
 
+interface queue {
+	id: string,
+	nickname: string,
+	bar: string,
+}
+
 @WebSocketGateway(
-  {
-    cors: {
-      origin: '*',
-      methods: ['GET', 'POST'],
-      credentials: true
-    }
-  }
+	{
+		cors: {
+			origin: '*',
+			methods: ['GET', 'POST'],
+			credentials: true
+		}
+	}
 )
 export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
 
-  constructor( private readonly service: ChatroomService
-	, private readonly gameService: GameService
-	) {}
+	queue: queue[] = [];
 
-  @WebSocketServer() server: Server;
+	constructor(private readonly service: ChatroomService
+		, private readonly gameService: GameService
+	) { }
 
-  afterInit(server: Server) {
-    console.log('Initialized!');
-  }
+	@WebSocketServer() server: Server;
 
-  handleConnection(client: Socket, ...args: any[]) {
-    console.log("Client connected: ", client.id)
-  }
+	afterInit(server: Server) {
+		console.log('Initialized!');
+	}
 
-  handleDisconnect(client: Socket) {
-    client.emit('desconectado', 'Desconectado com sucesso!');
-  }
+	handleConnection(client: Socket, ...args: any[]) {
+		console.log("Client connected: ", client.id)
+	}
 
-  @SubscribeMessage('group-message')
-  async chatroomMessage(client: Socket, dto: InputChatroomMessageDto) {
-	console.log("\n\n\nDTO: ", dto);
-    let outputMsg: any = await this.service.createChatroomMessage(dto);
-    outputMsg = JSON.stringify(outputMsg);
-    this.server.emit('chatMessage', outputMsg);
-  }
+	handleDisconnect(client: Socket) {
+		client.emit('desconectado', 'Desconectado com sucesso!');
+	}
 
-  @SubscribeMessage('direct-message')
-  async directChatroomMessage(client: Socket, dto: CreateDirectMessageDto) {
-    let outputMsg: any = await this.service.createDirectMessage(dto);
-    outputMsg = JSON.stringify(outputMsg);
-    this.server.emit('directChatMessage', outputMsg);
-  }
+	@SubscribeMessage('group-message')
+	async chatroomMessage(client: Socket, dto: InputChatroomMessageDto) {
+		console.log("\n\n\nDTO: ", dto);
+		let outputMsg: any = await this.service.createChatroomMessage(dto);
+		outputMsg = JSON.stringify(outputMsg);
+		this.server.emit('chatMessage', outputMsg);
+	}
 
-  @SubscribeMessage('check-status')
-  async checkStatus(client: Socket, dto: DisconnectDto) {
-	await this.gameService.disconnect(dto);
-	this.server.emit('checkStatus', 'Desconectado com sucesso!');
-  }
+	@SubscribeMessage('direct-message')
+	async directChatroomMessage(client: Socket, dto: CreateDirectMessageDto) {
+		let outputMsg: any = await this.service.createDirectMessage(dto);
+		outputMsg = JSON.stringify(outputMsg);
+		this.server.emit('directChatMessage', outputMsg);
+	}
+
+	@SubscribeMessage('check-status')
+	async checkStatus(client: Socket, dto: DisconnectDto) {
+		await this.gameService.disconnect(dto);
+		this.server.emit('checkStatus', 'Desconectado com sucesso!');
+	}
 }

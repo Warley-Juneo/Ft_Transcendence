@@ -40,16 +40,14 @@ export default function ButtonsItemsStore(props: propsButtonPlay): JSX.Element {
 	}
 
 	const cssPhoto: React.CSSProperties = {
-		height: '4rem', //4.5
+		height: '6rem', //4.5
 		width: '100%',
 		marginBottom: '0.5rem',
 		borderRadius: '0.5rem',
 	}
 
 	const cssButton: React.CSSProperties = {
-		width: '115%',
-		marginLeft: '-8%',
-		height: '4rem',
+		width: '100%',
 		border: 'none',
 		backgroundColor: props.backgroundBuy ? 'transparent' : 'gold',
 		backgroundImage: props.backgroundBuy ? `url(${props.photo})` : '',
@@ -57,6 +55,7 @@ export default function ButtonsItemsStore(props: propsButtonPlay): JSX.Element {
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
+		borderRadius: '0.5rem',
 	}
 
 	const buyBar = (itemData: propsButtonPlay) => {
@@ -67,18 +66,26 @@ export default function ButtonsItemsStore(props: propsButtonPlay): JSX.Element {
 
 	}
 	return (
-		<div style={cssDiv}
-			onMouseEnter={() => setIsHover(true)}
-			onMouseLeave={() => setIsHover(false)}
-		>
-			<div style={cssPhoto}>
-				<img className='h-100 w-100 rounded' src={props.photo} alt="playPong" />
+		<>
+			<div style={cssDiv}
+				onMouseEnter={() => setIsHover(true)}
+				onMouseLeave={() => setIsHover(false)}
+			>
+				<div style={cssPhoto}>
+					<img className='h-100 w-100 rounded' src={props.photo} alt="playPong" />
+				</div>
+				{/* <button type="button" style={cssButton} onClick={() => { buyBar(props) }}>
+					<p className="fw-bold me-1">Buy</p>
+					<p>{props.price}</p>
+					<UnicCoin style={{ height: '2rem' }} />
+				</button> */}
+				<button type="button" style={cssButton} onClick={() => { buyBar(props) }}>
+					<p className="fw-bold me-1">Buy</p>
+					<p>{props.price}</p>
+					<UnicCoin style={{ height: '2rem' }} />
+				</button>
+
 			</div>
-			<button type="button" style={cssButton} onClick={() => { buyBar(props) }}>
-				<p className="fw-bold me-1">Buy</p>
-				<p>{props.price}</p>
-				<UnicCoin style={{ height: '2rem' }} />
-			</button>
-		</div>
+		</>
 	)
 }
