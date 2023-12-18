@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { UserData, socket } from "../../InitialPage/Contexts/Contexts"
 
 type propsButtonPlay = {
 	photo: string,
@@ -8,7 +9,7 @@ type propsButtonPlay = {
 
 export default function ButtonModelsGame(props: propsButtonPlay): JSX.Element {
 	const [isHover, setIsHover] = useState(false)
-	const navigation = useNavigate()
+	const userData = useContext(UserData).user
 
 	const cssDiv: React.CSSProperties = {
 		height: '8rem',
@@ -37,7 +38,17 @@ export default function ButtonModelsGame(props: propsButtonPlay): JSX.Element {
 	}
 
 	function handleClick() {
-		navigation(`/game/pong/`)
+		//TODO: REMOVER ESSA CAMBIARRA DEPOIS
+		if (userData.nickname === 'bla')
+			userData.id = '1234'
+	
+		const objectQueue = {
+			id: userData.id,
+			nickname: userData.nickname,
+			model: props.model,
+			bar: '',
+		}
+		socket.emit('queueGame', objectQueue)
 	}
 
 	return (

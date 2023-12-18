@@ -2,9 +2,12 @@ import ButtonModelsGame from "./ButtonModelsGame";
 import playPong from '../../../assets/settingsGame/playPong.jpg'
 import playSpecialPong from '../../../assets/settingsGame/playSpecialPong.jpg'
 import bgFire from "../../../assets/game/planets/backgrounds/bgFire.jpg";
+import { useEffect } from "react";
+import { socket } from '../../InitialPage/Contexts/Contexts'
+import { useNavigate } from "react-router-dom";
 
-
-export default function ModelsGame() : JSX.Element {
+export default function ModelsGame(): JSX.Element {
+	const navigation = useNavigate()
 	const cssDivFilhoSelectGame: React.CSSProperties = {
 		position: 'relative',
 		zIndex: 2,
@@ -16,6 +19,13 @@ export default function ModelsGame() : JSX.Element {
 		backgroundImage: `url(${bgFire})`,
 		backgroundSize: 'cover',
 	}
+
+	useEffect(() => {
+		socket.on('starGame', (url: string) => {
+			navigation(url)
+			console.log("url: ", url)
+		})
+	}, [socket])
 
 	return (
 		<div style={cssDivFilhoSelectGame}>
