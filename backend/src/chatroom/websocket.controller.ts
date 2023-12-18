@@ -12,6 +12,7 @@ interface queue {
 	nickname: string,
 	model: string,
 	bar: string,
+	client: Socket
 }
 
 @WebSocketGateway(
@@ -23,6 +24,7 @@ interface queue {
 		}
 	}
 )
+
 export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
 
 	queue: queue[] = [];
@@ -67,6 +69,8 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 
 	@SubscribeMessage('queueGame')
 	async queueGame(client: Socket, dto: queue) {
+		dto.client = client;
+
 		if (this.queue.length == 0) {
 			this.queue.push(dto);
 		}
@@ -75,7 +79,8 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 		}
 		if (this.queue.length >= 2) {
 			let room = this.queue[0].id + this.queue[1].id;
-			client.join(room);
+			this.queue[0].client.join(room);
+			this.queue[1].client.join(room);
 			this.server.to(room).emit('startGame', { room });
 			this.queue.splice(0, 2);
 		}
@@ -83,5 +88,7 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 
 	@SubscribeMessage('rooms')
 	async rooms(client: Socket, dto: any) {
+		const room = dto.room
+		this.server.to(room).emit('startGame', "testando");
 	}
 }

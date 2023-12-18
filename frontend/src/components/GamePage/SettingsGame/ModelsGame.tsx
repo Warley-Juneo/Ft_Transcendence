@@ -5,7 +5,6 @@ import bgFire from "../../../assets/game/planets/backgrounds/bgFire.jpg";
 import { useEffect } from "react";
 import { socket } from '../../InitialPage/Contexts/Contexts'
 import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
 
 export default function ModelsGame(): JSX.Element {
 	const navigate = useNavigate()
@@ -22,8 +21,8 @@ export default function ModelsGame(): JSX.Element {
 	}
 
 	useEffect(() => {
-		socket.on('starGame', (url: string) => {
-			navigate(`/pong/id=${url}`)
+		socket.on('startGame', (data: any) => {
+			navigate(`/game/pong/${data.room}`)
 		})
 		return () => {
 			socket.off('starGame')

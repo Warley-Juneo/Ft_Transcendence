@@ -1,12 +1,14 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { CustomScene } from "./Config";
 import React, { useEffect } from 'react';
 import { socket } from '../../InitialPage/Contexts/Contexts';
 
-export default function PongGame(): JSX.Element {
+export default function GamePong(): JSX.Element {
 	const gameContainerRef = React.useRef<HTMLDivElement>(null);
-	const id = useLocation().pathname.split('=')[1];
-
+	console.log("gameContainerRef: ")
+	console.log("useParams: ", useParams())
+	const {room} = useParams()
+	console.log("room: ", room)
 	useEffect(() => {
 		socket.on('pongGame', (url: string) => {
 		});

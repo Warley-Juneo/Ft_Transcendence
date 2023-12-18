@@ -15,7 +15,7 @@ export default function App() {
 					<Route path="/fake" element={<LoginFake />} />
 					<Route path="/game/" element={<InicialPage />}>
 						<Route index element={<Game />} />
-						<Route path="pong/:id" element={<GamePong />} />
+						<Route path="pong/:room" element={<GamePong />} />
 					</Route>
 				</Routes>
 			</BrowserRouter>
