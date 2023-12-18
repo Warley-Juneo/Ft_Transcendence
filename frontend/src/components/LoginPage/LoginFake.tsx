@@ -29,7 +29,7 @@ export default function LoginFake(): JSX.Element {
 		).then((res) => {
 			Cookies.set('jwtToken', res.data._access_token);// set expires time
 			Cookies.set('email', res.data._email);
-			navigate('/game', { replace: true });
+			navigate('/game/game-lobby', { replace: true });
 		}
 		).catch((err) => {
 			console.log("eror: ", err);
