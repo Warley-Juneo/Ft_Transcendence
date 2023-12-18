@@ -264,6 +264,7 @@ export default function Game(): JSX.Element {
 				{collisionPnt === 'Lua' ? <DinamicProfile openDinamicProfile={setCollisionPnt}
 					nickName={infoUser.nickname} id={infoUser.id} /> : null}
 			</div>
+			<SettingsPath openSettingsPath={setCollisionPnt} />
 		</UserData.Provider>
 	)
 }

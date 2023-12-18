@@ -12,7 +12,6 @@ interface queue {
 	nickname: string,
 	model: string,
 	bar: string,
-	client: Socket
 }
 
 @WebSocketGateway(
@@ -48,7 +47,6 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 
 	@SubscribeMessage('group-message')
 	async chatroomMessage(client: Socket, dto: InputChatroomMessageDto) {
-		console.log("\n\n\nDTO: ", dto);
 		let outputMsg: any = await this.service.createChatroomMessage(dto);
 		outputMsg = JSON.stringify(outputMsg);
 		this.server.emit('chatMessage', outputMsg);
@@ -75,14 +73,15 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 		else if (this.queue[0].id != dto.id) {
 			this.queue.push(dto);
 		}
-		console.log("\n\n\nDTO: ", dto);
-		dto.client = client;
 		if (this.queue.length >= 2) {
-			let url = this.queue[0].id + this.queue[1].id;
-			this.queue[0].client.emit('starGame', url);
-			this.queue[1].client.emit('starGame', url);
-			this.queue = [];
+			let room = this.queue[0].id + this.queue[1].id;
+			client.join(room);
+			this.server.to(room).emit('startGame', { room });
+			this.queue.splice(0, 2);
 		}
 	}
 
+	@SubscribeMessage('rooms')
+	async rooms(client: Socket, dto: any) {
+	}
 }

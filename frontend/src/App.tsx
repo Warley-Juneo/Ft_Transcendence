@@ -14,10 +14,8 @@ export default function App() {
 					<Route path="/" element={<Login />} />
 					<Route path="/fake" element={<LoginFake />} />
 					<Route path="/game/" element={<InicialPage />}>
-						<Route path="game-lobby/" element={<Game />} />
-						{/* <Route path="gameLobby/" element={<GamePong />} /> */}
-						<Route path="pong/" element={<GamePong />} />
-						{/* <Route path="chats/:chatName" element={<ChatPublic />} /> */}
+						<Route index element={<Game />} />
+						<Route path="pong/:id" element={<GamePong />} />
 					</Route>
 				</Routes>
 			</BrowserRouter>
