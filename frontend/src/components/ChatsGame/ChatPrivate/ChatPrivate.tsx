@@ -45,6 +45,9 @@ export default function ChatPrivate(props: propsChatPrivate) {
 				console.log("error no cat: ", error);
 			}
 		});
+		return () => {
+			socket.off('directChatMessage');
+		}
 	}, [socket])
 
 

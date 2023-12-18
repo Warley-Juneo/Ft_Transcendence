@@ -74,6 +74,9 @@ export default function ChatPublic(props: propsPageChats) {
 		socket.on('checkStatus', (data: any) => {
 			getDataChat();
 		})
+		return () => {
+			socket.off('checkStatus')
+		}
 	}, [socket])
 
 	if (!dataChat.name) return <div>Carregando...</div>

@@ -19,6 +19,9 @@ export default function MessagensArea(): JSX.Element {
 				console.log(error);
 			}
 		});
+		return () => {
+			socket.off('chatMessage');
+		}
 	}, [socket]);
 
 	let obj = {

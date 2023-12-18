@@ -36,6 +36,9 @@ export default function MiniProfile(props: propsMiniProfile) {
 		socket.on('checkStatus', (data: any) => {
 			getPlayers('http://localhost:3000/users/friends');
 		})
+		return () => {
+			socket.off('checkStatus');
+		}
 	}, [socket])
 
 	const cssMiniprfile: React.CSSProperties = {
