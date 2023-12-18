@@ -10,7 +10,9 @@ import { GameService } from "src/game/game.service";
 interface queue {
 	id: string,
 	nickname: string,
+	model: string,
 	bar: string,
+	client: Socket
 }
 
 @WebSocketGateway(
@@ -64,4 +66,23 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 		await this.gameService.disconnect(dto);
 		this.server.emit('checkStatus', 'Desconectado com sucesso!');
 	}
+
+	@SubscribeMessage('queueGame')
+	async queueGame(client: Socket, dto: queue) {
+		if (this.queue.length == 0) {
+			this.queue.push(dto);
+		}
+		else if (this.queue[0].id != dto.id) {
+			this.queue.push(dto);
+		}
+		console.log("\n\n\nDTO: ", dto);
+		dto.client = client;
+		if (this.queue.length >= 2) {
+			let url = this.queue[0].id + this.queue[1].id;
+			this.queue[0].client.emit('starGame', url);
+			this.queue[1].client.emit('starGame', url);
+			this.queue = [];
+		}
+	}
+
 }
