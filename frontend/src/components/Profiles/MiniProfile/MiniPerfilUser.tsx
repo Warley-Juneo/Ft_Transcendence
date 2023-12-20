@@ -6,7 +6,7 @@ import { MdModeEdit } from 'react-icons/md';
 import ConfigurationGame from './Configurations/Configurations';
 
 export default function MiniPerfilUser() {
-	const dataUser = useContext(UserData);
+	const userData = useContext(UserData).user;
 	const [optionsConf, setOptionsConf] = useState<boolean>(false);
 	const [showConfigurations, setShowConfigurations] = useState<boolean>(false);
 
@@ -34,13 +34,13 @@ export default function MiniPerfilUser() {
 
 	const disconnect = () => {
 		let aux = {
-			user_id: "1ed367e7-5e7e-432e-a7fd-603dc91223dc",
-			is_active: true,
+			user_id: userData.id,
+			is_active: false,
 		}
 		socket.emit('check-status', aux);
 	}
 
-	if (dataUser.user.nickname === '' || dataUser.user.avatar === '') {
+	if (userData.nickname === '' || userData.avatar === '') {
 		return (
 			<div className='d-flex p-3' style={{ height: '15vh' }}>
 				<div className="spinner-border text-primary m-auto h-75" role="status">
@@ -52,8 +52,8 @@ export default function MiniPerfilUser() {
 	return (
 		<div className='d-flex p-3 text-white' style={{ height: '15vh' }}>
 			<div className='h-100 d-flex align-items-center'>
-				<img className="rounded-circle h-100 w-100 me-3" src={dataUser.user.avatar} alt='foto' />
-				{StatusOnline(dataUser.user.nickname)}
+				<img className="rounded-circle h-100 w-100 me-3" src={userData.avatar} alt='foto' />
+				{StatusOnline(userData.nickname)}
 			</div>
 			<div className='ms-auto'>
 				<IoMdArrowDropdown

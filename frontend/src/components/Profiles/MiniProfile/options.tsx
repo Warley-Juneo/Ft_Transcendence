@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 
 const	URLS_MiniPerfilPlayers = {
 	'personal': 'http://localhost:3000/users/friends',
-	'Global': 'http://localhost:3000/users/online',
+	'Global': 'http://localhost:3000/users/find-all',
 }
 
 function Options({getPlayers}: {getPlayers: (route: string) => void}) {
