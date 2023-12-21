@@ -22,13 +22,13 @@ export class AuthService {
     const clientId = process.env.UID;
     const secret = process.env.SECRET;
 
-    const authRequest = {
-      grant_type: 'authorization_code',
-      client_id: clientId,
-      client_secret: secret,
-      code: authLoginDto.authCode,
-      redirect_uri: 'http://localhost:3001',
-    };
+	const authRequest = {
+		grant_type: 'authorization_code',
+		client_id: process.env.UID,
+		client_secret: process.env.SECRET,
+		code: authLoginDto.authCode,
+		redirect_uri: 'http://localhost:3001',
+	  };
 
     const authResponsePromise: Observable<any> = this.httpService.post(
       process.env.API42_USER_AUTH,

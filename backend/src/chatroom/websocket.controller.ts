@@ -12,7 +12,24 @@ interface queue {
 	nickname: string,
 	model: string,
 	bar: string,
-	client: Socket
+	client: Socket,
+}
+
+interface responseQueue {
+	Player1: string,
+	Player2: string,
+	Player1Bar: string,
+	Player2Bar: string,
+	lider: boolean,
+	room: string
+}
+
+interface rooms {
+	paddleLider: number,
+	paddlePlayer: number,
+	positionBall: [number, number]
+	room: string,
+	isLider: boolean,
 }
 
 @WebSocketGateway(
@@ -70,7 +87,6 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 	@SubscribeMessage('queueGame')
 	async queueGame(client: Socket, dto: queue) {
 		dto.client = client;
-
 		if (this.queue.length == 0) {
 			this.queue.push(dto);
 		}
@@ -78,17 +94,27 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 			this.queue.push(dto);
 		}
 		if (this.queue.length >= 2) {
-			let room = this.queue[0].id + this.queue[1].id;
-			this.queue[0].client.join(room);
-			this.queue[1].client.join(room);
-			this.server.to(room).emit('startGame', { room });
+			let response: responseQueue = {
+				Player1: this.queue[0].id,
+				Player2: this.queue[1].id,
+				Player1Bar: this.queue[0].bar,
+				Player2Bar: this.queue[1].bar,
+				lider: this.queue[0].id,
+				room: this.queue[0].id + this.queue[1].id
+			}
+
+			this.queue[0].client.join(response.room);
+			this.queue[1].client.join(response.room);
+
+			this.server.to(response.room).emit('startGame', response);
 			this.queue.splice(0, 2);
 		}
 	}
 
 	@SubscribeMessage('rooms')
-	async rooms(client: Socket, dto: any) {
+	async rooms(client: Socket, dto: rooms) {
 		const room = dto.room
-		this.server.to(room).emit('startGame', "testando");
+
+		this.server.to(room).emit('startGame', dto);
 	}
 }

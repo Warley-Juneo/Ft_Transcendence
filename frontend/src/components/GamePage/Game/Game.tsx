@@ -20,57 +20,15 @@ import SettingsPath from "../SettingsGame/SettingsGame";
 import Ranking from "../../Rankingpage/Ranking";
 import PageChats from "../../PublicChatsPage/PublicChats";
 import DinamicProfile from "../../Profiles/DinamicProfile/DinamicProfile";
-import { UserData, t_dataUser } from "../../InitialPage/Contexts/Contexts";
 import MiniProfile from "../../Profiles/MiniProfile/MiniProfile";
-import axios from "axios";
-import Cookies from "js-cookie";
 
 export default function Game(): JSX.Element {
 	let [collisionPnt, setCollisionPnt] = useState<string>('');
 	const gameContainerRef = useRef<HTMLDivElement>(null);
-	let timeForNewRequestAxios: number = 10000;
-	let timeout: number = 0;
-	const [infoUser, setGetInfoUser] = useState<t_dataUser>({
-		nickname: '',
-		coins: 0,
-		avatar: '',
-		id: '',
-	});
-
-	//###############################################################
-	//###############################################################
-
-	function getInfoUser() {
-		console.log("getInfoUser");
-		axios.get('http://localhost:3000/landing-page', {
-			headers: {
-				Authorization: Cookies.get('jwtToken'),
-			}, timeout: 5000
-		})
-			.then((res) => {
-				if (!res.data.avatar) {
-					res.data.avatar = "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg";
-				}
-				setGetInfoUser(res.data);
-				console.log(res.data);
-			})
-			.catch(() => {
-				timeout++
-				if (timeout === 5) {
-					alert("O servidor esta indisponivel no momento, tente novamente mais tarde.");
-					timeForNewRequestAxios = 60000;
-				}
-				setTimeout(getInfoUser, timeForNewRequestAxios);
-			});
-	}
-
-	//###############################################################
-	//###############################################################
 
 	useEffect(() => {
 		if (!gameContainerRef.current) return
 
-		getInfoUser();
 		class GameData extends Phaser.Scene {
 			nave: Phaser.Physics.Arcade.Sprite
 			pntAnel: Phaser.Physics.Arcade.Sprite
@@ -254,18 +212,16 @@ export default function Game(): JSX.Element {
 	}
 
 	return (
-		<UserData.Provider value={{ user: infoUser, updateDataUser: getInfoUser }}>
-			<div ref={gameContainerRef} style={cssGameContainer}>
-				{collisionPnt === 'planetLua' ? <SettingsStore openSettingsStore={setCollisionPnt} /> : null}
-				{collisionPnt === 'planetFire' ? <SettingsPath openSettingsPath={setCollisionPnt} /> : null}
-				{collisionPnt === 'planetTerra' ? <MiniProfile propsMiniProfile={setCollisionPnt} /> : null}
-				{collisionPnt === 'satelite' ? <PageChats openPageChats={setCollisionPnt} /> : null}
-				{collisionPnt === 'base' ? <Ranking openStore={setCollisionPnt} /> : null}
-				{collisionPnt === 'Lua' ? <DinamicProfile openDinamicProfile={setCollisionPnt}
-					nickName={infoUser.nickname} id={infoUser.id} /> : null}
-			</div>
+		<div ref={gameContainerRef} style={cssGameContainer}>
+			{collisionPnt === 'planetLua' ? <SettingsStore openSettingsStore={setCollisionPnt} /> : null}
+			{collisionPnt === 'planetFire' ? <SettingsPath openSettingsPath={setCollisionPnt} /> : null}
+			{collisionPnt === 'planetTerra' ? <MiniProfile propsMiniProfile={setCollisionPnt} /> : null}
+			{collisionPnt === 'satelite' ? <PageChats openPageChats={setCollisionPnt} /> : null}
+			{collisionPnt === 'base' ? <Ranking openStore={setCollisionPnt} /> : null}
+			{collisionPnt === 'Lua' ? <DinamicProfile openDinamicProfile={setCollisionPnt}
+			 nickName={''} id={''} /> : null}
 			<SettingsPath openSettingsPath={setCollisionPnt} />
-		</UserData.Provider>
+		</div>
 	)
 }
 

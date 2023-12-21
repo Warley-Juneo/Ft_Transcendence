@@ -26,7 +26,6 @@ export default function TopRank() {
 			}, timeout: 5000
 		}).then((res) => {
 			setRanking(res.data)
-			console.log(res.data)
 		}
 		)
 	}

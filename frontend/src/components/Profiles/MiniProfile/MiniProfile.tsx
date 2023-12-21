@@ -6,7 +6,6 @@ import Options from './options';
 import ListFriends from './ListFriends';
 import { Players } from './ListFriends';
 import { socket } from '../../InitialPage/Contexts/Contexts';
-import bgTerra from '../../../assets/game/planets/backgrounds/bgTerra.jpg'
 
 type propsMiniProfile = {
 	propsMiniProfile: React.Dispatch<React.SetStateAction<string>>;

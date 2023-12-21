@@ -1,21 +1,24 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { CustomScene } from "./Config";
-import React, { useEffect } from 'react';
-import { socket } from '../../InitialPage/Contexts/Contexts';
+import React, { useContext, useEffect } from 'react';
+import { UserData } from "../../InitialPage/Contexts/Contexts";
+
 
 export default function GamePong(): JSX.Element {
+	const dataRoom = useLocation().state?.data as any;
 	const gameContainerRef = React.useRef<HTMLDivElement>(null);
-	console.log("gameContainerRef: ")
-	console.log("useParams: ", useParams())
-	const {room} = useParams()
-	console.log("room: ", room)
-	useEffect(() => {
-		socket.on('pongGame', (url: string) => {
-		});
-	}, [socket]);
+	const userData = useContext(UserData).user;
 
 	useEffect(() => {
 		if (!gameContainerRef.current) return;
+		// if (!dataRoom) return;
+		//TODO: Restaurar a logica de lider
+		let isLider = false
+
+		if (dataRoom){
+			isLider = dataRoom.lider === userData.id;
+		}
+		const configureGame = new CustomScene(dataRoom, isLider);
 
 		const config = {
 			type: Phaser.AUTO,
@@ -27,10 +30,14 @@ export default function GamePong(): JSX.Element {
 				default: 'arcade',
 				arcade: {
 					gravity: { y: 0 },
-					debug: false
+					debug: true
 				}
 			},
-			scene: [CustomScene]
+			fps: {
+				target: 120,
+				forceSetTimeOut: true
+			},
+			scene: [configureGame]
 		};
 
 		const game = new Phaser.Game(config);
