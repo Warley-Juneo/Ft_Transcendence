@@ -1,5 +1,4 @@
-import { useContext, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useContext, useState } from "react"
 import { UserData, socket } from "../../InitialPage/Contexts/Contexts"
 
 type propsButtonPlay = {
@@ -41,7 +40,7 @@ export default function ButtonModelsGame(props: propsButtonPlay): JSX.Element {
 		//TODO: REMOVER ESSA CAMBIARRA DEPOIS
 		if (userData.nickname === 'bla')
 			userData.id = '1234'
-	
+
 		const objectQueue = {
 			id: userData.id,
 			nickname: userData.nickname,

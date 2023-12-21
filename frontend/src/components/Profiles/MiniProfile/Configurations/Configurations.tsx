@@ -1,5 +1,5 @@
 import { UserData } from '../../../InitialPage/Contexts/Contexts';
-import { FormEvent, useContext, useRef, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import IdentifyInputName from "./IdentifyInputName";
 import InputEditName from "./InputEditName";
 import FolderSettingsGame from "./Folder";

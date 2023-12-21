@@ -1,5 +1,4 @@
 import React, { SetStateAction, useState } from "react";
-import { IoMdClose } from "react-icons/io";
 import ShowItemsStore from "./ShowItemsStore";
 import FakeApiStore from "./FakeApiStore";
 import bgLua from "../../../assets/game/planets/backgrounds/bgLua.jpg";
