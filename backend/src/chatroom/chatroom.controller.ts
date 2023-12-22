@@ -48,6 +48,7 @@ export class ChatroomController {
 
 	@Post('add-member-group')
 	async	addMemberChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+		console.log("cheguei aqui", dto)
 		return await this.chatroomService.addMemberChatroom(request.user.sub, dto);
 	}
 

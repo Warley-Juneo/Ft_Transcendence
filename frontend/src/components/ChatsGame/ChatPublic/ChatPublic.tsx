@@ -58,7 +58,6 @@ export default function ChatPublic(props: propsPageChats) {
 			}
 		}).then((response) => {
 			setDataChat(response.data)
-			console.log(response.data)
 		}).catch((error) => {
 			console.log(error)
 		})
@@ -80,7 +79,7 @@ export default function ChatPublic(props: propsPageChats) {
 	if (!dataChat.name) return <div>Carregando...</div>
 
 	return (
-		<div className="bg-custon-roxo rounded text-white
+		<div className="rounded text-white
 			position-absolute top-50 start-50 translate-middle h-75 w-75"
 			style={{ backgroundImage: `url(${bgChatPublic})`, backgroundSize: 'cover' }}
 		>

@@ -102,8 +102,6 @@ export class CustomScene extends Phaser.Scene {
 				this.ball.x = x;
 				this.ball.y = y;
 			} else if (this.isLider && !data.isLider) {
-				console.log(data.isLider);
-				console.log(data.paddlePlayer);
 				this.paddle2.y = data.paddlePlayer;
 			}
 		});
@@ -181,7 +179,6 @@ export class CustomScene extends Phaser.Scene {
 		}
 
 		if (this.paddle1UpKey.isDown) {
-			console.log('up');
 			this.paddle1.setVelocityY(-150);
 			if (!this.isLider) {
 				this.notLiderEmitPaddle();

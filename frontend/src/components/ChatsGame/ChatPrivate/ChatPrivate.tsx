@@ -58,8 +58,6 @@ export default function ChatPrivate(props: propsChatPrivate) {
 		route: 'direct-message',
 	}
 
-	console.log("Avatar: ", props.avatar);
-	console.log("Nickname: ", props.nick_name);
 	return (
 		<div className='text-white chat d-flex flex-column bg-degrader rounded'>
 			<TitleChatPrivate nickname={props.nick_name} avatar={props.avatar} />
