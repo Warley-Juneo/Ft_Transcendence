@@ -1,6 +1,6 @@
 import { MdOutlinePersonAddDisabled, MdDeleteSweep } from 'react-icons/md';
 import { FormEvent, useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ButtonConfiguration from "./ButtonConfiguration";
 import { AiOutlineUserAdd } from 'react-icons/ai';
 import { GiBroadDagger } from 'react-icons/gi';
@@ -32,12 +32,12 @@ type UsersGame = {
 
 type propsConfigurations = {
 	openOrClosedConf: () => void,
+	chatName: string,
 }
 
 export default function Configurations(props: propsConfigurations): JSX.Element {
 	const { dataChat: { members, name }, setDataChat } = useContext(ChatContext);
 	const [playersGame, setPlayersGame] = useState<UsersGame[]>([]);
-	const chatName: string = useParams().chatName as string;
 	const navigate = useNavigate();
 
 	const getUserId = (nickname: string): string => {
@@ -52,14 +52,13 @@ export default function Configurations(props: propsConfigurations): JSX.Element 
 		if (userId) {
 			axios.post('http://localhost:3000/chatroom/add-member-group', {
 				add_id: userId,
-				chat_name: chatName,
+				chat_name: props.chatName,
 			}, {
 				headers: {
 					Authorization: Cookies.get("jwtToken")
 				},
 			}).then((res) => {
 				setDataChat(res.data);
-				console.log("resData: ", res.data);
 			}).catch((err) => {
 				console.log(err);
 			})
@@ -70,17 +69,15 @@ export default function Configurations(props: propsConfigurations): JSX.Element 
 		if (event.key !== 'Enter') return;
 		const userId = getUserId(event.currentTarget.value);
 		if (userId) {
-			console.log("entrou")
 			axios.post('http://localhost:3000/chatroom/add-adm-group', {
 				add_id: userId,
-				chat_name: chatName,
+				chat_name: props.chatName,
 			}, {
 				headers: {
 					Authorization: Cookies.get("jwtToken")
 				},
 			}).then((res) => {
 				setDataChat(res.data);
-				console.log("resData: ", res.data);
 			}).catch((err) => {
 				console.log(err);
 			})
@@ -91,17 +88,15 @@ export default function Configurations(props: propsConfigurations): JSX.Element 
 		if (event.key !== 'Enter') return;
 		const userId = getUserId(event.currentTarget.value);
 		if (userId) {
-			console.log("entrou")
 			axios.post('http://localhost:3000/chatroom/exclude-member-group', {
 				add_id: userId,
-				chat_name: chatName,
+				chat_name: props.chatName,
 			}, {
 				headers: {
 					Authorization: Cookies.get("jwtToken")
 				},
 			}).then((res) => {
 				setDataChat(res.data);
-				console.log("resData: ", res.data);
 			}).catch((err) => {
 				console.log(err);
 			})
@@ -110,10 +105,10 @@ export default function Configurations(props: propsConfigurations): JSX.Element 
 
 	const deleteChat = (event: React.KeyboardEvent<HTMLInputElement>): void => {
 		if (event.key !== 'Enter') return;
-		if (event.currentTarget.value !== chatName) return;
+		if (event.currentTarget.value !== props.chatName) return;
 		axios.delete('http://localhost:3000/chatroom/delete-group', {
 			data: {
-				chat_name: chatName,
+				chat_name: props.chatName,
 			},
 			headers: {
 				Authorization: Cookies.get("jwtToken")
@@ -151,7 +146,7 @@ export default function Configurations(props: propsConfigurations): JSX.Element 
 	return (
 		<div className="position-absolute bg-dark text-center rounded h-100 w-50 overflow-auto top-0 end-0">
 			<Bar openOrClosedConf={props.openOrClosedConf} />
-			<Perfil chatName={chatName}
+			<Perfil chatName={props.chatName}
 				chatPhoto="https://i.etsystatic.com/37688069/r/il/d3e600/5143421340/il_600x600.5143421340_sm1f.jpg"
 				numberMembers={members.length}
 			/>

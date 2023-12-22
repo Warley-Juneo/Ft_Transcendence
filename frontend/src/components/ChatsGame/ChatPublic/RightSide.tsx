@@ -22,6 +22,7 @@ export default function RightSide(props: propsRightSide): JSX.Element {
 			/>
 			{!showConfigurations ? null :
 				<Configurations
+					chatName={props.chatName}
 					openOrClosedConf={
 						() => setShowConfigurations(!showConfigurations)
 					}
