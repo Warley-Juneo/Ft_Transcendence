@@ -1,14 +1,13 @@
 import ListFriends, { Players } from "../../Profiles/MiniProfile/ListFriends";
 import DinamicProfile from "../../Profiles/DinamicProfile/DinamicProfile";
-import Configurations from "./Configurations/Configurations";
-import BarConfigurations from "./barConfigurations";
-import MessagensArea from "./MessagensArea";
+
 import { createContext, useEffect } from "react";
 import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { socket } from "../../InitialPage/Contexts/Contexts";
 import bgChatPublic from "../../../assets/game/bgChatPublic.png";
+import RightSide from "./RightSide";
 
 export type Messages = {
 	id: string,
@@ -49,7 +48,6 @@ type propsPageChats = {
 }
 export default function ChatPublic(props: propsPageChats) {
 	const [dataChat, setDataChat] = useState<DataChat>({} as DataChat);
-	const [showConfigurations, setShowConfigurations] = useState(false);
 	const [dinamicProfile, setDinamicProfile] = useState<DinamicProfile>({} as DinamicProfile);
 
 	const getDataChat = () => {
@@ -81,7 +79,6 @@ export default function ChatPublic(props: propsPageChats) {
 
 	if (!dataChat.name) return <div>Carregando...</div>
 
-	console.log(showConfigurations)
 	return (
 		<div className="bg-custon-roxo rounded text-white
 			position-absolute top-50 start-50 translate-middle h-75 w-75"
@@ -99,21 +96,10 @@ export default function ChatPublic(props: propsPageChats) {
 
 					{/* Lado direto do chat que cotem as mensagens*/}
 					<div className="col-9 d-flex flex-column h-100 position-relative">
-						<BarConfigurations
+						<RightSide
 							chatName={props.chatName}
 							openPageChats={props.openPageChats}
-							openOrClosedConf={
-								() => setShowConfigurations(!showConfigurations)
-							}
 						/>
-						{!showConfigurations ? null :
-							<Configurations
-								openOrClosedConf={
-									() => setShowConfigurations(!showConfigurations)
-								}
-							/>
-						}
-						<MessagensArea />
 					</div>
 				</ChatContext.Provider>
 			</div>
