@@ -12,23 +12,26 @@ export default function RightSide(props: propsRightSide): JSX.Element {
 	const [showConfigurations, setShowConfigurations] = useState(false);
 
 	return (
-		<div>
-			<BarConfigurations
-				chatName={props.chatName}
-				openPageChats={props.openPageChats}
-				openOrClosedConf={
-					() => setShowConfigurations(!showConfigurations)
-				}
-			/>
-			{!showConfigurations ? null :
-				<Configurations
+		<>
+			<div>
+				<BarConfigurations
 					chatName={props.chatName}
+					openPageChats={props.openPageChats}
 					openOrClosedConf={
 						() => setShowConfigurations(!showConfigurations)
 					}
 				/>
-			}
+				{!showConfigurations ? null :
+					<Configurations
+						chatName={props.chatName}
+						openOrClosedConf={
+							() => setShowConfigurations(!showConfigurations)
+						}
+					/>
+				}
+			</div>
 			<MessagensArea />
-		</div>
+
+		</>
 	)
 }
