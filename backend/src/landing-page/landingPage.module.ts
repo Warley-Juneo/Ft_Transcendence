@@ -13,7 +13,7 @@ import { UsersService } from 'src/users/users.service';
     GameModule,
     JwtModule.register({
       global: true,
-      secret: 'paz',
+      secret: process.env.JWT_SECRET,
     }),
   ],
   controllers: [LandingPageController],

@@ -13,7 +13,7 @@ import { JwtModule } from '@nestjs/jwt';
     GameModule,
     JwtModule.register({
       global: true,
-      secret: 'paz',
+      secret: process.env.JWT_SECRET,
     }),
   ],
   controllers: [AuthController],

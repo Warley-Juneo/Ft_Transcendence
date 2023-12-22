@@ -16,7 +16,7 @@ export class JwtMiddleware implements NestMiddleware {
       try {
         const payload = await this.jwtService.verifyAsync(token, {
           //DEVEMOS UTILIZAR UMA ENV????????
-          secret: "paz",
+          secret: process.env.JWT_SECRET,
         });
         //ASSIGNING TO REQUEST OBJECT TO HAVE ACCESS IN OUR ROUTE HANDLERS
         req['user'] = payload;
