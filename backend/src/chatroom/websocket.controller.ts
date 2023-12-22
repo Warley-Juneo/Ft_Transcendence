@@ -20,7 +20,7 @@ interface responseQueue {
 	Player2: string,
 	Player1Bar: string,
 	Player2Bar: string,
-	lider: boolean,
+	lider: string,
 	room: string
 }
 
@@ -99,7 +99,7 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 				Player2: this.queue[1].id,
 				Player1Bar: this.queue[0].bar,
 				Player2Bar: this.queue[1].bar,
-				lider: false,
+				lider: this.queue[0].id,
 				room: this.queue[0].id + this.queue[1].id
 			}
 
