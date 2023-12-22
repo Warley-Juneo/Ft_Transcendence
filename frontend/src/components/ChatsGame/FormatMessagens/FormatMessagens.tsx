@@ -13,7 +13,7 @@ export default function FormatMessages(props: propsFormatMessages): JSX.Element 
 	const {setDinamicProfile} = useContext(ChatContext);
 
 	const showDinamicProfile = (nickname: string, id: string) => {
-		setDinamicProfile({ show: true, nickName: nickname, id: id });
+		setDinamicProfile({ nickName: nickname, id: id });
 	}
 
 	return (

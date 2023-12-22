@@ -30,7 +30,6 @@ export type DataChat = {
 }
 
 type DinamicProfile = {
-	show: boolean,
 	nickName: string,
 	id: string,
 }
@@ -39,7 +38,11 @@ export const ChatContext = createContext<{
 	dataChat: DataChat;
 	setDataChat: React.Dispatch<React.SetStateAction<DataChat>>;
 	setDinamicProfile: React.Dispatch<React.SetStateAction<DinamicProfile>>;
-}>({ dataChat: {} as DataChat, setDataChat: () => { }, setDinamicProfile: () => { } });
+}>({
+	dataChat: {} as DataChat,
+	setDataChat: () => { },
+	setDinamicProfile: () => { }
+});
 
 
 type propsPageChats = {
@@ -49,7 +52,13 @@ type propsPageChats = {
 export default function ChatPublic(props: propsPageChats) {
 	const [dataChat, setDataChat] = useState<DataChat>({} as DataChat);
 	const [dinamicProfile, setDinamicProfile] = useState<DinamicProfile>({} as DinamicProfile);
+	const [showDinamicProfile, setShowDinamicProfile] = useState<string>('');
 
+	useEffect(() => {
+		if (dinamicProfile.nickName) {
+			setShowDinamicProfile('show');
+		}
+	}, [dinamicProfile])
 	const getDataChat = () => {
 		const ENV = `chat_name=${props.chatName}&password=''`
 		axios.get(`http://localhost:3000/chatroom/find-public/?${ENV}`, {
@@ -100,12 +109,13 @@ export default function ChatPublic(props: propsPageChats) {
 					</div>
 				</ChatContext.Provider>
 			</div>
-			{/* {!dinamicProfile.show ? null :
-				<DinamicProfile nickName={dinamicProfile.nickName}
-					dinamicProfile={setDinamicProfile}
+			{!showDinamicProfile ? null :
+				<DinamicProfile
+					openDinamicProfile={setShowDinamicProfile}
+					nickName={dinamicProfile.nickName}
 					id={dinamicProfile.id}
 				/>
-			} */}
+			}
 		</div>
 	)
 }
