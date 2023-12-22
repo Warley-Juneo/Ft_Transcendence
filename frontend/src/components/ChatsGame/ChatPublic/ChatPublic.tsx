@@ -82,11 +82,10 @@ export default function ChatPublic(props: propsPageChats) {
 	return (
 		<div className="bg-custon-roxo rounded text-white
 			position-absolute top-50 start-50 translate-middle h-75 w-75"
-			style={{backgroundImage: `url(${bgChatPublic})`, backgroundSize: 'cover'}}
+			style={{ backgroundImage: `url(${bgChatPublic})`, backgroundSize: 'cover' }}
 		>
 			<div className="row g-0 h-100 p-2">
 				<ChatContext.Provider value={{ dataChat, setDataChat, setDinamicProfile }}>
-					{/* Lado esquerdo do chat que contem os amigos*/}
 					<div className="col-3 border-end h-100">
 						<ListFriends
 							players={dataChat.members}
@@ -94,7 +93,6 @@ export default function ChatPublic(props: propsPageChats) {
 						/>
 					</div>
 
-					{/* Lado direto do chat que cotem as mensagens*/}
 					<div className="col-9 d-flex flex-column h-100 position-relative">
 						<RightSide
 							chatName={props.chatName}
