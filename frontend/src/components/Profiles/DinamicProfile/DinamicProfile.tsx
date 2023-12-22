@@ -2,7 +2,6 @@ import InfosUser from "./InfosUser";
 import MatchHistory from "../ProfilePage/MatchHistory";
 import '../ProfilePage/rank.css'
 import ButtonClosed from "../../GamePage/Game/ButtonClosed";
-import bgTerra from '../../../assets/game/planets/backgrounds/bgTerra.jpg'
 
 type propsDinamicProfile = {
 	nickName: string;
@@ -12,7 +11,7 @@ type propsDinamicProfile = {
 
 export default function DinamicProfile(props: propsDinamicProfile): JSX.Element {
 	const cssBackgroundTerra = {
-		backgroundImage: `url(${bgTerra})`,
+		// backgroundImage: `url(${bgTerra})`,
 		backgroundSize: 'cover',
 		backgroundPosition: 'contain',
 		backgroundRepeat: 'no-repeat',

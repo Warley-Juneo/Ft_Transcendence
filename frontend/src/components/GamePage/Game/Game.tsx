@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import Phaser from "phaser";
 import background from "../../../assets/game/planets/backgrounds/bgSpace2.png";
@@ -21,10 +21,12 @@ import Ranking from "../../Rankingpage/Ranking";
 import PageChats from "../../PublicChatsPage/PublicChats";
 import DinamicProfile from "../../Profiles/DinamicProfile/DinamicProfile";
 import MiniProfile from "../../Profiles/MiniProfile/MiniProfile";
+import { UserData } from "../../InitialPage/Contexts/Contexts";
 
 export default function Game(): JSX.Element {
 	let [collisionPnt, setCollisionPnt] = useState<string>('');
 	const gameContainerRef = useRef<HTMLDivElement>(null);
+	const userData = useContext(UserData).user;
 
 	useEffect(() => {
 		if (!gameContainerRef.current) return
@@ -219,7 +221,7 @@ export default function Game(): JSX.Element {
 			{collisionPnt === 'satelite' ? <PageChats openPageChats={setCollisionPnt} /> : null}
 			{collisionPnt === 'base' ? <Ranking openStore={setCollisionPnt} /> : null}
 			{collisionPnt === 'Lua' ? <DinamicProfile openDinamicProfile={setCollisionPnt}
-			 nickName={''} id={''} /> : null}
+			 nickName={userData.nickname} id={userData.id} /> : null}
 		</div>
 	)
 }

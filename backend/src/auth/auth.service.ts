@@ -5,7 +5,6 @@ import { HttpService } from '@nestjs/axios';
 import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
-import { GameService } from 'src/game/game.service';
 import { AuthLoginDto, OtherLoginDto } from 'src/auth/dtos/input.dto';
 import { OutputLoginDto } from './dtos/output.dto';
 import { CreateUserDto } from 'src/users/dtos/createUser.dto';
@@ -74,7 +73,6 @@ export class AuthService {
   }
 
   async jwtSign(user: any): Promise<string> {
-    // console.log("USER ID JWT: ", user.id);
     const payload = { sub: user.id, userEmail: user.email };
     let jwt_token = await this.jwtService.signAsync(payload);
     return (jwt_token);
