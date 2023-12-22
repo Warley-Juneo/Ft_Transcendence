@@ -44,7 +44,7 @@ export default function MiniProfile(props: propsMiniProfile) {
 		backgroundImage: `url('https://s0.smartresize.com/wallpaper/400/885/HD-wallpaper-8-bit-moonlight-8bit-arcade-blue-cloud-moon-pixel.jpg')`,
 		backgroundSize: 'cover',
 		backgroundPosition: 'center',
-		minWidth: '15vw',
+		width: '25vw',
 		height: '100% !important',
 	}
 

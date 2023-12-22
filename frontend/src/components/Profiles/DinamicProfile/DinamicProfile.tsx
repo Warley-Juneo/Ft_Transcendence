@@ -11,7 +11,7 @@ type propsDinamicProfile = {
 
 export default function DinamicProfile(props: propsDinamicProfile): JSX.Element {
 	const cssBackgroundTerra = {
-		// backgroundImage: `url(${bgTerra})`,
+		backgroundImage: "url(https://socientifica.com.br/wp-content/uploads/2023/06/vida-na-Lua.jpg)",
 		backgroundSize: 'cover',
 		backgroundPosition: 'contain',
 		backgroundRepeat: 'no-repeat',
@@ -19,7 +19,7 @@ export default function DinamicProfile(props: propsDinamicProfile): JSX.Element 
 
 	return (
 		<div className="text-white h-75 w-75 p-2 bg-degrader position-absolute top-50 start-50 translate-middle" style={cssBackgroundTerra}>
-			<div className="d-flex flex-column h-100 position-relative">
+			<div className="d-flex flex-column h-100 position-relative p-5">
 				<ButtonClosed backgroundColor="" backgroundShadow="" closed={props.openDinamicProfile} />
 				<div style={{height: '35%'}}>
 					<InfosUser nickName={props.nickName} />
