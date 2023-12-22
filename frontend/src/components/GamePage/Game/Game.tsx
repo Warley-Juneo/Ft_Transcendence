@@ -215,12 +215,11 @@ export default function Game(): JSX.Element {
 		<div ref={gameContainerRef} style={cssGameContainer}>
 			{collisionPnt === 'planetLua' ? <SettingsStore openSettingsStore={setCollisionPnt} /> : null}
 			{collisionPnt === 'planetFire' ? <SettingsPath openSettingsPath={setCollisionPnt} /> : null}
-			{collisionPnt === 'planetTerra' ? <MiniProfile propsMiniProfile={setCollisionPnt} /> : null}
+			{collisionPnt === 'planetTerra' ? <MiniProfile showMiniPerfil={setCollisionPnt} /> : null}
 			{collisionPnt === 'satelite' ? <PageChats openPageChats={setCollisionPnt} /> : null}
 			{collisionPnt === 'base' ? <Ranking openStore={setCollisionPnt} /> : null}
 			{collisionPnt === 'Lua' ? <DinamicProfile openDinamicProfile={setCollisionPnt}
 			 nickName={''} id={''} /> : null}
-			<SettingsPath openSettingsPath={setCollisionPnt} />
 		</div>
 	)
 }

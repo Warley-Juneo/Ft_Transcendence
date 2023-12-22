@@ -8,7 +8,7 @@ import { Players } from './ListFriends';
 import { socket } from '../../InitialPage/Contexts/Contexts';
 
 type propsMiniProfile = {
-	propsMiniProfile: React.Dispatch<React.SetStateAction<string>>;
+	showMiniPerfil: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function MiniProfile(props: propsMiniProfile) {
@@ -47,9 +47,10 @@ export default function MiniProfile(props: propsMiniProfile) {
 		minWidth: '15vw',
 		height: '100% !important',
 	}
+
 	return (
 		<div className='d-flex flex-column position-absolute top-0 end-0 h-100' style={cssMiniprfile}>
-			<MiniPerfilUser />
+			<MiniPerfilUser showMiniPerfil={props.showMiniPerfil}/>
 			<hr className='m-0 w-100 text-white'></hr>
 			<Options getPlayers={getPlayers} />
 			<ListFriends players={players} getPlayers={getPlayers} />

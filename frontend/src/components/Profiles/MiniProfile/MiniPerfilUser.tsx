@@ -4,8 +4,13 @@ import { StatusOnline } from "./PlayersStatus";
 import { useContext, useState } from 'react';
 import { MdModeEdit } from 'react-icons/md';
 import ConfigurationGame from './Configurations/Configurations';
+import { AiOutlineClose } from 'react-icons/ai';
 
-export default function MiniPerfilUser() {
+type propsMiniProfile = {
+	showMiniPerfil: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export default function MiniPerfilUser(props: propsMiniProfile) {
 	const userData = useContext(UserData).user;
 	const [optionsConf, setOptionsConf] = useState<boolean>(false);
 	const [showConfigurations, setShowConfigurations] = useState<boolean>(false);
@@ -28,6 +33,12 @@ export default function MiniPerfilUser() {
 				>
 					<p><IoMdExit className='m-1' />Lougot</p>
 				</div>
+				<div className='border-bottom'
+					style={cursoPointer}
+					onClick={() => props.showMiniPerfil('')}
+				>
+					<p><AiOutlineClose className='m-1' />Close</p>
+				</div>
 			</div>
 		)
 	}
@@ -35,7 +46,7 @@ export default function MiniPerfilUser() {
 	const disconnect = () => {
 		let aux = {
 			user_id: userData.id,
-			is_active: false,
+			is_active: true,
 		}
 		socket.emit('check-status', aux);
 	}
