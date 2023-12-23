@@ -11,6 +11,7 @@ CREATE TABLE "user" (
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     "is_active" BOOLEAN NOT NULL DEFAULT true,
+    "twoFA" BOOLEAN NOT NULL DEFAULT false,
     "points" INTEGER NOT NULL DEFAULT 0
 );
 
