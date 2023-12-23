@@ -27,6 +27,8 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 		const avatarInput = event.currentTarget.querySelector('input[name="avatar"]') as HTMLInputElement;
 		const avatarFile = avatarInput.files?.[0];
 		const nickname = form.get('nickname');
+		const twoFA = form.get('2fa');
+		console.log(twoFA);
 
 		if (avatarFile) {
 			const reader = new FileReader();
@@ -35,6 +37,7 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 				axios.post('http://localhost:3000/users/updateProfile', {
 					nick_name: nickname,
 					avatar: base64,
+					twoFA: twoFA,
 				}, {
 					headers: {
 						Authorization: Cookies.get('jwtToken'),
@@ -70,7 +73,7 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 		)
 	}
 
-
+	//TODO: "Verificar se o usuario ja habilitou"
 	return (
 		<div className='position-absolute top-50 start-50 translate-middle p-2 rounded'
 			style={{ backgroundColor: '#653b1e', width: '600px' }}
@@ -90,6 +93,10 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 					{getCorrectButton(handleOption)}
 				</div>
 				<AudioRanger />
+				<div className="d-flex form-check form-switch">
+					<input className="form-check-input me-4" name='2fa' type="checkbox" role="switch" id="flexSwitchCheckDefault"></input>
+					<label className="form-check-label" htmlFor="flexSwitchCheckDefault">Default switch checkbox input</label>
+				</div>
 			</form>
 			<FolderSettingsGame />
 		</div>
