@@ -1,19 +1,19 @@
 import { IoMdArrowDropdown, IoMdExit } from 'react-icons/io';
 import { UserData, socket } from '../../InitialPage/Contexts/Contexts';
 import { StatusOnline } from "./PlayersStatus";
-import { useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { MdModeEdit } from 'react-icons/md';
 import ConfigurationGame from './Configurations/Configurations';
 import { AiOutlineClose } from 'react-icons/ai';
 
 type propsMiniProfile = {
 	showMiniPerfil: React.Dispatch<React.SetStateAction<string>>;
+	showConfigurations: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function MiniPerfilUser(props: propsMiniProfile) {
 	const userData = useContext(UserData).user;
 	const [optionsConf, setOptionsConf] = useState<boolean>(false);
-	const [showConfigurations, setShowConfigurations] = useState<boolean>(false);
 
 	const selectConfiuration = (): JSX.Element => {
 		const cursoPointer: React.CSSProperties = {
@@ -23,7 +23,7 @@ export default function MiniPerfilUser(props: propsMiniProfile) {
 			<div className='bg-light text-black p-3 rounded'>
 				<div className='border-bottom'
 					style={cursoPointer}
-					onClick={() => setShowConfigurations(!showConfigurations)}
+					onClick={() => props.showConfigurations(true)}
 				>
 					<p><MdModeEdit className='m-1' />Editar Profile</p>
 				</div>
@@ -75,7 +75,6 @@ export default function MiniPerfilUser(props: propsMiniProfile) {
 				/>
 				{optionsConf ? selectConfiuration() : null}
 			</div>
-			{showConfigurations ? <ConfigurationGame /> : null}
 		</div>
 	)
 }

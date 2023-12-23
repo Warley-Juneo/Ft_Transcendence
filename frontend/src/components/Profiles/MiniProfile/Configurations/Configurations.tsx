@@ -9,8 +9,13 @@ import './animationEditInputName.css';
 import Cookies from "js-cookie";
 import axios from "axios";
 import ButtonEdit from './ButtonsEdit';
+import { IoIosClose } from "react-icons/io";
 
-export default function ConfigurationGame(): JSX.Element {
+type propsConfigurationGame = {
+	closed: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function ConfigurationGame(props: propsConfigurationGame): JSX.Element {
 	const [handleOption, setHandleOption] = useState<boolean>(false);
 
 	const dataUser = useContext(UserData);
@@ -27,17 +32,17 @@ export default function ConfigurationGame(): JSX.Element {
 			const reader = new FileReader();
 			reader.onloadend = () => {
 				const base64 = reader.result;
-					axios.post('http://localhost:3000/users/updateProfile', {
-						nick_name: nickname,
-						avatar: base64,
-					}, {
-						headers: {
-							Authorization: Cookies.get('jwtToken'),
-						}
-					}).then((res) => {
-						setHandleOption(!handleOption);
-						dataUser.updateDataUser();
-					})
+				axios.post('http://localhost:3000/users/updateProfile', {
+					nick_name: nickname,
+					avatar: base64,
+				}, {
+					headers: {
+						Authorization: Cookies.get('jwtToken'),
+					}
+				}).then((res) => {
+					setHandleOption(!handleOption);
+					dataUser.updateDataUser();
+				})
 			}
 			reader.readAsDataURL(avatarFile);
 		}
@@ -45,7 +50,7 @@ export default function ConfigurationGame(): JSX.Element {
 	}
 
 	const getCorrectDiv = (isEditing: boolean) => {
-		if (isEditing) return <InputEditName/>
+		if (isEditing) return <InputEditName />
 		return (
 			<IdentifyInputName
 				_avatar={dataUser.user.avatar}
@@ -65,10 +70,17 @@ export default function ConfigurationGame(): JSX.Element {
 		)
 	}
 
+
 	return (
 		<div className='position-absolute top-50 start-50 translate-middle p-2 rounded'
 			style={{ backgroundColor: '#653b1e', width: '600px' }}
 		>
+			<IoIosClose
+				size={30}
+				onClick={() => props.closed(false)}
+				className='position-absolute top-0 end-0 m-2 cursor-pointer'
+				type='button'
+			/>
 			<h2 className='text-center text-white'>Game Settings</h2>
 			<form onSubmit={editProfile} className='bg-white rounded p-5'>
 				<div className='div-nickname'>
