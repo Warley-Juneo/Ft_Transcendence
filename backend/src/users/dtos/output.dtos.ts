@@ -33,12 +33,14 @@ export class UserResumeDto {
   nickname: string;
   avatar: string;
   is_active: boolean;
+  twoFA: boolean;
 
   constructor(obj: any) {
 	this.id = obj.id;
 	this.nickname = obj.nickname;
 	this.avatar = obj.avatar;
 	this.is_active = obj.is_active;
+	this.twoFA = obj.twoFA;
   }
 }
 

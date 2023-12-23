@@ -20,36 +20,47 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 
 	const dataUser = useContext(UserData);
 
+	//TODO: "Adicionar um tipo para info"
+	function sendInfosUserBack(info: any) {
+		console.log(info);
+		axios.post('http://localhost:3000/users/updateProfile', info, {
+			headers: {
+				Authorization: Cookies.get('jwtToken'),
+			}
+		}).then((res) => {
+			setHandleOption(!handleOption);
+			dataUser.updateDataUser();
+			console.log(res);
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+
 	const editProfile = (event: FormEvent<HTMLFormElement>): void => {
 		event.preventDefault();
 		const form = new FormData(event.currentTarget);
 
 		const avatarInput = event.currentTarget.querySelector('input[name="avatar"]') as HTMLInputElement;
 		const avatarFile = avatarInput.files?.[0];
+
 		const nickname = form.get('nickname');
-		const twoFA = form.get('2fa');
-		console.log(twoFA);
+		const twoFA = form.get('2fa') === 'on' ? true : false;
+		let fileBase64 = null;
 
 		if (avatarFile) {
 			const reader = new FileReader();
 			reader.onloadend = () => {
-				const base64 = reader.result;
-				axios.post('http://localhost:3000/users/updateProfile', {
-					nick_name: nickname,
-					avatar: base64,
-					twoFA: twoFA,
-				}, {
-					headers: {
-						Authorization: Cookies.get('jwtToken'),
-					}
-				}).then((res) => {
-					setHandleOption(!handleOption);
-					dataUser.updateDataUser();
-				})
+				fileBase64 = reader.result;
 			}
 			reader.readAsDataURL(avatarFile);
 		}
-
+		console.log(fileBase64);
+		let info = {
+			nick_name: nickname,
+			avatar: fileBase64 ? fileBase64: '',
+			twoFA: twoFA,
+		}
+		sendInfosUserBack(info);
 	}
 
 	const getCorrectDiv = (isEditing: boolean) => {
