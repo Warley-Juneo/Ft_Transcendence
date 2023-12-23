@@ -20,29 +20,39 @@ export class UsersService {
   }
 
   async uploadPhoto(user_id: string, avatar: string): Promise<void> {
-	const base64Data = avatar.replace(/^data:image\/png;base64,/, "");
-	const uploadDir = path.resolve(__dirname, '..', 'uploads');
-	const uploadPhotoPath = path.resolve(__dirname, '..', 'uploads', `${user_id}.png`);
+    const base64Data = avatar.replace(/^data:image\/png;base64,/, "");
+    const uploadDir = path.resolve(__dirname, '..', 'uploads');
+    const uploadPhotoPath = path.resolve(__dirname, '..', 'uploads', `${user_id}.png`);
 
-	try {
-		if (!fs.existsSync(uploadDir)) {
-			await fs.promises.mkdir(uploadDir, { recursive: true });
-		}
-		await fs.promises.writeFile(uploadPhotoPath, base64Data, 'base64');
-	} catch (error) {
-		throw new Error(`\n\nError saving file: ${error.message}`); //TODO: change to custom error
-	}
+    try {
+      if (!fs.existsSync(uploadDir)) {
+        await fs.promises.mkdir(uploadDir, { recursive: true });
+      }
+      await fs.promises.writeFile(uploadPhotoPath, base64Data, 'base64');
+    } catch (error) {
+      throw new Error(`\n\nError saving file: ${error.message}`); //TODO: change to custom error
+    }
 }
 
   async updateProfile(user_id: string, dto: UpdateProfileDto): Promise<UserResumeDto> {
-	let user;
-	if (dto.avatar) {
-		await this.uploadPhoto(user_id, dto.avatar);
-	}
-	if (dto.nick_name) {
-      user = await this.userRepository.updateNickname(user_id, dto);
+	  console.log("\n\nupdataProfile DTO:", dto, "\n\n");
+    
+    let user;
+    let data_filter: any = {
+      twoFA: dto.twoFA,
+    };
+	  if (dto.avatar) {
+		  user = await this.uploadPhoto(user_id, dto.avatar);
+	  }
+	  if (dto.nick_name) {
+      data_filter.nickname = dto.nick_name;
     }
 
+    console.log("\n\ndata_filter:", data_filter, "\n\n");
+
+    user = await this.userRepository.updateUser(user_id, data_filter);
+    
+    
     return new UserResumeDto(user);
   }
 

@@ -11,6 +11,9 @@ export class UpdateProfileDto {
 
 	@IsString()
 	nick_name:	string;
+
+	@IsNotEmpty()
+	twoFA:		boolean;
 }
 
 export class UpdateCoinsDto {

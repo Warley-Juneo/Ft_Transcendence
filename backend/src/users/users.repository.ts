@@ -25,27 +25,25 @@ export class UsersRepository implements UsersRepositoryInterface {
     return response;
   }
 
-  async updateAvatar(userId: string, dto: UpdateProfileDto): Promise<User> {
-    let response = await this.prisma.user.update({
-        where: {
-          id: userId,
-        },
-        data: {
-          avatar: dto.avatar,
-        },
-      });
-    return response;
-  }
+  // async updateAvatar(userId: string, dto: UpdateProfileDto): Promise<User> {
+  //   let response = await this.prisma.user.update({
+  //       where: {
+  //         id: userId,
+  //       },
+  //       data: {
+  //         avatar: dto.avatar,
+          
+  //       },
+  //     });
+  //   return response;
+  // }
 
-  async updateNickname(userId: string, dto: UpdateProfileDto): Promise<User> {
-
+  async updateUser(userId: string, data_filter: any): Promise<User> {
     let response = await this.prisma.user.update({
       where: {
         id: userId,
       },
-      data: {
-        nickname: dto.nick_name,
-      },
+      data: data_filter,
     });
     return response;
   }
