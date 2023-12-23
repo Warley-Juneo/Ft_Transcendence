@@ -1,4 +1,4 @@
-import {StatusOnline, StatusOffline} from './PlayersStatus';
+import { StatusOnline, StatusOffline } from './PlayersStatus';
 import { useState } from 'react';
 import ChatPrivate from '../../ChatsGame/ChatPrivate/ChatPrivate';
 import { MdDeleteForever } from 'react-icons/md';
@@ -19,25 +19,13 @@ type PropsListFriends = {
 
 export default function ListFriends(props: PropsListFriends) {
 	const [chatPrivate, setChatPrivate] = useState(false);
-	const [dataOpenDirect, setDataOpenDirect] = useState({nickname: '', avatart: ''});
+	const [dataOpenDirect, setDataOpenDirect] = useState({ nickname: '', avatart: '' });
 
 	function handleOpenChatPrivate(nickname: string, avatar: string) {
 		setChatPrivate(!chatPrivate)
-		setDataOpenDirect({nickname: nickname, avatart: avatar})
+		setDataOpenDirect({ nickname: nickname, avatart: avatar })
 	}
 
-	function handleDeleteFriend(nickname: string) {
-		axios.post('http://localhost:3000/users/delete_friend', {
-			nick_name: nickname,
-		}, {
-			headers: {
-				Authorization: Cookies.get('jwtToken'),
-			},
-		})
-			.then((res) => {
-				props.getPlayers('http://localhost:3000/users/friends');
-			})
-	}
 
 	if (!props.players) {
 		return (
@@ -60,9 +48,6 @@ export default function ListFriends(props: PropsListFriends) {
 						<div className='d-flex' onClick={() => handleOpenChatPrivate(play.nickname, play.avatar)}>
 							<img className="foto-list-friends" src={play.avatar} alt='foto' />
 							{play.is_active ? StatusOnline(play.nickname) : StatusOffline(play.nickname)}
-						</div>
-						<div className='d-flex align-items-end p-2'>
-							<MdDeleteForever size={20} onClick={() => { handleDeleteFriend(play.nickname) }} />
 						</div>
 					</div>
 				)

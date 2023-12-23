@@ -1,23 +1,21 @@
 // import { GiThreeFriends } from 'react-icons/gi';
 import { FaPeopleGroup } from "react-icons/fa6";
 import { FaUserFriends } from 'react-icons/fa';
-import { GoPersonAdd } from 'react-icons/go';
+import { MdPersonRemoveAlt1, MdPersonAddAlt1 } from "react-icons/md";
 
 import React, { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const	URLS_MiniPerfilPlayers = {
+const URLS_MiniPerfilPlayers = {
 	'personal': 'http://localhost:3000/users/friends',
 	'Global': 'http://localhost:3000/users/find-all',
 }
 
-function Options({getPlayers}: {getPlayers: (route: string) => void}) {
-	const [showaADDFriend, setShowAddFriend] = useState(false);
+function Options({ getPlayers }: { getPlayers: (route: string) => void }) {
+	const [showADDFriend, setShowAddFriend] = useState(false);
+	const [showDLTFriend, setShowDLTFriend] = useState(false);
 
-	function handleClickAddFriend() {
-		setShowAddFriend(!showaADDFriend);
-	}
 
 	function addNewFriend(event: React.KeyboardEvent<HTMLInputElement>) {
 		if (event.key === 'Enter') {
@@ -28,23 +26,35 @@ function Options({getPlayers}: {getPlayers: (route: string) => void}) {
 					Authorization: Cookies.get('jwtToken'),
 				},
 			})
-			.then((res) => {
-				getPlayers(URLS_MiniPerfilPlayers.personal);
-			})
+				.then((res) => {
+					getPlayers(URLS_MiniPerfilPlayers.personal);
+				})
 		}
 	}
 
-	function returnBlockAddFriend(showBlock: boolean) {
-		if (showBlock === false) {
-			return null;
+	function DeleteFriend(event: React.KeyboardEvent<HTMLInputElement>) {
+		if (event.key === 'Enter') {
+			axios.post('http://localhost:3000/users/delete_friend', {
+				nick_name: event.currentTarget.value,
+			}, {
+				headers: {
+					Authorization: Cookies.get('jwtToken'),
+				},
+			})
+				.then((res) => {
+					getPlayers(URLS_MiniPerfilPlayers.personal);
+				})
 		}
+	}
+
+	function returnInput(func: (event: React.KeyboardEvent<HTMLInputElement>) => void) {
 		return (
 			<div className='rounded'>
 				<input
 					type='text'
 					className='remove-format-input'
 					placeholder='Search Friend'
-					onKeyDown={addNewFriend}
+					onKeyDown={func}
 				/>
 			</div>
 		)
@@ -59,13 +69,28 @@ function Options({getPlayers}: {getPlayers: (route: string) => void}) {
 			<div className='d-flex align-items-center text-white'>
 				<p className='fw-bold'>Social</p>
 				<div className='d-flex justify-content-end w-100 options'>
-					<GoPersonAdd
+					{/* TODO: ADDED Function to delete friend */}
+					<MdPersonRemoveAlt1
 						style={styleButton}
-						size={30} onClick={handleClickAddFriend}
+						size={30}
+						onClick={() => {
+							setShowDLTFriend(!showDLTFriend)
+							setShowAddFriend(false)
+						}}
+					/>
+					<MdPersonAddAlt1
+						style={styleButton}
+						size={30}
+						onClick={
+							() => {
+								setShowAddFriend(!showADDFriend)
+								setShowDLTFriend(false)
+							}
+						}
 					/>
 					<FaUserFriends
 						style={styleButton}
-						size={30} onClick={() => {getPlayers(URLS_MiniPerfilPlayers.personal)}}
+						size={30} onClick={() => { getPlayers(URLS_MiniPerfilPlayers.personal) }}
 					/>
 					<FaPeopleGroup
 						style={styleButton}
@@ -73,7 +98,8 @@ function Options({getPlayers}: {getPlayers: (route: string) => void}) {
 					/>
 				</div>
 			</div>
-			{returnBlockAddFriend(showaADDFriend)}
+			{showADDFriend ? returnInput(addNewFriend) : null}
+			{showDLTFriend ? returnInput(DeleteFriend) : null}
 		</div>
 	)
 }
