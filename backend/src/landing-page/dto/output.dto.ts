@@ -4,6 +4,7 @@ export class OutputLandinPageDto {
   avatar: string;
   friend_list: string[];
   coins: number;
+  twoFA: boolean;
 
   constructor(obj: any) {
 	this.id = obj.id;
@@ -11,5 +12,6 @@ export class OutputLandinPageDto {
 	this.avatar = obj.avatar;
 	this.friend_list = obj.friend_list;
 	this.coins = obj.coins;
+	this.twoFA = obj.twoFA;
   }
 }

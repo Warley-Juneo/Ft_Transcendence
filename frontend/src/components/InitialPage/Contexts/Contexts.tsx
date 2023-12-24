@@ -6,6 +6,7 @@ export type t_dataUser = {
 	nickname: string;
 	avatar: string;
 	coins: number;
+	twoFA: boolean;
 };
 
 export const UserData = createContext<{
@@ -17,6 +18,7 @@ export const UserData = createContext<{
 		avatar: '',
 		id: '',
 		coins: 0,
+		twoFA: false,
 	},
 	updateDataUser: () => { },
 })
