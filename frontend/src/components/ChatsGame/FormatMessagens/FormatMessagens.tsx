@@ -31,6 +31,7 @@ export default function FormatMessages(props: propsFormatMessages): JSX.Element 
 								nickname={message.user.nickname}
 								id={message.user.id}
 								showDinamicProfile={showDinamicProfile}
+								key={message.id}
 							/>
 						);
 					} else {
@@ -42,6 +43,7 @@ export default function FormatMessages(props: propsFormatMessages): JSX.Element 
 								nickname={message.user.nickname}
 								showDinamicProfile={showDinamicProfile}
 								id={message.user.id}
+								key={message.id}
 							/>
 						);
 					};
