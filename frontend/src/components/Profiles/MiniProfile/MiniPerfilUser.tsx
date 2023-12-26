@@ -1,9 +1,8 @@
 import { IoMdArrowDropdown, IoMdExit } from 'react-icons/io';
 import { UserData, socket } from '../../InitialPage/Contexts/Contexts';
-import { StatusOnline } from "./PlayersStatus";
 import React, { useContext, useState } from 'react';
+import Status from './PlayersStatus';
 import { MdModeEdit } from 'react-icons/md';
-import ConfigurationGame from './Configurations/Configurations';
 import { AiOutlineClose } from 'react-icons/ai';
 
 type propsMiniProfile = {
@@ -64,7 +63,7 @@ export default function MiniPerfilUser(props: propsMiniProfile) {
 		<div className='d-flex p-3 text-white' style={{ height: '15vh' }}>
 			<div className='h-100 d-flex align-items-center'>
 				<img className="rounded-circle h-100 w-100 me-3" src={userData.avatar} alt='foto' />
-				{StatusOnline(userData.nickname)}
+				<Status is_active={true} name={userData.nickname} id={userData.id} admin={[]} />
 			</div>
 			<div className='ms-auto'>
 				<IoMdArrowDropdown
