@@ -3,8 +3,7 @@ import { RiLockPasswordLine } from 'react-icons/ri'
 
 export default function AlterPassword({ funcChange }: {
 	funcChange: (form: FormEvent<HTMLFormElement>) => void
-}
-): JSX.Element {
+}): JSX.Element {
 	return (
 		<div>
 			<h5 className="p-2 hover" data-bs-toggle="modal" data-bs-target="#modalConfirmPassword">
