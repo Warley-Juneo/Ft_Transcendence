@@ -1,9 +1,6 @@
-import { StatusOnline, StatusOffline } from './PlayersStatus';
+import Status from './PlayersStatus';
 import { useState } from 'react';
 import ChatPrivate from '../../ChatsGame/ChatPrivate/ChatPrivate';
-import { MdDeleteForever } from 'react-icons/md';
-import axios from 'axios';
-import Cookies from 'js-cookie';
 
 export type Players = {
 	avatar: string,
@@ -15,6 +12,7 @@ export type Players = {
 type PropsListFriends = {
 	players: Players[],
 	getPlayers: (route: string) => void,
+	admin?: Players[]
 }
 
 export default function ListFriends(props: PropsListFriends) {
@@ -47,7 +45,11 @@ export default function ListFriends(props: PropsListFriends) {
 					<div className='d-flex hover' key={play.id}>
 						<div className='d-flex' onClick={() => handleOpenChatPrivate(play.nickname, play.avatar)}>
 							<img className="foto-list-friends" src={play.avatar} alt='foto' />
-							{play.is_active ? StatusOnline(play.nickname) : StatusOffline(play.nickname)}
+							<Status
+								is_active={play.is_active}
+								name={play.nickname} id={play.id}
+								admin={props.admin ? props.admin : []}
+							/>
 						</div>
 					</div>
 				)
