@@ -45,6 +45,7 @@ model User {
   direct_message    DirectMessage[]   @relation(name: "user_direct_message")
 
   tokenTFA 			String?
+  //TODO: Remover esse campo
   tfaOpen 			Boolean? 		 @default(false)
 
   @@map("user")
