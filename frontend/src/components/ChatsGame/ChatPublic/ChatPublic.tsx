@@ -1,11 +1,11 @@
 import ListFriends, { Players } from "../../Profiles/MiniProfile/ListFriends";
 import DinamicProfile from "../../Profiles/DinamicProfile/DinamicProfile";
 
-import { createContext, useEffect } from "react";
+import { createContext, useContext, useEffect } from "react";
 import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { socket } from "../../InitialPage/Contexts/Contexts";
+import { UserData, socket } from "../../InitialPage/Contexts/Contexts";
 import bgChatPublic from "../../../assets/game/bgChatPublic.png";
 import RightSide from "./RightSide";
 
@@ -20,7 +20,7 @@ export type Messages = {
 	}
 }
 
-export type DataChat = {
+export type ChatData = {
 	id: string,
 	name: string,
 	photo: string,
@@ -35,11 +35,11 @@ type DinamicProfile = {
 }
 
 export const ChatContext = createContext<{
-	dataChat: DataChat;
-	setDataChat: React.Dispatch<React.SetStateAction<DataChat>>;
+	chatData: ChatData;
+	setDataChat: React.Dispatch<React.SetStateAction<ChatData>>;
 	setDinamicProfile: React.Dispatch<React.SetStateAction<DinamicProfile>>;
 }>({
-	dataChat: {} as DataChat,
+	chatData: {} as ChatData,
 	setDataChat: () => { },
 	setDinamicProfile: () => { }
 });
@@ -49,16 +49,31 @@ type propsPageChats = {
 	openPageChats: React.Dispatch<React.SetStateAction<string>>;
 	chatName: string;
 }
+
 export default function ChatPublic(props: propsPageChats) {
-	const [dataChat, setDataChat] = useState<DataChat>({} as DataChat);
+	const [chatData, setDataChat] = useState<ChatData>({} as ChatData);
 	const [dinamicProfile, setDinamicProfile] = useState<DinamicProfile>({} as DinamicProfile);
 	const [showDinamicProfile, setShowDinamicProfile] = useState<string>('');
+	const {nickname, id} = useContext(UserData).user;
 
-	useEffect(() => {
-		if (dinamicProfile.nickName) {
-			setShowDinamicProfile('show');
+	function addUserChat(members: Players[]) {
+		if (members.map((member) => member.nickname).includes(nickname)) {
+			return
 		}
-	}, [dinamicProfile])
+		console.log("Bvou adicionar: ", nickname)
+		axios.post('http://localhost:3000/chatroom/add-member-group', {
+			add_id: id,
+			chat_name: props.chatName,
+		}, {
+			headers: {
+				Authorization: Cookies.get("jwtToken")
+			},
+		}).then((res) => {
+			setDataChat(res.data);
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
 	const getDataChat = () => {
 		const ENV = `chat_name=${props.chatName}&password=''`
 		axios.get(`http://localhost:3000/chatroom/find-public/?${ENV}`, {
@@ -67,6 +82,7 @@ export default function ChatPublic(props: propsPageChats) {
 			}
 		}).then((response) => {
 			setDataChat(response.data)
+			addUserChat(response.data.members)
 		}).catch((error) => {
 			console.log(error)
 		})
@@ -77,6 +93,12 @@ export default function ChatPublic(props: propsPageChats) {
 	}, [])
 
 	useEffect(() => {
+		if (dinamicProfile.nickName) {
+			setShowDinamicProfile('show');
+		}
+	}, [dinamicProfile])
+
+	useEffect(() => {
 		socket.on('checkStatus', (data: any) => {
 			getDataChat();
 		})
@@ -85,7 +107,7 @@ export default function ChatPublic(props: propsPageChats) {
 		}
 	}, [socket])
 
-	if (!dataChat.name) return <div>Carregando...</div>
+	if (!chatData.name) return <div>Carregando...</div>
 
 	return (
 		<div className="rounded text-white
@@ -93,11 +115,12 @@ export default function ChatPublic(props: propsPageChats) {
 			style={{ backgroundImage: `url(${bgChatPublic})`, backgroundSize: 'cover' }}
 		>
 			<div className="row g-0 h-100 p-2">
-				<ChatContext.Provider value={{ dataChat, setDataChat, setDinamicProfile }}>
+				<ChatContext.Provider value={{ chatData: chatData, setDataChat, setDinamicProfile }}>
 					<div className="col-3 border-end h-100">
 						<ListFriends
-							players={dataChat.members}
+							players={chatData.members}
 							getPlayers={() => { }}
+							admin={chatData.admin}
 						/>
 					</div>
 
@@ -109,6 +132,8 @@ export default function ChatPublic(props: propsPageChats) {
 					</div>
 				</ChatContext.Provider>
 			</div>
+
+
 			{!showDinamicProfile ? null :
 				<DinamicProfile
 					openDinamicProfile={setShowDinamicProfile}
