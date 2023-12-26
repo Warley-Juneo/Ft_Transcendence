@@ -222,9 +222,9 @@ export class ChatroomService {
 	}
 
 	async	excludeMemberChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
-
 		let chat = await this.findUniqueChatroom(dto);
 
+		await this.excludeAdmChatroom(userId, dto);
 		let data_validation: OutputValidateDto = {} as OutputValidateDto;
 
 		data_validation.admin = chat.admin;

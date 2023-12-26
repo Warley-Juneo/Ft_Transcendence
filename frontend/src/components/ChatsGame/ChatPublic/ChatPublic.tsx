@@ -60,7 +60,6 @@ export default function ChatPublic(props: propsPageChats) {
 		if (members.map((member) => member.nickname).includes(nickname)) {
 			return
 		}
-		console.log("Bvou adicionar: ", nickname)
 		axios.post('http://localhost:3000/chatroom/add-member-group', {
 			add_id: id,
 			chat_name: props.chatName,
@@ -74,6 +73,7 @@ export default function ChatPublic(props: propsPageChats) {
 			console.log(err);
 		})
 	}
+
 	const getDataChat = () => {
 		const ENV = `chat_name=${props.chatName}&password=''`
 		axios.get(`http://localhost:3000/chatroom/find-public/?${ENV}`, {
