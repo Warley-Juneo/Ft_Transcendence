@@ -4,10 +4,11 @@ import { RiLockPasswordLine } from 'react-icons/ri'
 export default function AlterPassword({ funcChange }: {
 	funcChange: (form: FormEvent<HTMLFormElement>) => void
 }): JSX.Element {
+	//TODO: Alterar modal do bootstrap para modal lib
 	return (
 		<div>
 			<h5 className="p-2 hover" data-bs-toggle="modal" data-bs-target="#modalConfirmPassword">
-				<RiLockPasswordLine className="foto-list-friends bg-light text-black me-3 p-1" size={30} />
+				<RiLockPasswordLine className="foto-list-friends bg-light text-black me-3 p-1 z-10" size={30} />
 				Alterar Senha
 			</h5>
 

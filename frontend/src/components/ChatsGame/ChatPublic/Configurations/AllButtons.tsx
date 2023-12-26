@@ -103,7 +103,7 @@ export default function AllButtons(): JSX.Element {
 				Authorization: Cookies.get("jwtToken")
 			},
 		}).then((res) => {
-			navigate("/game/chats");
+			navigate("/game/");
 		})
 	}
 

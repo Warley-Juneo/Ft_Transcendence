@@ -8,7 +8,7 @@ type buttonConfigurationProps = {
 	function: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-export default function Button(props: buttonConfigurationProps) : JSX.Element {
+export default function Buttons(props: buttonConfigurationProps) : JSX.Element {
 	const [showInput, setShowInput] = useState<boolean>(false);
 	return (
 		<>

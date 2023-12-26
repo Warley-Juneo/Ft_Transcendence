@@ -4,6 +4,8 @@ import React, { useContext, useState } from 'react';
 import Status from './PlayersStatus';
 import { MdModeEdit } from 'react-icons/md';
 import { AiOutlineClose } from 'react-icons/ai';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 type propsMiniProfile = {
 	showMiniPerfil: React.Dispatch<React.SetStateAction<string>>;
@@ -13,6 +15,7 @@ type propsMiniProfile = {
 export default function MiniPerfilUser(props: propsMiniProfile) {
 	const userData = useContext(UserData).user;
 	const [optionsConf, setOptionsConf] = useState<boolean>(false);
+	const navitaion = useNavigate();
 
 	const selectConfiuration = (): JSX.Element => {
 		const cursoPointer: React.CSSProperties = {
@@ -45,9 +48,11 @@ export default function MiniPerfilUser(props: propsMiniProfile) {
 	const disconnect = () => {
 		let aux = {
 			user_id: userData.id,
-			is_active: true,
+			is_active: false,
 		}
 		socket.emit('check-status', aux);
+		Cookies.remove('jwtToken');
+		navitaion('/');
 	}
 
 	if (userData.nickname === '' || userData.avatar === '') {
