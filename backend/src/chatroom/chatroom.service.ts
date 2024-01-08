@@ -2,8 +2,8 @@ import { BadRequestException, ConsoleLogger, ForbiddenException, Injectable, Una
 import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
-import { AddChatUserDto, ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto, InputChatroomMessageDto } from './dto/input.dto';
-import { ChatroomsDto, OutputDirectMessageDto, OutputMessageDto, OutputValidateDto, UniqueChatroomDto } from './dto/output.dto';
+import { ChatUserDto, ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto, InputChatroomMessageDto } from './dto/input.dto';
+import { ChatroomsDto, OutputDirectMessageDto, OutputMessageDto, OutputValidateDto, UniqueChatroomDto, UniqueUserChatrommDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -134,15 +134,28 @@ export class ChatroomService {
 		await await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 	}
 
-	async	addAdmChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	async	addAdmChatroom(userId: string, dto: ChatUserDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.findUniqueChatroom(dto);
 
-		let data_validation: OutputValidateDto = {} as OutputValidateDto;
-		data_validation.admin = chat.admin;
-		data_validation.validate_admin_id = userId;
+		// let data_validation: OutputValidateDto = {} as OutputValidateDto;
+		// data_validation.admin = chat.admin;
+		// data_validation.validate_admin_id = userId;
 
-		await this.validate(data_validation);
+		// await this.validate(data_validation);
+		console.log("USERID: ", userId, "\nDTO: ", dto.chat_name,"\nAdd_id ", dto.add_id);
+
+		let user = new UniqueUserChatrommDto;
+		user.id = userId;
+
+		if (dto.add_id == chat.owner_id) {
+			throw new UnauthorizedException('The owner can not add owner as adm');
+		}
+		if (userId != chat.owner_id) {
+			if  (!chat.admin.find((item) => item.id == userId)) {
+					throw new UnauthorizedException('Not a admin of this chat');
+			}
+		}
 
 		let where_filter = {
 			name: chat.name,
@@ -162,7 +175,7 @@ export class ChatroomService {
 		return response;
 	}
 
-	async	excludeAdmChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	async	excludeAdmChatroom(userId: string, dto: ChatUserDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.findUniqueChatroom(dto);
 
@@ -191,7 +204,7 @@ export class ChatroomService {
 		return response;
 	}
 
-	async	addMemberChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	async	addMemberChatroom(userId: string, dto: ChatUserDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.findUniqueChatroom(dto);
 
@@ -221,17 +234,29 @@ export class ChatroomService {
 		return response;
 	}
 
-	async	excludeMemberChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	async	excludeMemberChatroom(userId: string, dto: ChatUserDto): Promise<UniqueChatroomDto> {
+		
 		let chat = await this.findUniqueChatroom(dto);
 
-		await this.excludeAdmChatroom(userId, dto);
-		let data_validation: OutputValidateDto = {} as OutputValidateDto;
+		//é owner pode excluir qualquer um menos owner
+		//é adm não pode excluir adm
 
-		data_validation.admin = chat.admin;
-		data_validation.validate_admin_id = userId;
-		data_validation.owner_id = chat.owner_id;
-		data_validation.exclued_owner_id = dto.add_id;
-		await this.validate(data_validation);
+		if (dto.add_id == chat.owner_id) {
+			throw new UnauthorizedException('The owner can not be excluded');
+		}
+		if (userId != chat.owner_id) {
+			for (const obj of chat.admin) {
+				if (userId == obj.id) {
+					for (const obj of chat.admin) {
+						if(dto.add_id == obj.id) {
+							throw new UnauthorizedException('You can not ban a administrator')
+						}
+					}
+					break ;
+				}
+			}
+			throw new UnauthorizedException('Not a admin of this chat');
+		}
 
 		let where_filter = {
 			name: chat.name,
@@ -250,7 +275,7 @@ export class ChatroomService {
 		return response;
 	}
 
-	async findUniqueChatroom(dto: InputChatroomDto | AddChatUserDto | ChangePasswordDto): Promise<UniqueChatroomDto> {
+	async findUniqueChatroom(dto: InputChatroomDto | ChatUserDto | ChangePasswordDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
 

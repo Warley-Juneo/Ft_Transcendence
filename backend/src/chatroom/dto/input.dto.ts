@@ -51,7 +51,7 @@ export class ChangePasswordDto {
 	confirm_password:	string;
 }
 
-export class AddChatUserDto {
+export class ChatUserDto {
 	@IsNotEmpty({message: 'User id can not be empty.'})
 	add_id:			string;
 

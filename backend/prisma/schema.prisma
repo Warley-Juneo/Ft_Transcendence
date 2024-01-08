@@ -40,6 +40,8 @@ model User {
   // chat_user         ChatRoom[]  @relation(name: "user_chatroom")
   chat_member       ChatRoom[]        @relation(name: "member_chatroom")
   chat_banned       ChatRoom[]        @relation(name: "banned_chatroom")
+  chat_mute         ChatRoom[]        @relation(name: "mute_chatroom")
+  chat_kick         ChatRoom[]        @relation(name: "kick_chatroom")
   chat_message      Message[]         @relation(name: "user_mesage")
 
   direct_message    DirectMessage[]   @relation(name: "user_direct_message")
@@ -116,6 +118,8 @@ model ChatRoom {
   // users           User[]    @relation(name: "user_chatroom")
   members         User[]    @relation(name: "member_chatroom")
   banned_user     User[]    @relation(name: "banned_chatroom")
+  mute_user       User[]    @relation(name: "mute_chatroom")
+  kick_user       User[]    @relation(name: "kick_chatroom")
   message         Message[] @relation(name: "chat_mesage")
 
   createdAt       DateTime  @default(now())

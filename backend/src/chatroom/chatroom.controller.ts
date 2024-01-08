@@ -1,7 +1,7 @@
 import { Controller, Body, Post, Req, Get, Delete, Query } from '@nestjs/common';
 import { ChangePasswordDto, CreateChatroomDto, InputChatroomDto } from './dto/input.dto';
 import { ChatroomService } from './chatroom.service';
-import { CreateDirectChatroomDto, AddChatUserDto } from './dto/input.dto';
+import { CreateDirectChatroomDto, ChatUserDto } from './dto/input.dto';
 import { ChatroomsDto, OutputDirectMessageDto, UniqueChatroomDto } from './dto/output.dto';
 
 @Controller('chatroom')
@@ -47,31 +47,34 @@ export class ChatroomController {
 	}
 
 	@Post('add-member-group')
-	async	addMemberChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	async	addMemberChatroom(@Req() request, @Body() dto: ChatUserDto): Promise<UniqueChatroomDto> {
 		return await this.chatroomService.addMemberChatroom(request.user.sub, dto);
 	}
 
 	@Post('exclude-member-group')
-	async	excludeMemberChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	async	excludeMemberChatroom(@Req() request, @Body() dto: ChatUserDto): Promise<UniqueChatroomDto> {
 		return await this.chatroomService.excludeMemberChatroom(request.user.sub, dto);
 	}
 
 	@Post('add-adm-group')
-	async	addAdmChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	async	addAdmChatroom(@Req() request, @Body() dto: ChatUserDto): Promise<UniqueChatroomDto> {
 		return await this.chatroomService.addAdmChatroom(request.user.sub, dto);
 	}
 
 	@Post('exclude-adm-group')
-	async	excludeAdmChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	async	excludeAdmChatroom(@Req() request, @Body() dto: ChatUserDto): Promise<UniqueChatroomDto> {
 		return await this.chatroomService.excludeAdmChatroom(request.user.sub, dto);
 	}
 
 	@Post('open-direct')
 	async openDirectChatroom(@Body() dto: CreateDirectChatroomDto): Promise<OutputDirectMessageDto[]> {
-		console.log("\n\n\n DTO:", dto, "\n\n\n")
 		return await this.chatroomService.openDirectChatroom(dto);
 	}
 
+	@Post('mute-member')
+	async	muteMemberChatroom(@Req() request, @Body() dto: ChatUserDto): Promise<any> {
+		// return await this.chatroomService.excludeAdmChatroom(request.user.sub, dto);
+	}
 	// @Post('direct-message')
 	// async createDirectMessage(@Req() request, @Body() dto: CreateDirectMessageDto): Promise<any> {
 	// 	return await this.chatroomService.createDirectMessage(request.user.sub, dto);
