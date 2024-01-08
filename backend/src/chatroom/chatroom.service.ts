@@ -138,10 +138,6 @@ export class ChatroomService {
 
 		let chat = await this.findUniqueChatroom(dto);
 
-
-		let user = new UniqueUserChatrommDto;
-		user.id = userId;
-
 		if (dto.add_id == chat.owner_id) {
 			throw new UnauthorizedException('The owner can not add owner as adm');
 		}
