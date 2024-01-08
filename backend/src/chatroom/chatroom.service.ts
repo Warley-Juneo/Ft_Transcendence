@@ -138,12 +138,6 @@ export class ChatroomService {
 
 		let chat = await this.findUniqueChatroom(dto);
 
-		// let data_validation: OutputValidateDto = {} as OutputValidateDto;
-		// data_validation.admin = chat.admin;
-		// data_validation.validate_admin_id = userId;
-
-		// await this.validate(data_validation);
-		console.log("USERID: ", userId, "\nDTO: ", dto.chat_name,"\nAdd_id ", dto.add_id);
 
 		let user = new UniqueUserChatrommDto;
 		user.id = userId;
