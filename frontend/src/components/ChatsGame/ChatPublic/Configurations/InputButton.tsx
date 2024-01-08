@@ -21,19 +21,19 @@ export function InputButtonBMK(props: propsInputButton): JSX.Element {
 			<div className="form-check">
 				<input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"></input>
 				<label className="form-check-label" htmlFor="flexRadioDefault1">
-					1 hour
+					1 hora
 				</label>
 			</div>
 			<div className="form-check">
 				<input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"></input>
 				<label className="form-check-label" htmlFor="flexRadioDefault2">
-					1 day
+					1 dia
 				</label>
 			</div>
 			<div className="form-check">
 				<input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3"></input>
 				<label className="form-check-label" htmlFor="flexRadioDefault3">
-					1 week
+					1 semana
 				</label>
 			</div>
 			<input
