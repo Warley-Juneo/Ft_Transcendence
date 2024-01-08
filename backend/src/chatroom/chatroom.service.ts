@@ -169,17 +169,19 @@ export class ChatroomService {
 
 		let chat = await this.findUniqueChatroom(dto);
 
-		let data_validation: OutputValidateDto = {} as OutputValidateDto;
 
-		data_validation.admin = chat.admin;
-		data_validation.validate_admin_id = userId;
-		data_validation.owner_id = chat.owner_id;
-		data_validation.exclued_owner_id = dto.add_id;
-		await this.validate(data_validation);
+		if (dto.add_id == chat.owner_id) {
+			throw new UnauthorizedException('The owner can not be excluded');
+		}
+
+		if (userId != chat.owner_id) {
+			throw new UnauthorizedException('Only the owner can exclude a adm')
+		}
 
 		let where_filter = {
 			name: chat.name,
 		};
+
 		let data_filter ={
 			admin: {
 				disconnect: {
@@ -187,6 +189,7 @@ export class ChatroomService {
 				},
 			},
 		};
+
 		await await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
 		let response = await this.findUniqueChatroom(dto);
@@ -230,22 +233,19 @@ export class ChatroomService {
 
 		//é owner pode excluir qualquer um menos owner
 		//é adm não pode excluir adm
+		console.log("\nUSerID: ", userId, "\nadd_id: ", dto.add_id, "\n");
 
 		if (dto.add_id == chat.owner_id) {
 			throw new UnauthorizedException('The owner can not be excluded');
 		}
+
 		if (userId != chat.owner_id) {
-			for (const obj of chat.admin) {
-				if (userId == obj.id) {
-					for (const obj of chat.admin) {
-						if(dto.add_id == obj.id) {
-							throw new UnauthorizedException('You can not ban a administrator')
-						}
-					}
-					break ;
-				}
+			if  (!chat.admin.find((item) => item.id == userId)) {
+					throw new UnauthorizedException('Not a admin of this chat');
 			}
-			throw new UnauthorizedException('Not a admin of this chat');
+			if  (chat.admin.find((item) => item.id == dto.add_id)) {
+				throw new UnauthorizedException('You can not exclude a adm');
+			}
 		}
 
 		let where_filter = {
