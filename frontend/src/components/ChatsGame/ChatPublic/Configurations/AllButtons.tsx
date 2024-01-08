@@ -1,4 +1,4 @@
-import Button from "./Button";
+import Button, { ButtonsBMK } from "./Button";
 import { MdOutlinePersonAddDisabled, MdDeleteSweep } from 'react-icons/md';
 import { AiOutlineUserAdd } from 'react-icons/ai';
 import { GiBroadDagger } from 'react-icons/gi';
@@ -142,7 +142,7 @@ export default function AllButtons(): JSX.Element {
 				content="Remover Militante"
 				function={excludeMember}
 			/>
-			<Button
+			<ButtonsBMK
 				Icon={MdBlock}
 				content="Bloquear Militante"
 				function={() => { }}
