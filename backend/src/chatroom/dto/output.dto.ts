@@ -51,8 +51,8 @@ export class UniqueChatroomDto {
 		this.type = obj.type;
 		this.password = obj.password;
 		this.photoUrl = obj.photoUrl;
-		this.owner_nickname = obj.owner_nickname;
-		this.owner_id = obj.owner_id;
+		this.owner_nickname = obj.owner.nickname;
+		this.owner_id = obj.owner.id;
 		this.members = obj.members;
 		this.admin = obj.admin;
 		this.banned = obj.banned;
