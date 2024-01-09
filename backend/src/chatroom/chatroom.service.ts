@@ -138,11 +138,14 @@ export class ChatroomService {
 
 		let chat = await this.findUniqueChatroom(dto);
 
-		let data_validation: OutputValidateDto = {} as OutputValidateDto;
-		data_validation.admin = chat.admin;
-		data_validation.validate_admin_id = userId;
-
-		await this.validate(data_validation);
+		if (chat.owner_id != userId) {
+			if (!chat.admin.find((item) => item.id == userId)) {
+				throw new UnauthorizedException("You are not adm of this group")
+			}
+			if (!chat.members.find((item) => item.id == dto.add_id)) {
+				throw new UnauthorizedException("You can not add a adm that is not a member of this group")
+			}
+		}
 
 		let where_filter = {
 			name: chat.name,
