@@ -228,11 +228,25 @@ export class ChatroomService {
 		data_validation.exclued_owner_id = dto.add_id;
 		await this.validate(data_validation);
 
+		if (chat.owner_id != userId) {
+			if (!chat.admin.find((item) => item.id == userId)) {
+				throw new UnauthorizedException("You are not adm of this group")
+			}
+			if (chat.admin.find((item) => item.id == dto.add_id)) {
+				throw new UnauthorizedException("You can not exclude a adm from this group")
+			}
+		}
+
 		let where_filter = {
 			name: chat.name,
 		};
 		let data_filter ={
 			members: {
+				disconnect: {
+					id: dto.add_id,
+				},
+			},
+			admin: {
 				disconnect: {
 					id: dto.add_id,
 				},
