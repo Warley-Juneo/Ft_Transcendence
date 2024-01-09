@@ -220,13 +220,6 @@ export class ChatroomService {
 		let chat = await this.findUniqueChatroom(dto);
 
 		await this.excludeAdmChatroom(userId, dto);
-		let data_validation: OutputValidateDto = {} as OutputValidateDto;
-
-		data_validation.admin = chat.admin;
-		data_validation.validate_admin_id = userId;
-		data_validation.owner_id = chat.owner_id;
-		data_validation.exclued_owner_id = dto.add_id;
-		await this.validate(data_validation);
 
 		if (chat.owner_id != userId) {
 			if (!chat.admin.find((item) => item.id == userId)) {
