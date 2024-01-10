@@ -234,7 +234,7 @@ export class ChatroomService {
 		await this.excludeAdmChatroom(userId, dto);
 
 		if (chat.owner_id == dto.add_id) {
-			throw new UnauthorizedException("You can not block the owner of the chatroom")
+			throw new UnauthorizedException("You can not ban the owner of the chatroom")
 		}
 
 		if (chat.owner_id != userId) {
@@ -242,7 +242,7 @@ export class ChatroomService {
 				throw new UnauthorizedException("You are not adm of this group");
 			}
 			if (chat.admin.find((item) => item.id == dto.add_id)) {
-				throw new UnauthorizedException("You can not block a adm from this group");
+				throw new UnauthorizedException("You can not ban a adm from this group");
 			}
 		}
 
