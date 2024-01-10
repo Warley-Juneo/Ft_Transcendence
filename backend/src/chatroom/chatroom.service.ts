@@ -237,6 +237,7 @@ export class ChatroomService {
 			throw new UnauthorizedException("You can not ban the owner of the chatroom")
 		}
 
+		console.log("chat Owner id: ", chat.owner_id, "\nUserid: ", userId);
 		if (chat.owner_id != userId) {
 			if (!chat.admin.find((item) => item.id == userId)) {
 				throw new UnauthorizedException("You are not adm of this group");
