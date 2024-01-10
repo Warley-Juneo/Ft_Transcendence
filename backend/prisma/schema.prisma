@@ -45,8 +45,11 @@ model User {
 
   chat_message        Message[]         @relation(name: "user_mesage")
 
-  direct_message      DirectMessage[]   @relation(name: "user_direct_message")
-
+  direct_message          DirectMessage[]   @relation(name: "user_direct_message")
+  
+  others_direct_message_blocked   User[]    @relation(name: "direct_message_blocked")
+  my_direct_message_blocked       User[]    @relation(name: "direct_message_blocked")
+  
   tokenTFA 			      String?
   //TODO: Remover esse campo
   tfaOpen 			      Boolean? 		      @default(false)
@@ -90,7 +93,7 @@ model DirectChatRoom {
 }
 
 model DirectMessage {
-  id              String                    @id  @default(uuid())
+  id                      String            @id  @default(uuid())
 
   content                 String?
   img_url                 String?

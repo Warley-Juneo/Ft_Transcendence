@@ -77,6 +77,30 @@ export class ChatroomRepository {
 						avatar: true,
 					},
 				},
+				banned_member: {
+					select: {
+						id: true,
+						nickname: true,
+						avatar: true,
+						is_active: true,
+					},
+				},
+				muted_member: {
+					select: {
+						id: true,
+						nickname: true,
+						avatar: true,
+						is_active: true,
+					},
+				},
+				kicked_member: {
+					select: {
+						id: true,
+						nickname: true,
+						avatar: true,
+						is_active: true,
+					},
+				},
 				message: {
 					select: {
 						id: true,
@@ -131,7 +155,7 @@ export class ChatroomRepository {
 						is_active: true,
 					},
 				},
-				banned_user: {
+				banned_member: {
 					select: {
 						id: true,
 						nickname: true,
@@ -139,6 +163,23 @@ export class ChatroomRepository {
 						is_active: true,
 					},
 				},
+				muted_member: {
+					select: {
+						id: true,
+						nickname: true,
+						avatar: true,
+						is_active: true,
+					},
+				},
+				kicked_member: {
+					select: {
+						id: true,
+						nickname: true,
+						avatar: true,
+						is_active: true,
+					},
+				},
+
 				message: {
 					select: {
 						id: true,
@@ -176,6 +217,38 @@ export class ChatroomRepository {
 				members: {
 					select: {
 						nickname: true,
+					},
+				},
+				blocked_member: {
+					select: {
+						id: true,
+						nickname: true,
+						avatar: true,
+						is_active: true,
+					},
+				},
+				banned_member: {
+					select: {
+						id: true,
+						nickname: true,
+						avatar: true,
+						is_active: true,
+					},
+				},
+				muted_member: {
+					select: {
+						id: true,
+						nickname: true,
+						avatar: true,
+						is_active: true,
+					},
+				},
+				kicked_member: {
+					select: {
+						id: true,
+						nickname: true,
+						avatar: true,
+						is_active: true,
 					},
 				},
 			},

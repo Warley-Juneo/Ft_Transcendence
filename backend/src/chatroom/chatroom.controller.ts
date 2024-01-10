@@ -51,9 +51,9 @@ export class ChatroomController {
 		return await this.chatroomService.addMemberChatroom(request.user.sub, dto);
 	}
 
-	@Post('exclude-member-group')
-	async	excludeMemberChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
-		return await this.chatroomService.excludeMemberChatroom(request.user.sub, dto);
+	@Post('ban-member-group')
+	async	banMemberChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+		return await this.chatroomService.banMemberChatroom(request.user.sub, dto);
 	}
 
 	@Post('add-adm-group')

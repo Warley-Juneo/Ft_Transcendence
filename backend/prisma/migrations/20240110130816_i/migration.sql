@@ -86,6 +86,14 @@ CREATE TABLE "_friends" (
 );
 
 -- CreateTable
+CREATE TABLE "_direct_message_blocked" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL,
+    CONSTRAINT "_direct_message_blocked_A_fkey" FOREIGN KEY ("A") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "_direct_message_blocked_B_fkey" FOREIGN KEY ("B") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- CreateTable
 CREATE TABLE "_admin" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL,
@@ -99,6 +107,14 @@ CREATE TABLE "_member_chatroom" (
     "B" TEXT NOT NULL,
     CONSTRAINT "_member_chatroom_A_fkey" FOREIGN KEY ("A") REFERENCES "chat_room" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT "_member_chatroom_B_fkey" FOREIGN KEY ("B") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "_blocked_chatroom" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL,
+    CONSTRAINT "_blocked_chatroom_A_fkey" FOREIGN KEY ("A") REFERENCES "chat_room" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "_blocked_chatroom_B_fkey" FOREIGN KEY ("B") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -147,6 +163,12 @@ CREATE UNIQUE INDEX "_friends_AB_unique" ON "_friends"("A", "B");
 CREATE INDEX "_friends_B_index" ON "_friends"("B");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "_direct_message_blocked_AB_unique" ON "_direct_message_blocked"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_direct_message_blocked_B_index" ON "_direct_message_blocked"("B");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "_admin_AB_unique" ON "_admin"("A", "B");
 
 -- CreateIndex
@@ -157,6 +179,12 @@ CREATE UNIQUE INDEX "_member_chatroom_AB_unique" ON "_member_chatroom"("A", "B")
 
 -- CreateIndex
 CREATE INDEX "_member_chatroom_B_index" ON "_member_chatroom"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_blocked_chatroom_AB_unique" ON "_blocked_chatroom"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_blocked_chatroom_B_index" ON "_blocked_chatroom"("B");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_banned_chatroom_AB_unique" ON "_banned_chatroom"("A", "B");

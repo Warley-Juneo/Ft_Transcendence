@@ -55,7 +55,7 @@ export class UniqueChatroomDto {
 		this.owner_id = obj.owner_id;
 		this.members = obj.members;
 		this.admin = obj.admin;
-		this.banned = obj.banned;
+		this.banned = obj.banned_member;
 		this.message = obj.message;
 	}
 }

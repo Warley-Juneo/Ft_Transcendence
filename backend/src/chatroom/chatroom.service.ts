@@ -93,16 +93,25 @@ export class ChatroomService {
 
 		let chat = await this.findUniqueChatroom(dto);
 
-		let data_validation: OutputValidateDto = {} as OutputValidateDto;
-		if (chat.type == 'protected') {
-			data_validation.validate_password = dto.password;
-			data_validation.password = chat.password;
+		// let data_validation: OutputValidateDto = {} as OutputValidateDto;
+		// if (chat.type == 'protected') {
+		// 	data_validation.validate_password = dto.password;
+		// 	data_validation.password = chat.password;
+		// }
+		// if (chat.type == 'private') {
+		// 	data_validation.members = chat.members;
+		// 	data_validation.validate_member_id = userId;
+		// }
+		// await this.validate(data_validation);
+
+		if (chat.banned.find((item) => item.id == userId)) {
+			throw new UnauthorizedException("You were banned of this chat!!!")
 		}
-		if (chat.type == 'private') {
-			data_validation.members = chat.members;
-			data_validation.validate_member_id = userId;
+		if (chat.type == "protected") {
+			if (!await bcrypt.compare(dto.password, chat.password)) {
+				throw new UnauthorizedException('Password incorrect')
+			}
 		}
-		await this.validate(data_validation);
 		return new UniqueChatroomDto(chat);
 	}
 
@@ -219,13 +228,13 @@ export class ChatroomService {
 		return response;
 	}
 
-	async	excludeMemberChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	async	banMemberChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 		let chat = await this.findUniqueChatroom(dto);
 
 		await this.excludeAdmChatroom(userId, dto);
 
 		if (chat.owner_id == dto.add_id) {
-			throw new UnauthorizedException("You can not exclude the owner of the chatroom")
+			throw new UnauthorizedException("You can not block the owner of the chatroom")
 		}
 
 		if (chat.owner_id != userId) {
@@ -233,7 +242,7 @@ export class ChatroomService {
 				throw new UnauthorizedException("You are not adm of this group");
 			}
 			if (chat.admin.find((item) => item.id == dto.add_id)) {
-				throw new UnauthorizedException("You can not exclude a adm from this group");
+				throw new UnauthorizedException("You can not block a adm from this group");
 			}
 		}
 
@@ -241,12 +250,27 @@ export class ChatroomService {
 			name: chat.name,
 		};
 		let data_filter ={
+			banned_member: {
+				connect: {
+					id: dto.add_id,
+				},
+			},
 			members: {
 				disconnect: {
 					id: dto.add_id,
 				},
 			},
 			admin: {
+				disconnect: {
+					id: dto.add_id,
+				},
+			},
+			muted_member: {
+				disconnect: {
+					id: dto.add_id,
+				},
+			},
+			kicked_member: {
 				disconnect: {
 					id: dto.add_id,
 				},

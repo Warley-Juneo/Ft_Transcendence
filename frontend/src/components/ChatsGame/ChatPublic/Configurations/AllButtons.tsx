@@ -73,19 +73,22 @@ export default function AllButtons(): JSX.Element {
 		}
 	}
 
-	const excludeMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+	const banMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+		
+		console.log("\n\nOOOOOOOOOOOOOOOO\n\n");
 		if (event.key !== 'Enter') return;
 		const userId = getUserId(event.currentTarget.value);
 		if (userId) {
-			axios.post('http://localhost:3000/chatroom/exclude-member-group', {
+			axios.post('http://localhost:3000/chatroom/ban-member-group', {
 				add_id: userId,
 				chat_name: name,
 			}, {
 				headers: {
 					Authorization: Cookies.get("jwtToken")
-				},
+				},timeout: 5000
 			}).then((res) => {
 				setDataChat(res.data);
+				console.log("\n\nRESPOSTA...\n\n", res.data);
 			}).catch((err) => {
 				console.log(err);
 			})
@@ -140,7 +143,7 @@ export default function AllButtons(): JSX.Element {
 			<Button
 				Icon={MdOutlinePersonAddDisabled}
 				content="Remover Militante"
-				function={excludeMember}
+				function={banMember}
 			/>
 			<Button
 				Icon={MdBlock}
