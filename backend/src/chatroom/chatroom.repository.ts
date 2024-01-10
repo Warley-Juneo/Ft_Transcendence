@@ -55,7 +55,7 @@ export class ChatroomRepository {
 			},
 			select: {
 				id: true,
-				Mia			name: true,
+				name: true,
 				photoUrl: true,
 				owner: {
 					select: {
