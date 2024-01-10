@@ -55,7 +55,7 @@ export class ChatroomRepository {
 			},
 			select: {
 				id: true,
-				name: true,
+				Mia			name: true,
 				photoUrl: true,
 				owner: {
 					select: {
@@ -217,14 +217,6 @@ export class ChatroomRepository {
 				members: {
 					select: {
 						nickname: true,
-					},
-				},
-				blocked_member: {
-					select: {
-						id: true,
-						nickname: true,
-						avatar: true,
-						is_active: true,
 					},
 				},
 				banned_member: {
