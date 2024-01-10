@@ -11,8 +11,9 @@ CREATE TABLE "user" (
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     "is_active" BOOLEAN NOT NULL DEFAULT true,
-    "twoFA" BOOLEAN NOT NULL DEFAULT false,
-    "points" INTEGER NOT NULL DEFAULT 0
+    "points" INTEGER NOT NULL DEFAULT 0,
+    "tokenTFA" TEXT,
+    "tfaOpen" BOOLEAN DEFAULT false
 );
 
 -- CreateTable
@@ -108,6 +109,22 @@ CREATE TABLE "_banned_chatroom" (
     CONSTRAINT "_banned_chatroom_B_fkey" FOREIGN KEY ("B") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- CreateTable
+CREATE TABLE "_muted_chatroom" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL,
+    CONSTRAINT "_muted_chatroom_A_fkey" FOREIGN KEY ("A") REFERENCES "chat_room" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "_muted_chatroom_B_fkey" FOREIGN KEY ("B") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "_kicked_chatroom" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL,
+    CONSTRAINT "_kicked_chatroom_A_fkey" FOREIGN KEY ("A") REFERENCES "chat_room" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "_kicked_chatroom_B_fkey" FOREIGN KEY ("B") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "user_login_key" ON "user"("login");
 
@@ -146,3 +163,15 @@ CREATE UNIQUE INDEX "_banned_chatroom_AB_unique" ON "_banned_chatroom"("A", "B")
 
 -- CreateIndex
 CREATE INDEX "_banned_chatroom_B_index" ON "_banned_chatroom"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_muted_chatroom_AB_unique" ON "_muted_chatroom"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_muted_chatroom_B_index" ON "_muted_chatroom"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_kicked_chatroom_AB_unique" ON "_kicked_chatroom"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_kicked_chatroom_B_index" ON "_kicked_chatroom"("B");
