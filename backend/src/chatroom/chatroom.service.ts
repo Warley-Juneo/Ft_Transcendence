@@ -91,18 +91,7 @@ export class ChatroomService {
 
 	async openChatroom(userId: string, dto: InputChatroomDto): Promise<UniqueChatroomDto> {
 
-		let chat = await this.findUniqueChatroom(dto);
-
-		// let data_validation: OutputValidateDto = {} as OutputValidateDto;
-		// if (chat.type == 'protected') {
-		// 	data_validation.validate_password = dto.password;
-		// 	data_validation.password = chat.password;
-		// }
-		// if (chat.type == 'private') {
-		// 	data_validation.members = chat.members;
-		// 	data_validation.validate_member_id = userId;
-		// }
-		// await this.validate(data_validation);
+		let chat: UniqueChatroomDto = await this.findUniqueChatroom(dto);
 
 		if (chat.banned.find((item) => item.id == userId)) {
 			throw new UnauthorizedException("You were banned of this chat!!!")
@@ -112,7 +101,7 @@ export class ChatroomService {
 				throw new UnauthorizedException('Password incorrect')
 			}
 		}
-		return new UniqueChatroomDto(chat);
+		return chat;
 	}
 
 	async	changePassword(userId: string, dto: ChangePasswordDto): Promise<any> {

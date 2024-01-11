@@ -43,6 +43,8 @@ export class UniqueChatroomDto {
 	members: UniqueUserChatrommDto[];
 	admin: UniqueUserChatrommDto[];
 	banned: UniqueUserChatrommDto[];
+	muted: UniqueUserChatrommDto[];
+	kicked: UniqueUserChatrommDto[];
 	message: OutputMessageDto[];
 
 	constructor(obj: any) {
@@ -56,6 +58,8 @@ export class UniqueChatroomDto {
 		this.members = obj.members;
 		this.admin = obj.admin;
 		this.banned = obj.banned_member;
+		this.muted = obj.muted_member;
+		this.kicked = obj.kicked_member;
 		this.message = obj.message;
 	}
 }

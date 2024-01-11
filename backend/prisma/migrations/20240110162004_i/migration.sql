@@ -110,14 +110,6 @@ CREATE TABLE "_member_chatroom" (
 );
 
 -- CreateTable
-CREATE TABLE "_blocked_chatroom" (
-    "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL,
-    CONSTRAINT "_blocked_chatroom_A_fkey" FOREIGN KEY ("A") REFERENCES "chat_room" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT "_blocked_chatroom_B_fkey" FOREIGN KEY ("B") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE
-);
-
--- CreateTable
 CREATE TABLE "_banned_chatroom" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL,
@@ -179,12 +171,6 @@ CREATE UNIQUE INDEX "_member_chatroom_AB_unique" ON "_member_chatroom"("A", "B")
 
 -- CreateIndex
 CREATE INDEX "_member_chatroom_B_index" ON "_member_chatroom"("B");
-
--- CreateIndex
-CREATE UNIQUE INDEX "_blocked_chatroom_AB_unique" ON "_blocked_chatroom"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_blocked_chatroom_B_index" ON "_blocked_chatroom"("B");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_banned_chatroom_AB_unique" ON "_banned_chatroom"("A", "B");

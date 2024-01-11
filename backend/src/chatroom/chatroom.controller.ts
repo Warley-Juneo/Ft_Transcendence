@@ -43,7 +43,9 @@ export class ChatroomController {
 
 	@Post('open-group')
 	async	openChatroom(@Req() request, @Body() dto: InputChatroomDto): Promise<UniqueChatroomDto> {
-		return await this.chatroomService.openChatroom(request.user.sub, dto);
+		let response =  await this.chatroomService.openChatroom(request.user.sub, dto);
+		console.log("Controller Response: ", response);
+		return response;
 	}
 
 	@Post('add-member-group')
