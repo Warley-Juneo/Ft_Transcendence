@@ -73,6 +73,25 @@ export default function AllButtons(): JSX.Element {
 		}
 	}
 
+	const removedAdm = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+		if (event.key !== 'Enter') return;
+		const userId = getUserId(event.currentTarget.value);
+		if (userId) {
+			axios.post('http://localhost:3000/chatroom/remove-adm-group', {
+				add_id: userId,
+				chat_name: name,
+			}, {
+				headers: {
+					Authorization: Cookies.get("jwtToken")
+				},
+			}).then((res) => {
+				setDataChat(res.data);
+			}).catch((err) => {
+				console.log(err);
+			})
+		}
+	}
+
 	const banMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
 		
 		console.log("\n\nOOOOOOOOOOOOOOOO\n\n");
@@ -80,6 +99,27 @@ export default function AllButtons(): JSX.Element {
 		const userId = getUserId(event.currentTarget.value);
 		if (userId) {
 			axios.post('http://localhost:3000/chatroom/ban-member-group', {
+				add_id: userId,
+				chat_name: name,
+			}, {
+				headers: {
+					Authorization: Cookies.get("jwtToken")
+				},timeout: 5000
+			}).then((res) => {
+				setDataChat(res.data);
+			}).catch((err) => {
+				console.log(err);
+			})
+		}
+	}
+
+	const kickMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+		
+		console.log("\n\nOOOOOOOOOOOOOOOO\n\n");
+		if (event.key !== 'Enter') return;
+		const userId = getUserId(event.currentTarget.value);
+		if (userId) {
+			axios.post('http://localhost:3000/chatroom/kick-member-group', {
 				add_id: userId,
 				chat_name: name,
 			}, {
@@ -141,14 +181,19 @@ export default function AllButtons(): JSX.Element {
 				function={addedAdm}
 			/>
 			<Button
+				Icon={GiBroadDagger}
+				content="Remover Administrador"
+				function={removedAdm}
+			/>
+			<Button
 				Icon={MdOutlinePersonAddDisabled}
-				content="Remover Militante"
+				content="Banir Tripulante"
 				function={banMember}
 			/>
 			<Button
 				Icon={MdBlock}
-				content="Bloquear Militante"
-				function={() => { }}
+				content="Chutar Tripulante"
+				function={() => {kickMember}}
 			/>
 			<AlterPassword funcChange={changePassword} />
 			<Button

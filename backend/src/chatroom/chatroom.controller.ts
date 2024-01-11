@@ -43,7 +43,9 @@ export class ChatroomController {
 
 	@Post('open-group')
 	async	openChatroom(@Req() request, @Body() dto: InputChatroomDto): Promise<UniqueChatroomDto> {
-		return await this.chatroomService.openChatroom(request.user.sub, dto);
+		let response =  await this.chatroomService.openChatroom(request.user.sub, dto);
+		console.log("Controller Response: ", response);
+		return response;
 	}
 
 	@Post('add-member-group')
@@ -61,9 +63,14 @@ export class ChatroomController {
 		return await this.chatroomService.addAdmChatroom(request.user.sub, dto);
 	}
 
-	@Post('exclude-adm-group')
-	async	excludeAdmChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
-		return await this.chatroomService.excludeAdmChatroom(request.user.sub, dto);
+	@Post('remove-adm-group')
+	async	removeAdmChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+		return await this.chatroomService.removeAdmChatroom(request.user.sub, dto);
+	}
+
+	@Post('kick-member-group')
+	async	kickMemberChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+		return await this.chatroomService.kickMemberChatroom(request.user.sub, dto);
 	}
 
 	@Post('open-direct')

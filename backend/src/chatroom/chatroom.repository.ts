@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { CreateChatroomDto, CreateDirectMessageDto, InputChatroomMessageDto } from "./dto/input.dto";
+import { AddChatUserDto, CreateChatroomDto, CreateDirectMessageDto, InputChatroomMessageDto } from "./dto/input.dto";
 import { PrismaService } from "src/database/prisma.service";
 import { DirectChatRoom, DirectMessage } from "@prisma/client";
 
@@ -44,6 +44,12 @@ export class ChatroomRepository {
 	async	updateChatroom(where_filter: any, data_filter: any): Promise<any> {
 		let chat = await this.prisma.chatRoom.update({
 			where: where_filter,
+			  data: data_filter,
+			});
+	}
+
+	async	createKickedChatroom(data_filter: any): Promise<any> {
+		let chat = await this.prisma.kickedChatroom.create({
 			  data: data_filter,
 			});
 	}
@@ -93,14 +99,6 @@ export class ChatroomRepository {
 						is_active: true,
 					},
 				},
-				kicked_member: {
-					select: {
-						id: true,
-						nickname: true,
-						avatar: true,
-						is_active: true,
-					},
-				},
 				message: {
 					select: {
 						id: true,
@@ -117,6 +115,16 @@ export class ChatroomRepository {
 				}
 			},
 		});
+		return chat;
+	}
+
+	async	findKickedUserChatroom(dto: AddChatUserDto): Promise<any> {
+		let chat = await this.prisma.kickedChatroom.findMany({
+			where: {
+				userId: dto.add_id,
+				chatName: dto.chat_name,
+			},
+		})
 		return chat;
 	}
 
@@ -164,14 +172,6 @@ export class ChatroomRepository {
 					},
 				},
 				muted_member: {
-					select: {
-						id: true,
-						nickname: true,
-						avatar: true,
-						is_active: true,
-					},
-				},
-				kicked_member: {
 					select: {
 						id: true,
 						nickname: true,
@@ -228,14 +228,6 @@ export class ChatroomRepository {
 					},
 				},
 				muted_member: {
-					select: {
-						id: true,
-						nickname: true,
-						avatar: true,
-						is_active: true,
-					},
-				},
-				kicked_member: {
 					select: {
 						id: true,
 						nickname: true,
