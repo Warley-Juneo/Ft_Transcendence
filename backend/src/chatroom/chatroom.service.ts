@@ -154,6 +154,11 @@ export class ChatroomService {
 						id: dto.add_id,
 					},
 				},
+				banned_member: {
+					disconnect: {
+						id: dto.add_id,
+					},
+				},
 			};
 		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
@@ -223,10 +228,16 @@ export class ChatroomService {
 					id: dto.add_id,
 				},
 			},
+			banned_member: {
+				disconnect: {
+					id: dto.add_id,
+				},
+			},
 		};
 		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
 		let response = await this.findUniqueChatroom(dto);
+		console.log(response);
 		response.password = '';
 		return response;
 	}
