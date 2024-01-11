@@ -234,8 +234,6 @@ export class ChatroomService {
 	async	banMemberChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 		let chat = await this.findUniqueChatroom(dto);
 
-		// await this.excludeAdmChatroom(userId, dto);
-
 		if (chat.owner_id == dto.add_id) {
 			throw new UnauthorizedException("You can not ban the owner of the chatroom")
 		}
@@ -269,11 +267,6 @@ export class ChatroomService {
 				},
 			},
 			muted_member: {
-				disconnect: {
-					id: dto.add_id,
-				},
-			},
-			kicked_member: {
 				disconnect: {
 					id: dto.add_id,
 				},

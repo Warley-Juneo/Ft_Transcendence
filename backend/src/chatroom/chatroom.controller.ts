@@ -37,15 +37,12 @@ export class ChatroomController {
 
 	@Post('change-password-group')
 	async	changePassword(@Req() request, @Body() dto: ChangePasswordDto): Promise<any> {
-		console.log("\n\n\n DTO:", dto, "\n\n\n")
 		return await this.chatroomService.changePassword(request.user.sub, dto);
 	}
 
 	@Post('open-group')
 	async	openChatroom(@Req() request, @Body() dto: InputChatroomDto): Promise<UniqueChatroomDto> {
-		let response =  await this.chatroomService.openChatroom(request.user.sub, dto);
-		console.log("Controller Response: ", response);
-		return response;
+		return await this.chatroomService.openChatroom(request.user.sub, dto);
 	}
 
 	@Post('add-member-group')
@@ -75,7 +72,6 @@ export class ChatroomController {
 
 	@Post('open-direct')
 	async openDirectChatroom(@Body() dto: CreateDirectChatroomDto): Promise<OutputDirectMessageDto[]> {
-		console.log("\n\n\n DTO:", dto, "\n\n\n")
 		return await this.chatroomService.openDirectChatroom(dto);
 	}
 
