@@ -101,6 +101,8 @@ export class ChatroomService {
 				throw new UnauthorizedException('Password incorrect')
 			}
 		}
+
+
 		return chat;
 	}
 
@@ -155,7 +157,7 @@ export class ChatroomService {
 					},
 				},
 			};
-		await await this.chatroomRepository.updateChatroom(where_filter, data_filter);
+		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
 		let response = await this.findUniqueChatroom(dto);
 		response.password = '';
@@ -198,7 +200,7 @@ export class ChatroomService {
 				},
 			},
 		};
-		await await this.chatroomRepository.updateChatroom(where_filter, data_filter);
+		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
 		let response = await this.findUniqueChatroom(dto);
 		response.password = '';
@@ -224,7 +226,7 @@ export class ChatroomService {
 				},
 			},
 		};
-		await await this.chatroomRepository.updateChatroom(where_filter, data_filter);
+		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
 		let response = await this.findUniqueChatroom(dto);
 		response.password = '';
@@ -279,16 +281,51 @@ export class ChatroomService {
 				},
 			},
 		};
-		await await this.chatroomRepository.updateChatroom(where_filter, data_filter);
+		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
 		let response = await this.findUniqueChatroom(dto);
 		response.password = '';
 		return response;
 	}
 
-	// async	kickMemberChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
-	
-	// }
+	async	kickMemberChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+		let chat = await this.findUniqueChatroom(dto);
+
+		// await this.excludeAdmChatroom(userId, dto);
+
+		if (chat.owner_id == dto.add_id) {
+			throw new UnauthorizedException("You can not ban the owner of the chatroom")
+		}
+
+		if (chat.owner_id != userId) {
+			if (!chat.admin.find((item) => item.id == userId)) {
+				throw new UnauthorizedException("You are not adm of this group");
+			}
+			if (chat.admin.find((item) => item.id == dto.add_id)) {
+				throw new UnauthorizedException("You can not ban a adm from this group");
+			}
+		}
+
+		if (!chat.members.find((item) => item.id == dto.add_id)) {
+			throw new UnauthorizedException("You can not kick a non member");
+		}
+
+		let kicked = await this.chatroomRepository.findKickedUserChatroom(dto);
+		let data_filter = {
+			data: {
+				userId: dto.add_id,
+				chatName: dto.chat_name,
+			},
+		}
+
+		await this.chatroomRepository.createKickedChatroom(data_filter);
+
+
+		let response = await this.findUniqueChatroom(dto);
+		response.password = '';
+		console.log("kicked: ", response);
+		return response;
+	}
 
 	async findUniqueChatroom(dto: InputChatroomDto | AddChatUserDto | ChangePasswordDto): Promise<UniqueChatroomDto> {
 
@@ -305,6 +342,7 @@ export class ChatroomService {
 		}
 		return outputDto;
 	}
+	
 
 	async findAllPublicChatrooms(): Promise<ChatroomsDto> {
 

@@ -107,6 +107,27 @@ export default function AllButtons(): JSX.Element {
 				},timeout: 5000
 			}).then((res) => {
 				setDataChat(res.data);
+			}).catch((err) => {
+				console.log(err);
+			})
+		}
+	}
+
+	const kickMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+		
+		console.log("\n\nOOOOOOOOOOOOOOOO\n\n");
+		if (event.key !== 'Enter') return;
+		const userId = getUserId(event.currentTarget.value);
+		if (userId) {
+			axios.post('http://localhost:3000/chatroom/kick-member-group', {
+				add_id: userId,
+				chat_name: name,
+			}, {
+				headers: {
+					Authorization: Cookies.get("jwtToken")
+				},timeout: 5000
+			}).then((res) => {
+				setDataChat(res.data);
 				console.log("\n\nRESPOSTA...\n\n", res.data);
 			}).catch((err) => {
 				console.log(err);
@@ -171,8 +192,8 @@ export default function AllButtons(): JSX.Element {
 			/>
 			<Button
 				Icon={MdBlock}
-				content="Bloquear Tripulante"
-				function={() => { }}
+				content="Chutar Tripulante"
+				function={() => {kickMember}}
 			/>
 			<AlterPassword funcChange={changePassword} />
 			<Button
