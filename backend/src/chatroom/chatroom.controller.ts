@@ -65,11 +65,10 @@ export class ChatroomController {
 		return await this.chatroomService.removeAdmChatroom(request.user.sub, dto);
 	}
 
-	@Post('kick-member-group')
-	async	kickMemberChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
-		console.log("\n\nkick member route")
-		return await this.chatroomService.kickMemberChatroom(request.user.sub, dto);
-	}
+	// @Post('kick-member-group')
+	// async	kickMemberChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<void> {
+	// 	return await this.chatroomService.kickMemberChatroom(request.user.sub, dto);
+	// }
 
 	@Post('open-direct')
 	async openDirectChatroom(@Body() dto: CreateDirectChatroomDto): Promise<OutputDirectMessageDto[]> {

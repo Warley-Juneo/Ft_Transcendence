@@ -290,44 +290,40 @@ export class ChatroomService {
 		return response;
 	}
 
-	async	kickMemberChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
-		let chat = await this.findUniqueChatroom(dto);
+	// async	kickMemberChatroom(userId: string, dto: AddChatUserDto): Promise<void> {
+	// 	let chat = await this.findUniqueChatroom(dto);
 
-		// await this.excludeAdmChatroom(userId, dto);
+	// 	// await this.excludeAdmChatroom(userId, dto);
 
-		if (chat.owner_id == dto.add_id) {
-			throw new UnauthorizedException("You can not ban the owner of the chatroom")
-		}
+	// 	if (chat.owner_id == dto.add_id) {
+	// 		throw new UnauthorizedException("You can not ban the owner of the chatroom")
+	// 	}
 
-		if (chat.owner_id != userId) {
-			if (!chat.admin.find((item) => item.id == userId)) {
-				throw new UnauthorizedException("You are not adm of this group");
-			}
-			if (chat.admin.find((item) => item.id == dto.add_id)) {
-				throw new UnauthorizedException("You can not ban a adm from this group");
-			}
-		}
+	// 	if (chat.owner_id != userId) {
+	// 		if (!chat.admin.find((item) => item.id == userId)) {
+	// 			throw new UnauthorizedException("You are not adm of this group");
+	// 		}
+	// 		if (chat.admin.find((item) => item.id == dto.add_id)) {
+	// 			throw new UnauthorizedException("You can not ban a adm from this group");
+	// 		}
+	// 	}
 
-		if (!chat.members.find((item) => item.id == dto.add_id)) {
-			throw new UnauthorizedException("You can not kick a non member");
-		}
+	// 	if (!chat.members.find((item) => item.id == dto.add_id)) {
+	// 		throw new UnauthorizedException("You can not kick a non member");
+	// 	}
 
-		let kicked = await this.chatroomRepository.findKickedUserChatroom(dto);
-		let data_filter = {
-			data: {
-				userId: dto.add_id,
-				chatName: dto.chat_name,
-			},
-		}
-
-		await this.chatroomRepository.createKickedChatroom(data_filter);
-
-
-		let response = await this.findUniqueChatroom(dto);
-		response.password = '';
-		console.log("kicked: ", response);
-		return response;
-	}
+	// 	let kicked = await this.chatroomRepository.findKickedUserChatroom(dto);
+	// 	console.log("kicked: ", kicked);
+	// 	if (kicked.length == 0) {
+	// 		let data_filter = {
+	// 			data: {
+	// 				userId: dto.add_id,
+	// 				chatName: dto.chat_name,
+	// 			},
+	// 		}
+	// 		await this.chatroomRepository.createKickedChatroom(data_filter);
+	// 	}
+	// }
 
 	async findUniqueChatroom(dto: InputChatroomDto | AddChatUserDto | ChangePasswordDto): Promise<UniqueChatroomDto> {
 
@@ -357,7 +353,6 @@ export class ChatroomService {
 	async findPublicChatroom(dto: InputChatroomDto): Promise<UniqueChatroomDto> {
 		return this.findUniqueChatroom(dto);
 	}
-
 
 	async findPrivateChatroom(userId: string): Promise<ChatroomsDto> {
 
