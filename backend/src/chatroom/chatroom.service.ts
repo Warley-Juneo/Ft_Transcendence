@@ -91,7 +91,7 @@ export class ChatroomService {
 
 	async openChatroom(userId: string, dto: InputChatroomDto): Promise<UniqueChatroomDto> {
 
-		let chat = await this.findUniqueChatroom(dto);
+		let chat : UniqueChatroomDto = await this.findUniqueChatroom(dto);
 
 		// let data_validation: OutputValidateDto = {} as OutputValidateDto;
 		// if (chat.type == 'protected') {
@@ -112,7 +112,7 @@ export class ChatroomService {
 				throw new UnauthorizedException('Password incorrect')
 			}
 		}
-		return new UniqueChatroomDto(chat);
+		return chat;
 	}
 
 	async	changePassword(userId: string, dto: ChangePasswordDto): Promise<any> {
