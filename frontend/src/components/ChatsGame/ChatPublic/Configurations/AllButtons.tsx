@@ -73,6 +73,25 @@ export default function AllButtons(): JSX.Element {
 		}
 	}
 
+	const removedAdm = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+		if (event.key !== 'Enter') return;
+		const userId = getUserId(event.currentTarget.value);
+		if (userId) {
+			axios.post('http://localhost:3000/chatroom/remove-adm-group', {
+				add_id: userId,
+				chat_name: name,
+			}, {
+				headers: {
+					Authorization: Cookies.get("jwtToken")
+				},
+			}).then((res) => {
+				setDataChat(res.data);
+			}).catch((err) => {
+				console.log(err);
+			})
+		}
+	}
+
 	const banMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
 		
 		console.log("\n\nOOOOOOOOOOOOOOOO\n\n");
@@ -139,6 +158,11 @@ export default function AllButtons(): JSX.Element {
 				Icon={GiBroadDagger}
 				content="Adicionar Administrador"
 				function={addedAdm}
+			/>
+			<Button
+				Icon={GiBroadDagger}
+				content="Remover Administrador"
+				function={removedAdm}
 			/>
 			<Button
 				Icon={MdOutlinePersonAddDisabled}
