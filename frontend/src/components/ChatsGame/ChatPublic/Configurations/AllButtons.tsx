@@ -93,7 +93,6 @@ export default function AllButtons(): JSX.Element {
 	}
 
 	const banMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-		console.log("\nBanMember\n\n");
 		if (event.key !== 'Enter') return;
 		const userId = getUserId(event.currentTarget.value);
 		if (userId) {
@@ -112,27 +111,25 @@ export default function AllButtons(): JSX.Element {
 		}
 	}
 
-	// const kickMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-
-	// 	console.log("\n\nOOOOOOOOOOOOOOOO\n\n");
-	// 	if (event.key !== 'Enter') return;
-	// 	const userId = getUserId(event.currentTarget.value);
-	// 	if (userId) {
-	// 		axios.post('http://localhost:3000/chatroom/kick-member-group', {
-	// 			add_id: userId,
-	// 			chat_name: name,
-	// 		}, {
-	// 			headers: {
-	// 				Authorization: Cookies.get("jwtToken")
-	// 			},timeout: 5000
-	// 		}).then((res) => {
-	// 			setDataChat(res.data);
-	// 			console.log("\n\nRESPOSTA...\n\n", res.data);
-	// 		}).catch((err) => {
-	// 			console.log(err);
-	// 		})
-	// 	}
-	// }
+	const kickedMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+		if (event.key !== 'Enter') return;
+		console.log("\nkickedMember\n\n");
+		const userId = getUserId(event.currentTarget.value);
+		if (userId) {
+			axios.post('http://localhost:3000/chatroom/kick-member-group', {
+				add_id: userId,
+				chat_name: name,
+			}, {
+				headers: {
+					Authorization: Cookies.get("jwtToken")
+				},timeout: 5000
+			}).then((res) => {
+				setDataChat(res.data);
+			}).catch((err) => {
+				console.log(err);
+			})
+		}
+	}
 
 	const deleteChat = (event: React.KeyboardEvent<HTMLInputElement>): void => {
 		if (event.key !== 'Enter') return;
@@ -189,11 +186,11 @@ export default function AllButtons(): JSX.Element {
 				content="Banir Tripulante"
 				function={banMember}
 			/>
-			{/* <Button
+			<Button
 				Icon={MdBlock}
 				content="Chutar Tripulante"
-				function={() => {kickMember}}
-			/> */}
+				function={kickedMember}
+			/>
 			<AlterPassword funcChange={changePassword} />
 			<Button
 				Icon={MdDeleteSweep}

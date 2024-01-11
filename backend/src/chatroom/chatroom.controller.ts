@@ -67,6 +67,7 @@ export class ChatroomController {
 
 	@Post('kick-member-group')
 	async	kickMemberChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+		console.log("\n\nkick member route")
 		return await this.chatroomService.kickMemberChatroom(request.user.sub, dto);
 	}
 
