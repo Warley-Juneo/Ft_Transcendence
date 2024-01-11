@@ -142,12 +142,12 @@ export default function AllButtons(): JSX.Element {
 			/>
 			<Button
 				Icon={MdOutlinePersonAddDisabled}
-				content="Remover Militante"
+				content="Banir Tripulante"
 				function={banMember}
 			/>
 			<Button
 				Icon={MdBlock}
-				content="Bloquear Militante"
+				content="Bloquear Tripulante"
 				function={() => { }}
 			/>
 			<AlterPassword funcChange={changePassword} />
