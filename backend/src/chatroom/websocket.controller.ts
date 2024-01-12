@@ -2,7 +2,7 @@
 
 import { SubscribeMessage, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Socket, Server } from "socket.io";
-import { CreateDirectMessageDto, InputChatroomMessageDto, InputOpenChatroomDto } from "./dto/input.dto";
+import { BanMember, CreateDirectMessageDto, InputChatroomMessageDto, InputOpenChatroomDto } from "./dto/input.dto";
 import { ChatroomService } from "./chatroom.service";
 import { DisconnectDto } from "src/game/dtos/input.dto";
 import { GameService } from "src/game/game.service";
@@ -48,6 +48,7 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 
 	constructor(private readonly service: ChatroomService
 		, private readonly gameService: GameService
+		, private readonly chatroomService: ChatroomService
 	) { }
 
 	@WebSocketServer() server: Server;
@@ -72,6 +73,12 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 	@SubscribeMessage('open-group')
 	async openChatroom(client: Socket, dto: InputOpenChatroomDto) {
 		client.join(dto.chatId);
+	}
+
+	@SubscribeMessage('ban-member-group')
+	async banMemberChatroom(client: Socket, dto: BanMember) {
+		await this.chatroomService.banMemberChatroom(dto.my_id, dto);
+		this.server.to(dto.chat_id).emit("banMember", "succeso");
 	}
 
 	@SubscribeMessage('group-message')

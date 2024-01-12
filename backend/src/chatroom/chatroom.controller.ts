@@ -50,11 +50,6 @@ export class ChatroomController {
 		return await this.chatroomService.addMemberChatroom(request.user.sub, dto);
 	}
 
-	@Post('ban-member-group')
-	async	banMemberChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
-		return await this.chatroomService.banMemberChatroom(request.user.sub, dto);
-	}
-
 	@Post('add-adm-group')
 	async	addAdmChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 		return await this.chatroomService.addAdmChatroom(request.user.sub, dto);
@@ -65,18 +60,9 @@ export class ChatroomController {
 		return await this.chatroomService.removeAdmChatroom(request.user.sub, dto);
 	}
 
-	// @Post('kick-member-group')
-	// async	kickMemberChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<void> {
-	// 	return await this.chatroomService.kickMemberChatroom(request.user.sub, dto);
-	// }
-
 	@Post('open-direct')
 	async openDirectChatroom(@Body() dto: CreateDirectChatroomDto): Promise<OutputDirectMessageDto[]> {
 		return await this.chatroomService.openDirectChatroom(dto);
 	}
 
-	// @Post('direct-message')
-	// async createDirectMessage(@Req() request, @Body() dto: CreateDirectMessageDto): Promise<any> {
-	// 	return await this.chatroomService.createDirectMessage(request.user.sub, dto);
-	// }
 }

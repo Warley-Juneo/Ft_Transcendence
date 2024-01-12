@@ -2,7 +2,7 @@ import { BadRequestException, ConsoleLogger, ForbiddenException, Injectable, Una
 import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
-import { AddChatUserDto, ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto, InputChatroomMessageDto } from './dto/input.dto';
+import { AddChatUserDto, BanMember, ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto, InputChatroomMessageDto } from './dto/input.dto';
 import { ChatroomsDto, OutputDirectMessageDto, OutputMessageDto, OutputValidateDto, UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 
@@ -242,10 +242,10 @@ export class ChatroomService {
 		return response;
 	}
 
-	async	banMemberChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	async	banMemberChatroom(userId: string, dto: BanMember): Promise<UniqueChatroomDto> {
 		let chat = await this.findUniqueChatroom(dto);
 
-		if (chat.owner_id == dto.add_id) {
+		if (chat.owner_id == dto.ban_id) {
 			throw new UnauthorizedException("You can not ban the owner of the chatroom")
 		}
 
@@ -253,7 +253,7 @@ export class ChatroomService {
 			if (!chat.admin.find((item) => item.id == userId)) {
 				throw new UnauthorizedException("You are not adm of this group");
 			}
-			if (chat.admin.find((item) => item.id == dto.add_id)) {
+			if (chat.admin.find((item) => item.id == dto.ban_id)) {
 				throw new UnauthorizedException("You can not ban a adm from this group");
 			}
 		}
@@ -264,22 +264,22 @@ export class ChatroomService {
 		let data_filter ={
 			banned_member: {
 				connect: {
-					id: dto.add_id,
+					id: dto.ban_id,
 				},
 			},
 			members: {
 				disconnect: {
-					id: dto.add_id,
+					id: dto.ban_id,
 				},
 			},
 			admin: {
 				disconnect: {
-					id: dto.add_id,
+					id: dto.ban_id,
 				},
 			},
 			muted_member: {
 				disconnect: {
-					id: dto.add_id,
+					id: dto.ban_id,
 				},
 			},
 		};
@@ -325,7 +325,7 @@ export class ChatroomService {
 	// 	}
 	// }
 
-	async findUniqueChatroom(dto: InputChatroomDto | AddChatUserDto | ChangePasswordDto): Promise<UniqueChatroomDto> {
+	async findUniqueChatroom(dto: InputChatroomDto | AddChatUserDto | ChangePasswordDto | BanMember): Promise<UniqueChatroomDto> {
 
 		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
 

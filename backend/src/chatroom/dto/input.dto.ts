@@ -88,3 +88,18 @@ export class InputOpenChatroomDto {
 	@IsNotEmpty({message: 'Chatroom can not be empty.'})
 	chatId:			string;
 }
+
+export class BanMember {
+	@IsNotEmpty({message: 'My id can not be empty.'})
+	my_id:			string;
+
+	@IsNotEmpty({message: 'ban id can not be empty.'})
+	ban_id:			string;
+
+	@IsNotEmpty({message: 'Name Chatroom can not be empty.'})
+	chat_name:		string;
+
+	@IsNotEmpty({message: 'Id Chatroom can not be empty.'})
+	chat_id:		string;
+
+}

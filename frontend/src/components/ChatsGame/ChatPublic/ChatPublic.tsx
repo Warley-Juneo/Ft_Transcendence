@@ -108,6 +108,17 @@ export default function ChatPublic(props: propsPageChats) {
 		}
 	}, [socket])
 
+
+	useEffect(() => {
+		socket.on('banMember', (data: any) => {
+			console.log("banMember", data);
+			getDataChat();
+		})
+		return () => {
+			socket.off('banMember')
+		}
+	}, [socket])
+
 	if (!chatData.name) return <div>Carregando...</div>
 
 	return (

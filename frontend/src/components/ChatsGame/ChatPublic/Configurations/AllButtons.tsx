@@ -10,6 +10,7 @@ import { ChatContext } from "../ChatPublic";
 import AlterPassword from "./AlterPassword";
 import GetUsersGame from "./GetUsersGame";
 import { useNavigate } from "react-router-dom";
+import { UserData, socket } from "../../../InitialPage/Contexts/Contexts";
 
 type UsersGame = {
 	id: string;
@@ -19,7 +20,8 @@ type UsersGame = {
 }
 
 export default function AllButtons(): JSX.Element {
-	const { chatData: { name }, setDataChat } = useContext(ChatContext);
+	const { chatData: { name, id }, setDataChat } = useContext(ChatContext);
+	const dataUser = useContext(UserData).user;
 	const [playersGame, setPlayersGame] = useState<UsersGame[]>([]);
 	const navigate = useNavigate();
 
@@ -95,19 +97,15 @@ export default function AllButtons(): JSX.Element {
 	const banMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
 		if (event.key !== 'Enter') return;
 		const userId = getUserId(event.currentTarget.value);
+
 		if (userId) {
-			axios.post('http://localhost:3000/chatroom/ban-member-group', {
-				add_id: userId,
+			let obj = {
+				my_id: dataUser.id,
+				ban_id: userId,
 				chat_name: name,
-			}, {
-				headers: {
-					Authorization: Cookies.get("jwtToken")
-				},timeout: 5000
-			}).then((res) => {
-				setDataChat(res.data);
-			}).catch((err) => {
-				console.log(err);
-			})
+				chat_id: id,
+			}
+			socket.emit('ban-member-group', obj);
 		}
 	}
 
@@ -122,7 +120,7 @@ export default function AllButtons(): JSX.Element {
 			}, {
 				headers: {
 					Authorization: Cookies.get("jwtToken")
-				},timeout: 5000
+				}, timeout: 5000
 			}).then((res) => {
 				setDataChat(res.data);
 			}).catch((err) => {
