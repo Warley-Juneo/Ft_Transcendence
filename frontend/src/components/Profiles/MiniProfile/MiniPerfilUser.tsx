@@ -22,7 +22,7 @@ export default function MiniPerfilUser(props: propsMiniProfile) {
 			cursor: 'pointer',
 		}
 		return (
-			<div className='bg-light text-black p-3 rounded'>
+			<div className='bg-light text-black p-3 rounded z-2 position-relative'>
 				<div className='border-bottom'
 					style={cursoPointer}
 					onClick={() => props.showConfigurations(true)}
