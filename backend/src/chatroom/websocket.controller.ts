@@ -67,6 +67,7 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 	@SubscribeMessage('group-message')
 	async chatroomMessage(client: Socket, dto: InputChatroomMessageDto) {
 		let outputMsg: any = await this.service.createChatroomMessage(dto);
+		outputMsg.chat_name = dto.chat_name;
 		outputMsg = JSON.stringify(outputMsg);
 		this.server.emit('chatMessage', outputMsg);
 	}
