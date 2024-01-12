@@ -90,6 +90,7 @@ export default function ChatPublic(props: propsPageChats) {
 
 	useEffect(() => {
 		getDataChat()
+		socket.emit("open-group", {chatId: "warleyton"});
 	}, [])
 
 	useEffect(() => {
