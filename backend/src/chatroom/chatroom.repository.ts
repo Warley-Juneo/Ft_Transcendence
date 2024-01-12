@@ -48,11 +48,11 @@ export class ChatroomRepository {
 			});
 	}
 
-	async	createKickedChatroom(data_filter: any): Promise<any> {
-		let chat = await this.prisma.kickedChatroom.create({
-			  data: data_filter,
-			});
-	}
+	// async	createKickedChatroom(data_filter: any): Promise<any> {
+	// 	let chat = await this.prisma.kickedChatroom.create({
+	// 		  data: data_filter,
+	// 		});
+	// }
 
 	async	openChatroom(name:string): Promise<any> {
 		let chat = await this.prisma.chatRoom.findUnique({
@@ -118,15 +118,15 @@ export class ChatroomRepository {
 		return chat;
 	}
 
-	async	findKickedUserChatroom(dto: AddChatUserDto): Promise<any> {
-		let chat = await this.prisma.kickedChatroom.findMany({
-			where: {
-				userId: dto.add_id,
-				chatName: dto.chat_name,
-			},
-		})
-		return chat;
-	}
+	// async	findKickedUserChatroom(dto: AddChatUserDto): Promise<any[]> {
+	// 	let chat = await this.prisma.kickedChatroom.findMany({
+	// 		where: {
+	// 			userId: dto.add_id,
+	// 			chatName: dto.chat_name,
+	// 		},
+	// 	})
+	// 	return chat;
+	// }
 
 	async	findUniqueChatroom(name: string): Promise<any> {
 		let chat = await this.prisma.chatRoom.findUnique({
