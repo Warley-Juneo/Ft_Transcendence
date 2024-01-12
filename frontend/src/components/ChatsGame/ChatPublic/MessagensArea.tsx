@@ -14,15 +14,13 @@ export default function MessagensArea(): JSX.Element {
 		socket.on('chatMessage', (data) => {
 			try {
 				data = JSON.parse(data) as Messages;
-				// if (data.chat_name !== name) {
-				// 	return;
-				// }
 				setMessages((prevMessagens) => [...prevMessagens, data]);
 			} catch (error) {
 				console.log(error);
 			}
 		});
 		return () => {
+			socket.emit('close-group', {chatId: id});
 			socket.off('chatMessage');
 		}
 	}, [socket]);

@@ -83,6 +83,7 @@ export default function ChatPublic(props: propsPageChats) {
 		}).then((response) => {
 			setDataChat(response.data)
 			addUserChat(response.data.members)
+			socket.emit("open-group", {chatId: response.data.id});
 		}).catch((error) => {
 			console.log(error)
 		})
@@ -90,7 +91,6 @@ export default function ChatPublic(props: propsPageChats) {
 
 	useEffect(() => {
 		getDataChat()
-		socket.emit("open-group", {chatId: "warleyton"});
 	}, [])
 
 	useEffect(() => {

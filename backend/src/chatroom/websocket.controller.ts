@@ -64,9 +64,13 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 		client.emit('desconectado', 'Desconectado com sucesso!');
 	}
 
+	@SubscribeMessage('close-group')
+	async closeChatroom(client: Socket, dto: InputOpenChatroomDto) {
+		client.leave(dto.chatId);
+	}
+
 	@SubscribeMessage('open-group')
 	async openChatroom(client: Socket, dto: InputOpenChatroomDto) {
-		console.log("sss ", dto.chatId);
 		client.join(dto.chatId);
 	}
 
