@@ -16,7 +16,7 @@ export class CreateDirectMessageDto {
 
 	@IsNotEmpty({message: 'my_nickname can not be empty.'})
 	my_nickname:		string;
-	
+
 	@IsNotEmpty({message: 'other_nickname can not be empty.'})
 	other_nickname:		string;
 }
@@ -70,7 +70,7 @@ export class InputChatroomDto {
 }
 
 export class InputChatroomMessageDto {
-	
+
 	@IsNotEmpty({message: 'Chatroom can not be empty.'})
 	content:		string;
 
@@ -79,4 +79,7 @@ export class InputChatroomMessageDto {
 
 	@IsNotEmpty({message: 'Chatroom can not be empty.'})
 	user_id:		string;
+
+	@IsNotEmpty({message: 'Chatroom can not be empty.'})
+	chat_name:		string;
 }
