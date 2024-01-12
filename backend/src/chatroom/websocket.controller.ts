@@ -2,7 +2,7 @@
 
 import { SubscribeMessage, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Socket, Server } from "socket.io";
-import { CreateDirectMessageDto, InputChatroomMessageDto } from "./dto/input.dto";
+import { CreateDirectMessageDto, InputChatroomMessageDto, InputOpenChatroomDto } from "./dto/input.dto";
 import { ChatroomService } from "./chatroom.service";
 import { DisconnectDto } from "src/game/dtos/input.dto";
 import { GameService } from "src/game/game.service";
@@ -64,12 +64,18 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 		client.emit('desconectado', 'Desconectado com sucesso!');
 	}
 
+	@SubscribeMessage('open-group')
+	async openChatroom(client: Socket, dto: InputOpenChatroomDto) {
+		console.log("sss ", dto.chatId);
+		client.join(dto.chatId);
+	}
+
 	@SubscribeMessage('group-message')
 	async chatroomMessage(client: Socket, dto: InputChatroomMessageDto) {
 		let outputMsg: any = await this.service.createChatroomMessage(dto);
 		outputMsg.chat_name = dto.chat_name;
 		outputMsg = JSON.stringify(outputMsg);
-		this.server.emit('chatMessage', outputMsg);
+		this.server.to(dto.chatId).emit('chatMessage', outputMsg);
 	}
 
 	@SubscribeMessage('direct-message')
