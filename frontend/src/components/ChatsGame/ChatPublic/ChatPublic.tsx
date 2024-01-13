@@ -8,6 +8,9 @@ import Cookies from "js-cookie";
 import { UserData, socket } from "../../InitialPage/Contexts/Contexts";
 import bgChatPublic from "../../../assets/game/bgChatPublic.png";
 import RightSide from "./RightSide";
+import Modal from 'react-bootstrap/Modal';
+import { Button } from "react-bootstrap";
+import ModalIsBanned from "./ModalIsBanned";
 
 export type Messages = {
 	id: string,
@@ -55,6 +58,7 @@ export default function ChatPublic(props: propsPageChats) {
 	const [dinamicProfile, setDinamicProfile] = useState<DinamicProfile>({} as DinamicProfile);
 	const [showDinamicProfile, setShowDinamicProfile] = useState<string>('');
 	const {nickname, id} = useContext(UserData).user;
+	const [isBanned, setIsBanned] = useState<boolean>(false);
 	const userData = useContext(UserData).user;
 
 	function is_memberChat(members: Players[]) {
@@ -107,7 +111,10 @@ export default function ChatPublic(props: propsPageChats) {
 
 
 	useEffect(() => {
-		socket.on('banMember', (data: any) => {
+		socket.on('banMember', (id: any) => {
+			console.log(userData.id == id)
+			if (userData.id == id)
+				setIsBanned(true);
 			getDataChat();
 		})
 		return () => {
@@ -121,18 +128,20 @@ export default function ChatPublic(props: propsPageChats) {
 			getDataChat();
 		})
 		return () => {
-			socket.off('banMember')
+			socket.off('addMember')
 		}
 	}, [socket])
 	//##############################################################
 
 	if (!chatData.name) return <div>Carregando...</div>
 
+	// https://vetplus.vet.br/wp-content/uploads/2019/12/img_2427.jpg vc foi chutado
 	return (
 		<div className="rounded text-white
 			position-absolute top-50 start-50 translate-middle h-75 w-75"
 			style={{ backgroundImage: `url(${bgChatPublic})`, backgroundSize: 'cover' }}
 		>
+			{isBanned ? ModalIsBanned({openPageChats: props.openPageChats}) : null}
 			<div className="row g-0 h-100 p-2">
 				<ChatContext.Provider value={{ chatData: chatData, setDataChat, setDinamicProfile }}>
 					<div className="col-3 border-end h-100">

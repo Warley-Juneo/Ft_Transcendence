@@ -84,7 +84,7 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 	@SubscribeMessage('ban-member-group')
 	async banMemberChatroom(client: Socket, dto: BanMember) {
 		await this.chatroomService.banMemberChatroom(dto.my_id, dto);
-		this.server.to(dto.chat_id).emit("banMember", "succeso");
+		this.server.to(dto.chat_id).emit("banMember", dto.ban_id);
 	}
 
 	@SubscribeMessage('group-message')
