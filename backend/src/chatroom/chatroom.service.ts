@@ -75,7 +75,7 @@ export class ChatroomService {
 
 	async deleteChatroom(userId: string, dto: InputChatroomDto): Promise<any> {
 
-		let chat = await this.findUniqueChatroom(dto);
+		let chat = await this.findUniqueChatroom(dto.chat_name);
 
 		let data_validation: OutputValidateDto = {} as OutputValidateDto;
 		data_validation.validate_owner_id = userId;
@@ -91,7 +91,7 @@ export class ChatroomService {
 
 	async openChatroom(userId: string, dto: InputChatroomDto): Promise<UniqueChatroomDto> {
 
-		let chat: UniqueChatroomDto = await this.findUniqueChatroom(dto);
+		let chat: UniqueChatroomDto = await this.findUniqueChatroom(dto.chat_name);
 
 		if (chat.banned.find((item) => item.id == userId)) {
 			throw new UnauthorizedException("You were banned of this chat!!!")
@@ -111,7 +111,7 @@ export class ChatroomService {
 
 	async changePassword(userId: string, dto: ChangePasswordDto): Promise<any> {
 
-		let chat = await this.findUniqueChatroom(dto);
+		let chat = await this.findUniqueChatroom(dto.chat_name);
 
 		if (!dto.new_password || !dto.new_password) {
 			throw new BadRequestException('Invalid password.')
@@ -139,7 +139,7 @@ export class ChatroomService {
 
 	async addAdmChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 
-		let chat = await this.findUniqueChatroom(dto);
+		let chat = await this.findUniqueChatroom(dto.chat_name);
 
 		if (chat.owner_id != userId) {
 			if (!chat.admin.find((item) => item.id == userId)) {
@@ -167,7 +167,7 @@ export class ChatroomService {
 		};
 		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
-		let response = await this.findUniqueChatroom(dto);
+		let response = await this.findUniqueChatroom(dto.chat_name);
 		response.password = '';
 
 		return response;
@@ -175,7 +175,7 @@ export class ChatroomService {
 
 	async removeAdmChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 
-		let chat = await this.findUniqueChatroom(dto);
+		let chat = await this.findUniqueChatroom(dto.chat_name);
 
 		if (chat.owner_id == dto.add_id) {
 			throw new UnauthorizedException("You can not remove the owner from adm")
@@ -202,7 +202,7 @@ export class ChatroomService {
 		};
 		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
-		let response = await this.findUniqueChatroom(dto);
+		let response = await this.findUniqueChatroom(dto.chat_name);
 		response.password = '';
 
 		return response;
@@ -210,7 +210,7 @@ export class ChatroomService {
 
 	async addMemberChatroom(userId: string, dto: WebsocketDto): Promise<UniqueChatroomDto> {
 
-		let chat = await this.findUniqueChatroom(dto);
+		let chat = await this.findUniqueChatroom(dto.chat_name);
 
 		if (chat.type == "private") {
 			if (!chat.admin.find((item) => item.id == userId)) {
@@ -235,14 +235,14 @@ export class ChatroomService {
 		};
 		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
-		let response = await this.findUniqueChatroom(dto);
+		let response = await this.findUniqueChatroom(dto.chat_name);
 		console.log(response);
 		response.password = '';
 		return response;
 	}
 
 	async banMemberChatroom(userId: string, dto: BanMember): Promise<UniqueChatroomDto> {
-		let chat = await this.findUniqueChatroom(dto);
+		let chat = await this.findUniqueChatroom(dto.chat_name);
 
 		if (chat.owner_id == dto.ban_id) {
 			throw new UnauthorizedException("You can not ban the owner of the chatroom")
@@ -284,13 +284,13 @@ export class ChatroomService {
 		};
 		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
-		let response = await this.findUniqueChatroom(dto);
+		let response = await this.findUniqueChatroom(dto.chat_name);
 		response.password = '';
 		return response;
 	}
 
 	// async	kickMemberChatroom(userId: string, dto: AddChatUserDto): Promise<void> {
-	// 	let chat = await this.findUniqueChatroom(dto);
+	// 	let chat = await this.findUniqueChatroom(dto.chat_name);
 
 	// 	// await this.excludeAdmChatroom(userId, dto);
 
@@ -324,9 +324,9 @@ export class ChatroomService {
 	// 	}
 	// }
 
-	async findUniqueChatroom(dto: InputChatroomDto | WebsocketDto | ChangePasswordDto | BanMember | AddChatUserDto): Promise<UniqueChatroomDto> {
+	async findUniqueChatroom(chat_name: string): Promise<UniqueChatroomDto> {
 
-		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
+		let chat = await this.chatroomRepository.findUniqueChatroom(chat_name);
 
 		if (!chat) {
 			throw new BadRequestException('Chatroom do not exist');
@@ -350,7 +350,7 @@ export class ChatroomService {
 	}
 
 	async findPublicChatroom(dto: InputChatroomDto): Promise<UniqueChatroomDto> {
-		return this.findUniqueChatroom(dto);
+		return this.findUniqueChatroom(dto.chat_name);
 	}
 
 	async findPrivateChatroom(userId: string): Promise<ChatroomsDto> {
