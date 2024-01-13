@@ -2,7 +2,7 @@ import { BadRequestException, ConsoleLogger, ForbiddenException, Injectable, Una
 import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
-import { AddChatUserDto, BanMember, ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto, InputChatroomMessageDto } from './dto/input.dto';
+import { AddChatUserDto, BanMember, ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto, InputChatroomMessageDto, WebsocketDto } from './dto/input.dto';
 import { ChatroomsDto, OutputDirectMessageDto, OutputMessageDto, OutputValidateDto, UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 
@@ -11,7 +11,7 @@ export class ChatroomService {
 	constructor(private readonly chatroomRepository: ChatroomRepository,
 		private readonly userService: UsersService) { }
 
-	async	validate(dto: OutputValidateDto): Promise<OutputValidateDto> {
+	async validate(dto: OutputValidateDto): Promise<OutputValidateDto> {
 
 		if (dto.owner_id && dto.validate_owner_id) {
 			if ((dto.owner_id !== dto.validate_owner_id)) {
@@ -101,10 +101,15 @@ export class ChatroomService {
 				throw new UnauthorizedException('Password incorrect')
 			}
 		}
+		if (chat.type == "private") {
+			if (!chat.members.find((item) => item.id == userId)) {
+				throw new UnauthorizedException("You are not a member of this group")
+			}
+		}
 		return chat;
 	}
 
-	async	changePassword(userId: string, dto: ChangePasswordDto): Promise<any> {
+	async changePassword(userId: string, dto: ChangePasswordDto): Promise<any> {
 
 		let chat = await this.findUniqueChatroom(dto);
 
@@ -132,7 +137,7 @@ export class ChatroomService {
 		await await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 	}
 
-	async	addAdmChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	async addAdmChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.findUniqueChatroom(dto);
 
@@ -149,17 +154,17 @@ export class ChatroomService {
 			name: chat.name,
 		};
 		let data_filter = {
-				admin: {
-					connect: {
-						id: dto.add_id,
-					},
+			admin: {
+				connect: {
+					id: dto.add_id,
 				},
-				banned_member: {
-					disconnect: {
-						id: dto.add_id,
-					},
+			},
+			banned_member: {
+				disconnect: {
+					id: dto.add_id,
 				},
-			};
+			},
+		};
 		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
 		let response = await this.findUniqueChatroom(dto);
@@ -168,17 +173,9 @@ export class ChatroomService {
 		return response;
 	}
 
-	async	removeAdmChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	async removeAdmChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.findUniqueChatroom(dto);
-
-		// let data_validation: OutputValidateDto = {} as OutputValidateDto;
-
-		// data_validation.admin = chat.admin;
-		// data_validation.validate_admin_id = userId;
-		// data_validation.owner_id = chat.owner_id;
-		// data_validation.exclued_owner_id = dto.add_id;
-		// await this.validate(data_validation);
 
 		if (chat.owner_id == dto.add_id) {
 			throw new UnauthorizedException("You can not remove the owner from adm")
@@ -196,7 +193,7 @@ export class ChatroomService {
 		let where_filter = {
 			name: chat.name,
 		};
-		let data_filter ={
+		let data_filter = {
 			admin: {
 				disconnect: {
 					id: dto.add_id,
@@ -211,26 +208,28 @@ export class ChatroomService {
 		return response;
 	}
 
-	async	addMemberChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	async addMemberChatroom(userId: string, dto: WebsocketDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.findUniqueChatroom(dto);
 
-		if (!chat.admin.find((item) => item.id == userId)) {
-			throw new UnauthorizedException("You are not adm of this group")
+		if (chat.type == "private") {
+			if (!chat.admin.find((item) => item.id == userId)) {
+				throw new UnauthorizedException("You are not adm of this group")
+			}
 		}
 
 		let where_filter = {
 			name: chat.name,
 		};
-		let data_filter ={
+		let data_filter = {
 			members: {
 				connect: {
-					id: dto.add_id,
+					id: dto.other_id,
 				},
 			},
 			banned_member: {
 				disconnect: {
-					id: dto.add_id,
+					id: dto.other_id,
 				},
 			},
 		};
@@ -242,7 +241,7 @@ export class ChatroomService {
 		return response;
 	}
 
-	async	banMemberChatroom(userId: string, dto: BanMember): Promise<UniqueChatroomDto> {
+	async banMemberChatroom(userId: string, dto: BanMember): Promise<UniqueChatroomDto> {
 		let chat = await this.findUniqueChatroom(dto);
 
 		if (chat.owner_id == dto.ban_id) {
@@ -261,7 +260,7 @@ export class ChatroomService {
 		let where_filter = {
 			name: chat.name,
 		};
-		let data_filter ={
+		let data_filter = {
 			banned_member: {
 				connect: {
 					id: dto.ban_id,
@@ -325,7 +324,7 @@ export class ChatroomService {
 	// 	}
 	// }
 
-	async findUniqueChatroom(dto: InputChatroomDto | AddChatUserDto | ChangePasswordDto | BanMember): Promise<UniqueChatroomDto> {
+	async findUniqueChatroom(dto: InputChatroomDto | WebsocketDto | ChangePasswordDto | BanMember | AddChatUserDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.chatroomRepository.findUniqueChatroom(dto.chat_name);
 
@@ -345,7 +344,7 @@ export class ChatroomService {
 	async findAllPublicChatrooms(): Promise<ChatroomsDto> {
 
 		let where_filter = {
-			type: {not: "private"},
+			type: { not: "private" },
 		};
 		return await this.findManyChatroom(where_filter);
 	}
@@ -383,23 +382,23 @@ export class ChatroomService {
 		return outputDto;
 	}
 
-	async	createChatroomMessage(dto: InputChatroomMessageDto): Promise<OutputMessageDto> {
+	async createChatroomMessage(dto: InputChatroomMessageDto): Promise<OutputMessageDto> {
 
 		let msg = await this.chatroomRepository.createChatroomMessage(dto);
-		return  new OutputMessageDto(msg);
+		return new OutputMessageDto(msg);
 	}
 
-	async getChatroomMessage(dto: CreateDirectChatroomDto): Promise<{chat: DirectChatRoom, name: string}> {
+	async getChatroomMessage(dto: CreateDirectChatroomDto): Promise<{ chat: DirectChatRoom, name: string }> {
 		let name = dto.other_nickname + dto.my_nickname;
 		if (dto.my_nickname.localeCompare(dto.other_nickname) < 0) {
 			name = dto.my_nickname + dto.other_nickname;
 		}
 		let chat: DirectChatRoom = await this.chatroomRepository.findDirectChatroom(name);
-		return {chat, name};
+		return { chat, name };
 	}
 
 	async openDirectChatroom(dto: CreateDirectChatroomDto): Promise<OutputDirectMessageDto[]> {
-		let {chat, name} = await this.getChatroomMessage(dto);
+		let { chat, name } = await this.getChatroomMessage(dto);
 
 		if (!chat) {
 			chat = await this.chatroomRepository.openDirectChatRoom(name);
@@ -409,7 +408,7 @@ export class ChatroomService {
 	}
 
 	async createDirectMessage(dto: CreateDirectMessageDto): Promise<OutputDirectMessageDto> {
-		let {chat, name} = await this.getChatroomMessage(dto);
+		let { chat, name } = await this.getChatroomMessage(dto);
 
 		if (!chat) {
 			throw new BadRequestException('chat name do not exist.');

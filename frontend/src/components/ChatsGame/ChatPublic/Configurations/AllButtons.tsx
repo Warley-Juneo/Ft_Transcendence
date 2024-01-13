@@ -41,18 +41,13 @@ export default function AllButtons(): JSX.Element {
 		if (event.key !== 'Enter') return;
 		const userId = getUserId(event.currentTarget.value);
 		if (userId) {
-			axios.post('http://localhost:3000/chatroom/add-member-group', {
-				add_id: userId,
+			let obj = {
+				my_id: dataUser.id,
+				other_id: userId,
 				chat_name: name,
-			}, {
-				headers: {
-					Authorization: Cookies.get("jwtToken")
-				},
-			}).then((res) => {
-				setDataChat(res.data);
-			}).catch((err) => {
-				console.log(err);
-			})
+				chat_id: id,
+			}
+			socket.emit('add-member-group', obj);
 		}
 	}
 

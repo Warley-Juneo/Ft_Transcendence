@@ -55,23 +55,18 @@ export default function ChatPublic(props: propsPageChats) {
 	const [dinamicProfile, setDinamicProfile] = useState<DinamicProfile>({} as DinamicProfile);
 	const [showDinamicProfile, setShowDinamicProfile] = useState<string>('');
 	const {nickname, id} = useContext(UserData).user;
+	const userData = useContext(UserData).user;
 
-	function addUserChat(members: Players[]) {
+	function is_memberChat(members: Players[]) {
 		if (members.map((member) => member.nickname).includes(nickname)) {
 			return
 		}
-		axios.post('http://localhost:3000/chatroom/add-member-group', {
-			add_id: id,
-			chat_name: props.chatName,
-		}, {
-			headers: {
-				Authorization: Cookies.get("jwtToken")
-			},
-		}).then((res) => {
-			setDataChat(res.data);
-		}).catch((err) => {
-			console.log(err);
-		})
+		let obj = {
+				my_id: userData.id,
+				add_id: id,
+				chat_name: props.chatName,
+		}
+		socket.emit("add-member-group", obj);
 	}
 
 	const getDataChat = () => {
@@ -82,7 +77,7 @@ export default function ChatPublic(props: propsPageChats) {
 			}
 		}).then((response) => {
 			setDataChat(response.data)
-			addUserChat(response.data.members)
+			is_memberChat(response.data.members)
 			socket.emit("open-group", {chatId: response.data.id});
 		}).catch((error) => {
 			console.log(error)
@@ -99,6 +94,8 @@ export default function ChatPublic(props: propsPageChats) {
 		}
 	}, [dinamicProfile])
 
+	//TODO: verificar se o usuario foi banido e manda ele sair
+	//Sockets
 	useEffect(() => {
 		socket.on('checkStatus', (data: any) => {
 			getDataChat();
@@ -111,13 +108,23 @@ export default function ChatPublic(props: propsPageChats) {
 
 	useEffect(() => {
 		socket.on('banMember', (data: any) => {
-			console.log("banMember", data);
 			getDataChat();
 		})
 		return () => {
 			socket.off('banMember')
 		}
 	}, [socket])
+
+	useEffect(() => {
+		socket.on('addMember', (data: any) => {
+			console.log("Cheguei no add member")
+			getDataChat();
+		})
+		return () => {
+			socket.off('banMember')
+		}
+	}, [socket])
+	//##############################################################
 
 	if (!chatData.name) return <div>Carregando...</div>
 
