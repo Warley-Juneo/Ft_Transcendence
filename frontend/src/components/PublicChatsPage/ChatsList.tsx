@@ -1,9 +1,10 @@
 import { BiSolidLock } from 'react-icons/bi';
 import { t_chat } from './PublicChats';
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import BannedWarningModal from './BannedWarningModal';
 
 type propsChatList = {
 	listChats: t_chat[];
@@ -11,6 +12,7 @@ type propsChatList = {
 }
 
 export default function ChatList(props: propsChatList) {
+	const [showWarningBan, setShowWarningBan] = useState(false);
 
 	const getDataChat = (chatName: string, password: string) => {
 		return axios.post(`http://localhost:3000/chatroom/open-group`, {
@@ -26,10 +28,10 @@ export default function ChatList(props: propsChatList) {
 	}
 
 	const getDataChatPublic = (chatName: string) => {
-		getDataChat(chatName, '').then((response) => {
+		getDataChat(chatName, '').then(() => {
 			props.clickedChat(chatName);
 		}).catch((error) => {
-			console.log(error);
+			setShowWarningBan(true);
 		});
 	}
 
@@ -112,6 +114,7 @@ export default function ChatList(props: propsChatList) {
 	}
 	return (
 		<div className='row g-0 w-100'>
+			{showWarningBan ? <BannedWarningModal showWarningBan={setShowWarningBan} />: null}
 			{props.listChats.map((chat) => (
 				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
 			))}
