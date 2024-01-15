@@ -2,7 +2,7 @@
 
 import { SubscribeMessage, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Socket, Server } from "socket.io";
-import { BanMember, CreateDirectMessageDto, InputChatroomMessageDto, InputOpenChatroomDto, WebsocketDto } from "./dto/input.dto";
+import { BanMember, CreateDirectMessageDto, InputChatroomMessageDto, InputOpenChatroomDto, WebsocketDto, WebsocketWithTimeDto } from "./dto/input.dto";
 import { ChatroomService } from "./chatroom.service";
 import { DisconnectDto } from "src/game/dtos/input.dto";
 import { GameService } from "src/game/game.service";
@@ -85,6 +85,13 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 	async banMemberChatroom(client: Socket, dto: BanMember) {
 		await this.chatroomService.banMemberChatroom(dto.my_id, dto);
 		this.server.to(dto.chat_id).emit("banMember", dto.ban_id);
+	}
+
+	@SubscribeMessage('kick-member-group')
+	async kickMemberChatroom(client: Socket, dto: WebsocketWithTimeDto) {
+		console.log("\n\nEntrei kickMember Websocket\n\n");
+		await this.chatroomService.kickMemberChatroom(dto.my_id, dto);
+		this.server.to(dto.chat_id).emit("kickMember", dto.other_id);
 	}
 
 	@SubscribeMessage('group-message')

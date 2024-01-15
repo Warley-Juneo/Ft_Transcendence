@@ -2,7 +2,7 @@ import { BadRequestException, ConsoleLogger, ForbiddenException, Injectable, Una
 import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
-import { AddChatUserDto, BanMember, ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto, InputChatroomMessageDto, WebsocketDto } from './dto/input.dto';
+import { AddChatUserDto, BanMember, ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto, InputChatroomMessageDto, WebsocketDto, WebsocketWithTimeDto } from './dto/input.dto';
 import { ChatroomsDto, OutputDirectMessageDto, OutputMessageDto, OutputValidateDto, UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 
@@ -56,7 +56,6 @@ export class ChatroomService {
 		}
 		return dto;
 	}
-
 
 	async createChatroom(userId: string, dto: CreateChatroomDto): Promise<ChatroomsDto> {
 		if (dto.type == "protected") {
@@ -289,40 +288,54 @@ export class ChatroomService {
 		return response;
 	}
 
-	// async	kickMemberChatroom(userId: string, dto: AddChatUserDto): Promise<void> {
-	// 	let chat = await this.findUniqueChatroom(dto.chat_name);
+	async	kickMemberChatroom(userId: string, dto: WebsocketWithTimeDto): Promise<void> {
+		let chat = await this.findUniqueChatroom(dto.chat_name);
 
-	// 	// await this.excludeAdmChatroom(userId, dto);
+		console.log("\n\nEntrei kickMember Service\n\n");
 
-	// 	if (chat.owner_id == dto.add_id) {
-	// 		throw new UnauthorizedException("You can not ban the owner of the chatroom")
-	// 	}
+		if (chat.owner_id == dto.other_id) {
+			throw new UnauthorizedException("You can not ban the owner of the chatroom")
+		}
 
-	// 	if (chat.owner_id != userId) {
-	// 		if (!chat.admin.find((item) => item.id == userId)) {
-	// 			throw new UnauthorizedException("You are not adm of this group");
-	// 		}
-	// 		if (chat.admin.find((item) => item.id == dto.add_id)) {
-	// 			throw new UnauthorizedException("You can not ban a adm from this group");
-	// 		}
-	// 	}
+		if (chat.owner_id != userId) {
+			if (!chat.admin.find((item) => item.id == userId)) {
+				throw new UnauthorizedException("You are not adm of this group");
+			}
+			if (chat.admin.find((item) => item.id == dto.other_id)) {
+				throw new UnauthorizedException("You can not ban a adm from this group");
+			}
+		}
 
-	// 	if (!chat.members.find((item) => item.id == dto.add_id)) {
-	// 		throw new UnauthorizedException("You can not kick a non member");
-	// 	}
+		if (!chat.members.find((item) => item.id == dto.other_id)) {
+			throw new UnauthorizedException("You can not kick a non member");
+		}
 
-	// 	let kicked = await this.chatroomRepository.findKickedUserChatroom(dto);
-	// 	console.log("kicked: ", kicked);
-	// 	if (kicked.length == 0) {
-	// 		let data_filter = {
-	// 			data: {
-	// 				userId: dto.add_id,
-	// 				chatName: dto.chat_name,
-	// 			},
-	// 		}
-	// 		await this.chatroomRepository.createKickedChatroom(data_filter);
-	// 	}
-	// }
+		let now = new Date();
+		let time = now;
+
+		let data_filter = {
+			userId: {
+				connect: {
+					id: dto.other_id,
+				},
+			},
+			chatroom: {
+				connect: {
+					id: dto.chat_id,
+				},
+			},
+
+			freedom_time: time,
+		};
+
+		await this.chatroomRepository.kickChatroom(data_filter);
+		
+		let response = await this.findUniqueChatroom(dto.chat_name);
+		response.password = '';
+		console.log("\n\nResponse:\n", response);
+		
+		return response;
+	}
 
 	async findUniqueChatroom(chat_name: string): Promise<UniqueChatroomDto> {
 
