@@ -112,7 +112,6 @@ export default function ChatPublic(props: propsPageChats) {
 
 	useEffect(() => {
 		socket.on('banMember', (id: any) => {
-			console.log(myUser.id == id)
 			if (myUser.id == id)
 				setIsBanned(true);
 			getDataChat();
@@ -124,11 +123,21 @@ export default function ChatPublic(props: propsPageChats) {
 
 	useEffect(() => {
 		socket.on('addMember', (data: any) => {
-			console.log("Cheguei no add member")
 			getDataChat();
 		})
 		return () => {
 			socket.off('addMember')
+		}
+	}, [socket])
+
+	useEffect(() => {
+		socket.on('kickMember', (id: any) => {
+			if (myUser.id == id)
+				setIsBanned(true);
+			getDataChat();
+		})
+		return () => {
+			socket.off('kickMember')
 		}
 	}, [socket])
 	//##############################################################

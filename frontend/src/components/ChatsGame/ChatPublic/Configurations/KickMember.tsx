@@ -1,35 +1,34 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { IconType } from "react-icons";
 import InputButton from "./InputButton";
-import axios from "axios";
-import Cookies from "js-cookie";
+import { socket } from "../../../InitialPage/Contexts/Contexts";
 
 type KickMemberProps = {
 	Icon: IconType;
 	content: string;
+	getUserId: (nickname: string) => string;
+	my_id: string;
+	chat_name: string;
+	chat_id: string;
 }
 
 export default function KickMember(props: KickMemberProps): JSX.Element {
 	const [showInput, setShowInput] = useState<boolean>(false);
+	const kickHour = useRef<HTMLInputElement>(null);
+	const kickDay = useRef<HTMLInputElement>(null);
 
 	const kickedMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
 		if (event.key !== 'Enter') return;
-		console.log("\nkickedMember\n\n");
-		const userId = getUserId(event.currentTarget.value);
-		if (userId) {
-			axios.post('http://localhost:3000/chatroom/kick-member-group', {
-				add_id: userId,
-				chat_name: name,
-			}, {
-				headers: {
-					Authorization: Cookies.get("jwtToken")
-				}, timeout: 5000
-			}).then((res) => {
-				setDataChat(res.data);
-			}).catch((err) => {
-				console.log(err);
-			})
+		const userId = props.getUserId(event.currentTarget.value);
+
+		let obj = {
+			my_id: props.my_id,
+			other_id: userId,
+			chat_name: props.chat_name,
+			chat_id: props.chat_id,
+			time: kickHour.current?.checked ? 1 : 24,
 		}
+		socket.emit('kick-member-group', obj);
 	}
 
 	return (
@@ -45,17 +44,27 @@ export default function KickMember(props: KickMemberProps): JSX.Element {
 						<label className="form-check-label" htmlFor="flexRadioDefault1">
 							1 Hora
 						</label>
-						<input className="form-check-input" type="radio" name="flexRadioDefault" value={1} id="flexRadioDefault1">
+						<input className="form-check-input"
+							type="radio"
+							name="flexRadioDefault"
+							id="flexRadioDefault1"
+							ref={kickHour}>
 						</input>
 					</div>
 					<div className="form-check">
 						<label className="form-check-label" htmlFor="flexRadioDefault2">
 							1 Dia
 						</label>
-						<input className="form-check-input" type="radio" name="flexRadioDefault" value={24} id="flexRadioDefault2" checked>
+						<input
+							className="form-check-input"
+							type="radio"
+							name="flexRadioDefault"
+							id="flexRadioDefault2"
+							ref={kickDay}
+							checked>
 						</input>
 					</div>
-					<input className="remove-format-input" type="text" name="user" placeholder="Digite o nome do usuario" />
+					<InputButton function={kickedMember} />
 				</div>
 			}
 

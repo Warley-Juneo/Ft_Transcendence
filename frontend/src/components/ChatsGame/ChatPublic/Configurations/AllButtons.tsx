@@ -183,6 +183,10 @@ export default function AllButtons(): JSX.Element {
 			<KickMember
 				Icon={MdBlock}
 				content="Chutar Tripulante"
+				getUserId={getUserId}
+				my_id={dataUser.id}
+				chat_name={name}
+				chat_id={id}
 			/>
 
 			<AlterPassword funcChange={changePassword} />

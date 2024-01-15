@@ -90,6 +90,7 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 	@SubscribeMessage('kick-member-group')
 	async kickMemberChatroom(client: Socket, dto: WebsocketWithTimeDto) {
 		console.log("\n\nEntrei kickMember Websocket\n\n");
+		console.log("DTO: ", dto)
 		await this.chatroomService.kickMemberChatroom(dto.my_id, dto);
 		this.server.to(dto.chat_id).emit("kickMember", dto.other_id);
 	}
