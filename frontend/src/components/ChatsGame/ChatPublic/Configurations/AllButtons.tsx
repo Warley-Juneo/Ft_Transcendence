@@ -11,6 +11,7 @@ import AlterPassword from "./AlterPassword";
 import GetUsersGame from "./GetUsersGame";
 import { useNavigate } from "react-router-dom";
 import { UserData, socket } from "../../../InitialPage/Contexts/Contexts";
+import KickMember from "./KickMember";
 
 type UsersGame = {
 	id: string;
@@ -179,11 +180,11 @@ export default function AllButtons(): JSX.Element {
 				content="Banir Tripulante"
 				function={banMember}
 			/>
-			<Button
+			<KickMember
 				Icon={MdBlock}
 				content="Chutar Tripulante"
-				function={kickedMember}
 			/>
+
 			<AlterPassword funcChange={changePassword} />
 			<Button
 				Icon={MdDeleteSweep}
@@ -193,3 +194,4 @@ export default function AllButtons(): JSX.Element {
 		</div>
 	)
 }
+//TODO: Alter password Bug
