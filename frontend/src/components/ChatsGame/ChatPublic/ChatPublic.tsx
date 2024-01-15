@@ -57,18 +57,18 @@ export default function ChatPublic(props: propsPageChats) {
 	const [chatData, setDataChat] = useState<ChatData>({} as ChatData);
 	const [dinamicProfile, setDinamicProfile] = useState<DinamicProfile>({} as DinamicProfile);
 	const [showDinamicProfile, setShowDinamicProfile] = useState<string>('');
-	const {nickname, id} = useContext(UserData).user;
 	const [isBanned, setIsBanned] = useState<boolean>(false);
-	const userData = useContext(UserData).user;
+	const myUser = useContext(UserData).user;
 
-	function is_memberChat(members: Players[]) {
-		if (members.map((member) => member.nickname).includes(nickname)) {
+	function is_memberChat(chat_id: String, members: Players[]) {
+		if (members.map((member) => member.nickname).includes(myUser.nickname)) {
 			return
 		}
 		let obj = {
-				my_id: userData.id,
-				add_id: id,
+				my_id: myUser.id,
+				other_id: myUser.id,
 				chat_name: props.chatName,
+				chat_id: chat_id,
 		}
 		socket.emit("add-member-group", obj);
 	}
@@ -81,7 +81,7 @@ export default function ChatPublic(props: propsPageChats) {
 			}
 		}).then((response) => {
 			setDataChat(response.data)
-			is_memberChat(response.data.members)
+			is_memberChat(response.data.id, response.data.members)
 			socket.emit("open-group", {chatId: response.data.id});
 		}).catch((error) => {
 			console.log(error)
@@ -112,8 +112,8 @@ export default function ChatPublic(props: propsPageChats) {
 
 	useEffect(() => {
 		socket.on('banMember', (id: any) => {
-			console.log(userData.id == id)
-			if (userData.id == id)
+			console.log(myUser.id == id)
+			if (myUser.id == id)
 				setIsBanned(true);
 			getDataChat();
 		})
