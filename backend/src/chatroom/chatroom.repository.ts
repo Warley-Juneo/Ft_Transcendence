@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { AddChatUserDto, CreateChatroomDto, CreateDirectMessageDto, InputChatroomMessageDto } from "./dto/input.dto";
+import { AddChatUserDto, CreateChatroomDto, CreateDirectMessageDto, InputChatroomMessageDto, WebsocketDto, WebsocketWithTimeDto } from "./dto/input.dto";
 import { PrismaService } from "src/database/prisma.service";
 import { DirectChatRoom, DirectMessage } from "@prisma/client";
 
@@ -121,15 +121,29 @@ export class ChatroomRepository {
 		return chat;
 	}
 
-	// async	findKickedUserChatroom(dto: AddChatUserDto): Promise<any[]> {
-	// 	let chat = await this.prisma.kickedChatroom.findMany({
-	// 		where: {
-	// 			userId: dto.add_id,
-	// 			chatName: dto.chat_name,
-	// 		},
-	// 	})
-	// 	return chat;
-	// }
+	async	findKickedUserChatroom(dto: WebsocketWithTimeDto): Promise<any[]> {
+		let chat = await this.prisma.kickedChatroom.findMany({
+			where: {
+				userId: {
+					some: {
+						id:dto.other_id,
+					},
+				},
+				chatroom: {
+					some: {
+						id: dto.chat_id,
+					},
+				},
+			},
+			select: {
+				userId: true,
+				chatroom: true,
+				kicked_time: true,
+				},
+		})
+
+		return chat;
+	}
 
 	async	findUniqueChatroom(name: string): Promise<any> {
 		let chat = await this.prisma.chatRoom.findUnique({

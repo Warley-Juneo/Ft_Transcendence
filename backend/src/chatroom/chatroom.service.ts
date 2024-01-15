@@ -291,7 +291,7 @@ export class ChatroomService {
 	async	kickMemberChatroom(userId: string, dto: WebsocketWithTimeDto): Promise<void> {
 		let chat = await this.findUniqueChatroom(dto.chat_name);
 
-		console.log("\n\nEntrei kickMember Service\n\n");
+		console.log("\n\nEntrei kickMember Service\n\nchat: ", chat);
 
 		if (chat.owner_id == dto.other_id) {
 			throw new UnauthorizedException("You can not ban the owner of the chatroom")
@@ -310,9 +310,16 @@ export class ChatroomService {
 			throw new UnauthorizedException("You can not kick a non member");
 		}
 
-		let now = new Date();
-		let time = now;
+		let kiked = await this.chatroomRepository.findKickedUserChatroom(dto);
 
+		if (kiked.find((item) => item)) {
+			throw new UnauthorizedException("User is alread kicked");
+		}
+
+		let now = new Date();
+		let time: Date = new Date(now.getTime() + dto.time * 60 * 60 * 1000);
+
+		console.log("\n\nnow: ", now, " time: ", time, "\n\n");
 		let data_filter = {
 			userId: {
 				connect: {
@@ -325,11 +332,11 @@ export class ChatroomService {
 				},
 			},
 
-			freedom_time: time,
+			kicked_time: time,
 		};
 
-		await this.chatroomRepository.kickChatroom(data_filter);
-
+		let kick_chat = await this.chatroomRepository.kickChatroom(data_filter);
+		console.log("kick_chat:\n", kick_chat);
 		let response = await this.findUniqueChatroom(dto.chat_name);
 		response.password = '';
 		console.log("\n\nResponse:\n", response);
