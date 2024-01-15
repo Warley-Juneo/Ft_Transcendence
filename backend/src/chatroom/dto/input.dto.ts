@@ -103,6 +103,23 @@ export class WebsocketDto {
 	chat_id:		string;
 }
 
+export class WebsocketWithTimeDto {
+	@IsNotEmpty({message: 'My id can not be empty.'})
+	my_id:			string;
+
+	@IsNotEmpty({message: 'ban id can not be empty.'})
+	other_id:			string;
+
+	@IsNotEmpty({message: 'Name Chatroom can not be empty.'})
+	chat_name:		string;
+
+	@IsNotEmpty({message: 'Id Chatroom can not be empty.'})
+	chat_id:		string;
+
+	@IsNotEmpty({message: 'Time can not be empty.'})
+	time:			number;
+}
+
 export class BanMember {
 	@IsNotEmpty({message: 'My id can not be empty.'})
 	my_id:			string;

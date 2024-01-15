@@ -40,9 +40,7 @@ model User {
   // chat_user         ChatRoom[]  @relation(name: "user_chatroom")
   chat_member         ChatRoom[]        @relation(name: "member_chatroom")
   chat_banned         ChatRoom[]        @relation(name: "banned_chatroom")
-  chat_muted          ChatRoom[]        @relation(name: "muted_chatroom")
-  
-  // chat_kicked         kickedChatroom[]  @relation(name: "kicked_user")
+  chat_kicked         kickedChatroom[]  @relation(name: "kicked_user")
 
   chat_message        Message[]         @relation(name: "user_mesage")
 
@@ -115,16 +113,15 @@ model ChatRoom {
 
   photoUrl        String?
   type            String    @default("public")
-  password        String?
+  password          String?
 
-  owner_id        String
-  owner           User?     @relation(name: "owner", fields: [owner_id], references: [id])
-  admin           User[]    @relation(name: "admin")
+  owner_id          String
+  owner             User?     @relation(name: "owner", fields: [owner_id], references: [id])
+  admin             User[]    @relation(name: "admin")
   // users           User[]    @relation(name: "user_chatroom")
-  members         User[]              @relation(name: "member_chatroom")
-  banned_member   User[]              @relation(name: "banned_chatroom")
-  muted_member    User[]              @relation(name: "muted_chatroom")
-  // kicked_member   kickedChatroom[]    @relation(name: "kicked_chatroom")
+  members           User[]              @relation(name: "member_chatroom")
+  banned_member     User[]              @relation(name: "banned_chatroom")
+  kicked_chatroom   kickedChatroom[]    @relation(name: "kicked_chatroom")
   
   message         Message[] @relation(name: "chat_mesage")
 
@@ -135,12 +132,12 @@ model ChatRoom {
 }
 
 model kickedChatroom {
-  id              String    @id @default(uuid())
+  id              String      @id @default(uuid())
   
-  userId          String
-  chatName        String
+  userId          User[]      @relation(name: "kicked_user")
+  chatroom        ChatRoom[]  @relation(name: "kicked_chatroom")
 
-  createdAt               DateTime          @default(now())
+  kicked_time            DateTime          @default(now())
 }
 
 model Message {

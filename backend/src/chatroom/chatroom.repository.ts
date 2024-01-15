@@ -44,15 +44,19 @@ export class ChatroomRepository {
 	async	updateChatroom(where_filter: any, data_filter: any): Promise<any> {
 		let chat = await this.prisma.chatRoom.update({
 			where: where_filter,
-			  data: data_filter,
-			});
+			data: data_filter,
+		});
 	}
 
-	// async	createKickedChatroom(data_filter: any): Promise<any> {
-	// 	let chat = await this.prisma.kickedChatroom.create({
-	// 		  data: data_filter,
-	// 		});
-	// }
+	async	kickChatroom(data_filter: any): Promise<any> {
+		
+		console.log("\n\nEntrei kickMember Repository\n\n");
+		
+		let chat = await this.prisma.kickedChatroom.create({
+			data: data_filter,
+		});
+		return chat;
+	}
 
 	async	openChatroom(name:string): Promise<any> {
 		let chat = await this.prisma.chatRoom.findUnique({
@@ -91,12 +95,11 @@ export class ChatroomRepository {
 						is_active: true,
 					},
 				},
-				muted_member: {
+				kicked_chatroom: {
 					select: {
-						id: true,
-						nickname: true,
-						avatar: true,
-						is_active: true,
+						userId: true,
+						chatroom: true,
+						kicked_time: true,
 					},
 				},
 				message: {
@@ -171,15 +174,13 @@ export class ChatroomRepository {
 						is_active: true,
 					},
 				},
-				muted_member: {
+				kicked_chatroom: {
 					select: {
-						id: true,
-						nickname: true,
-						avatar: true,
-						is_active: true,
+						userId: true,
+						chatroom: true,
+						kicked_time: true,
 					},
 				},
-
 				message: {
 					select: {
 						id: true,
@@ -193,8 +194,8 @@ export class ChatroomRepository {
 							},
 						},
 						createdAt: true,
-					}
-				}
+					},
+				},
 			},
 		});
 		return chat;
@@ -227,12 +228,11 @@ export class ChatroomRepository {
 						is_active: true,
 					},
 				},
-				muted_member: {
+				kicked_chatroom: {
 					select: {
-						id: true,
-						nickname: true,
-						avatar: true,
-						is_active: true,
+						userId: true,
+						chatroom: true,
+						kicked_time: true,
 					},
 				},
 			},
