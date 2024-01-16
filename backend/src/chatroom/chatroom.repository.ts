@@ -123,17 +123,20 @@ export class ChatroomRepository {
 		return chat;
 	}
 
-	async	cleanKickedUserChatroom(time_now: Date) {
+	async	cleanKickedUserChatroom(time_now: Date): Promise<any> {
 		console.log("\n\nEntrei delete many\n\n");
-		let chat = await this.prisma.kickedChatroom.deleteMany({
+		await this.prisma.kickedChatroom.deleteMany({
 			where: {
 				kicked_time: {
-					gte: time_now,
+					lte: time_now,
 				},
 			},
 		});
+		
+		let chat = await this.prisma.kickedChatroom.findMany();
 		console.log("\n\nclean_chat\n", chat);
 		
+		return chat;
 	}
 
 	async	findKickedUserChatroom(dto: WebsocketWithTimeDto): Promise<any[]> {

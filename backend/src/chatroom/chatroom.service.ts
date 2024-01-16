@@ -90,16 +90,18 @@ export class ChatroomService {
 
 	async openChatroom(userId: string, dto: InputChatroomDto): Promise<UniqueChatroomDto> {
 
+		let now: Date = new Date();
+		await this.chatroomRepository.cleanKickedUserChatroom(now)
+		
 		let chat: UniqueChatroomDto = await this.findUniqueChatroom(dto.chat_name);
 
 		if (chat.banned.find((item) => item.id == userId)) {
 			throw new UnauthorizedException("You were banned of this chat!!!")
 		}
-
-		let now: Date = new Date();
-		let kicked = await this.chatroomRepository.cleanKickedUserChatroom(now)
 		
-		
+		if (chat.kicked.find((item) => item.id == userId)) {
+			throw new UnauthorizedException("You were temporarely kicked of this chat!!!")
+		}
 
 		if (chat.type == "protected") {
 			if (!await bcrypt.compare(dto.password, chat.password)) {
