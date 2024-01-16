@@ -68,7 +68,7 @@ CREATE TABLE "chat_room" (
 -- CreateTable
 CREATE TABLE "kickedChatroom" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "kicked_time" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    "kicked_time" DATETIME NOT NULL
 );
 
 -- CreateTable

@@ -95,6 +95,12 @@ export class ChatroomService {
 		if (chat.banned.find((item) => item.id == userId)) {
 			throw new UnauthorizedException("You were banned of this chat!!!")
 		}
+
+		let now: Date = new Date();
+		let kicked = await this.chatroomRepository.cleanKickedUserChatroom(now)
+		
+		
+
 		if (chat.type == "protected") {
 			if (!await bcrypt.compare(dto.password, chat.password)) {
 				throw new UnauthorizedException('Password incorrect')
@@ -313,7 +319,7 @@ export class ChatroomService {
 		let kiked = await this.chatroomRepository.findKickedUserChatroom(dto);
 
 		if (kiked.find((item) => item)) {
-			throw new UnauthorizedException("User is alread kicked");
+			throw new UnauthorizedException("User already kicked");
 		}
 
 		let now = new Date();

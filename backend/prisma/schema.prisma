@@ -137,7 +137,7 @@ model kickedChatroom {
   userId          User[]      @relation(name: "kicked_user")
   chatroom        ChatRoom[]  @relation(name: "kicked_chatroom")
 
-  kicked_time            DateTime          @default(now())
+  kicked_time     DateTime
 }
 
 model Message {

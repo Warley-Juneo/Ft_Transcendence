@@ -46,18 +46,10 @@ export class ChatroomRepository {
 			where: where_filter,
 			data: data_filter,
 		});
-	}
-
-	async	kickChatroom(data_filter: any): Promise<any> {
-		
-		console.log("\n\nEntrei kickMember Repository\n\n");
-		
-		let chat = await this.prisma.kickedChatroom.create({
-			data: data_filter,
-		});
 		return chat;
 	}
 
+	
 	async	openChatroom(name:string): Promise<any> {
 		let chat = await this.prisma.chatRoom.findUnique({
 			where: {
@@ -119,6 +111,29 @@ export class ChatroomRepository {
 			},
 		});
 		return chat;
+	}
+	
+	async	kickChatroom(data_filter: any): Promise<any> {
+		
+		console.log("\n\nEntrei kickMember Repository\n\n");
+		
+		let chat = await this.prisma.kickedChatroom.create({
+			data: data_filter,
+		});
+		return chat;
+	}
+
+	async	cleanKickedUserChatroom(time_now: Date) {
+		console.log("\n\nEntrei delete many\n\n");
+		let chat = await this.prisma.kickedChatroom.deleteMany({
+			where: {
+				kicked_time: {
+					gte: time_now,
+				},
+			},
+		});
+		console.log("\n\nclean_chat\n", chat);
+		
 	}
 
 	async	findKickedUserChatroom(dto: WebsocketWithTimeDto): Promise<any[]> {
