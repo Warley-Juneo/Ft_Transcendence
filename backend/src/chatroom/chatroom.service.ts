@@ -296,7 +296,7 @@ export class ChatroomService {
 		return response;
 	}
 
-	async	kickMemberChatroom(userId: string, dto: WebsocketWithTimeDto): Promise<void> {
+	async kickMemberChatroom(userId: string, dto: WebsocketWithTimeDto): Promise<any> {
 		let chat = await this.findUniqueChatroom(dto.chat_name);
 
 		console.log("\n\nEntrei kickMember Service\n\nchat: ", chat);
@@ -348,7 +348,7 @@ export class ChatroomService {
 		let response = await this.findUniqueChatroom(dto.chat_name);
 		response.password = '';
 		console.log("\n\nResponse:\n", response);
-
+		return response;
 	}
 
 	async findUniqueChatroom(chat_name: string): Promise<UniqueChatroomDto> {

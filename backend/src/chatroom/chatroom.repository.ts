@@ -48,7 +48,6 @@ export class ChatroomRepository {
 		});
 		return chat;
 	}
-
 	
 	async	openChatroom(name:string): Promise<any> {
 		let chat = await this.prisma.chatRoom.findUnique({
