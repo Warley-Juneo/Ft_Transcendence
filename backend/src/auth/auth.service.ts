@@ -26,7 +26,7 @@ export class AuthService {
 		client_id: process.env.UID,
 		client_secret: process.env.SECRET,
 		code: authLoginDto.authCode,
-		redirect_uri: 'http://localhost:3001',
+		redirect_uri: 'https://b597-177-73-171-207.ngrok-free.app/',
 	  };
 
     const authResponsePromise: Observable<any> = this.httpService.post(
