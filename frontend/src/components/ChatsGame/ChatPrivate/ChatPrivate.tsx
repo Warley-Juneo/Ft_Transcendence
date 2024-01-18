@@ -18,12 +18,13 @@ export default function ChatPrivate(props: propsChatPrivate) {
 	const user = useContext(UserData);
 
 	const OpenDirectChat = () => {
-		axios.post('http://localhost:3000/chatroom/open-direct', {
+		axios.post('https://990d-187-62-198-223.ngrok-free.app/chatroom/open-direct', {
 			my_nickname: user.user.nickname,
 			other_nickname: props.nick_name
 		}, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
+				"ngrok-skip-browser-warning": "69420",
 			}
 		}).then((res) => {
 			setMessages(res.data);

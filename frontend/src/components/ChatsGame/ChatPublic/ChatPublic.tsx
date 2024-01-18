@@ -8,8 +8,6 @@ import Cookies from "js-cookie";
 import { UserData, socket } from "../../InitialPage/Contexts/Contexts";
 import bgChatPublic from "../../../assets/game/bgChatPublic.png";
 import RightSide from "./RightSide";
-import Modal from 'react-bootstrap/Modal';
-import { Button } from "react-bootstrap";
 import ModalIsBanned from "./ModalIsBanned";
 
 export type Messages = {
@@ -75,9 +73,10 @@ export default function ChatPublic(props: propsPageChats) {
 
 	const getDataChat = () => {
 		const ENV = `chat_name=${props.chatName}&password=''`
-		axios.get(`http://localhost:3000/chatroom/find-public/?${ENV}`, {
+		axios.get(`https://990d-187-62-198-223.ngrok-free.app/chatroom/find-public/?${ENV}`, {
 			headers: {
-				Authorization: Cookies.get("jwtToken")
+				Authorization: Cookies.get("jwtToken"),
+				"ngrok-skip-browser-warning": "69420",
 			}
 		}).then((response) => {
 			setDataChat(response.data)

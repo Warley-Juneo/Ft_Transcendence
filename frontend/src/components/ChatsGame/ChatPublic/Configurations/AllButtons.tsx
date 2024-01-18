@@ -56,12 +56,13 @@ export default function AllButtons(): JSX.Element {
 		if (event.key !== 'Enter') return;
 		const userId = getUserId(event.currentTarget.value);
 		if (userId) {
-			axios.post('http://localhost:3000/chatroom/add-adm-group', {
+			axios.post('https://990d-187-62-198-223.ngrok-free.app/chatroom/add-adm-group', {
 				add_id: userId,
 				chat_name: name,
 			}, {
 				headers: {
-					Authorization: Cookies.get("jwtToken")
+					Authorization: Cookies.get("jwtToken"),
+					"ngrok-skip-browser-warning": "69420",
 				},
 			}).then((res) => {
 				setDataChat(res.data);
@@ -75,12 +76,13 @@ export default function AllButtons(): JSX.Element {
 		if (event.key !== 'Enter') return;
 		const userId = getUserId(event.currentTarget.value);
 		if (userId) {
-			axios.post('http://localhost:3000/chatroom/remove-adm-group', {
+			axios.post('https://990d-187-62-198-223.ngrok-free.app/chatroom/remove-adm-group', {
 				add_id: userId,
 				chat_name: name,
 			}, {
 				headers: {
-					Authorization: Cookies.get("jwtToken")
+					Authorization: Cookies.get("jwtToken"),
+					"ngrok-skip-browser-warning": "69420"
 				},
 			}).then((res) => {
 				setDataChat(res.data);
@@ -110,12 +112,13 @@ export default function AllButtons(): JSX.Element {
 		console.log("\nkickedMember\n\n");
 		const userId = getUserId(event.currentTarget.value);
 		if (userId) {
-			axios.post('http://localhost:3000/chatroom/kick-member-group', {
+			axios.post('https://990d-187-62-198-223.ngrok-free.app/chatroom/kick-member-group', {
 				add_id: userId,
 				chat_name: name,
 			}, {
 				headers: {
-					Authorization: Cookies.get("jwtToken")
+					Authorization: Cookies.get("jwtToken"),
+					"ngrok-skip-browser-warning": "69420"
 				}, timeout: 5000
 			}).then((res) => {
 				setDataChat(res.data);
@@ -128,12 +131,13 @@ export default function AllButtons(): JSX.Element {
 	const deleteChat = (event: React.KeyboardEvent<HTMLInputElement>): void => {
 		if (event.key !== 'Enter') return;
 		if (event.currentTarget.value !== name) return;
-		axios.delete('http://localhost:3000/chatroom/delete-group', {
+		axios.delete('https://990d-187-62-198-223.ngrok-free.app/chatroom/delete-group', {
 			data: {
 				chat_name: name,
 			},
 			headers: {
-				Authorization: Cookies.get("jwtToken")
+				Authorization: Cookies.get("jwtToken"),
+				"ngrok-skip-browser-warning": "69420"
 			},
 		}).then((res) => {
 			navigate("/game/");
@@ -143,14 +147,15 @@ export default function AllButtons(): JSX.Element {
 	const changePassword = (event: FormEvent<HTMLFormElement>): void => {
 		event.preventDefault();
 		const form = new FormData(event.currentTarget);
-		axios.post('http://localhost:3000/chatroom/change-password-group', {
+		axios.post('https://990d-187-62-198-223.ngrok-free.app/chatroom/change-password-group', {
 			chat_name: name,
 			old_password: form.get('password'),
 			new_password: form.get('newPassword'),
 			confirm_password: form.get('confirmNewPassword'),
 		}, {
 			headers: {
-				Authorization: Cookies.get("jwtToken")
+				Authorization: Cookies.get("jwtToken"),
+				"ngrok-skip-browser-warning": "69420"
 			}
 		}).then((res) => {
 			console.log("Resposta alter senha: ", res.data);
