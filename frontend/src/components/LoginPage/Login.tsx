@@ -15,8 +15,11 @@ export function Login() {
 		if (code) {
 			await axios.post('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/auth', {
 				authCode: code,
+			}, {
+				timeout: 5000,
 			}).then((response) => {
 				if (response.status === 201) {
+					console.log("RENDERIZAR PAGINA DE LOGIN")
 					Cookies.set('jwtToken', response.data._access_token);// set expires time
 					Cookies.set('email', response.data._email);
 					navigate('/game')
@@ -24,6 +27,8 @@ export function Login() {
 				else {
 					console.log("RENDERIZAR PAGINA LOGIN INFORMANDO O ERRO");
 				}
+			}).catch((err) => {
+				console.log(err);
 			})
 		}
 	}

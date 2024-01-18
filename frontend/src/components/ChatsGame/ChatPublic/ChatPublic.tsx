@@ -26,6 +26,8 @@ export type ChatData = {
 	name: string,
 	photo: string,
 	members: Players[],
+	banned: Players[],
+	kicked: Players[],
 	admin: Players[],
 	message: Messages[],
 }
@@ -58,10 +60,20 @@ export default function ChatPublic(props: propsPageChats) {
 	const [isBanned, setIsBanned] = useState<boolean>(false);
 	const myUser = useContext(UserData).user;
 
-	function is_memberChat(chat_id: String, members: Players[]) {
-		if (members.map((member) => member.nickname).includes(myUser.nickname)) {
+	function is_memberChat(chat_id: String, data: ChatData ) {
+		// console.log("members: ", data.members)
+		// console.log("banned: ", data.banned)
+		// console.log("kicked: ", data.kicked)
+
+		if (data.members.map((member) => member.nickname).includes(myUser.nickname)) {
+			return
+		} else if (data.banned.map((member) => member.nickname).includes(myUser.nickname)) {
+			return
+		} else if (data.kicked.map((member) => member.nickname).includes(myUser.nickname)) {
 			return
 		}
+
+
 		let obj = {
 				my_id: myUser.id,
 				other_id: myUser.id,
@@ -72,6 +84,8 @@ export default function ChatPublic(props: propsPageChats) {
 	}
 
 	const getDataChat = () => {
+		console.log("Cheguei")
+
 		const ENV = `chat_name=${props.chatName}&password=''`
 		axios.get(`https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/chatroom/find-public/?${ENV}`, {
 			headers: {
@@ -80,7 +94,7 @@ export default function ChatPublic(props: propsPageChats) {
 			}
 		}).then((response) => {
 			setDataChat(response.data)
-			is_memberChat(response.data.id, response.data.members)
+			is_memberChat(response.data.id, response.data)
 			socket.emit("open-group", {chatId: response.data.id});
 		}).catch((error) => {
 			console.log(error)
@@ -111,9 +125,12 @@ export default function ChatPublic(props: propsPageChats) {
 
 	useEffect(() => {
 		socket.on('banMember', (id: any) => {
+			console.log("BanMember: ", id)
+			console.log("teste: ", myUser.id);
 			if (myUser.id == id)
 				setIsBanned(true);
-			getDataChat();
+			else
+				getDataChat();
 		})
 		return () => {
 			socket.off('banMember')
@@ -131,6 +148,7 @@ export default function ChatPublic(props: propsPageChats) {
 
 	useEffect(() => {
 		socket.on('kickMember', (id: any) => {
+			console.log("KickMember: ", id)
 			if (myUser.id == id)
 				setIsBanned(true);
 			getDataChat();

@@ -23,6 +23,8 @@ export default function InputChats(props: PropsInputChats) {
 			props.obj.content = event.currentTarget.value;
 			props.socket.emit(props.obj.route, props.obj);
 			event.currentTarget.value = '';
+		} else if (event.key === ' ') {
+			event.preventDefault(); // Impede a ação padrão do espaço (por exemplo, a submissão do formulário)
 		}
 	}
 
@@ -38,7 +40,7 @@ export default function InputChats(props: PropsInputChats) {
 			<button
 				className='remove-format-button'>
 				<AiOutlineSend size={30}
-				onClick={sendMessageClick}
+					onClick={sendMessageClick}
 				/>
 			</button>
 		</div>
