@@ -24,7 +24,6 @@ export class ChatroomService {
 			}
 		}
 
-		// console.log("\n\nQQQQQQQ\n\n", dto.password, "\n", dto.validate_password, "\n\n");
 		if (dto.password) {
 
 			if (!await bcrypt.compare(dto.validate_password, dto.password)) {
@@ -89,7 +88,6 @@ export class ChatroomService {
 	}
 
 	async openChatroom(userId: string, dto: InputChatroomDto): Promise<UniqueChatroomDto> {
-
 		let now: Date = new Date();
 		await this.chatroomRepository.cleanKickedUserChatroom(now)
 		
@@ -243,7 +241,6 @@ export class ChatroomService {
 		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
 		let response = await this.findUniqueChatroom(dto.chat_name);
-		console.log(response);
 		response.password = '';
 		return response;
 	}
@@ -263,7 +260,6 @@ export class ChatroomService {
 				throw new UnauthorizedException("You can not ban a adm from this group");
 			}
 		}
-
 		let where_filter = {
 			name: chat.name,
 		};
@@ -283,23 +279,18 @@ export class ChatroomService {
 					id: dto.ban_id,
 				},
 			},
-			muted_member: {
-				disconnect: {
-					id: dto.ban_id,
-				},
-			},
 		};
 		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
 		let response = await this.findUniqueChatroom(dto.chat_name);
 		response.password = '';
 		return response;
+
 	}
 
 	async kickMemberChatroom(userId: string, dto: WebsocketWithTimeDto): Promise<any> {
 		let chat = await this.findUniqueChatroom(dto.chat_name);
 
-		console.log("\n\nEntrei kickMember Service\n\nchat: ", chat);
 
 		if (chat.owner_id == dto.other_id) {
 			throw new UnauthorizedException("You can not ban the owner of the chatroom")
@@ -327,7 +318,6 @@ export class ChatroomService {
 		let now = new Date();
 		let time: Date = new Date(now.getTime() + dto.time * 60 * 60 * 1000);
 
-		console.log("\n\nnow: ", now, " time: ", time, "\n\n");
 		let data_filter = {
 			userId: {
 				connect: {
@@ -344,10 +334,8 @@ export class ChatroomService {
 		};
 
 		let kick_chat = await this.chatroomRepository.kickChatroom(data_filter);
-		console.log("kick_chat:\n", kick_chat);
 		let response = await this.findUniqueChatroom(dto.chat_name);
 		response.password = '';
-		console.log("\n\nResponse:\n", response);
 		return response;
 	}
 
@@ -456,7 +444,6 @@ export class ChatroomService {
 			outputDto.push(new OutputDirectMessageDto(obj));
 		}
 
-		console.log("\n\nFindAllDirectMessageDto", outputDto, "\n\n");
 		return outputDto;
 	}
 }
