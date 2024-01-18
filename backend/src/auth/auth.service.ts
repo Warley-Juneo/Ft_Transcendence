@@ -92,8 +92,8 @@ export class AuthService {
 
 
   async otherLogin(dto: OtherLoginDto): Promise<OutputLoginDto> {
-	dto.first_name = 'firtsname';
-	dto.last_name = 'lastName';
+	// dto.first_name = 'firtsname';
+	// dto.last_name = 'lastName';
 
     const user = await this.verifyUser(dto);
     let jwt_token = await this.jwtSign(user);
