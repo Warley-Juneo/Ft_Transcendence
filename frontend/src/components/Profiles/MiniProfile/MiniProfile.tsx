@@ -32,12 +32,12 @@ export default function MiniProfile(props: propsMiniProfile) {
 	}
 
 	useEffect(() => {
-		getPlayers('https://990d-187-62-198-223.ngrok-free.app/users/friends');
+		getPlayers('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/users/friends');
 	}, []);
 
 	useEffect(() => {
 		socket.on('checkStatus', (data: any) => {
-			getPlayers('https://990d-187-62-198-223.ngrok-free.app/users/friends');
+			getPlayers('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/users/friends');
 		})
 		return () => {
 			socket.off('checkStatus');

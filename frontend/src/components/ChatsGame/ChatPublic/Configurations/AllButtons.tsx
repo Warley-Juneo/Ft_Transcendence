@@ -56,7 +56,7 @@ export default function AllButtons(): JSX.Element {
 		if (event.key !== 'Enter') return;
 		const userId = getUserId(event.currentTarget.value);
 		if (userId) {
-			axios.post('https://990d-187-62-198-223.ngrok-free.app/chatroom/add-adm-group', {
+			axios.post('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/chatroom/add-adm-group', {
 				add_id: userId,
 				chat_name: name,
 			}, {
@@ -76,7 +76,7 @@ export default function AllButtons(): JSX.Element {
 		if (event.key !== 'Enter') return;
 		const userId = getUserId(event.currentTarget.value);
 		if (userId) {
-			axios.post('https://990d-187-62-198-223.ngrok-free.app/chatroom/remove-adm-group', {
+			axios.post('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/chatroom/remove-adm-group', {
 				add_id: userId,
 				chat_name: name,
 			}, {
@@ -112,7 +112,7 @@ export default function AllButtons(): JSX.Element {
 		console.log("\nkickedMember\n\n");
 		const userId = getUserId(event.currentTarget.value);
 		if (userId) {
-			axios.post('https://990d-187-62-198-223.ngrok-free.app/chatroom/kick-member-group', {
+			axios.post('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/chatroom/kick-member-group', {
 				add_id: userId,
 				chat_name: name,
 			}, {
@@ -131,7 +131,7 @@ export default function AllButtons(): JSX.Element {
 	const deleteChat = (event: React.KeyboardEvent<HTMLInputElement>): void => {
 		if (event.key !== 'Enter') return;
 		if (event.currentTarget.value !== name) return;
-		axios.delete('https://990d-187-62-198-223.ngrok-free.app/chatroom/delete-group', {
+		axios.delete('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/chatroom/delete-group', {
 			data: {
 				chat_name: name,
 			},
@@ -147,7 +147,7 @@ export default function AllButtons(): JSX.Element {
 	const changePassword = (event: FormEvent<HTMLFormElement>): void => {
 		event.preventDefault();
 		const form = new FormData(event.currentTarget);
-		axios.post('https://990d-187-62-198-223.ngrok-free.app/chatroom/change-password-group', {
+		axios.post('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/chatroom/change-password-group', {
 			chat_name: name,
 			old_password: form.get('password'),
 			new_password: form.get('newPassword'),

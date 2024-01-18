@@ -18,7 +18,7 @@ export default function ChatPrivate(props: propsChatPrivate) {
 	const user = useContext(UserData);
 
 	const OpenDirectChat = () => {
-		axios.post('https://990d-187-62-198-223.ngrok-free.app/chatroom/open-direct', {
+		axios.post('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/chatroom/open-direct', {
 			my_nickname: user.user.nickname,
 			other_nickname: props.nick_name
 		}, {

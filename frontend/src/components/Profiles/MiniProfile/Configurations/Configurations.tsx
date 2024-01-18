@@ -35,7 +35,7 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 		const checkbox = document.querySelector('#flexSwitchCheckDefault') as HTMLInputElement;
 		if (!checkbox || !checkbox.checked) {
 			console.log("Desabilitar 2FA")
-			axios.post('https://990d-187-62-198-223.ngrok-free.app/2FA/clear', {}, {
+			axios.post('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/2FA/clear', {}, {
 				headers: {
 					Authorization: Cookies.get('jwtToken'),
 					"ngrok-skip-browser-warning": "69420"
@@ -63,7 +63,7 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 		}
 
 		console.log(info);
-		axios.post('https://990d-187-62-198-223.ngrok-free.app/users/updateProfile', info, {
+		axios.post('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/users/updateProfile', info, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
 				"ngrok-skip-browser-warning": "69420"
@@ -126,7 +126,7 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 	}
 
 	const getQRCODE = () => {
-		axios.get('https://990d-187-62-198-223.ngrok-free.app/2FA', {
+		axios.get('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/2FA', {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
 				"ngrok-skip-browser-warning": "69420"
@@ -144,7 +144,7 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 			return;
 		}
 		console.log("Verificando 2FA");
-		axios.post('https://990d-187-62-198-223.ngrok-free.app/2FA/validate', {
+		axios.post('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/2FA/validate', {
 			token: token.value,
 		}, {
 			headers: {
@@ -164,7 +164,7 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 
 	const [tfaEnabled, setTfaEnabled] = useState<boolean>(dataUser.user.twoFA);
 	const verifyEnabled = () => {
-		axios.get('https://990d-187-62-198-223.ngrok-free.app/2FA/verifyStatus', {
+		axios.get('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/2FA/verifyStatus', {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
 				"ngrok-skip-browser-warning": "69420"

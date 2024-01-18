@@ -16,7 +16,7 @@ export default function MatchHistory({ userId }: { userId: string }) {
 
 	const getMatchHistory = (): void => {
 		const ENV = `user_id=${userId}`
-		axios.get(`https://990d-187-62-198-223.ngrok-free.app/game/user/match-history/?${ENV}`, {
+		axios.get(`https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/game/user/match-history/?${ENV}`, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
 				"ngrok-skip-browser-warning": "69420"
