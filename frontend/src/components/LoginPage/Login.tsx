@@ -13,7 +13,7 @@ export function Login() {
 		let paramters = new URLSearchParams(window.location.search);
 		let code = paramters.get('code');
 		if (code) {
-			await axios.post('http://localhost:3000/auth', {
+			await axios.post('https://990d-187-62-198-223.ngrok-free.app/auth', {
 				authCode: code,
 			}).then((response) => {
 				if (response.status === 201) {

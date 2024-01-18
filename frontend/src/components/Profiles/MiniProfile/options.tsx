@@ -8,8 +8,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const URLS_MiniPerfilPlayers = {
-	'personal': 'http://localhost:3000/users/friends',
-	'Global': 'http://localhost:3000/users/find-all',
+	'personal': 'https://990d-187-62-198-223.ngrok-free.app/users/friends',
+	'Global': 'https://990d-187-62-198-223.ngrok-free.app/users/find-all',
 }
 
 function Options({ getPlayers }: { getPlayers: (route: string) => void }) {
@@ -19,11 +19,12 @@ function Options({ getPlayers }: { getPlayers: (route: string) => void }) {
 
 	function addNewFriend(event: React.KeyboardEvent<HTMLInputElement>) {
 		if (event.key === 'Enter') {
-			axios.post('http://localhost:3000/users/add_friend', {
+			axios.post('https://990d-187-62-198-223.ngrok-free.app/users/add_friend', {
 				nick_name: event.currentTarget.value,
 			}, {
 				headers: {
 					Authorization: Cookies.get('jwtToken'),
+					"ngrok-skip-browser-warning": "69420"
 				},
 			})
 				.then((res) => {
@@ -34,11 +35,12 @@ function Options({ getPlayers }: { getPlayers: (route: string) => void }) {
 
 	function DeleteFriend(event: React.KeyboardEvent<HTMLInputElement>) {
 		if (event.key === 'Enter') {
-			axios.post('http://localhost:3000/users/delete_friend', {
+			axios.post('https://990d-187-62-198-223.ngrok-free.app/users/delete_friend', {
 				nick_name: event.currentTarget.value,
 			}, {
 				headers: {
 					Authorization: Cookies.get('jwtToken'),
+					"ngrok-skip-browser-warning": "69420"
 				},
 			})
 				.then((res) => {

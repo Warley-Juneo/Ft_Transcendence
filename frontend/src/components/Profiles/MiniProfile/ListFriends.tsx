@@ -24,8 +24,8 @@ export default function ListFriends(props: PropsListFriends) {
 		setDataOpenDirect({ nickname: nickname, avatart: avatar })
 	}
 
-
-	if (!props.players) {
+	let type = typeof props.players;
+	if (!props.players || type === 'string') {
 		return (
 			<div>
 				<div className='d-flex justify-content-center'>

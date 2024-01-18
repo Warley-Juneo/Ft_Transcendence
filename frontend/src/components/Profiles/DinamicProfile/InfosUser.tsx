@@ -19,9 +19,10 @@ export default function InfosUser({ nickName }: { nickName: string }): JSX.Eleme
 	const [infosUser, setInfosUser] = useState<InfosUserPerfil>({} as InfosUserPerfil);
 
 	const getProfile = (): void => {
-		axios.get(`http://localhost:3000/users/profile/?nick_name=${nickName}`, {
+		axios.get(`https://990d-187-62-198-223.ngrok-free.app/users/profile/?nick_name=${nickName}`, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
+				"ngrok-skip-browser-warning": "69420",
 			}
 		}).then((response) => {
 			setInfosUser(response.data);

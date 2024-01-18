@@ -15,12 +15,13 @@ export default function ChatList(props: propsChatList) {
 	const [showWarningBan, setShowWarningBan] = useState(false);
 
 	const getDataChat = (chatName: string, password: string) => {
-		return axios.post(`http://localhost:3000/chatroom/open-group`, {
+		return axios.post(`https://990d-187-62-198-223.ngrok-free.app/chatroom/open-group`, {
 			password: password,
 			chat_name: chatName,
 		}, {
 			headers: {
-				Authorization: Cookies.get('jwtToken')
+				Authorization: Cookies.get('jwtToken'),
+				"ngrok-skip-browser-warning": "69420",
 			},
 		}).then((response) => {
 			return response.data;
@@ -30,7 +31,7 @@ export default function ChatList(props: propsChatList) {
 	const getDataChatPublic = (chatName: string) => {
 		getDataChat(chatName, '').then(() => {
 			props.clickedChat(chatName);
-		}).catch((error) => {
+		}).catch(() => {
 			setShowWarningBan(true);
 		});
 	}
@@ -62,7 +63,7 @@ export default function ChatList(props: propsChatList) {
 		});
 	}
 
-	if (props.listChats.length === 0) {
+	if (!props.listChats || props.listChats.length === 0) {
 		return (
 			<div>
 				<p className='fs-1'>O Game não possui nenhum chat</p>

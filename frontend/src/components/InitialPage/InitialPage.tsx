@@ -24,9 +24,10 @@ export default function InicialPage() {
 	}
 
 	function getInfoUser() {
-		axios.get('http://localhost:3000/landing-page', {
+		axios.get('https://990d-187-62-198-223.ngrok-free.app/landing-page', {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
+				"ngrok-skip-browser-warning": "69420"
 			}, timeout: 5000
 		}).then((res) => {
 			if (!res.data.avatar) {

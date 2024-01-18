@@ -29,22 +29,29 @@ export default function PageChats(props: propsPageChats) {
 	const [selectedChat, setSelectedChat] = useState({ click: false, chatName: '' });
 
 	const getListPublicChats = () => {
-		axios.get("http://localhost:3000/chatroom/find-all-public", {
+		console.log("Vou pegar a lista de getListPublicChats")
+		axios.get("https://990d-187-62-198-223.ngrok-free.app/chatroom/find-all-public", {
 			headers: {
 				Authorization: Cookies.get("jwtToken"),
+				"ngrok-skip-browser-warning": "69420",
 			}
 		}).then((res) => {
+			console.log("Lista: ", res.data.chatrooms)
 			setChatList(res.data.chatrooms)
+		}).catch((err) => {
+			console.log(err)
 		})
 	}
 
 	const getListPrivateChats = () => {
-		axios.get("http://localhost:3000/chatroom/find-private", {
+		axios.get("https://990d-187-62-198-223.ngrok-free.app/chatroom/find-private", {
 			headers: {
 				Authorization: Cookies.get("jwtToken"),
 			}
 		}).then((res) => {
 			setChatList(res.data.chatrooms)
+		}).catch((err) => {
+			console.log(err)
 		})
 	}
 
@@ -79,7 +86,7 @@ export default function PageChats(props: propsPageChats) {
 		if (form.get('privateChat') === 'private') dataPost.type = 'private'
 		else if (form.get('protectChat') === 'protected') dataPost.type = 'protected'
 
-		axios.post('http://localhost:3000/chatroom/create-group',
+		axios.post('https://990d-187-62-198-223.ngrok-free.app/chatroom/create-group',
 			dataPost, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
@@ -104,6 +111,8 @@ export default function PageChats(props: propsPageChats) {
 		width: '75%',
 		padding: '7%'
 	}
+
+	console.log("vou printar a lista de chats");
 
 	if (selectedChat.click === true) return <ChatPublic
 		chatName={selectedChat.chatName}
