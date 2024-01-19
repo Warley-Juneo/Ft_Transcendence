@@ -52,23 +52,19 @@ export default function AllButtons(): JSX.Element {
 		}
 	}
 
-	const addedAdm = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+	const addAdm = (event: React.KeyboardEvent<HTMLInputElement>): void => {
 		if (event.key !== 'Enter') return;
 		const userId = getUserId(event.currentTarget.value);
 		if (userId) {
-			axios.post(`${process.env.REACT_APP_HOST_URL}/chatroom/add-adm-group`, {
-				add_id: userId,
-				chat_name: name,
-			}, {
-				headers: {
-					Authorization: Cookies.get("jwtToken"),
-					"ngrok-skip-browser-warning": "69420",
-				},
-			}).then((res) => {
-				setDataChat(res.data);
-			}).catch((err) => {
-				console.log(err);
-			})
+			if (userId) {
+				let obj = {
+					my_id: dataUser.id,
+					other_id: userId,
+					chat_name: name,
+					chat_id: id,
+				}
+				socket.emit('add-adm-group', obj);
+			}
 		}
 	}
 
@@ -76,19 +72,13 @@ export default function AllButtons(): JSX.Element {
 		if (event.key !== 'Enter') return;
 		const userId = getUserId(event.currentTarget.value);
 		if (userId) {
-			axios.post(`${process.env.REACT_APP_HOST_URL}/chatroom/remove-adm-group`, {
-				add_id: userId,
+			let obj = {
+				my_id: dataUser.id,
+				other_id: userId,
 				chat_name: name,
-			}, {
-				headers: {
-					Authorization: Cookies.get("jwtToken"),
-					"ngrok-skip-browser-warning": "69420"
-				},
-			}).then((res) => {
-				setDataChat(res.data);
-			}).catch((err) => {
-				console.log(err);
-			})
+				chat_id: id,
+			}
+			socket.emit('remove-adm-group', obj);
 		}
 	}
 
@@ -173,7 +163,7 @@ export default function AllButtons(): JSX.Element {
 			<Button
 				Icon={GiBroadDagger}
 				content="Adicionar Administrador"
-				function={addedAdm}
+				function={addAdm}
 			/>
 			<Button
 				Icon={GiBroadDagger}

@@ -65,11 +65,6 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 		client.emit('desconectado', 'Desconectado com sucesso!');
 	}
 
-	@SubscribeMessage('add-member-group')
-	async	addMemberChatroom(client: Socket, dto: WebsocketDto) {
-		await this.chatroomService.addMemberChatroom(dto.my_id, dto);
-		this.server.to(dto.chat_id).emit("addMember", "succeso");
-	}
 
 	@SubscribeMessage('open-group')
 	async openChatroom(client: Socket, dto: InputOpenChatroomDto) {
@@ -81,16 +76,22 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 		client.leave(dto.chatId);
 	}
 
+	@SubscribeMessage('add-member-group')
+	async	addMemberChatroom(client: Socket, dto: WebsocketDto) {
+		await this.chatroomService.addMemberChatroom(dto.my_id, dto);
+		this.server.to(dto.chat_id).emit("updateChat", "succeso");
+	}
+
 	@SubscribeMessage('add-adm-group')
 	async addAdmChatroom(client: Socket, dto: WebsocketDto) {
 		await this.chatroomService.addAdmChatroom(dto.my_id , dto);
-		this.server.to(dto.chat_id).emit("addAdm", dto.other_id);
+		this.server.to(dto.chat_id).emit("updateChat", "succeso");
 	}
 
 	@SubscribeMessage('remove-adm-group')
 	async removeAdmChatroom(client: Socket, dto: WebsocketDto) {
 		await this.chatroomService.removeAdmChatroom(dto.my_id, dto);
-		this.server.to(dto.chat_id).emit("removeAdm", dto.other_id);
+		this.server.to(dto.chat_id).emit("updateChat", "succeso");
 	}
 
 	@SubscribeMessage('ban-member-group')

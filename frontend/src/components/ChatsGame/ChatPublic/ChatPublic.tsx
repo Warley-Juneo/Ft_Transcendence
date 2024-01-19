@@ -138,11 +138,11 @@ export default function ChatPublic(props: propsPageChats) {
 	}, [socket])
 
 	useEffect(() => {
-		socket.on('addMember', (data: any) => {
+		socket.on('updateChat', (data: any) => {
 			getDataChat();
 		})
 		return () => {
-			socket.off('addMember')
+			socket.off('updateChat')
 		}
 	}, [socket])
 
