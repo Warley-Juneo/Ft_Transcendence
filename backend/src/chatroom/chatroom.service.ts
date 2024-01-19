@@ -1,8 +1,8 @@
-import { BadRequestException, ConsoleLogger, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
-import { AddChatUserDto, BanMember, ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto, InputChatroomMessageDto, WebsocketDto, WebsocketWithTimeDto } from './dto/input.dto';
+import { ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto, InputChatroomMessageDto, WebsocketDto, WebsocketWithTimeDto } from './dto/input.dto';
 import { ChatroomsDto, OutputDirectMessageDto, OutputMessageDto, OutputValidateDto, UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 
@@ -245,10 +245,10 @@ export class ChatroomService {
 		return response;
 	}
 
-	async banMemberChatroom(userId: string, dto: BanMember): Promise<UniqueChatroomDto> {
+	async banMemberChatroom(userId: string, dto: WebsocketDto): Promise<UniqueChatroomDto> {
 		let chat = await this.findUniqueChatroom(dto.chat_name);
 
-		if (chat.owner_id == dto.ban_id) {
+		if (chat.owner_id == dto.other_id) {
 			throw new UnauthorizedException("You can not ban the owner of the chatroom")
 		}
 
@@ -256,7 +256,7 @@ export class ChatroomService {
 			if (!chat.admin.find((item) => item.id == userId)) {
 				throw new UnauthorizedException("You are not adm of this group");
 			}
-			if (chat.admin.find((item) => item.id == dto.ban_id)) {
+			if (chat.admin.find((item) => item.id == dto.other_id)) {
 				throw new UnauthorizedException("You can not ban a adm from this group");
 			}
 		}
@@ -266,17 +266,17 @@ export class ChatroomService {
 		let data_filter = {
 			banned_member: {
 				connect: {
-					id: dto.ban_id,
+					id: dto.other_id,
 				},
 			},
 			members: {
 				disconnect: {
-					id: dto.ban_id,
+					id: dto.other_id,
 				},
 			},
 			admin: {
 				disconnect: {
-					id: dto.ban_id,
+					id: dto.other_id,
 				},
 			},
 		};
