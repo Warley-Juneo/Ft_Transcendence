@@ -30,7 +30,7 @@ export default function PageChats(props: propsPageChats) {
 
 	const getListPublicChats = () => {
 		console.log("Vou pegar a lista de getListPublicChats")
-		axios.get("https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/chatroom/find-all-public", {
+		axios.get(`${process.env.REACT_APP_HOST_URL}/chatroom/find-all-public`, {
 			headers: {
 				Authorization: Cookies.get("jwtToken"),
 				"ngrok-skip-browser-warning": "69420",
@@ -44,7 +44,7 @@ export default function PageChats(props: propsPageChats) {
 	}
 
 	const getListPrivateChats = () => {
-		axios.get("https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/chatroom/find-private", {
+		axios.get(`${process.env.REACT_APP_HOST_URL}/chatroom/find-private`, {
 			headers: {
 				Authorization: Cookies.get("jwtToken"),
 			}
@@ -86,7 +86,7 @@ export default function PageChats(props: propsPageChats) {
 		if (form.get('privateChat') === 'private') dataPost.type = 'private'
 		else if (form.get('protectChat') === 'protected') dataPost.type = 'protected'
 
-		axios.post('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/chatroom/create-group',
+		axios.post(`${process.env.REACT_APP_HOST_URL}/chatroom/create-group`,
 			dataPost, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),

@@ -87,7 +87,7 @@ export default function ChatPublic(props: propsPageChats) {
 		console.log("Cheguei")
 
 		const ENV = `chat_name=${props.chatName}&password=''`
-		axios.get(`https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/chatroom/find-public/?${ENV}`, {
+		axios.get(`${process.env.REACT_APP_HOST_URL}/chatroom/find-public/?${ENV}`, {
 			headers: {
 				Authorization: Cookies.get("jwtToken"),
 				"ngrok-skip-browser-warning": "69420",

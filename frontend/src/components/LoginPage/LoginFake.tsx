@@ -15,7 +15,7 @@ export default function LoginFake(): JSX.Element {
 		const emailValue = formData.get('email') as string;
 		const nickNameValue = formData.get('nickName') as string;
 
-		axios.post("https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/auth/fake", {
+		axios.post(`${process.env.REACT_APP_HOST_URL}/auth/fake`, {
 			login: loginValue,
 			email: emailValue,
 			nickname: nickNameValue,

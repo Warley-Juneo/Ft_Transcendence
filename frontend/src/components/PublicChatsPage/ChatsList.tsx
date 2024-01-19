@@ -15,7 +15,7 @@ export default function ChatList(props: propsChatList) {
 	const [showWarningBan, setShowWarningBan] = useState(false);
 
 	const getDataChat = (chatName: string, password: string) => {
-		return axios.post(`https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/chatroom/open-group`, {
+		return axios.post(`${process.env.REACT_APP_HOST_URL}/chatroom/open-group`, {
 			password: password,
 			chat_name: chatName,
 		}, {

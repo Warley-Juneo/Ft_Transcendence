@@ -9,7 +9,7 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app](https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app) to view it in the browser.
+Open [${process.env.REACT_APP_HOST_URL}](${process.env.REACT_APP_HOST_URL}) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.

@@ -20,7 +20,7 @@ export default function TopRank() {
 	const [ranking, setRanking] = useState<typeRaking[]>([])
 
 	function getRanking() {
-		axios.get('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/users/ladder', {
+		axios.get(`${process.env.REACT_APP_HOST_URL}/users/ladder`, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
 				"ngrok-skip-browser-warning": "69420"

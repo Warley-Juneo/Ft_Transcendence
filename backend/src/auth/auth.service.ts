@@ -26,7 +26,7 @@ export class AuthService {
 		client_id: process.env.UID,
 		client_secret: process.env.SECRET,
 		code: authLoginDto.authCode,
-		redirect_uri: 'https://b597-177-73-171-207.ngrok-free.app/',
+		redirect_uri: process.env.HOST_URL,
 	  };
 
     const authResponsePromise: Observable<any> = this.httpService.post(
@@ -82,6 +82,7 @@ export class AuthService {
 
     const accessToken: string = await this.validateUserApi42(authLoginDto);
     const userInfo = await this.getUserInfoApi42(accessToken);
+    console.log("entrei");
     const user = await this.verifyUser(userInfo);
     let jwt_token = await this.jwtSign(user);
 

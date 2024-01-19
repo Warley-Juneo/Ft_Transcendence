@@ -8,8 +8,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const URLS_MiniPerfilPlayers = {
-	'personal': 'https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/users/friends',
-	'Global': 'https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/users/find-all',
+	'personal': `${process.env.REACT_APP_HOST_URL}/users/friends`,
+	'Global': `${process.env.REACT_APP_HOST_URL}/users/find-all`,
 }
 
 function Options({ getPlayers }: { getPlayers: (route: string) => void }) {
@@ -19,7 +19,7 @@ function Options({ getPlayers }: { getPlayers: (route: string) => void }) {
 
 	function addNewFriend(event: React.KeyboardEvent<HTMLInputElement>) {
 		if (event.key === 'Enter') {
-			axios.post('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/users/add_friend', {
+			axios.post(`${process.env.REACT_APP_HOST_URL}/users/add_friend`, {
 				nick_name: event.currentTarget.value,
 			}, {
 				headers: {
@@ -35,7 +35,7 @@ function Options({ getPlayers }: { getPlayers: (route: string) => void }) {
 
 	function DeleteFriend(event: React.KeyboardEvent<HTMLInputElement>) {
 		if (event.key === 'Enter') {
-			axios.post('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/users/delete_friend', {
+			axios.post(`${process.env.REACT_APP_HOST_URL}/users/delete_friend`, {
 				nick_name: event.currentTarget.value,
 			}, {
 				headers: {

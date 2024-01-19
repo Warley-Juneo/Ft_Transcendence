@@ -24,7 +24,7 @@ export default function InicialPage() {
 	}
 
 	function getInfoUser() {
-		axios.get('https://21f6-2804-14c-1a8-a325-fbe4-507a-840b-f839.ngrok-free.app/landing-page', {
+		axios.get(`${process.env.REACT_APP_HOST_URL}/landing-page`, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
 				"ngrok-skip-browser-warning": "69420"
