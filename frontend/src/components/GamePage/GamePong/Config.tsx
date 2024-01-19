@@ -158,8 +158,10 @@ export class CustomScene extends Phaser.Scene {
 		this.dataBallGame.x = x;
 		this.dataBallGame.y = Phaser.Math.Between(-200, 200);
 
-		this.ball.setVelocityX(this.dataBallGame.x);
-		this.ball.setVelocityY(this.dataBallGame.y);
+		if (this.isLider == true) {
+			this.ball.setVelocityX(this.dataBallGame.x);
+			this.ball.setVelocityY(this.dataBallGame.y);
+		}
 	}
 
 	update() {

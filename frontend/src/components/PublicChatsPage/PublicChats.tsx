@@ -104,7 +104,7 @@ export default function PageChats(props: propsPageChats) {
 		return () => {
 			socket.off("creatChat")
 		}
-	})
+	}, [socket])
 
 	const cssDivChats: React.CSSProperties = {
 		backgroundImage: `url(${bgChats})`,

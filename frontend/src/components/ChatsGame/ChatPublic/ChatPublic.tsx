@@ -9,6 +9,7 @@ import { UserData, socket } from "../../InitialPage/Contexts/Contexts";
 import bgChatPublic from "../../../assets/game/bgChatPublic.png";
 import RightSide from "./RightSide";
 import ModalIsBanned from "./ModalIsBanned";
+import { useNavigate } from "react-router-dom";
 
 export type Messages = {
 	id: string,
@@ -59,6 +60,7 @@ export default function ChatPublic(props: propsPageChats) {
 	const [showDinamicProfile, setShowDinamicProfile] = useState<string>('');
 	const [isBanned, setIsBanned] = useState<boolean>(false);
 	const myUser = useContext(UserData).user;
+	const navigate = useNavigate();
 
 	function is_memberChat(chat_id: String, data: ChatData ) {
 		// console.log("members: ", data.members)
@@ -82,6 +84,8 @@ export default function ChatPublic(props: propsPageChats) {
 		}
 		socket.emit("add-member-group", obj);
 	}
+
+	//TODO: Show modal when delete chat
 
 	const getDataChat = () => {
 		console.log("Cheguei")
@@ -125,8 +129,6 @@ export default function ChatPublic(props: propsPageChats) {
 
 	useEffect(() => {
 		socket.on('banMember', (id: any) => {
-			console.log("BanMember: ", id)
-			console.log("teste: ", myUser.id);
 			if (myUser.id == id)
 				setIsBanned(true);
 			else
@@ -155,6 +157,16 @@ export default function ChatPublic(props: propsPageChats) {
 		})
 		return () => {
 			socket.off('kickMember')
+		}
+	}, [socket])
+
+	useEffect(() => {
+		socket.on('deleteChat', (id: any) => {
+			console.log("deleteChat: ", id)
+			props.openPageChats("")
+		})
+		return () => {
+			socket.off('deleteChat')
 		}
 	}, [socket])
 	//##############################################################

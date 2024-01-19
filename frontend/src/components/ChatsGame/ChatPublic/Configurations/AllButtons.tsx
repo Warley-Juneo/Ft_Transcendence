@@ -9,7 +9,6 @@ import Cookies from "js-cookie";
 import { ChatContext } from "../ChatPublic";
 import AlterPassword from "./AlterPassword";
 import GetUsersGame from "./GetUsersGame";
-import { useNavigate } from "react-router-dom";
 import { UserData, socket } from "../../../InitialPage/Contexts/Contexts";
 import KickMember from "./KickMember";
 
@@ -24,7 +23,6 @@ export default function AllButtons(): JSX.Element {
 	const { chatData: { name, id }, setDataChat } = useContext(ChatContext);
 	const dataUser = useContext(UserData).user;
 	const [playersGame, setPlayersGame] = useState<UsersGame[]>([]);
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		GetUsersGame().then((res) => {
@@ -121,17 +119,14 @@ export default function AllButtons(): JSX.Element {
 	const deleteChat = (event: React.KeyboardEvent<HTMLInputElement>): void => {
 		if (event.key !== 'Enter') return;
 		if (event.currentTarget.value !== name) return;
-		axios.delete(`${process.env.REACT_APP_HOST_URL}/chatroom/delete-group`, {
-			data: {
-				chat_name: name,
-			},
-			headers: {
-				Authorization: Cookies.get("jwtToken"),
-				"ngrok-skip-browser-warning": "69420"
-			},
-		}).then((res) => {
-			navigate("/game/");
-		})
+		let obj = {
+			my_id: dataUser.id,
+			chat_name: name,
+			password: event.currentTarget.value,
+			chatId: id,
+		}
+		console.log(obj);
+		socket.emit('delete-group', obj);
 	}
 
 	const changePassword = (event: FormEvent<HTMLFormElement>): void => {
