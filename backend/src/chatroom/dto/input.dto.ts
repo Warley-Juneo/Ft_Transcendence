@@ -64,6 +64,18 @@ export class AddChatUserDto {
 }
 
 export class InputChatroomDto {
+	@IsNotEmpty({message: 'Chatroom can not be empty.'})
+	chatId:			string;
+
+	@IsNotEmpty({message: 'Chatroom can not be empty.'})
+	chat_name:			string;
+
+	@ValidateIf(o => o.password != null)
+	@IsString()
+	password:		string;
+}
+
+export class DeleteChatroomDto {
 	@IsNotEmpty({message: 'My id can not be empty.'})
 	my_id:			string;
 
