@@ -24,11 +24,11 @@ export class ChatroomController {
 		return await this.chatroomService.findPrivateChatroom(request.user.sub);
 	}
 
-	@Post('create-group')
-	async createChatroom(@Req() request, @Body() dto: CreateChatroomDto): Promise<ChatroomsDto> {
-		let response =  await this.chatroomService.createChatroom(request.user.sub, dto);
-		return response;
-	}
+	// @Post('create-group')
+	// async createChatroom(@Req() request, @Body() dto: CreateChatroomDto): Promise<ChatroomsDto> {
+	// 	let response =  await this.chatroomService.createChatroom(request.user.sub, dto);
+	// 	return response;
+	// }
 
 	@Delete('delete-group')
 	async	deleteChatroom(@Req() request, @Body() dto: InputChatroomDto): Promise <any> {
