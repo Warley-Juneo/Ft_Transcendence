@@ -38,7 +38,6 @@ export default function PageChats(props: propsPageChats) {
 				"ngrok-skip-browser-warning": "69420",
 			}
 		}).then((res) => {
-			console.log("Lista: ", res.data.chatrooms)
 			setChatList(res.data.chatrooms)
 		}).catch((err) => {
 			console.log(err)
@@ -49,9 +48,11 @@ export default function PageChats(props: propsPageChats) {
 		axios.get(`${process.env.REACT_APP_HOST_URL}/chatroom/find-private`, {
 			headers: {
 				Authorization: Cookies.get("jwtToken"),
+				"ngrok-skip-browser-warning": "69420",
 			}
 		}).then((res) => {
 			setChatList(res.data.chatrooms)
+			console.log("Lista: privado", res.data.chatrooms)
 		}).catch((err) => {
 			console.log(err)
 		})
