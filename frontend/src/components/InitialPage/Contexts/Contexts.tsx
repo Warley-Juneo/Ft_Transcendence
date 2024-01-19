@@ -23,7 +23,7 @@ export const UserData = createContext<{
 	updateDataUser: () => { },
 })
 
-export const socket = io(`${process.env.REACT_APP_HOST_URL}`, {
+export const socket = io(`${process.env.REACT_APP_HOST_URL}/`, {
 	extraHeaders: {
 		'ngrok-skip-browser-warning': 'true'
 	}

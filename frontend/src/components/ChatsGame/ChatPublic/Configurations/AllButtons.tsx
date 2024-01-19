@@ -89,7 +89,7 @@ export default function AllButtons(): JSX.Element {
 		if (userId) {
 			let obj = {
 				my_id: dataUser.id,
-				ban_id: userId,
+				other_id: userId,
 				chat_name: name,
 				chat_id: id,
 			}
