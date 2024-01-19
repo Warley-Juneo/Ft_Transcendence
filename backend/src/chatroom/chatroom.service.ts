@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/
 import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
-import { ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto, InputChatroomMessageDto, WebsocketDto, WebsocketWithTimeDto } from './dto/input.dto';
+import { ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, DeleteChatroomDto, InputChatroomDto, InputChatroomMessageDto, WebsocketDto, WebsocketWithTimeDto } from './dto/input.dto';
 import { ChatroomsDto, OutputDirectMessageDto, OutputMessageDto, OutputValidateDto, UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 
@@ -71,7 +71,7 @@ export class ChatroomService {
 		return response;
 	}
 
-	async deleteChatroom(userId: string, dto: InputChatroomDto): Promise<any> {
+	async deleteChatroom(userId: string, dto: DeleteChatroomDto): Promise<any> {
 
 		let chat = await this.findUniqueChatroom(dto.chat_name);
 
