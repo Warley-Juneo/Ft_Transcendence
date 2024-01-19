@@ -2,7 +2,7 @@
 
 import { SubscribeMessage, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Socket, Server } from "socket.io";
-import { BanMember, CreateDirectMessageDto, InputChatroomMessageDto, InputOpenChatroomDto, WebsocketDto, WebsocketWithTimeDto } from "./dto/input.dto";
+import { AddChatUserDto, BanMember, CreateDirectMessageDto, InputChatroomMessageDto, InputOpenChatroomDto, WebsocketDto, WebsocketWithTimeDto } from "./dto/input.dto";
 import { ChatroomService } from "./chatroom.service";
 import { DisconnectDto } from "src/game/dtos/input.dto";
 import { GameService } from "src/game/game.service";
@@ -79,6 +79,18 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 	@SubscribeMessage('close-group')
 	async closeChatroom(client: Socket, dto: InputOpenChatroomDto) {
 		client.leave(dto.chatId);
+	}
+
+	@SubscribeMessage('add-adm-group')
+	async addAdmChatroom(client: Socket, dto: WebsocketDto) {
+		await this.chatroomService.addAdmChatroom(dto.my_id , dto);
+		this.server.to(dto.chat_id).emit("addAdm", dto.other_id);
+	}
+
+	@SubscribeMessage('remove-adm-group')
+	async removeAdmChatroom(client: Socket, dto: WebsocketDto) {
+		await this.chatroomService.removeAdmChatroom(dto.my_id, dto);
+		this.server.to(dto.chat_id).emit("removeAdm", dto.other_id);
 	}
 
 	@SubscribeMessage('ban-member-group')

@@ -45,15 +45,15 @@ export class ChatroomController {
 		return await this.chatroomService.openChatroom(request.user.sub, dto);
 	}
 
-	@Post('add-adm-group')
-	async	addAdmChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
-		return await this.chatroomService.addAdmChatroom(request.user.sub, dto);
-	}
+	// @Post('add-adm-group')
+	// async	addAdmChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	// 	return await this.chatroomService.addAdmChatroom(request.user.sub, dto);
+	// }
 
-	@Post('remove-adm-group')
-	async	removeAdmChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
-		return await this.chatroomService.removeAdmChatroom(request.user.sub, dto);
-	}
+	// @Post('remove-adm-group')
+	// async	removeAdmChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	// 	return await this.chatroomService.removeAdmChatroom(request.user.sub, dto);
+	// }
 
 	@Post('open-direct')
 	async openDirectChatroom(@Body() dto: CreateDirectChatroomDto): Promise<OutputDirectMessageDto[]> {

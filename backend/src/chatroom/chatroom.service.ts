@@ -142,7 +142,7 @@ export class ChatroomService {
 		await await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 	}
 
-	async addAdmChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	async addAdmChatroom(userId: string, dto: WebsocketDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.findUniqueChatroom(dto.chat_name);
 
@@ -150,7 +150,7 @@ export class ChatroomService {
 			if (!chat.admin.find((item) => item.id == userId)) {
 				throw new UnauthorizedException("You are not adm of this group")
 			}
-			if (!chat.members.find((item) => item.id == dto.add_id)) {
+			if (!chat.members.find((item) => item.id == dto.other_id)) {
 				throw new UnauthorizedException("You can not add a adm that is not a member of this group")
 			}
 		}
@@ -161,12 +161,12 @@ export class ChatroomService {
 		let data_filter = {
 			admin: {
 				connect: {
-					id: dto.add_id,
+					id: dto.other_id,
 				},
 			},
 			banned_member: {
 				disconnect: {
-					id: dto.add_id,
+					id: dto.other_id,
 				},
 			},
 		};
@@ -178,11 +178,11 @@ export class ChatroomService {
 		return response;
 	}
 
-	async removeAdmChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	async removeAdmChatroom(userId: string, dto:WebsocketDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.findUniqueChatroom(dto.chat_name);
 
-		if (chat.owner_id == dto.add_id) {
+		if (chat.owner_id == dto.other_id) {
 			throw new UnauthorizedException("You can not remove the owner from adm")
 		}
 
@@ -190,7 +190,7 @@ export class ChatroomService {
 			if (!chat.admin.find((item) => item.id == userId)) {
 				throw new UnauthorizedException("You are not adm of this group");
 			}
-			if (chat.admin.find((item) => item.id == dto.add_id)) {
+			if (chat.admin.find((item) => item.id == dto.other_id)) {
 				throw new UnauthorizedException("You can not ban a adm from this group");
 			}
 		}
@@ -201,7 +201,7 @@ export class ChatroomService {
 		let data_filter = {
 			admin: {
 				disconnect: {
-					id: dto.add_id,
+					id: dto.other_id,
 				},
 			},
 		};
