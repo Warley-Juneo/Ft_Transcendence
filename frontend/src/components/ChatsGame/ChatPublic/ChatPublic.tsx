@@ -62,7 +62,7 @@ export default function ChatPublic(props: propsPageChats) {
 	const myUser = useContext(UserData).user;
 	const navigate = useNavigate();
 
-	function is_memberChat(chat_id: String, data: ChatData ) {
+	function is_memberChat(chat_id: String, data: ChatData) {
 		// console.log("members: ", data.members)
 		// console.log("banned: ", data.banned)
 		// console.log("kicked: ", data.kicked)
@@ -77,10 +77,10 @@ export default function ChatPublic(props: propsPageChats) {
 
 
 		let obj = {
-				my_id: myUser.id,
-				other_id: myUser.id,
-				chat_name: props.chatName,
-				chat_id: chat_id,
+			my_id: myUser.id,
+			other_id: myUser.id,
+			chat_name: props.chatName,
+			chat_id: chat_id,
 		}
 		socket.emit("add-member-group", obj);
 	}
@@ -99,7 +99,7 @@ export default function ChatPublic(props: propsPageChats) {
 		}).then((response) => {
 			setDataChat(response.data)
 			is_memberChat(response.data.id, response.data)
-			socket.emit("open-group", {chatId: response.data.id});
+			socket.emit("open-group", { chatId: response.data.id });
 		}).catch((error) => {
 			console.log(error)
 		})
@@ -121,8 +121,17 @@ export default function ChatPublic(props: propsPageChats) {
 		socket.on('checkStatus', (data: any) => {
 			getDataChat();
 		})
+		socket.on('updateChat', (data: any) => {
+			getDataChat();
+		})
+
+		socket.on('deleteChat', (id: any) => {
+			props.openPageChats("")
+		})
 		return () => {
 			socket.off('checkStatus')
+			socket.off('updateChat')
+			socket.off('deleteChat')
 		}
 	}, [socket])
 
@@ -140,15 +149,6 @@ export default function ChatPublic(props: propsPageChats) {
 	}, [socket])
 
 	useEffect(() => {
-		socket.on('updateChat', (data: any) => {
-			getDataChat();
-		})
-		return () => {
-			socket.off('updateChat')
-		}
-	}, [socket])
-
-	useEffect(() => {
 		socket.on('kickMember', (id: any) => {
 			console.log("KickMember: ", id)
 			if (myUser.id == id)
@@ -160,15 +160,6 @@ export default function ChatPublic(props: propsPageChats) {
 		}
 	}, [socket])
 
-	useEffect(() => {
-		socket.on('deleteChat', (id: any) => {
-			console.log("deleteChat: ", id)
-			props.openPageChats("")
-		})
-		return () => {
-			socket.off('deleteChat')
-		}
-	}, [socket])
 	//##############################################################
 
 	if (!chatData.name) return <div>Carregando...</div>
@@ -179,7 +170,7 @@ export default function ChatPublic(props: propsPageChats) {
 			position-absolute top-50 start-50 translate-middle h-75 w-75"
 			style={{ backgroundImage: `url(${bgChatPublic})`, backgroundSize: 'cover' }}
 		>
-			{isBanned ? ModalIsBanned({openPageChats: props.openPageChats}) : null}
+			{isBanned ? ModalIsBanned({ openPageChats: props.openPageChats }) : null}
 			<div className="row g-0 h-100 p-2">
 				<ChatContext.Provider value={{ chatData: chatData, setDataChat, setDinamicProfile }}>
 					<div className="col-3 border-end h-100">
