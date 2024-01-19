@@ -242,6 +242,7 @@ export class ChatroomService {
 
 		let response = await this.findUniqueChatroom(dto.chat_name);
 		response.password = '';
+		console.log("AddMember: ", response);
 		return response;
 	}
 

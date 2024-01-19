@@ -22,6 +22,9 @@ export class CreateDirectMessageDto {
 }
 
 export class CreateChatroomDto {
+	@IsNotEmpty({message: 'My id can not be empty.'})
+	my_id:			string;
+	
 	@IsString({message: 'Chatroom name must be a string.'})
 	@IsNotEmpty({message: 'Chatroom name can not be empty.'})
 	name:			string;
