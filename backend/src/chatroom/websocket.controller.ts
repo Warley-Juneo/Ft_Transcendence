@@ -74,7 +74,7 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 	@SubscribeMessage('delete-group')
 	async deleteChatroom(client: Socket, dto: InputChatroomDto) {
 		await this.chatroomService.deleteChatroom(dto.my_id, dto);
-		this.server.emit("deleteChat", "succeso");
+		this.server.to(dto.chatId).emit("deleteChat", "succeso");
 	}
 
 	@SubscribeMessage('open-group')
