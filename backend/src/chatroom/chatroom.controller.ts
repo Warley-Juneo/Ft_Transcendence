@@ -30,10 +30,10 @@ export class ChatroomController {
 	// 	return response;
 	// }
 
-	@Delete('delete-group')
-	async	deleteChatroom(@Req() request, @Body() dto: InputChatroomDto): Promise <any> {
-		return await this.chatroomService.deleteChatroom(request.user.sub, dto);
-	}
+	// @Delete('delete-group')
+	// async	deleteChatroom(@Req() request, @Body() dto: InputChatroomDto): Promise <any> {
+	// 	return await this.chatroomService.deleteChatroom(request.user.sub, dto);
+	// }
 
 	@Post('change-password-group')
 	async	changePassword(@Req() request, @Body() dto: ChangePasswordDto): Promise<any> {

@@ -64,6 +64,9 @@ export class AddChatUserDto {
 }
 
 export class InputChatroomDto {
+	@IsNotEmpty({message: 'My id can not be empty.'})
+	my_id:			string;
+
 	@IsNotEmpty({message: 'Chatroom can not be empty.'})
 	chat_name:			string;
 
@@ -73,7 +76,6 @@ export class InputChatroomDto {
 }
 
 export class InputChatroomMessageDto {
-
 	@IsNotEmpty({message: 'Chatroom can not be empty.'})
 	content:		string;
 
