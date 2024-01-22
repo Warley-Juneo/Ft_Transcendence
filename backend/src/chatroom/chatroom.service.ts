@@ -103,9 +103,11 @@ export class ChatroomService {
 		if (chat.banned.find((item) => item.id == userId)) {
 			throw new UnauthorizedException("You were banned of this chat!!!")
 		}
+
 		
 		console.log("\nuserId: ", userId);
-		if (chat.kicked.find((item) => item.id == userId)) {
+		chat.kicked.map((item) => console.log("kicked: ", item));
+		if (chat.kicked.find((item) => item.userId.find((item) => item.id == userId))) {
 			throw new UnauthorizedException("You were temporarely kicked of this chat!!!")
 		}
 
