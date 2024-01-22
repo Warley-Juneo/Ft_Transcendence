@@ -74,7 +74,7 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 	@SubscribeMessage('delete-group')
 	async deleteChatroom(client: Socket, dto: DeleteChatroomDto) {
 		await this.chatroomService.deleteChatroom(dto.my_id, dto);
-		this.server.to(dto.chatId).emit("deleteChat", "succeso");
+		this.server.to(dto.chatId).emit("deleteChat", "O chat foi deletado");
 	}
 
 	@SubscribeMessage('open-group')
@@ -108,15 +108,22 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 	@SubscribeMessage('ban-member-group')
 	async banMemberChatroom(client: Socket, dto: WebsocketDto) {
 		await this.chatroomService.banMemberChatroom(dto.my_id, dto);
-		this.server.to(dto.chat_id).emit("banMember", dto.other_id);
+
+		let obj = {
+			id: dto.other_id,
+			msg: "Você foi banido desse chat"
+		}
+		this.server.to(dto.chat_id).emit("banMember", obj);
 	}
 
 	@SubscribeMessage('kick-member-group')
 	async kickMemberChatroom(client: Socket, dto: WebsocketWithTimeDto) {
-		console.log("\n\nEntrei kickMember Websocket\n\n");
-		console.log("DTO: ", dto)
 		await this.chatroomService.kickMemberChatroom(dto.my_id, dto);
-		this.server.to(dto.chat_id).emit("kickMember", dto.other_id);
+		let obj = {
+			id: dto.other_id,
+			msg: "Você foi kickado desse chat"
+		}
+		this.server.to(dto.chat_id).emit("kickMember", obj);
 	}
 
 	@SubscribeMessage('group-message')

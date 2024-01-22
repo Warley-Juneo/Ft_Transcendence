@@ -58,9 +58,8 @@ export default function ChatPublic(props: propsPageChats) {
 	const [chatData, setDataChat] = useState<ChatData>({} as ChatData);
 	const [dinamicProfile, setDinamicProfile] = useState<DinamicProfile>({} as DinamicProfile);
 	const [showDinamicProfile, setShowDinamicProfile] = useState<string>('');
-	const [isBanned, setIsBanned] = useState<boolean>(false);
 	const myUser = useContext(UserData).user;
-	const navigate = useNavigate();
+	const [showModal, setShowModal] = useState<{ show: boolean, msg: String }>({ show: false, msg: "" });
 
 	function is_memberChat(chat_id: String, data: ChatData) {
 		// console.log("members: ", data.members)
@@ -125,8 +124,9 @@ export default function ChatPublic(props: propsPageChats) {
 			getDataChat();
 		})
 
-		socket.on('deleteChat', (id: any) => {
+		socket.on('deleteChat', (message: any) => {
 			props.openPageChats("")
+			setShowModal({ show: true, msg: message });
 		})
 		return () => {
 			socket.off('checkStatus')
@@ -136,27 +136,26 @@ export default function ChatPublic(props: propsPageChats) {
 	}, [socket])
 
 
-	useEffect(() => {
-		socket.on('banMember', (id: any) => {
-			if (myUser.id == id)
-				setIsBanned(true);
-			else
-				getDataChat();
-		})
-		return () => {
-			socket.off('banMember')
-		}
-	}, [socket])
+	const getIsMyId = (id: String) => {
+		if (myUser.id == id)
+			setShowModal({ show: true, msg: id });
+		else
+			getDataChat();
+	}
 
 	useEffect(() => {
-		socket.on('kickMember', (id: any) => {
-			console.log("KickMember: ", id)
-			if (myUser.id == id)
-				setIsBanned(true);
-			getDataChat();
+		socket.on('banMember', (obj: any) => {
+			getIsMyId(obj.id)
 		})
+
+		socket.on('kickMember', (obj: any) => {
+			getIsMyId(obj.id)
+		})
+
 		return () => {
+			socket.off('banMember')
 			socket.off('kickMember')
+
 		}
 	}, [socket])
 
@@ -170,7 +169,7 @@ export default function ChatPublic(props: propsPageChats) {
 			position-absolute top-50 start-50 translate-middle h-75 w-75"
 			style={{ backgroundImage: `url(${bgChatPublic})`, backgroundSize: 'cover' }}
 		>
-			{isBanned ? ModalIsBanned({ openPageChats: props.openPageChats }) : null}
+			{showModal.show ? <ModalIsBanned openPageChats={props.openPageChats} msg={showModal.msg}/> : null}
 			<div className="row g-0 h-100 p-2">
 				<ChatContext.Provider value={{ chatData: chatData, setDataChat, setDinamicProfile }}>
 					<div className="col-3 border-end h-100">

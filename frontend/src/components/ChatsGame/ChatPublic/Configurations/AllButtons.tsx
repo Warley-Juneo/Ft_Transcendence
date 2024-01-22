@@ -94,27 +94,27 @@ export default function AllButtons(): JSX.Element {
 			socket.emit('ban-member-group', obj);
 		}
 	}
-
-	const kickedMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-		if (event.key !== 'Enter') return;
-		console.log("\nkickedMember\n\n");
-		const userId = getUserId(event.currentTarget.value);
-		if (userId) {
-			axios.post(`${process.env.REACT_APP_HOST_URL}/chatroom/kick-member-group`, {
-				add_id: userId,
-				chat_name: name,
-			}, {
-				headers: {
-					Authorization: Cookies.get("jwtToken"),
-					"ngrok-skip-browser-warning": "69420"
-				}, timeout: 5000
-			}).then((res) => {
-				setDataChat(res.data);
-			}).catch((err) => {
-				console.log(err);
-			})
-		}
-	}
+	//TODO: //add kickedMember websocket and correct space in the chat'
+	// const kickedMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+	// 	if (event.key !== 'Enter') return;
+	// 	console.log("\nkickedMember\n\n");
+	// 	const userId = getUserId(event.currentTarget.value);
+	// 	if (userId) {
+	// 		axios.post(`${process.env.REACT_APP_HOST_URL}/chatroom/kick-member-group`, {
+	// 			add_id: userId,
+	// 			chat_name: name,
+	// 		}, {
+	// 			headers: {
+	// 				Authorization: Cookies.get("jwtToken"),
+	// 				"ngrok-skip-browser-warning": "69420"
+	// 			}, timeout: 5000
+	// 		}).then((res) => {
+	// 			setDataChat(res.data);
+	// 		}).catch((err) => {
+	// 			console.log(err);
+	// 		})
+	// 	}
+	// }
 
 	const deleteChat = (event: React.KeyboardEvent<HTMLInputElement>): void => {
 		if (event.key !== 'Enter') return;
