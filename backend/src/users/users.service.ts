@@ -19,6 +19,7 @@ export class UsersService {
 		return await this.userRepository.createUser(dto);
 	}
 
+	// TODO: Create this Route. Add photo upload
 	async uploadPhoto(user_id: string, avatar: string): Promise<void> {
 		const base64Data = avatar.replace(/^data:image\/png;base64,/, "");
 		const uploadDir = path.resolve(__dirname, '..', 'uploads');
