@@ -5,6 +5,7 @@ import { DirectChatRoom, } from '@prisma/client';
 import { ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, DeleteChatroomDto, InputChatroomDto, InputChatroomMessageDto, WebsocketDto, WebsocketWithTimeDto } from './dto/input.dto';
 import { ChatroomsDto, OutputDirectMessageDto, OutputMessageDto, OutputValidateDto, UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
+import { map } from 'rxjs';
 
 @Injectable()
 export class ChatroomService {
@@ -89,7 +90,13 @@ export class ChatroomService {
 
 	async openChatroom(userId: string, dto: InputChatroomDto): Promise<UniqueChatroomDto> {
 		let now: Date = new Date();
-		await this.chatroomRepository.cleanKickedUserChatroom(now)
+		
+		let where_filter = {
+			kicked_time: {
+				lte: now,
+			},
+		};
+		await this.chatroomRepository.cleanKickedUserChatroom(where_filter);
 		
 		let chat: UniqueChatroomDto = await this.findUniqueChatroom(dto.chat_name);
 
@@ -97,6 +104,7 @@ export class ChatroomService {
 			throw new UnauthorizedException("You were banned of this chat!!!")
 		}
 		
+		console.log("\nuserId: ", userId);
 		if (chat.kicked.find((item) => item.id == userId)) {
 			throw new UnauthorizedException("You were temporarely kicked of this chat!!!")
 		}
@@ -237,8 +245,23 @@ export class ChatroomService {
 					id: dto.other_id,
 				},
 			},
+			
 		};
 		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
+
+		let other_where_filter = {
+				userId: {
+					some: {
+						id: dto.other_id,
+					},
+				},
+				chatroom: {
+					some: {
+						id: dto.chat_id,
+					},
+				},
+			};
+		await this.chatroomRepository.cleanKickedUserChatroom(other_where_filter);
 
 		let response = await this.findUniqueChatroom(dto.chat_name);
 		response.password = '';
@@ -284,6 +307,7 @@ export class ChatroomService {
 		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
 		let response = await this.findUniqueChatroom(dto.chat_name);
+		console.log("\nbanMember Function: ", chat);
 		response.password = '';
 		return response;
 
@@ -310,9 +334,9 @@ export class ChatroomService {
 			throw new UnauthorizedException("You can not kick a non member");
 		}
 
-		let kiked = await this.chatroomRepository.findKickedUserChatroom(dto);
+		let kicked = await this.chatroomRepository.findKickedUserChatroom(dto);
 
-		if (kiked.find((item) => item)) {
+		if (kicked.find((item) => item)) {
 			throw new UnauthorizedException("User already kicked");
 		}
 
@@ -337,6 +361,7 @@ export class ChatroomService {
 		let kick_chat = await this.chatroomRepository.kickChatroom(data_filter);
 		let response = await this.findUniqueChatroom(dto.chat_name);
 		response.password = '';
+		console.log("\nbanMember Function: ", response);
 		return response;
 	}
 
