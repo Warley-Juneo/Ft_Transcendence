@@ -13,7 +13,6 @@ export class ChatroomController {
 		return await this.chatroomService.findAllPublicChatrooms();
 	}
 
-	//TODO: Criei essa rota como prova de conceito mas o faustão vai validar ela
 	@Get('find-public')
 	async findPublicChatroom(@Query() dto: InputChatroomDto): Promise<UniqueChatroomDto> {
 		return await this.chatroomService.findPublicChatroom(dto);
@@ -24,17 +23,6 @@ export class ChatroomController {
 		return await this.chatroomService.findPrivateChatroom(request.user.sub);
 	}
 
-	// @Post('create-group')
-	// async createChatroom(@Req() request, @Body() dto: CreateChatroomDto): Promise<ChatroomsDto> {
-	// 	let response =  await this.chatroomService.createChatroom(request.user.sub, dto);
-	// 	return response;
-	// }
-
-	// @Delete('delete-group')
-	// async	deleteChatroom(@Req() request, @Body() dto: InputChatroomDto): Promise <any> {
-	// 	return await this.chatroomService.deleteChatroom(request.user.sub, dto);
-	// }
-
 	@Post('change-password-group')
 	async	changePassword(@Req() request, @Body() dto: ChangePasswordDto): Promise<any> {
 		return await this.chatroomService.changePassword(request.user.sub, dto);
@@ -44,16 +32,6 @@ export class ChatroomController {
 	async	openChatroom(@Req() request, @Body() dto: InputChatroomDto): Promise<UniqueChatroomDto> {
 		return await this.chatroomService.openChatroom(request.user.sub, dto);
 	}
-
-	// @Post('add-adm-group')
-	// async	addAdmChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
-	// 	return await this.chatroomService.addAdmChatroom(request.user.sub, dto);
-	// }
-
-	// @Post('remove-adm-group')
-	// async	removeAdmChatroom(@Req() request, @Body() dto: AddChatUserDto): Promise<UniqueChatroomDto> {
-	// 	return await this.chatroomService.removeAdmChatroom(request.user.sub, dto);
-	// }
 
 	@Post('open-direct')
 	async openDirectChatroom(@Body() dto: CreateDirectChatroomDto): Promise<OutputDirectMessageDto[]> {
