@@ -62,9 +62,6 @@ export default function ChatPublic(props: propsPageChats) {
 	const [showModal, setShowModal] = useState<{ show: boolean, msg: String }>({ show: false, msg: "" });
 
 	function is_memberChat(chat_id: String, data: ChatData) {
-		// console.log("members: ", data.members)
-		// console.log("banned: ", data.banned)
-		// console.log("kicked: ", data.kicked)
 
 		if (data.members.map((member) => member.nickname).includes(myUser.nickname)) {
 			return
@@ -87,8 +84,6 @@ export default function ChatPublic(props: propsPageChats) {
 	//TODO: Show modal when delete chat
 
 	const getDataChat = () => {
-		console.log("Cheguei")
-
 		const ENV = `chat_name=${props.chatName}&password=''`
 		axios.get(`${process.env.REACT_APP_HOST_URL}/chatroom/find-public/?${ENV}`, {
 			headers: {
@@ -136,20 +131,19 @@ export default function ChatPublic(props: propsPageChats) {
 	}, [socket])
 
 
-	const getIsMyId = (id: String) => {
+	const getIsMyId = (id: String, msg: String) => {
 		if (myUser.id == id)
-			setShowModal({ show: true, msg: id });
-		else
-			getDataChat();
+			setShowModal({ show: true, msg: msg });
+		getDataChat();
 	}
 
 	useEffect(() => {
 		socket.on('banMember', (obj: any) => {
-			getIsMyId(obj.id)
+			getIsMyId(obj.id, obj.msg)
 		})
 
 		socket.on('kickMember', (obj: any) => {
-			getIsMyId(obj.id)
+			getIsMyId(obj.id, obj.msg)
 		})
 
 		return () => {
