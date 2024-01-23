@@ -35,9 +35,10 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 		const checkbox = document.querySelector('#flexSwitchCheckDefault') as HTMLInputElement;
 		if (!checkbox || !checkbox.checked) {
 			console.log("Desabilitar 2FA")
-			axios.post('http://localhost:3000/2FA/clear', {}, {
+			axios.post(`${process.env.REACT_APP_HOST_URL}/2FA/clear`, {}, {
 				headers: {
 					Authorization: Cookies.get('jwtToken'),
+					"ngrok-skip-browser-warning": "69420"
 				},
 			}).then((res) => {
 				console.log(res);
@@ -62,9 +63,10 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 		}
 
 		console.log(info);
-		axios.post('http://localhost:3000/users/updateProfile', info, {
+		axios.post(`${process.env.REACT_APP_HOST_URL}/users/updateProfile`, info, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
+				"ngrok-skip-browser-warning": "69420"
 			}
 		}).then((res) => {
 			setHandleOption(!handleOption);
@@ -124,9 +126,10 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 	}
 
 	const getQRCODE = () => {
-		axios.get('http://localhost:3000/2FA', {
+		axios.get(`${process.env.REACT_APP_HOST_URL}/2FA`, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
+				"ngrok-skip-browser-warning": "69420"
 			}
 		}).then((res) => {
 			setQRCODE(res.data);
@@ -141,11 +144,12 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 			return;
 		}
 		console.log("Verificando 2FA");
-		axios.post('http://localhost:3000/2FA/validate', {
+		axios.post(`${process.env.REACT_APP_HOST_URL}/2FA/validate`, {
 			token: token.value,
 		}, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
+				"ngrok-skip-browser-warning": "69420"
 			},
 			timeout: 10000,
 		}).then((res) => {
@@ -160,9 +164,10 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 
 	const [tfaEnabled, setTfaEnabled] = useState<boolean>(dataUser.user.twoFA);
 	const verifyEnabled = () => {
-		axios.get('http://localhost:3000/2FA/verifyStatus', {
+		axios.get(`${process.env.REACT_APP_HOST_URL}/2FA/verifyStatus`, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
+				"ngrok-skip-browser-warning": "69420"
 			},
 		}).then((res) => {
 			console.log(res);

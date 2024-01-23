@@ -1,10 +1,11 @@
-import { BadRequestException, ConsoleLogger, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom, } from '@prisma/client';
-import { AddChatUserDto, BanMember, ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomDto, InputChatroomMessageDto, WebsocketDto, WebsocketWithTimeDto } from './dto/input.dto';
+import { ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, DeleteChatroomDto, InputChatroomDto, InputChatroomMessageDto, WebsocketDto, WebsocketWithTimeDto } from './dto/input.dto';
 import { ChatroomsDto, OutputDirectMessageDto, OutputMessageDto, OutputValidateDto, UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
+import { map } from 'rxjs';
 
 @Injectable()
 export class ChatroomService {
@@ -24,7 +25,6 @@ export class ChatroomService {
 			}
 		}
 
-		// console.log("\n\nQQQQQQQ\n\n", dto.password, "\n", dto.validate_password, "\n\n");
 		if (dto.password) {
 
 			if (!await bcrypt.compare(dto.validate_password, dto.password)) {
@@ -72,7 +72,7 @@ export class ChatroomService {
 		return response;
 	}
 
-	async deleteChatroom(userId: string, dto: InputChatroomDto): Promise<any> {
+	async deleteChatroom(userId: string, dto: DeleteChatroomDto): Promise<any> {
 
 		let chat = await this.findUniqueChatroom(dto.chat_name);
 
@@ -89,17 +89,25 @@ export class ChatroomService {
 	}
 
 	async openChatroom(userId: string, dto: InputChatroomDto): Promise<UniqueChatroomDto> {
-
 		let now: Date = new Date();
-		await this.chatroomRepository.cleanKickedUserChatroom(now)
+		
+		let where_filter = {
+			kicked_time: {
+				lte: now,
+			},
+		};
+		await this.chatroomRepository.cleanKickedUserChatroom(where_filter);
 		
 		let chat: UniqueChatroomDto = await this.findUniqueChatroom(dto.chat_name);
 
 		if (chat.banned.find((item) => item.id == userId)) {
 			throw new UnauthorizedException("You were banned of this chat!!!")
 		}
+
 		
-		if (chat.kicked.find((item) => item.id == userId)) {
+		console.log("\nuserId: ", userId);
+		chat.kicked.map((item) => console.log("kicked: ", item));
+		if (chat.kicked.find((item) => item.userId.find((item) => item.id == userId))) {
 			throw new UnauthorizedException("You were temporarely kicked of this chat!!!")
 		}
 
@@ -144,7 +152,7 @@ export class ChatroomService {
 		await await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 	}
 
-	async addAdmChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	async addAdmChatroom(userId: string, dto: WebsocketDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.findUniqueChatroom(dto.chat_name);
 
@@ -152,7 +160,7 @@ export class ChatroomService {
 			if (!chat.admin.find((item) => item.id == userId)) {
 				throw new UnauthorizedException("You are not adm of this group")
 			}
-			if (!chat.members.find((item) => item.id == dto.add_id)) {
+			if (!chat.members.find((item) => item.id == dto.other_id)) {
 				throw new UnauthorizedException("You can not add a adm that is not a member of this group")
 			}
 		}
@@ -163,12 +171,12 @@ export class ChatroomService {
 		let data_filter = {
 			admin: {
 				connect: {
-					id: dto.add_id,
+					id: dto.other_id,
 				},
 			},
 			banned_member: {
 				disconnect: {
-					id: dto.add_id,
+					id: dto.other_id,
 				},
 			},
 		};
@@ -180,11 +188,11 @@ export class ChatroomService {
 		return response;
 	}
 
-	async removeAdmChatroom(userId: string, dto: AddChatUserDto): Promise<UniqueChatroomDto> {
+	async removeAdmChatroom(userId: string, dto:WebsocketDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.findUniqueChatroom(dto.chat_name);
 
-		if (chat.owner_id == dto.add_id) {
+		if (chat.owner_id == dto.other_id) {
 			throw new UnauthorizedException("You can not remove the owner from adm")
 		}
 
@@ -192,7 +200,7 @@ export class ChatroomService {
 			if (!chat.admin.find((item) => item.id == userId)) {
 				throw new UnauthorizedException("You are not adm of this group");
 			}
-			if (chat.admin.find((item) => item.id == dto.add_id)) {
+			if (chat.admin.find((item) => item.id == dto.other_id)) {
 				throw new UnauthorizedException("You can not ban a adm from this group");
 			}
 		}
@@ -203,7 +211,7 @@ export class ChatroomService {
 		let data_filter = {
 			admin: {
 				disconnect: {
-					id: dto.add_id,
+					id: dto.other_id,
 				},
 			},
 		};
@@ -239,19 +247,34 @@ export class ChatroomService {
 					id: dto.other_id,
 				},
 			},
+			
 		};
 		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
+		let other_where_filter = {
+				userId: {
+					some: {
+						id: dto.other_id,
+					},
+				},
+				chatroom: {
+					some: {
+						id: dto.chat_id,
+					},
+				},
+			};
+		await this.chatroomRepository.cleanKickedUserChatroom(other_where_filter);
+
 		let response = await this.findUniqueChatroom(dto.chat_name);
-		console.log(response);
 		response.password = '';
+		console.log("AddMember: ", response);
 		return response;
 	}
 
-	async banMemberChatroom(userId: string, dto: BanMember): Promise<UniqueChatroomDto> {
+	async banMemberChatroom(userId: string, dto: WebsocketDto): Promise<UniqueChatroomDto> {
 		let chat = await this.findUniqueChatroom(dto.chat_name);
 
-		if (chat.owner_id == dto.ban_id) {
+		if (chat.owner_id == dto.other_id) {
 			throw new UnauthorizedException("You can not ban the owner of the chatroom")
 		}
 
@@ -259,47 +282,42 @@ export class ChatroomService {
 			if (!chat.admin.find((item) => item.id == userId)) {
 				throw new UnauthorizedException("You are not adm of this group");
 			}
-			if (chat.admin.find((item) => item.id == dto.ban_id)) {
+			if (chat.admin.find((item) => item.id == dto.other_id)) {
 				throw new UnauthorizedException("You can not ban a adm from this group");
 			}
 		}
-
 		let where_filter = {
 			name: chat.name,
 		};
 		let data_filter = {
 			banned_member: {
 				connect: {
-					id: dto.ban_id,
+					id: dto.other_id,
 				},
 			},
 			members: {
 				disconnect: {
-					id: dto.ban_id,
+					id: dto.other_id,
 				},
 			},
 			admin: {
 				disconnect: {
-					id: dto.ban_id,
-				},
-			},
-			muted_member: {
-				disconnect: {
-					id: dto.ban_id,
+					id: dto.other_id,
 				},
 			},
 		};
 		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
 		let response = await this.findUniqueChatroom(dto.chat_name);
+		console.log("\nbanMember Function: ", chat);
 		response.password = '';
 		return response;
+
 	}
 
 	async kickMemberChatroom(userId: string, dto: WebsocketWithTimeDto): Promise<any> {
 		let chat = await this.findUniqueChatroom(dto.chat_name);
 
-		console.log("\n\nEntrei kickMember Service\n\nchat: ", chat);
 
 		if (chat.owner_id == dto.other_id) {
 			throw new UnauthorizedException("You can not ban the owner of the chatroom")
@@ -318,16 +336,15 @@ export class ChatroomService {
 			throw new UnauthorizedException("You can not kick a non member");
 		}
 
-		let kiked = await this.chatroomRepository.findKickedUserChatroom(dto);
+		let kicked = await this.chatroomRepository.findKickedUserChatroom(dto);
 
-		if (kiked.find((item) => item)) {
+		if (kicked.find((item) => item)) {
 			throw new UnauthorizedException("User already kicked");
 		}
 
 		let now = new Date();
 		let time: Date = new Date(now.getTime() + dto.time * 60 * 60 * 1000);
 
-		console.log("\n\nnow: ", now, " time: ", time, "\n\n");
 		let data_filter = {
 			userId: {
 				connect: {
@@ -344,10 +361,9 @@ export class ChatroomService {
 		};
 
 		let kick_chat = await this.chatroomRepository.kickChatroom(data_filter);
-		console.log("kick_chat:\n", kick_chat);
 		let response = await this.findUniqueChatroom(dto.chat_name);
 		response.password = '';
-		console.log("\n\nResponse:\n", response);
+		console.log("\nbanMember Function: ", response);
 		return response;
 	}
 
@@ -456,7 +472,6 @@ export class ChatroomService {
 			outputDto.push(new OutputDirectMessageDto(obj));
 		}
 
-		console.log("\n\nFindAllDirectMessageDto", outputDto, "\n\n");
 		return outputDto;
 	}
 }

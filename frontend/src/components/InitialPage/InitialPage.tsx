@@ -24,9 +24,10 @@ export default function InicialPage() {
 	}
 
 	function getInfoUser() {
-		axios.get('http://localhost:3000/landing-page', {
+		axios.get(`${process.env.REACT_APP_HOST_URL}/landing-page`, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
+				"ngrok-skip-browser-warning": "69420"
 			}, timeout: 5000
 		}).then((res) => {
 			if (!res.data.avatar) {

@@ -31,7 +31,11 @@ export class UniqueUserChatrommDto {
 	avatar: string;
 	is_active: boolean;
 }
-
+export class kickedChatroomDto {
+	userId: 		UniqueUserChatrommDto[];
+	chatroom: 		UniqueChatroomDto[];
+	kicked_time:	Date;
+}
 export class UniqueChatroomDto {
 	id: string;
 	name: string;
@@ -43,7 +47,7 @@ export class UniqueChatroomDto {
 	members: UniqueUserChatrommDto[];
 	admin: UniqueUserChatrommDto[];
 	banned: UniqueUserChatrommDto[];
-	kicked: UniqueUserChatrommDto[];
+	kicked: kickedChatroomDto[];
 	message: OutputMessageDto[];
 
 	constructor(obj: any) {

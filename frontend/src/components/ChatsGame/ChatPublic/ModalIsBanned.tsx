@@ -1,10 +1,15 @@
 import Modal from 'react-bootstrap/Modal';
 import { Button } from "react-bootstrap";
 
-export default function ModalIsBanned({openPageChats} : {openPageChats: React.Dispatch<React.SetStateAction<string>>}) {
-	return (<Modal show={true} onHide={() => openPageChats("")}>
+type propsModalIsBanned =  {
+	openPageChats: React.Dispatch<React.SetStateAction<string>>,
+	msg: String,
+}
+
+export default function ModalIsBanned(props: propsModalIsBanned) {
+	return (<Modal show={true} onHide={() => props.openPageChats("")}>
 		<Modal.Header closeButton>
-			<Modal.Title>Parabens você esta sendo convidado a se retirar 🎉🎉</Modal.Title>
+			<Modal.Title>{props.msg}</Modal.Title>
 		</Modal.Header>
 		<Modal.Body>
 			<div className='d-flex justify-content-center'>
@@ -12,10 +17,10 @@ export default function ModalIsBanned({openPageChats} : {openPageChats: React.Di
 			</div>
 		</Modal.Body>
 		<Modal.Footer>
-			<Button variant="secondary" onClick={() => openPageChats("")}>
+			<Button variant="secondary" onClick={() => props.openPageChats("")}>
 				Eu aceito
 			</Button>
-			<Button variant="primary" onClick={() => openPageChats("")}>
+			<Button variant="primary" onClick={() => props.openPageChats("")}>
 				Eu não aceito
 			</Button>
 		</Modal.Footer>

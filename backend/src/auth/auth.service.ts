@@ -26,7 +26,7 @@ export class AuthService {
 		client_id: process.env.UID,
 		client_secret: process.env.SECRET,
 		code: authLoginDto.authCode,
-		redirect_uri: 'http://localhost:3001',
+		redirect_uri: process.env.HOST_URL,
 	  };
 
     const authResponsePromise: Observable<any> = this.httpService.post(
@@ -82,6 +82,7 @@ export class AuthService {
 
     const accessToken: string = await this.validateUserApi42(authLoginDto);
     const userInfo = await this.getUserInfoApi42(accessToken);
+    console.log("entrei");
     const user = await this.verifyUser(userInfo);
     let jwt_token = await this.jwtSign(user);
 
@@ -92,8 +93,8 @@ export class AuthService {
 
 
   async otherLogin(dto: OtherLoginDto): Promise<OutputLoginDto> {
-	dto.first_name = 'firtsname';
-	dto.last_name = 'lastName';
+	// dto.first_name = 'firtsname';
+	// dto.last_name = 'lastName';
 
     const user = await this.verifyUser(dto);
     let jwt_token = await this.jwtSign(user);

@@ -22,6 +22,9 @@ export class CreateDirectMessageDto {
 }
 
 export class CreateChatroomDto {
+	@IsNotEmpty({message: 'My id can not be empty.'})
+	my_id:			string;
+	
 	@IsString({message: 'Chatroom name must be a string.'})
 	@IsNotEmpty({message: 'Chatroom name can not be empty.'})
 	name:			string;
@@ -69,8 +72,22 @@ export class InputChatroomDto {
 	password:		string;
 }
 
-export class InputChatroomMessageDto {
+export class DeleteChatroomDto {
+	@IsNotEmpty({message: 'My id can not be empty.'})
+	my_id:			string;
 
+	@IsNotEmpty({message: 'Chatroom can not be empty.'})
+	chatId:			string;
+	
+	@IsNotEmpty({message: 'Chatroom can not be empty.'})
+	chat_name:			string;
+
+	@ValidateIf(o => o.password != null)
+	@IsString()
+	password:		string;
+}
+
+export class InputChatroomMessageDto {
 	@IsNotEmpty({message: 'Chatroom can not be empty.'})
 	content:		string;
 
@@ -118,20 +135,6 @@ export class WebsocketWithTimeDto {
 
 	@IsNotEmpty({message: 'Time can not be empty.'})
 	time:			number;
-}
-
-export class BanMember {
-	@IsNotEmpty({message: 'My id can not be empty.'})
-	my_id:			string;
-
-	@IsNotEmpty({message: 'ban id can not be empty.'})
-	ban_id:			string;
-
-	@IsNotEmpty({message: 'Name Chatroom can not be empty.'})
-	chat_name:		string;
-
-	@IsNotEmpty({message: 'Id Chatroom can not be empty.'})
-	chat_id:		string;
 }
 
 

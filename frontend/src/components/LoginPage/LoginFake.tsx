@@ -15,7 +15,7 @@ export default function LoginFake(): JSX.Element {
 		const emailValue = formData.get('email') as string;
 		const nickNameValue = formData.get('nickName') as string;
 
-		axios.post("http://localhost:3000/auth/fake", {
+		axios.post(`${process.env.REACT_APP_HOST_URL}/auth/fake`, {
 			login: loginValue,
 			email: emailValue,
 			nickname: nickNameValue,
@@ -23,7 +23,8 @@ export default function LoginFake(): JSX.Element {
 			last_name: 'last_name',
 		}, {
 			headers: {
-				Authorization: Cookies.get("jwtToken")
+				Authorization: Cookies.get("jwtToken"),
+				"ngrok-skip-browser-warning": "69420"
 			}
 		},
 		).then((res) => {

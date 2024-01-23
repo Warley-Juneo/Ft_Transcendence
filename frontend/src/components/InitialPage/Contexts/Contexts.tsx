@@ -23,7 +23,11 @@ export const UserData = createContext<{
 	updateDataUser: () => { },
 })
 
-export const socket = io('http://localhost:3000');
+export const socket = io(`${process.env.REACT_APP_HOST_URL}/`, {
+	extraHeaders: {
+		'ngrok-skip-browser-warning': 'true'
+	}
+});
 socket.on('connect', () => {
 	console.log('Conectado ao socket game');
 })

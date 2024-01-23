@@ -13,10 +13,13 @@ export function Login() {
 		let paramters = new URLSearchParams(window.location.search);
 		let code = paramters.get('code');
 		if (code) {
-			await axios.post('http://localhost:3000/auth', {
+			await axios.post(`${process.env.REACT_APP_HOST_URL}/auth`, {
 				authCode: code,
+			}, {
+				timeout: 5000,
 			}).then((response) => {
 				if (response.status === 201) {
+					console.log("RENDERIZAR PAGINA DE LOGIN")
 					Cookies.set('jwtToken', response.data._access_token);// set expires time
 					Cookies.set('email', response.data._email);
 					navigate('/game')
@@ -24,6 +27,8 @@ export function Login() {
 				else {
 					console.log("RENDERIZAR PAGINA LOGIN INFORMANDO O ERRO");
 				}
+			}).catch((err) => {
+				console.log(err);
 			})
 		}
 	}

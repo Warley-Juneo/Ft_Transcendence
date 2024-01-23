@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { SetStateAction, useContext, useEffect, useState } from 'react';
 import bgChats from '../../assets/game/planets/backgrounds/bgChats.jpg'
 import ScreenCreateNewChat from './ScreemCreateNewChat';
 import BarOptions from './BarOptions';
@@ -8,6 +8,7 @@ import axios from 'axios';
 import './PublicChats.css';
 import ButtonClosed from '../GamePage/Game/ButtonClosed';
 import ChatPublic from '../ChatsGame/ChatPublic/ChatPublic';
+import { UserData, socket } from '../InitialPage/Contexts/Contexts';
 
 export type t_chat = {
 	id: string;
@@ -24,27 +25,36 @@ type propsPageChats = {
 }
 
 export default function PageChats(props: propsPageChats) {
+	const user_id = useContext(UserData).user.id;
 	const [chatList, setChatList] = useState<t_chat[]>([]);
 	const [showCreateChat, setShowCreateChat] = useState(false);
 	const [selectedChat, setSelectedChat] = useState({ click: false, chatName: '' });
+	//TODO: Adicionar um variavel para ver se ele esta no privado ou publico
 
 	const getListPublicChats = () => {
-		axios.get("http://localhost:3000/chatroom/find-all-public", {
+		axios.get(`${process.env.REACT_APP_HOST_URL}/chatroom/find-all-public`, {
 			headers: {
 				Authorization: Cookies.get("jwtToken"),
+				"ngrok-skip-browser-warning": "69420",
 			}
 		}).then((res) => {
 			setChatList(res.data.chatrooms)
+		}).catch((err) => {
+			console.log(err)
 		})
 	}
 
 	const getListPrivateChats = () => {
-		axios.get("http://localhost:3000/chatroom/find-private", {
+		axios.get(`${process.env.REACT_APP_HOST_URL}/chatroom/find-private`, {
 			headers: {
 				Authorization: Cookies.get("jwtToken"),
+				"ngrok-skip-browser-warning": "69420",
 			}
 		}).then((res) => {
 			setChatList(res.data.chatrooms)
+			console.log("Lista: privado", res.data.chatrooms)
+		}).catch((err) => {
+			console.log(err)
 		})
 	}
 
@@ -69,31 +79,32 @@ export default function PageChats(props: propsPageChats) {
 
 	function createNewChat(form: FormData) {
 		setShowCreateChat(false);
-		const dataPost = {
+		const obj = {
+			my_id: user_id,
 			name: form.get('nameChat'),
 			type: 'public',
 			password: form.get('passwordChat'),
 			photoUrl: "https://photografos.com.br/wp-content/uploads/2020/09/fotografia-para-perfil.jpg",
 		}
 
-		if (form.get('privateChat') === 'private') dataPost.type = 'private'
-		else if (form.get('protectChat') === 'protected') dataPost.type = 'protected'
+		if (form.get('privateChat') === 'private') obj.type = 'private'
+		else if (form.get('protectChat') === 'protected') obj.type = 'protected'
 
-		axios.post('http://localhost:3000/chatroom/create-group',
-			dataPost, {
-			headers: {
-				Authorization: Cookies.get('jwtToken'),
-			}
-		}).then((res) => {
-			setChatList(res.data.chatrooms)
-		}).catch((err) => {
-			console.log(err)
-		})
+		socket.emit('create-group', obj);
 	}
 
 	useEffect(() => {
 		getListPublicChats()
 	}, [])
+
+	useEffect(() => {
+		socket.on("creatChat", (data: any) => {
+			getListPublicChats()
+		})
+		return () => {
+			socket.off("creatChat")
+		}
+	}, [socket])
 
 	const cssDivChats: React.CSSProperties = {
 		backgroundImage: `url(${bgChats})`,
@@ -104,6 +115,8 @@ export default function PageChats(props: propsPageChats) {
 		width: '75%',
 		padding: '7%'
 	}
+
+	console.log("vou printar a lista de chats");
 
 	if (selectedChat.click === true) return <ChatPublic
 		chatName={selectedChat.chatName}

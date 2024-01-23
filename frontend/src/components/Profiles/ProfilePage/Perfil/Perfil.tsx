@@ -14,9 +14,10 @@ export default function InformationsUser() {
 	const dataUser = useContext(UserData);
 
 	const getProfile = (): void => {
-		axios.get(`http://localhost:3000/users/profile/?nick_name=${dataUser.user.nickname}`, {
+		axios.get(`${process.env.REACT_APP_HOST_URL}/users/profile/?nick_name=${dataUser.user.nickname}`, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
+				"ngrok-skip-browser-warning": "69420"
 			}
 		})
 			.then((response) => {

@@ -16,9 +16,10 @@ export default function MatchHistory({ userId }: { userId: string }) {
 
 	const getMatchHistory = (): void => {
 		const ENV = `user_id=${userId}`
-		axios.get(`http://localhost:3000/game/user/match-history/?${ENV}`, {
+		axios.get(`${process.env.REACT_APP_HOST_URL}/game/user/match-history/?${ENV}`, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
+				"ngrok-skip-browser-warning": "69420"
 			}
 		}).then((response) => {
 			setMatchHistory(response.data);

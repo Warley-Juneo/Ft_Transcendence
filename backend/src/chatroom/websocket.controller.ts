@@ -2,7 +2,7 @@
 
 import { SubscribeMessage, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Socket, Server } from "socket.io";
-import { BanMember, CreateDirectMessageDto, InputChatroomMessageDto, InputOpenChatroomDto, WebsocketDto, WebsocketWithTimeDto } from "./dto/input.dto";
+import { AddChatUserDto, CreateChatroomDto, CreateDirectMessageDto, DeleteChatroomDto, InputChatroomDto, InputChatroomMessageDto, InputOpenChatroomDto, WebsocketDto, WebsocketWithTimeDto } from "./dto/input.dto";
 import { ChatroomService } from "./chatroom.service";
 import { DisconnectDto } from "src/game/dtos/input.dto";
 import { GameService } from "src/game/game.service";
@@ -65,10 +65,16 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 		client.emit('desconectado', 'Desconectado com sucesso!');
 	}
 
-	@SubscribeMessage('add-member-group')
-	async	addMemberChatroom(client: Socket, dto: WebsocketDto) {
-		await this.chatroomService.addMemberChatroom(dto.my_id, dto);
-		this.server.to(dto.chat_id).emit("addMember", "succeso");
+	@SubscribeMessage('create-group')
+	async createChatroom(client: Socket, dto: CreateChatroomDto) {
+		await this.chatroomService.createChatroom(dto.my_id, dto);
+		this.server.emit("creatChat", "succeso");
+	}
+
+	@SubscribeMessage('delete-group')
+	async deleteChatroom(client: Socket, dto: DeleteChatroomDto) {
+		await this.chatroomService.deleteChatroom(dto.my_id, dto);
+		this.server.to(dto.chatId).emit("deleteChat", "O chat foi deletado");
 	}
 
 	@SubscribeMessage('open-group')
@@ -81,18 +87,43 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 		client.leave(dto.chatId);
 	}
 
+	@SubscribeMessage('add-member-group')
+	async	addMemberChatroom(client: Socket, dto: WebsocketDto) {
+		await this.chatroomService.addMemberChatroom(dto.my_id, dto);
+		this.server.to(dto.chat_id).emit("updateChat", "succeso");
+	}
+
+	@SubscribeMessage('add-adm-group')
+	async addAdmChatroom(client: Socket, dto: WebsocketDto) {
+		await this.chatroomService.addAdmChatroom(dto.my_id , dto);
+		this.server.to(dto.chat_id).emit("updateChat", "succeso");
+	}
+
+	@SubscribeMessage('remove-adm-group')
+	async removeAdmChatroom(client: Socket, dto: WebsocketDto) {
+		await this.chatroomService.removeAdmChatroom(dto.my_id, dto);
+		this.server.to(dto.chat_id).emit("updateChat", "succeso");
+	}
+
 	@SubscribeMessage('ban-member-group')
-	async banMemberChatroom(client: Socket, dto: BanMember) {
+	async banMemberChatroom(client: Socket, dto: WebsocketDto) {
 		await this.chatroomService.banMemberChatroom(dto.my_id, dto);
-		this.server.to(dto.chat_id).emit("banMember", dto.ban_id);
+
+		let obj = {
+			id: dto.other_id,
+			msg: "Você foi banido desse chat"
+		}
+		this.server.to(dto.chat_id).emit("banMember", obj);
 	}
 
 	@SubscribeMessage('kick-member-group')
 	async kickMemberChatroom(client: Socket, dto: WebsocketWithTimeDto) {
-		console.log("\n\nEntrei kickMember Websocket\n\n");
-		console.log("DTO: ", dto)
 		await this.chatroomService.kickMemberChatroom(dto.my_id, dto);
-		this.server.to(dto.chat_id).emit("kickMember", dto.other_id);
+		let obj = {
+			id: dto.other_id,
+			msg: "Você foi kickado desse chat"
+		}
+		this.server.to(dto.chat_id).emit("kickMember", obj);
 	}
 
 	@SubscribeMessage('group-message')

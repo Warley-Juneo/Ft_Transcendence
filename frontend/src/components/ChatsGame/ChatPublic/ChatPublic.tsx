@@ -8,9 +8,8 @@ import Cookies from "js-cookie";
 import { UserData, socket } from "../../InitialPage/Contexts/Contexts";
 import bgChatPublic from "../../../assets/game/bgChatPublic.png";
 import RightSide from "./RightSide";
-import Modal from 'react-bootstrap/Modal';
-import { Button } from "react-bootstrap";
 import ModalIsBanned from "./ModalIsBanned";
+import { useNavigate } from "react-router-dom";
 
 export type Messages = {
 	id: string,
@@ -28,6 +27,8 @@ export type ChatData = {
 	name: string,
 	photo: string,
 	members: Players[],
+	banned: Players[],
+	kicked: Players[],
 	admin: Players[],
 	message: Messages[],
 }
@@ -57,32 +58,47 @@ export default function ChatPublic(props: propsPageChats) {
 	const [chatData, setDataChat] = useState<ChatData>({} as ChatData);
 	const [dinamicProfile, setDinamicProfile] = useState<DinamicProfile>({} as DinamicProfile);
 	const [showDinamicProfile, setShowDinamicProfile] = useState<string>('');
-	const [isBanned, setIsBanned] = useState<boolean>(false);
 	const myUser = useContext(UserData).user;
+	const [showModal, setShowModal] = useState<{ show: boolean, msg: String }>({ show: false, msg: "" });
 
-	function is_memberChat(chat_id: String, members: Players[]) {
-		if (members.map((member) => member.nickname).includes(myUser.nickname)) {
+	function is_memberChat(chat_id: String, data: ChatData) {
+		// console.log("members: ", data.members)
+		// console.log("banned: ", data.banned)
+		// console.log("kicked: ", data.kicked)
+
+		if (data.members.map((member) => member.nickname).includes(myUser.nickname)) {
+			return
+		} else if (data.banned.map((member) => member.nickname).includes(myUser.nickname)) {
+			return
+		} else if (data.kicked.map((member) => member.nickname).includes(myUser.nickname)) {
 			return
 		}
+
+
 		let obj = {
-				my_id: myUser.id,
-				other_id: myUser.id,
-				chat_name: props.chatName,
-				chat_id: chat_id,
+			my_id: myUser.id,
+			other_id: myUser.id,
+			chat_name: props.chatName,
+			chat_id: chat_id,
 		}
 		socket.emit("add-member-group", obj);
 	}
 
+	//TODO: Show modal when delete chat
+
 	const getDataChat = () => {
+		console.log("Cheguei")
+
 		const ENV = `chat_name=${props.chatName}&password=''`
-		axios.get(`http://localhost:3000/chatroom/find-public/?${ENV}`, {
+		axios.get(`${process.env.REACT_APP_HOST_URL}/chatroom/find-public/?${ENV}`, {
 			headers: {
-				Authorization: Cookies.get("jwtToken")
+				Authorization: Cookies.get("jwtToken"),
+				"ngrok-skip-browser-warning": "69420",
 			}
 		}).then((response) => {
 			setDataChat(response.data)
-			is_memberChat(response.data.id, response.data.members)
-			socket.emit("open-group", {chatId: response.data.id});
+			is_memberChat(response.data.id, response.data)
+			socket.emit("open-group", { chatId: response.data.id });
 		}).catch((error) => {
 			console.log(error)
 		})
@@ -104,42 +120,45 @@ export default function ChatPublic(props: propsPageChats) {
 		socket.on('checkStatus', (data: any) => {
 			getDataChat();
 		})
+		socket.on('updateChat', (data: any) => {
+			getDataChat();
+		})
+
+		socket.on('deleteChat', (message: any) => {
+			props.openPageChats("")
+			setShowModal({ show: true, msg: message });
+		})
 		return () => {
 			socket.off('checkStatus')
+			socket.off('updateChat')
+			socket.off('deleteChat')
 		}
 	}, [socket])
 
 
-	useEffect(() => {
-		socket.on('banMember', (id: any) => {
-			if (myUser.id == id)
-				setIsBanned(true);
+	const getIsMyId = (id: String) => {
+		if (myUser.id == id)
+			setShowModal({ show: true, msg: id });
+		else
 			getDataChat();
+	}
+
+	useEffect(() => {
+		socket.on('banMember', (obj: any) => {
+			getIsMyId(obj.id)
 		})
+
+		socket.on('kickMember', (obj: any) => {
+			getIsMyId(obj.id)
+		})
+
 		return () => {
 			socket.off('banMember')
-		}
-	}, [socket])
-
-	useEffect(() => {
-		socket.on('addMember', (data: any) => {
-			getDataChat();
-		})
-		return () => {
-			socket.off('addMember')
-		}
-	}, [socket])
-
-	useEffect(() => {
-		socket.on('kickMember', (id: any) => {
-			if (myUser.id == id)
-				setIsBanned(true);
-			getDataChat();
-		})
-		return () => {
 			socket.off('kickMember')
+
 		}
 	}, [socket])
+
 	//##############################################################
 
 	if (!chatData.name) return <div>Carregando...</div>
@@ -150,7 +169,7 @@ export default function ChatPublic(props: propsPageChats) {
 			position-absolute top-50 start-50 translate-middle h-75 w-75"
 			style={{ backgroundImage: `url(${bgChatPublic})`, backgroundSize: 'cover' }}
 		>
-			{isBanned ? ModalIsBanned({openPageChats: props.openPageChats}) : null}
+			{showModal.show ? <ModalIsBanned openPageChats={props.openPageChats} msg={showModal.msg}/> : null}
 			<div className="row g-0 h-100 p-2">
 				<ChatContext.Provider value={{ chatData: chatData, setDataChat, setDinamicProfile }}>
 					<div className="col-3 border-end h-100">

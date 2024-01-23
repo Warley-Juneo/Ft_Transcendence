@@ -17,11 +17,14 @@ export default function MiniProfile(props: propsMiniProfile) {
 	const [showConfigurations, setShowConfigurations] = useState<boolean>(false);
 
 	function getPlayers(route: string) {
+		console.log('getPlayers: ', route)
 		axios.get(route, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
+				"ngrok-skip-browser-warning": "69420"
 			}
 		}).then((res) => {
+			console.log('getPlayers: ', res.data)
 			setPlayers(res.data);
 		}).catch((err) => {
 			console.log(err);
@@ -29,12 +32,12 @@ export default function MiniProfile(props: propsMiniProfile) {
 	}
 
 	useEffect(() => {
-		getPlayers('http://localhost:3000/users/friends');
+		getPlayers(`${process.env.REACT_APP_HOST_URL}/users/friends`);
 	}, []);
 
 	useEffect(() => {
 		socket.on('checkStatus', (data: any) => {
-			getPlayers('http://localhost:3000/users/friends');
+			getPlayers(`${process.env.REACT_APP_HOST_URL}/users/friends`);
 		})
 		return () => {
 			socket.off('checkStatus');
