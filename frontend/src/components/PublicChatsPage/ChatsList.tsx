@@ -13,6 +13,7 @@ type propsChatList = {
 
 export default function ChatList(props: propsChatList) {
 	const [showWarningBan, setShowWarningBan] = useState(false);
+	const [messageErro, setMessageError] = useState("");
 
 	const getDataChat = (chatName: string, password: string) => {
 		return axios.post(`${process.env.REACT_APP_HOST_URL}/chatroom/open-group`, {
@@ -31,7 +32,8 @@ export default function ChatList(props: propsChatList) {
 	const getDataChatPublic = (chatName: string) => {
 		getDataChat(chatName, '').then(() => {
 			props.clickedChat(chatName);
-		}).catch(() => {
+		}).catch((err) => {
+			setMessageError(err.response.data.msg)
 			setShowWarningBan(true);
 		});
 	}
@@ -113,9 +115,10 @@ export default function ChatList(props: propsChatList) {
 			</div>
 		)
 	}
+
 	return (
 		<div className='row g-0 w-100'>
-			{showWarningBan ? <BannedWarningModal showWarningBan={setShowWarningBan} />: null}
+			{showWarningBan ? <BannedWarningModal showWarningBan={setShowWarningBan} messageError={messageErro} /> : null}
 			{props.listChats.map((chat) => (
 				chat.type !== 'protected' ? divPublicChats(chat) : divProtectChats(chat)
 			))}

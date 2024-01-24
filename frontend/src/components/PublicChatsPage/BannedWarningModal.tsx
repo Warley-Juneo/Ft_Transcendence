@@ -4,13 +4,14 @@ import React from 'react';
 
 type propsBannedWarningModal = {
 	showWarningBan: React.Dispatch<React.SetStateAction<boolean>>;
+	messageError: String;
 }
 
-export default function BannedWarningModal({ showWarningBan }: propsBannedWarningModal) {
+export default function BannedWarningModal(props: propsBannedWarningModal) {
 
 	return (<Modal show={true}>
 		<Modal.Header closeButton>
-			<Modal.Title>Parado !!! Você foi banido deste chat 👮</Modal.Title>
+			<Modal.Title>{props.messageError} 👮</Modal.Title>
 		</Modal.Header>
 		<Modal.Body>
 			<div className='d-flex justify-content-center'>
@@ -18,7 +19,7 @@ export default function BannedWarningModal({ showWarningBan }: propsBannedWarnin
 			</div>
 		</Modal.Body>
 		<Modal.Footer>
-			<Button variant="secondary" onClick={() => showWarningBan(false)}>
+			<Button variant="secondary" onClick={() => props.showWarningBan(false)}>
 				Ok
 			</Button>
 		</Modal.Footer>

@@ -116,6 +116,7 @@ export default function ChatPublic(props: propsPageChats) {
 			getDataChat();
 		})
 		socket.on('updateChat', (data: any) => {
+			console.log("update");
 			getDataChat();
 		})
 
@@ -134,11 +135,13 @@ export default function ChatPublic(props: propsPageChats) {
 	const getIsMyId = (id: String, msg: String) => {
 		if (myUser.id == id)
 			setShowModal({ show: true, msg: msg });
+		console.log("vou atualizar");
 		getDataChat();
 	}
 
 	useEffect(() => {
 		socket.on('banMember', (obj: any) => {
+			console.log("banMember");
 			getIsMyId(obj.id, obj.msg)
 		})
 
