@@ -97,6 +97,13 @@ export class ChatroomService {
 			},
 		};
 		await this.chatroomRepository.cleanKickedUserChatroom(where_filter);
+
+		let mute_where_filter = {
+			mutted_time: {
+				lte: now,
+			},
+		};
+		await this.chatroomRepository.cleanMuttedUserChatroom(mute_where_filter);
 		
 		let chat: UniqueChatroomDto = await this.findUniqueChatroom(dto.chat_name);
 
@@ -104,12 +111,11 @@ export class ChatroomService {
 			throw new UnauthorizedException("You were banned of this chat!!!")
 		}
 
-		
-		console.log("\nuserId: ", userId);
 		chat.kicked.map((item) => console.log("kicked: ", item));
 		if (chat.kicked.find((item) => item.userId.find((item) => item.id == userId))) {
 			throw new UnauthorizedException("Você foi temporariamente kickado desse chat!!!")
 		}
+
 
 		if (chat.type == "protected") {
 			if (!await bcrypt.compare(dto.password, chat.password)) {
@@ -273,7 +279,6 @@ export class ChatroomService {
 
 		let response = await this.findUniqueChatroom(dto.chat_name);
 		response.password = '';
-		console.log("AddMember: ", response);
 		return response;
 	}
 
@@ -315,7 +320,6 @@ export class ChatroomService {
 		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
 		let response = await this.findUniqueChatroom(dto.chat_name);
-		console.log("\nbanMember Function: ", chat);
 		response.password = '';
 		return response;
 
@@ -381,7 +385,58 @@ export class ChatroomService {
 		
 		let response = await this.findUniqueChatroom(dto.chat_name);
 		response.password = '';
-		console.log("\nbanMember Function: ", response);
+		return response;
+	}
+
+	async muteMemberChatroom(userId: string, dto: WebsocketWithTimeDto): Promise<any> {
+		let chat = await this.findUniqueChatroom(dto.chat_name);
+
+		if (chat.owner_id == dto.other_id) {
+			throw new UnauthorizedException("You can not mute the owner of the chatroom")
+		}
+
+		if (chat.owner_id != userId) {
+			if (!chat.admin.find((item) => item.id == userId)) {
+				throw new UnauthorizedException("You are not adm of this group");
+			}
+			if (chat.admin.find((item) => item.id == dto.other_id)) {
+				throw new UnauthorizedException("You can not mute a adm from this group");
+			}
+		}
+
+		if (!chat.members.find((item) => item.id == dto.other_id)) {
+			throw new UnauthorizedException("You can not mute a non member");
+		}
+
+		let mutted = await this.chatroomRepository.findMutedUserChatroom(dto.other_id, dto.chat_id);
+
+		if (mutted.find((item) => item)) {
+			throw new UnauthorizedException("User already mutted");
+		}
+
+		let now = new Date();
+		let time: Date = new Date(now.getTime() + dto.time * 60 * 60 * 1000);
+
+		let data_filter = {
+			userId: {
+				connect: {
+					id: dto.other_id,
+				},
+			},
+			chatroom: {
+				connect: {
+					id: dto.chat_id,
+				},
+			},
+
+			mutted_time: time,
+		};
+
+		let kick_chat = await this.chatroomRepository.muteChatroom(data_filter);
+
+		let response = await this.findUniqueChatroom(dto.chat_name);
+		response.password = '';
+		console.log("\nbKickMember Function: ", response);
 		return response;
 	}
 
@@ -400,7 +455,6 @@ export class ChatroomService {
 		}
 		return outputDto;
 	}
-
 
 	async findAllPublicChatrooms(): Promise<ChatroomsDto> {
 
@@ -445,8 +499,12 @@ export class ChatroomService {
 
 	async createChatroomMessage(dto: InputChatroomMessageDto): Promise<OutputMessageDto> {
 
+		if (this.chatroomRepository.findMutedUserChatroom(dto.user_id, dto.chatId)) {
+			throw new UnauthorizedException("Você esta temporariamente mutado!!")
+		}
 		let msg = await this.chatroomRepository.createChatroomMessage(dto);
 		return new OutputMessageDto(msg);
+		
 	}
 
 	async getChatroomMessage(dto: CreateDirectChatroomDto): Promise<{ chat: DirectChatRoom, name: string }> {

@@ -126,6 +126,16 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 		this.server.to(dto.chat_id).emit("kickMember", obj);
 	}
 
+	@SubscribeMessage('kick-member-group')
+	async muteMemberChatroom(client: Socket, dto: WebsocketWithTimeDto) {
+		await this.chatroomService.kickMemberChatroom(dto.my_id, dto);
+		let obj = {
+			id: dto.other_id,
+			msg: "Você foi mutado desse chat"
+		}
+		this.server.to(dto.chat_id).emit("kickMember", obj);
+	}
+
 	@SubscribeMessage('group-message')
 	async chatroomMessage(client: Socket, dto: InputChatroomMessageDto) {
 		let outputMsg: any = await this.service.createChatroomMessage(dto);

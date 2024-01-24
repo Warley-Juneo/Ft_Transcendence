@@ -41,6 +41,7 @@ model User {
   chat_member         ChatRoom[]        @relation(name: "member_chatroom")
   chat_banned         ChatRoom[]        @relation(name: "banned_chatroom")
   chat_kicked         kickedChatroom[]  @relation(name: "kicked_user")
+  chat_mutted       muttedChatroom[]  @relation(name: "mutted_user")
 
   chat_message        Message[]         @relation(name: "user_mesage")
 
@@ -122,6 +123,7 @@ model ChatRoom {
   members           User[]              @relation(name: "member_chatroom")
   banned_member     User[]              @relation(name: "banned_chatroom")
   kicked_chatroom   kickedChatroom[]    @relation(name: "kicked_chatroom")
+  mutted_chatroom   muttedChatroom[]    @relation(name: "mutted_chatroom")
   
   message         Message[] @relation(name: "chat_mesage")
 
@@ -138,6 +140,15 @@ model kickedChatroom {
   chatroom        ChatRoom[]  @relation(name: "kicked_chatroom")
 
   kicked_time     DateTime
+}
+
+model muttedChatroom {
+  id              String      @id @default(uuid())
+  
+  userId          User[]      @relation(name: "mutted_user")
+  chatroom        ChatRoom[]  @relation(name: "mutted_chatroom")
+
+  mutted_time     DateTime
 }
 
 model Message {

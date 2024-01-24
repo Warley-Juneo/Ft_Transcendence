@@ -72,6 +72,12 @@ CREATE TABLE "kickedChatroom" (
 );
 
 -- CreateTable
+CREATE TABLE "muttedChatroom" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "kicked_time" DATETIME NOT NULL
+);
+
+-- CreateTable
 CREATE TABLE "message" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "content" TEXT NOT NULL,
@@ -97,6 +103,14 @@ CREATE TABLE "_kicked_user" (
     "B" TEXT NOT NULL,
     CONSTRAINT "_kicked_user_A_fkey" FOREIGN KEY ("A") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT "_kicked_user_B_fkey" FOREIGN KEY ("B") REFERENCES "kickedChatroom" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "_mutted_user" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL,
+    CONSTRAINT "_mutted_user_A_fkey" FOREIGN KEY ("A") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "_mutted_user_B_fkey" FOREIGN KEY ("B") REFERENCES "muttedChatroom" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -139,6 +153,14 @@ CREATE TABLE "_kicked_chatroom" (
     CONSTRAINT "_kicked_chatroom_B_fkey" FOREIGN KEY ("B") REFERENCES "kickedChatroom" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- CreateTable
+CREATE TABLE "_mutted_chatroom" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL,
+    CONSTRAINT "_mutted_chatroom_A_fkey" FOREIGN KEY ("A") REFERENCES "chat_room" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "_mutted_chatroom_B_fkey" FOREIGN KEY ("B") REFERENCES "muttedChatroom" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "user_login_key" ON "user"("login");
 
@@ -165,6 +187,12 @@ CREATE UNIQUE INDEX "_kicked_user_AB_unique" ON "_kicked_user"("A", "B");
 
 -- CreateIndex
 CREATE INDEX "_kicked_user_B_index" ON "_kicked_user"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_mutted_user_AB_unique" ON "_mutted_user"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_mutted_user_B_index" ON "_mutted_user"("B");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_direct_message_blocked_AB_unique" ON "_direct_message_blocked"("A", "B");
@@ -195,3 +223,9 @@ CREATE UNIQUE INDEX "_kicked_chatroom_AB_unique" ON "_kicked_chatroom"("A", "B")
 
 -- CreateIndex
 CREATE INDEX "_kicked_chatroom_B_index" ON "_kicked_chatroom"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_mutted_chatroom_AB_unique" ON "_mutted_chatroom"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_mutted_chatroom_B_index" ON "_mutted_chatroom"("B");

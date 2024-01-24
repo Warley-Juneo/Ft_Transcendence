@@ -122,6 +122,7 @@ export class ChatroomRepository {
 		return chat;
 	}
 
+
 	async	cleanKickedUserChatroom(where_filter: any): Promise<any> {
 		console.log("\n\nEntrei delete many\n\n");
 		await this.prisma.kickedChatroom.deleteMany({
@@ -152,6 +153,51 @@ export class ChatroomRepository {
 				userId: true,
 				chatroom: true,
 				kicked_time: true,
+				},
+		})
+
+		return chat;
+	}
+
+	async	muteChatroom(data_filter: any): Promise<any> {
+		
+		console.log("\n\nEntrei muteMember Repository\n\n");
+		
+		let chat = await this.prisma.muttedChatroom.create({
+			data: data_filter,
+		});
+		return chat;
+	}
+
+	async	cleanMuttedUserChatroom(where_filter: any): Promise<any> {
+		await this.prisma.kickedChatroom.deleteMany({
+			where: where_filter,
+		});
+		
+		let chat = await this.prisma.kickedChatroom.findMany();
+		console.log("\n\nclean_Mutted_Chatroom\n", chat);
+		
+		return chat;
+	}
+
+	async	findMutedUserChatroom(userId: string, chatroomId: string): Promise<any[]> {
+		let chat = await this.prisma.muttedChatroom.findMany({
+			where: {
+				userId: {
+					some: {
+						id: userId,
+					},
+				},
+				chatroom: {
+					some: {
+						id: chatroomId,
+					},
+				},
+			},
+			select: {
+				userId: true,
+				chatroom: true,
+				mutted_time: true,
 				},
 		})
 
@@ -208,6 +254,13 @@ export class ChatroomRepository {
 						kicked_time: true,
 					},
 				},
+				mutted_chatroom: {
+					select: {
+						userId: true,
+						chatroom: true,
+						mutted_time: true,
+					},
+				},
 				message: {
 					select: {
 						id: true,
@@ -260,6 +313,13 @@ export class ChatroomRepository {
 						userId: true,
 						chatroom: true,
 						kicked_time: true,
+					},
+				},
+				mutted_chatroom: {
+					select: {
+						userId: true,
+						chatroom: true,
+						mutted_time: true,
 					},
 				},
 			},
