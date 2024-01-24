@@ -89,6 +89,7 @@ export class ChatroomService {
 	}
 
 	async openChatroom(userId: string, dto: InputChatroomDto): Promise<UniqueChatroomDto> {
+		
 		let now: Date = new Date();
 		
 		let where_filter = {
@@ -103,7 +104,9 @@ export class ChatroomService {
 				lte: now,
 			},
 		};
-		await this.chatroomRepository.cleanMuttedUserChatroom(mute_where_filter);
+		console.log("Open Mutted: ");
+		let test = await this.chatroomRepository.cleanMuttedUserChatroom(mute_where_filter);
+
 		
 		let chat: UniqueChatroomDto = await this.findUniqueChatroom(dto.chat_name);
 

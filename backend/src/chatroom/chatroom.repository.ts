@@ -170,11 +170,11 @@ export class ChatroomRepository {
 	}
 
 	async	cleanMuttedUserChatroom(where_filter: any): Promise<any> {
-		await this.prisma.kickedChatroom.deleteMany({
+		await this.prisma.muttedChatroom.deleteMany({
 			where: where_filter,
 		});
 		
-		let chat = await this.prisma.kickedChatroom.findMany();
+		let chat = await this.prisma.muttedChatroom.findMany();
 		console.log("\n\nclean_Mutted_Chatroom\n", chat);
 		
 		return chat;
