@@ -107,7 +107,7 @@ export class ChatroomService {
 		console.log("Open Mutted: ");
 		let test = await this.chatroomRepository.cleanMuttedUserChatroom(mute_where_filter);
 
-		
+
 		let chat: UniqueChatroomDto = await this.findUniqueChatroom(dto.chat_name);
 
 		if (chat.banned.find((item) => item.id == userId)) {
@@ -233,7 +233,7 @@ export class ChatroomService {
 	}
 
 	async addMemberChatroom(userId: string, dto: WebsocketDto): Promise<UniqueChatroomDto> {
-
+		console.log("add member");
 		let chat = await this.findUniqueChatroom(dto.chat_name);
 
 		if (chat.type == "private") {
