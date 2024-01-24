@@ -324,7 +324,6 @@ export class ChatroomService {
 	async kickMemberChatroom(userId: string, dto: WebsocketWithTimeDto): Promise<any> {
 		let chat = await this.findUniqueChatroom(dto.chat_name);
 
-
 		if (chat.owner_id == dto.other_id) {
 			throw new UnauthorizedException("You can not ban the owner of the chatroom")
 		}
@@ -367,6 +366,19 @@ export class ChatroomService {
 		};
 
 		let kick_chat = await this.chatroomRepository.kickChatroom(data_filter);
+		
+		let other_where_filter = {
+			name: chat.name,
+		};
+		let other_data_filter = {
+			members: {
+				disconnect: {
+					id: dto.other_id,
+				},
+			},
+		};
+		await this.chatroomRepository.updateChatroom(other_where_filter, other_data_filter);
+		
 		let response = await this.findUniqueChatroom(dto.chat_name);
 		response.password = '';
 		console.log("\nbanMember Function: ", response);
