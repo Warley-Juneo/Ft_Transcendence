@@ -108,7 +108,7 @@ export class ChatroomService {
 		console.log("\nuserId: ", userId);
 		chat.kicked.map((item) => console.log("kicked: ", item));
 		if (chat.kicked.find((item) => item.userId.find((item) => item.id == userId))) {
-			throw new UnauthorizedException("You were temporarely kicked of this chat!!!")
+			throw new UnauthorizedException("Você foi temporariamente kickado desse chat!!!")
 		}
 
 		if (chat.type == "protected") {
