@@ -252,16 +252,22 @@ export class ChatroomService {
 		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
 		let other_where_filter = {
-				userId: {
-					some: {
-						id: dto.other_id,
+				AND: [
+					{
+						userId: {
+							some: {
+								id: dto.other_id,
+							},
+						},
 					},
-				},
-				chatroom: {
-					some: {
-						id: dto.chat_id,
+					{
+						chatroom: {
+							some: {
+								id: dto.chat_id,
+							},
+						},
 					},
-				},
+				],
 			};
 		await this.chatroomRepository.cleanKickedUserChatroom(other_where_filter);
 
