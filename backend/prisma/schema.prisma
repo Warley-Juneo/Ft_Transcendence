@@ -11,44 +11,44 @@ datasource db {
 }
 
 model User {
-  id                  String            @id @default(uuid())
-  login               String            @unique
-  email               String            @unique
+  id                  String              @id @default(uuid())
+  login               String              @unique
+  email               String              @unique
   first_name          String
   last_name           String
-  nickname            String            @unique
+  nickname            String              @unique
   avatar              String?
-  coins			 	        Int               @default(0)
+  coins			 	        Int                 @default(0)
 
-  createdAt           DateTime          @default(now())
-  updatedAt           DateTime          @updatedAt
-  is_active           Boolean           @default(true)
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  is_active           Boolean             @default(true)
 
-  friends             User[]            @relation("friends")
-  friendsRelation     User[]            @relation("friends")
+  friends             User[]              @relation("friends")
+  friendsRelation     User[]              @relation("friends")
   // hash      //autenticação de multiplos fatores. Autenticação google
-  points              Int               @default(0)
+  points              Int                 @default(0)
 
-  match_as_player_1   Match[]           @relation(name: "player_1")
-  match_as_player_2   Match[]           @relation(name: "player_2")
+  match_as_player_1   Match[]             @relation(name: "player_1")
+  match_as_player_2   Match[]             @relation(name: "player_2")
 
-  match_wins          Match[]           @relation(name: "winner")
-  match_loses         Match[]           @relation(name: "loser")
+  match_wins          Match[]             @relation(name: "winner")
+  match_loses         Match[]             @relation(name: "loser")
 
-  chat_owner          ChatRoom[]        @relation(name: "owner")
-  chat_admin          ChatRoom[]        @relation(name: "admin")
+  chat_owner          ChatRoom[]          @relation(name: "owner")
+  chat_admin          ChatRoom[]          @relation(name: "admin")
   // chat_user         ChatRoom[]  @relation(name: "user_chatroom")
-  chat_member         ChatRoom[]        @relation(name: "member_chatroom")
-  chat_banned         ChatRoom[]        @relation(name: "banned_chatroom")
-  chat_kicked         kickedChatroom[]  @relation(name: "kicked_user")
-  chat_mutted       muttedChatroom[]  @relation(name: "mutted_user")
+  chat_member         ChatRoom[]          @relation(name: "member_chatroom")
+  chat_banned         ChatRoom[]          @relation(name: "banned_chatroom")
+  chat_kicked         kickedChatroom[]    @relation(name: "kicked_user")
+  chat_mutted         muttedChatroom[]    @relation(name: "mutted_user")
 
-  chat_message        Message[]         @relation(name: "user_mesage")
+  chat_message        Message[]           @relation(name: "user_mesage")
 
-  direct_message          DirectMessage[]   @relation(name: "user_direct_message")
-  
-  others_direct_message_blocked   User[]    @relation(name: "direct_message_blocked")
-  my_direct_message_blocked       User[]    @relation(name: "direct_message_blocked")
+  direct_message      DirectMessage[]     @relation(name: "user_direct_message")
+  direct_blocked      DirectChatRoom[]    @relation(name: "blocked")
+  // others_direct_message_blocked   User[]    @relation(name: "direct_message_blocked")
+  // my_direct_message_blocked       User[]    @relation(name: "direct_message_blocked")
   
   tokenTFA 			      String?
   //TODO: Remover esse campo
@@ -85,6 +85,9 @@ model DirectChatRoom {
   name                    String            @unique
 
   direct_message          DirectMessage[]   @relation(name: "direct_chat_mesage")
+
+  blocked_id              String?
+  blocked                 User?             @relation(name: "blocked", fields: [blocked_id], references: [id])
 
   createdAt               DateTime          @default(now())
   updatedAt               DateTime          @updatedAt

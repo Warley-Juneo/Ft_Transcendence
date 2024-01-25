@@ -542,6 +542,11 @@ export class ChatroomService {
 		return outpuDto;
 	}
 
+	async directChatroomBlock(dto: WebsocketDto): Promise<void> {
+		let chat = await this.chatroomRepository.updateDirectChatroom(dto);
+		console.log("Blocked: ", chat);
+	}
+
 	async findAllDirectMessage(name: string): Promise<OutputDirectMessageDto[]> {
 		let msg = await this.chatroomRepository.findAllDirectMessage(name);
 

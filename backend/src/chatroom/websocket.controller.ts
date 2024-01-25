@@ -144,6 +144,13 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 		this.server.to(dto.chatId).emit('chatMessage', outputMsg);
 	}
 
+	@SubscribeMessage('direct-block')
+	async directChatroomBlock(client: Socket, dto: WebsocketDto) {
+		let outputMsg: any = await this.service.directChatroomBlock(dto);
+		// outputMsg = JSON.stringify(outputMsg);
+		this.server.emit('directChatMessage', "chatroom blocked!!");
+	}
+
 	@SubscribeMessage('direct-message')
 	async directChatroomMessage(client: Socket, dto: CreateDirectMessageDto) {
 		let outputMsg: any = await this.service.createDirectMessage(dto);

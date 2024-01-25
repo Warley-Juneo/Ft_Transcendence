@@ -418,6 +418,23 @@ export class ChatroomRepository {
 		return msg;
 	}
 
+	async updateDirectChatroom(dto: WebsocketDto): Promise<any> {
+		
+		let response = await this.prisma.directChatRoom.update({
+			where: {
+				name: dto.chat_name,
+			},
+			data: {
+				blocked: {
+					connect: {
+						id: dto.other_id,
+					},
+				},
+			},
+		});
+		return response;
+	}
+
 	async findAllDirectMessage(name: string): Promise<any> {
 
 		let response = await this.prisma.directMessage.findMany({

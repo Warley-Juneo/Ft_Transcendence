@@ -36,8 +36,10 @@ CREATE TABLE "match" (
 CREATE TABLE "direct_chat_room" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL,
+    "blocked_id" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "direct_chat_room_blocked_id_fkey" FOREIGN KEY ("blocked_id") REFERENCES "user" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -114,14 +116,6 @@ CREATE TABLE "_mutted_user" (
 );
 
 -- CreateTable
-CREATE TABLE "_direct_message_blocked" (
-    "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL,
-    CONSTRAINT "_direct_message_blocked_A_fkey" FOREIGN KEY ("A") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT "_direct_message_blocked_B_fkey" FOREIGN KEY ("B") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE
-);
-
--- CreateTable
 CREATE TABLE "_admin" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL,
@@ -193,12 +187,6 @@ CREATE UNIQUE INDEX "_mutted_user_AB_unique" ON "_mutted_user"("A", "B");
 
 -- CreateIndex
 CREATE INDEX "_mutted_user_B_index" ON "_mutted_user"("B");
-
--- CreateIndex
-CREATE UNIQUE INDEX "_direct_message_blocked_AB_unique" ON "_direct_message_blocked"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_direct_message_blocked_B_index" ON "_direct_message_blocked"("B");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_admin_AB_unique" ON "_admin"("A", "B");
