@@ -10,7 +10,7 @@ import { ChatContext } from "../ChatPublic";
 import AlterPassword from "./AlterPassword";
 import GetUsersGame from "./GetUsersGame";
 import { UserData, socket } from "../../../InitialPage/Contexts/Contexts";
-import KickMember from "./KickMember";
+import ButtonTime from "./KickMember";
 
 type UsersGame = {
 	id: string;
@@ -84,6 +84,7 @@ export default function AllButtons(): JSX.Element {
 		if (event.key !== 'Enter') return;
 		const userId = getUserId(event.currentTarget.value);
 
+		console.log("BanMember: ");
 		if (userId) {
 			let obj = {
 				my_id: dataUser.id,
@@ -91,30 +92,10 @@ export default function AllButtons(): JSX.Element {
 				chat_name: name,
 				chat_id: id,
 			}
+			console.log("obj: ", obj);
 			socket.emit('ban-member-group', obj);
 		}
 	}
-	//TODO: //add kickedMember websocket and correct space in the chat'
-	// const kickedMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-	// 	if (event.key !== 'Enter') return;
-	// 	console.log("\nkickedMember\n\n");
-	// 	const userId = getUserId(event.currentTarget.value);
-	// 	if (userId) {
-	// 		axios.post(`${process.env.REACT_APP_HOST_URL}/chatroom/kick-member-group`, {
-	// 			add_id: userId,
-	// 			chat_name: name,
-	// 		}, {
-	// 			headers: {
-	// 				Authorization: Cookies.get("jwtToken"),
-	// 				"ngrok-skip-browser-warning": "69420"
-	// 			}, timeout: 5000
-	// 		}).then((res) => {
-	// 			setDataChat(res.data);
-	// 		}).catch((err) => {
-	// 			console.log(err);
-	// 		})
-	// 	}
-	// }
 
 	const deleteChat = (event: React.KeyboardEvent<HTMLInputElement>): void => {
 		if (event.key !== 'Enter') return;
@@ -170,13 +151,26 @@ export default function AllButtons(): JSX.Element {
 				content="Banir Tripulante"
 				function={banMember}
 			/>
-			<KickMember
+			<ButtonTime
 				Icon={MdBlock}
 				content="Chutar Tripulante"
 				getUserId={getUserId}
 				my_id={dataUser.id}
 				chat_name={name}
 				chat_id={id}
+				id={"kick"}
+				route="kick-member-group"
+			/>
+
+			<ButtonTime
+				Icon={MdBlock}
+				content="Mutar Tripulante"
+				getUserId={getUserId}
+				my_id={dataUser.id}
+				chat_name={name}
+				chat_id={id}
+				id={"mute"}
+				route="mute-member-group"
 			/>
 
 			<AlterPassword funcChange={changePassword} />

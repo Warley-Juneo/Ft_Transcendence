@@ -60,6 +60,7 @@ export class UniqueChatroomDto {
 	message: OutputMessageDto[];
 
 	constructor(obj: any) {
+		console.log("obj: ", obj);
 		this.id = obj.id;
 		this.name = obj.name;
 		this.type = obj.type;
@@ -70,6 +71,7 @@ export class UniqueChatroomDto {
 		this.members = obj.members;
 		this.admin = obj.admin;
 		this.banned = obj.banned_member;
+		this.mutted = obj.mutted_chatroom
 		this.kicked = obj.kicked_chatroom;
 		this.message = obj.message;
 	}

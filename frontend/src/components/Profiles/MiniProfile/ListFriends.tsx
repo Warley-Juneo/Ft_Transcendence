@@ -13,6 +13,7 @@ type PropsListFriends = {
 	players: Players[],
 	getPlayers: (route: string) => void,
 	admin?: Players[]
+	mute?: {id: string}[]
 }
 
 export default function ListFriends(props: PropsListFriends) {
@@ -47,7 +48,8 @@ export default function ListFriends(props: PropsListFriends) {
 							<img className="foto-list-friends" src={play.avatar} alt='foto' />
 							<Status
 								is_active={play.is_active}
-								name={play.nickname} id={play.id}
+								name={play.nickname} my_id={play.id}
+								mute={props.mute? props.mute : []}
 								admin={props.admin ? props.admin : []}
 							/>
 						</div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
+import { GoMute } from "react-icons/go";
 import { Players } from "./ListFriends";
 
 const cssOnlineBorder: React.CSSProperties = {
@@ -30,22 +31,35 @@ const CSSOffline: React.CSSProperties = {
 
 type PropsStatus = {
 	name: string,
-	id: string,
+	my_id: string,
 	admin: Players[],
+	mute: {id: string}[]
 	is_active: boolean,
 }
 
 export default function Status(props: PropsStatus): JSX.Element {
+	console.log("props.mute", props.mute);
+	console.log("props.admin", props.admin);
 
+	const cssIcons: React.CSSProperties = {
+		marginLeft: '6px',
+		marginBottom: '2px'
+	}
+
+	const cssSecond: React.CSSProperties = {
+		marginLeft: '2px',
+		marginBottom: '2px'
+	}
 	return (
 		<div className="p-1">
-			<div className="d-flex align-items-center">
+			<div className="d-flex align-items-end">
 				<p>{props.name}</p>
-				{props.admin.map((adm: Players) => {
-					if (adm.id === props.id) {
-						return <MdOutlineAdminPanelSettings key={props.id}/>
-					}
-				})}
+				{!props.mute.find((item) => item.id === props.my_id) ? null :
+					<GoMute key={props.my_id + '1'} style={cssIcons}/>
+				}
+				{!props.admin.find((item) => item.id === props.my_id) ? null :
+					<MdOutlineAdminPanelSettings key={props.my_id} style={cssSecond}/>
+				}
 			</div>
 			{props.is_active ? (
 				<div className='d-flex align-items-center'>

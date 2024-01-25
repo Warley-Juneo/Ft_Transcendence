@@ -10,9 +10,11 @@ type KickMemberProps = {
 	my_id: string;
 	chat_name: string;
 	chat_id: string;
+	id: string;
+	route: string;
 }
 
-export default function KickMember(props: KickMemberProps): JSX.Element {
+export default function ButtonTime(props: KickMemberProps): JSX.Element {
 	const [showInput, setShowInput] = useState<boolean>(false);
 	const kickHour = useRef<HTMLInputElement>(null);
 	const kickDay = useRef<HTMLInputElement>(null);
@@ -28,7 +30,7 @@ export default function KickMember(props: KickMemberProps): JSX.Element {
 			chat_id: props.chat_id,
 			time: kickHour.current?.checked ? 1 : 24,
 		}
-		socket.emit('kick-member-group', obj);
+		socket.emit(props.route, obj);
 	}
 
 	return (
@@ -41,25 +43,25 @@ export default function KickMember(props: KickMemberProps): JSX.Element {
 			{!showInput ? null :
 				<div className="ps-5">
 					<div className="form-check">
-						<label className="form-check-label" htmlFor="flexRadioDefault1">
+						<label className="form-check-label" htmlFor={props.id}>
 							1 Hora
 						</label>
 						<input className="form-check-input"
 							type="radio"
 							name="flexRadioDefault"
-							id="flexRadioDefault1"
+							id={props.id}
 							ref={kickHour}>
 						</input>
 					</div>
 					<div className="form-check">
-						<label className="form-check-label" htmlFor="flexRadioDefault2">
+						<label className="form-check-label" htmlFor={props.id + '1'}>
 							1 Dia
 						</label>
 						<input
 							className="form-check-input"
 							type="radio"
 							name="flexRadioDefault"
-							id="flexRadioDefault2"
+							id={props.id + '1'}
 							ref={kickDay}
 							checked>
 						</input>

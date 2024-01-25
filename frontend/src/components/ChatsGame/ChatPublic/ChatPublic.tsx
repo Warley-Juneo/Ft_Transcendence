@@ -11,15 +11,16 @@ import RightSide from "./RightSide";
 import ModalIsBanned from "./ModalIsBanned";
 import { useNavigate } from "react-router-dom";
 
+type User = {
+	nickname: string,
+	avatar: string,
+	id: string,
+}
 export type Messages = {
 	id: string,
 	content: string,
 	date: Date,
-	user: {
-		nickname: string,
-		avatar: string,
-		id: string,
-	}
+	user: User,
 }
 
 export type ChatData = {
@@ -30,6 +31,7 @@ export type ChatData = {
 	banned: Players[],
 	kicked: Players[],
 	admin: Players[],
+	mutted: {id: string}[],
 	message: Messages[],
 }
 
@@ -61,8 +63,11 @@ export default function ChatPublic(props: propsPageChats) {
 	const myUser = useContext(UserData).user;
 	const [showModal, setShowModal] = useState<{ show: boolean, msg: String }>({ show: false, msg: "" });
 
+	const createMutedList = (muttedList: any[]) => {
+		return muttedList.map((item) => ({ id: item.userId[0].id }))
+	}
 	function is_memberChat(chat_id: String, data: ChatData) {
-
+		data.mutted = createMutedList(data.mutted)
 		if (data.members.map((member) => member.nickname).includes(myUser.nickname)) {
 			return
 		} else if (data.banned.map((member) => member.nickname).includes(myUser.nickname)) {
@@ -70,7 +75,6 @@ export default function ChatPublic(props: propsPageChats) {
 		} else if (data.kicked.map((member) => member.nickname).includes(myUser.nickname)) {
 			return
 		}
-
 
 		let obj = {
 			my_id: myUser.id,
@@ -135,13 +139,11 @@ export default function ChatPublic(props: propsPageChats) {
 	const getIsMyId = (id: String, msg: String) => {
 		if (myUser.id == id)
 			setShowModal({ show: true, msg: msg });
-		console.log("vou atualizar");
 		getDataChat();
 	}
 
 	useEffect(() => {
 		socket.on('banMember', (obj: any) => {
-			console.log("banMember");
 			getIsMyId(obj.id, obj.msg)
 		})
 
@@ -158,6 +160,7 @@ export default function ChatPublic(props: propsPageChats) {
 
 	//##############################################################
 
+	console.log("teste: ", chatData.mutted);
 	if (!chatData.name) return <div>Carregando...</div>
 
 	// https://vetplus.vet.br/wp-content/uploads/2019/12/img_2427.jpg vc foi chutado
@@ -166,7 +169,7 @@ export default function ChatPublic(props: propsPageChats) {
 			position-absolute top-50 start-50 translate-middle h-75 w-75"
 			style={{ backgroundImage: `url(${bgChatPublic})`, backgroundSize: 'cover' }}
 		>
-			{showModal.show ? <ModalIsBanned openPageChats={props.openPageChats} msg={showModal.msg}/> : null}
+			{showModal.show ? <ModalIsBanned openPageChats={props.openPageChats} msg={showModal.msg} /> : null}
 			<div className="row g-0 h-100 p-2">
 				<ChatContext.Provider value={{ chatData: chatData, setDataChat, setDinamicProfile }}>
 					<div className="col-3 border-end h-100">
@@ -174,6 +177,7 @@ export default function ChatPublic(props: propsPageChats) {
 							players={chatData.members}
 							getPlayers={() => { }}
 							admin={chatData.admin}
+							mute={chatData.mutted}
 						/>
 					</div>
 
