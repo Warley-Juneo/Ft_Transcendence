@@ -19,20 +19,20 @@ export class ChatroomRepository {
 				photoUrl: dto.photoUrl,
 				owner_id: userId,
 				members: {
-					connect:[
-						{id: userId},
+					connect: [
+						{ id: userId },
 					],
 				},
 				admin: {
 					connect: [
-						{id: userId},
+						{ id: userId },
 					],
 				},
 			},
 		});
 	}
 
-	async	deleteChatroom(name: string): Promise<any> {
+	async deleteChatroom(name: string): Promise<any> {
 
 		let response = await this.prisma.chatRoom.delete({
 			where: {
@@ -43,15 +43,15 @@ export class ChatroomRepository {
 		return true;
 	}
 
-	async	updateChatroom(where_filter: any, data_filter: any): Promise<any> {
+	async updateChatroom(where_filter: any, data_filter: any): Promise<any> {
 		let chat = await this.prisma.chatRoom.update({
 			where: where_filter,
 			data: data_filter,
 		});
 		return chat;
 	}
-	
-	async	openChatroom(name:string): Promise<any> {
+
+	async openChatroom(name: string): Promise<any> {
 		let chat = await this.prisma.chatRoom.findUnique({
 			where: {
 				name: name,
@@ -113,11 +113,11 @@ export class ChatroomRepository {
 		});
 		return chat;
 	}
-	
-	async	kickChatroom(data_filter: any): Promise<any> {
-		
+
+	async kickChatroom(data_filter: any): Promise<any> {
+
 		console.log("\n\nEntrei kickMember Repository\n\n");
-		
+
 		let chat = await this.prisma.kickedChatroom.create({
 			data: data_filter,
 		});
@@ -125,24 +125,24 @@ export class ChatroomRepository {
 	}
 
 
-	async	cleanKickedUserChatroom(where_filter: any): Promise<any> {
+	async cleanKickedUserChatroom(where_filter: any): Promise<any> {
 		console.log("\n\nEntrei delete many\n\n");
 		await this.prisma.kickedChatroom.deleteMany({
 			where: where_filter,
 		});
-		
+
 		let chat = await this.prisma.kickedChatroom.findMany();
 		console.log("\n\nclean_chat\n", chat);
-		
+
 		return chat;
 	}
 
-	async	findKickedUserChatroom(dto: WebsocketWithTimeDto): Promise<any[]> {
+	async findKickedUserChatroom(dto: WebsocketWithTimeDto): Promise<any[]> {
 		let chat = await this.prisma.kickedChatroom.findMany({
 			where: {
 				userId: {
 					some: {
-						id:dto.other_id,
+						id: dto.other_id,
 					},
 				},
 				chatroom: {
@@ -155,34 +155,34 @@ export class ChatroomRepository {
 				userId: true,
 				chatroom: true,
 				kicked_time: true,
-				},
+			},
 		})
 
 		return chat;
 	}
 
-	async	muteChatroom(data_filter: any): Promise<any> {
-		
+	async muteChatroom(data_filter: any): Promise<any> {
+
 		console.log("\n\nEntrei muteMember Repository\n\n");
-		
+
 		let chat = await this.prisma.muttedChatroom.create({
 			data: data_filter,
 		});
 		return chat;
 	}
 
-	async	cleanMuttedUserChatroom(where_filter: any): Promise<any> {
+	async cleanMuttedUserChatroom(where_filter: any): Promise<any> {
 		await this.prisma.muttedChatroom.deleteMany({
 			where: where_filter,
 		});
-		
+
 		let chat = await this.prisma.muttedChatroom.findMany();
 		console.log("\n\nclean_Mutted_Chatroom\n", chat);
-		
+
 		return chat;
 	}
 
-	async	findMutedUserChatroom(userId: string, chatroomId: string): Promise<any[]> {
+	async findMutedUserChatroom(userId: string, chatroomId: string): Promise<any[]> {
 		let chat = await this.prisma.muttedChatroom.findMany({
 			where: {
 				userId: {
@@ -200,13 +200,13 @@ export class ChatroomRepository {
 				userId: true,
 				chatroom: true,
 				mutted_time: true,
-				},
+			},
 		})
 
 		return chat;
 	}
 
-	async	findUniqueChatroom(name: string): Promise<any> {
+	async findUniqueChatroom(name: string): Promise<any> {
 		let chat = await this.prisma.chatRoom.findUnique({
 			where: {
 				name: name,
@@ -329,7 +329,7 @@ export class ChatroomRepository {
 		return response;
 	}
 
-	async	createChatroomMessage(dto: InputChatroomMessageDto): Promise<any> {
+	async createChatroomMessage(dto: InputChatroomMessageDto): Promise<any> {
 		let msg = await this.prisma.message.create({
 			data: {
 				content: dto.content,
@@ -362,9 +362,9 @@ export class ChatroomRepository {
 		return msg;
 	}
 
-	async openDirectChatRoom(chat_name: string): Promise<DirectChatRoomDto> {
 
-		let chat = await this.prisma.directChatRoom.create({
+	async openDirectChatRoom(chat_name: string): Promise<DirectChatRoom> {
+		await this.prisma.directChatRoom.create({
 			data: {
 				name: chat_name,
 			},
@@ -372,19 +372,10 @@ export class ChatroomRepository {
 		let response = await this.prisma.directChatRoom.findUnique({
 			where: {
 				name: chat_name,
-			},
-			select: {
-				id: true,
-				name: true,
-				blocked: {
-					select: {
-						nickname: true,
-					},
-				},
-			},
+			}
 		});
 
-		return new DirectChatRoomDto(response);
+		return response;
 	}
 
 	async findDirectChatroom(name: string): Promise<DirectChatRoom> {
@@ -436,7 +427,7 @@ export class ChatroomRepository {
 	}
 
 	async updateDirectChatroom(chat_name: string, dto: CreateDirectChatroomDto): Promise<any> {
-		
+
 		let response = await this.prisma.directChatRoom.update({
 			where: {
 				name: chat_name,

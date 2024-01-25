@@ -89,9 +89,9 @@ export class ChatroomService {
 	}
 
 	async openChatroom(userId: string, dto: InputChatroomDto): Promise<UniqueChatroomDto> {
-		
+
 		let now: Date = new Date();
-		
+
 		let where_filter = {
 			kicked_time: {
 				lte: now,
@@ -197,7 +197,7 @@ export class ChatroomService {
 		return response;
 	}
 
-	async removeAdmChatroom(userId: string, dto:WebsocketDto): Promise<UniqueChatroomDto> {
+	async removeAdmChatroom(userId: string, dto: WebsocketDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.findUniqueChatroom(dto.chat_name);
 
@@ -256,28 +256,28 @@ export class ChatroomService {
 					id: dto.other_id,
 				},
 			},
-			
+
 		};
 		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 
 		let other_where_filter = {
-				AND: [
-					{
-						userId: {
-							some: {
-								id: dto.other_id,
-							},
+			AND: [
+				{
+					userId: {
+						some: {
+							id: dto.other_id,
 						},
 					},
-					{
-						chatroom: {
-							some: {
-								id: dto.chat_id,
-							},
+				},
+				{
+					chatroom: {
+						some: {
+							id: dto.chat_id,
 						},
 					},
-				],
-			};
+				},
+			],
+		};
 		await this.chatroomRepository.cleanKickedUserChatroom(other_where_filter);
 
 		let response = await this.findUniqueChatroom(dto.chat_name);
@@ -373,7 +373,7 @@ export class ChatroomService {
 		};
 
 		let kick_chat = await this.chatroomRepository.kickChatroom(data_filter);
-		
+
 		let other_where_filter = {
 			name: chat.name,
 		};
@@ -385,7 +385,7 @@ export class ChatroomService {
 			},
 		};
 		await this.chatroomRepository.updateChatroom(other_where_filter, other_data_filter);
-		
+
 		let response = await this.findUniqueChatroom(dto.chat_name);
 		response.password = '';
 		return response;
@@ -507,7 +507,7 @@ export class ChatroomService {
 		}
 		let msg = await this.chatroomRepository.createChatroomMessage(dto);
 		return new OutputMessageDto(msg);
-		
+
 	}
 
 	async getChatroomMessage(dto: CreateDirectChatroomDto): Promise<{ chat: DirectChatRoom, name: string }> {
@@ -520,18 +520,18 @@ export class ChatroomService {
 	}
 
 	async openDirectChatroom(dto: CreateDirectChatroomDto): Promise<OutputDirectMessageDto[]> {
+		console.log("Dto: ", dto);
 		let { chat, name } = await this.getChatroomMessage(dto);
 
-		let chatroom: DirectChatRoomDto;
 		if (!chat) {
-			chatroom = await this.chatroomRepository.openDirectChatRoom(name);
+			chat = await this.chatroomRepository.openDirectChatRoom(name);
 		}
-		if (chatroom.blocked_nickname != "") {
-			if (chatroom.blocked_nickname == dto.my_nickname) {
-				throw new UnauthorizedException("Você bloqueou esse chat!!")
+		if (chat.blocked_id) {
+			if (chat.blocked_id == dto.my_nickname) {
+				throw new UnauthorizedException("O chat foi bloqueado pelo outro tripulante!!")
 			}
 			else {
-				throw new UnauthorizedException("O chat foi bloqueado pelo outro tripulante!!")
+				throw new UnauthorizedException("Você bloqueou esse chat!!")
 			}
 		}
 
@@ -552,7 +552,7 @@ export class ChatroomService {
 	}
 
 	async directChatroomBlock(dto: CreateDirectChatroomDto): Promise<void> {
-		
+
 		await this.openDirectChatroom(dto);
 
 		let name = dto.other_nickname + dto.my_nickname;
