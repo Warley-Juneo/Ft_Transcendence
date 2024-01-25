@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { AddChatUserDto, CreateChatroomDto, CreateDirectMessageDto, InputChatroomMessageDto, WebsocketDto, WebsocketWithTimeDto } from "./dto/input.dto";
+import { AddChatUserDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, InputChatroomMessageDto, WebsocketDto, WebsocketWithTimeDto } from "./dto/input.dto";
 import { PrismaService } from "src/database/prisma.service";
 import { DirectChatRoom, DirectMessage } from "@prisma/client";
 
@@ -418,16 +418,16 @@ export class ChatroomRepository {
 		return msg;
 	}
 
-	async updateDirectChatroom(dto: WebsocketDto): Promise<any> {
+	async updateDirectChatroom(chat_name: string, dto: CreateDirectChatroomDto): Promise<any> {
 		
 		let response = await this.prisma.directChatRoom.update({
 			where: {
-				name: dto.chat_name,
+				name: chat_name,
 			},
 			data: {
 				blocked: {
 					connect: {
-						id: dto.other_id,
+						nickname: dto.other_nickname,
 					},
 				},
 			},

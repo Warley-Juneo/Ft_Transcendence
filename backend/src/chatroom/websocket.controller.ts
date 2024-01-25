@@ -2,7 +2,7 @@
 
 import { SubscribeMessage, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Socket, Server } from "socket.io";
-import { AddChatUserDto, CreateChatroomDto, CreateDirectMessageDto, DeleteChatroomDto, InputChatroomDto, InputChatroomMessageDto, InputOpenChatroomDto, WebsocketDto, WebsocketWithTimeDto } from "./dto/input.dto";
+import { AddChatUserDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, DeleteChatroomDto, InputChatroomDto, InputChatroomMessageDto, InputOpenChatroomDto, WebsocketDto, WebsocketWithTimeDto } from "./dto/input.dto";
 import { ChatroomService } from "./chatroom.service";
 import { DisconnectDto } from "src/game/dtos/input.dto";
 import { GameService } from "src/game/game.service";
@@ -145,7 +145,7 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 	}
 
 	@SubscribeMessage('direct-block')
-	async directChatroomBlock(client: Socket, dto: WebsocketDto) {
+	async directChatroomBlock(client: Socket, dto: CreateDirectChatroomDto) {
 		let outputMsg: any = await this.service.directChatroomBlock(dto);
 		// outputMsg = JSON.stringify(outputMsg);
 		this.server.emit('directChatMessage', "chatroom blocked!!");

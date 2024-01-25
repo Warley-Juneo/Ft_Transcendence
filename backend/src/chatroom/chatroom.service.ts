@@ -542,9 +542,17 @@ export class ChatroomService {
 		return outpuDto;
 	}
 
-	async directChatroomBlock(dto: WebsocketDto): Promise<void> {
-		let chat = await this.chatroomRepository.updateDirectChatroom(dto);
-		console.log("Blocked: ", chat);
+	async directChatroomBlock(dto: CreateDirectChatroomDto): Promise<void> {
+		
+		await this.openDirectChatroom(dto);
+
+		let name = dto.other_nickname + dto.my_nickname;
+		if (dto.my_nickname.localeCompare(dto.other_nickname) < 0) {
+			name = dto.my_nickname + dto.other_nickname;
+		};
+
+		let response = await this.chatroomRepository.updateDirectChatroom(name, dto);
+		console.log("Blocked: ", response);
 	}
 
 	async findAllDirectMessage(name: string): Promise<OutputDirectMessageDto[]> {
