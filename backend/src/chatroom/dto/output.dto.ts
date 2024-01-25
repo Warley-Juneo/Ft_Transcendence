@@ -14,6 +14,19 @@ export class OutputDirectMessageDto {
 	}
 }
 
+
+export class DirectChatRoomDto {
+	id:                  string;
+  	name:                string;
+  	blocked_nickname:    string;
+
+	constructor(obj: any) {
+		this.id = obj.id;
+		this.name = obj.name,
+		this.blocked_nickname = obj.blocked.nickname;
+	}
+}
+
 // export class OutputDirectMessagesDto {
 // 	direct_message: OutputDirectMessageDto[];
 // }
