@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
-import { DirectChatRoom, } from '@prisma/client';
+import { DirectChatRoom } from '@prisma/client';
 import { ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, DeleteChatroomDto, InputChatroomDto, InputChatroomMessageDto, WebsocketDto, WebsocketWithTimeDto } from './dto/input.dto';
-import { ChatroomsDto, OutputDirectMessageDto, OutputMessageDto, OutputValidateDto, UniqueChatroomDto } from './dto/output.dto';
+import { ChatroomsDto, DirectChatRoomDto, OutputDirectMessageDto, OutputMessageDto, OutputValidateDto, UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 import { map } from 'rxjs';
 
@@ -522,8 +522,17 @@ export class ChatroomService {
 	async openDirectChatroom(dto: CreateDirectChatroomDto): Promise<OutputDirectMessageDto[]> {
 		let { chat, name } = await this.getChatroomMessage(dto);
 
+		let chatroom: DirectChatRoomDto;
 		if (!chat) {
-			chat = await this.chatroomRepository.openDirectChatRoom(name);
+			chatroom = await this.chatroomRepository.openDirectChatRoom(name);
+		}
+		if (chatroom.blocked_nickname != "") {
+			if (chatroom.blocked_nickname == dto.my_nickname) {
+				throw new UnauthorizedException("Você bloqueou esse chat!!")
+			}
+			else {
+				throw new UnauthorizedException("O chat foi bloqueado pelo outro tripulante!!")
+			}
 		}
 
 		return await this.findAllDirectMessage(name);
