@@ -15,6 +15,7 @@ type propsChatPrivate = {
 
 export default function ChatPrivate(props: propsChatPrivate) {
 	const [messages, setMessages] = useState<Messages[]>([]);
+	const [messageErr, setMessageErr] = useState<String>("");
 	const user = useContext(UserData);
 
 	const OpenDirectChat = () => {
@@ -29,7 +30,7 @@ export default function ChatPrivate(props: propsChatPrivate) {
 		}).then((res) => {
 			setMessages(res.data);
 		}).catch((err) => {
-			console.log(err);
+			setMessageErr(err.response.data.msg)
 		})
 	}
 
@@ -63,9 +64,9 @@ export default function ChatPrivate(props: propsChatPrivate) {
 		<div className='text-white chat d-flex flex-column bg-degrader rounded'>
 			<TitleChatPrivate nickname={props.nick_name} avatar={props.avatar} />
 			<div className='p-2 overflow-auto mt-auto text-black' id='messagens-chat'>
-				<FormatMessages messagens={messages} user={user.user}/>
+				<FormatMessages messagens={messages} user={user.user} messageErr={messageErr}/>
 			</div>
-			<InputChats socket={socket} obj={obj} />
+			<InputChats socket={socket} obj={obj} disable={messageErr !== ""} />
 		</div>
 	);
 }

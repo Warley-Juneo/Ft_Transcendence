@@ -4,7 +4,8 @@ import { Socket } from 'socket.io-client';
 
 type PropsInputChats = {
 	socket: Socket,
-	obj: any
+	obj: any,
+	disable: boolean
 }
 
 export default function InputChats(props: PropsInputChats) {
@@ -28,8 +29,20 @@ export default function InputChats(props: PropsInputChats) {
 		}
 	}
 
-	return (
-		<div className='d-flex align-items-center'>
+	const getInput = (): JSX.Element => {
+		if (props.disable) {
+			return (
+				<input
+					className='remove-format-input'
+					type='text'
+					ref={inputChat}
+					placeholder='Digite sua mensagem'
+					onKeyDown={sendMessageEnter}
+					disabled
+				/>
+			)
+		}
+		return (
 			<input
 				className='remove-format-input'
 				type='text'
@@ -37,6 +50,12 @@ export default function InputChats(props: PropsInputChats) {
 				placeholder='Digite sua mensagem'
 				onKeyDown={sendMessageEnter}
 			/>
+		)
+	}
+
+	return (
+		<div className='d-flex align-items-center'>
+			{getInput()}
 			<button
 				className='remove-format-button'>
 				<AiOutlineSend size={30}

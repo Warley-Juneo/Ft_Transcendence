@@ -32,14 +32,17 @@ export default function MessagensArea(): JSX.Element {
 		route: 'group-message',
 		chat_name: name,
 	}
+	//TODO: adicionar logica de mostrar o erro
 	return (
 		<>
 			<FormatMessages messagens={messages}
 				user={user.user}
+				messageErr={""}
 			/>
 			<InputChats
 				socket={socket}
 				obj={obj}
+				disable={false}
 			/>
 		</>
 	)

@@ -7,14 +7,17 @@ import { t_dataUser } from "../../InitialPage/Contexts/Contexts";
 type propsFormatMessages = {
 	messagens: Messages[],
 	user: t_dataUser,
+	messageErr: String
 }
 
 export default function FormatMessages(props: propsFormatMessages): JSX.Element {
-	const {setDinamicProfile} = useContext(ChatContext);
+	const { setDinamicProfile } = useContext(ChatContext);
 
 	const showDinamicProfile = (nickname: string, id: string) => {
 		setDinamicProfile({ nickName: nickname, id: id });
 	}
+
+	console.log("message: ", props.messageErr);
 
 	return (
 		<div className="h-100 text-black p-3 overflow-auto">
@@ -49,6 +52,11 @@ export default function FormatMessages(props: propsFormatMessages): JSX.Element 
 					};
 				}
 			})};
+			{props.messageErr === "" ? null :
+				<div className="text-center text-white">
+					<p>{props.messageErr}</p>
+				</div>
+			}
 		</div>
 	)
 }
