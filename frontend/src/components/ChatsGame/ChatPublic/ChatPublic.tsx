@@ -66,7 +66,8 @@ export default function ChatPublic(props: propsPageChats) {
 	const createMutedList = (muttedList: any[]) => {
 		return muttedList.map((item) => ({ id: item.userId[0].id }))
 	}
-	function is_memberChat(chat_id: String, data: ChatData) {
+
+	function addNewMember(chat_id: String, data: ChatData) {
 		data.mutted = createMutedList(data.mutted)
 		if (data.members.map((member) => member.nickname).includes(myUser.nickname)) {
 			return
@@ -96,7 +97,7 @@ export default function ChatPublic(props: propsPageChats) {
 			}
 		}).then((response) => {
 			setDataChat(response.data)
-			is_memberChat(response.data.id, response.data)
+			addNewMember(response.data.id, response.data)
 			socket.emit("open-group", { chatId: response.data.id });
 		}).catch((error) => {
 			console.log(error)
@@ -113,6 +114,12 @@ export default function ChatPublic(props: propsPageChats) {
 		}
 	}, [dinamicProfile])
 
+	const getIsMyId = (id: String, msg: String) => {
+		if (myUser.id == id)
+			setShowModal({ show: true, msg: msg });
+		getDataChat();
+	}
+
 	//TODO: verificar se o usuario foi banido e manda ele sair
 	//Sockets
 	useEffect(() => {
@@ -128,21 +135,7 @@ export default function ChatPublic(props: propsPageChats) {
 			props.openPageChats("")
 			setShowModal({ show: true, msg: message });
 		})
-		return () => {
-			socket.off('checkStatus')
-			socket.off('updateChat')
-			socket.off('deleteChat')
-		}
-	}, [socket])
 
-
-	const getIsMyId = (id: String, msg: String) => {
-		if (myUser.id == id)
-			setShowModal({ show: true, msg: msg });
-		getDataChat();
-	}
-
-	useEffect(() => {
 		socket.on('banMember', (obj: any) => {
 			getIsMyId(obj.id, obj.msg)
 		})
@@ -150,18 +143,17 @@ export default function ChatPublic(props: propsPageChats) {
 		socket.on('kickMember', (obj: any) => {
 			getIsMyId(obj.id, obj.msg)
 		})
-
 		return () => {
+			socket.off('checkStatus')
+			socket.off('updateChat')
+			socket.off('deleteChat')
 			socket.off('banMember')
 			socket.off('kickMember')
-
 		}
 	}, [socket])
-
 	//##############################################################
 
-	console.log("teste: ", chatData.mutted);
-	if (!chatData.name) return <div>Carregando...</div>
+	if (!chatData.name) return <div>Não ha chats</div>
 
 	// https://vetplus.vet.br/wp-content/uploads/2019/12/img_2427.jpg vc foi chutado
 	return (
