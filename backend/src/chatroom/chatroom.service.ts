@@ -279,6 +279,7 @@ export class ChatroomService {
 			],
 		};
 		await this.chatroomRepository.cleanKickedUserChatroom(other_where_filter);
+		await this.chatroomRepository.cleanMuttedUserChatroom(other_where_filter);
 
 		let response = await this.findUniqueChatroom(dto.chat_name);
 		response.password = '';
