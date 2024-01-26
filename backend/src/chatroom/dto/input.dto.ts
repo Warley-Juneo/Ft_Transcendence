@@ -58,13 +58,13 @@ export class AddChatUserDto {
 	@IsNotEmpty({message: 'User id can not be empty.'})
 	add_id:			string;
 
-	@IsNotEmpty({message: 'Chatroom can not be empty.'})
+	@IsNotEmpty({message: 'Add: Chatroom name can not be empty.'})
 	chat_name:		string;
 
 }
 
 export class InputChatroomDto {
-	@IsNotEmpty({message: 'Chatroom can not be empty.'})
+	@IsNotEmpty({message: 'Create: Chatroom name can not be empty.'})
 	chat_name:			string;
 
 	@ValidateIf(o => o.password != null)
@@ -76,10 +76,10 @@ export class DeleteChatroomDto {
 	@IsNotEmpty({message: 'My id can not be empty.'})
 	my_id:			string;
 
-	@IsNotEmpty({message: 'Chatroom can not be empty.'})
+	@IsNotEmpty({message: 'Delete: Chatroom id can not be empty.'})
 	chatId:			string;
 	
-	@IsNotEmpty({message: 'Chatroom can not be empty.'})
+	@IsNotEmpty({message: 'Delete: Chatroom name can not be empty.'})
 	chat_name:			string;
 
 	@ValidateIf(o => o.password != null)
@@ -88,21 +88,21 @@ export class DeleteChatroomDto {
 }
 
 export class InputChatroomMessageDto {
-	@IsNotEmpty({message: 'Chatroom can not be empty.'})
+	@IsNotEmpty({message: 'Message: Content can not be empty.'})
 	content:		string;
 
-	@IsNotEmpty({message: 'Chatroom can not be empty.'})
+	@IsNotEmpty({message: 'Message: Chatroom id can not be empty.'})
 	chatId:			string;
 
-	@IsNotEmpty({message: 'Chatroom can not be empty.'})
+	@IsNotEmpty({message: 'Message: User id can not be empty.'})
 	user_id:		string;
 
-	@IsNotEmpty({message: 'Chatroom can not be empty.'})
+	@IsNotEmpty({message: 'Message: Chatroom name can not be empty.'})
 	chat_name:		string;
 }
 
 export class InputOpenChatroomDto {
-	@IsNotEmpty({message: 'Chatroom can not be empty.'})
+	@IsNotEmpty({message: 'Open: Chatroom id can not be empty.'})
 	chatId:			string;
 }
 
@@ -113,10 +113,10 @@ export class WebsocketDto {
 	@IsNotEmpty({message: 'ban id can not be empty.'})
 	other_id:			string;
 
-	@IsNotEmpty({message: 'Name Chatroom can not be empty.'})
+	@IsNotEmpty({message: 'WebSocket: Chatroom name can not be empty.'})
 	chat_name:		string;
 
-	@IsNotEmpty({message: 'Id Chatroom can not be empty.'})
+	@IsNotEmpty({message: 'WebSocket: Chatroom id can not be empty.'})
 	chat_id:		string;
 }
 
@@ -127,10 +127,10 @@ export class WebsocketWithTimeDto {
 	@IsNotEmpty({message: 'ban id can not be empty.'})
 	other_id:			string;
 
-	@IsNotEmpty({message: 'Name Chatroom can not be empty.'})
+	@IsNotEmpty({message: 'WebSeocket w: Chatroom name can not be empty.'})
 	chat_name:		string;
 
-	@IsNotEmpty({message: 'Id Chatroom can not be empty.'})
+	@IsNotEmpty({message: 'WebSeocket w: Chatroom id can not be empty.'})
 	chat_id:		string;
 
 	@IsNotEmpty({message: 'Time can not be empty.'})
