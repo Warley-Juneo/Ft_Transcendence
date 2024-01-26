@@ -507,7 +507,6 @@ export class ChatroomService {
 		}
 		let msg = await this.chatroomRepository.createChatroomMessage(dto);
 		return new OutputMessageDto(msg);
-
 	}
 
 	async getChatroomMessage(dto: CreateDirectChatroomDto): Promise<{ chat: DirectChatRoom, name: string }> {
@@ -520,7 +519,6 @@ export class ChatroomService {
 	}
 
 	async openDirectChatroom(dto: CreateDirectChatroomDto): Promise<OutputDirectMessageDto[]> {
-		console.log("Dto: ", dto);
 		let { chat, name } = await this.getChatroomMessage(dto);
 
 		if (!chat) {

@@ -38,8 +38,6 @@ type PropsStatus = {
 }
 
 export default function Status(props: PropsStatus): JSX.Element {
-	console.log("props.mute", props.mute);
-	console.log("props.admin", props.admin);
 
 	const cssIcons: React.CSSProperties = {
 		marginLeft: '6px',
