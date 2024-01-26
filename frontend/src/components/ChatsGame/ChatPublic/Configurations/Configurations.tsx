@@ -23,7 +23,6 @@ type propsConfigurations = {
 export default function Configurations(props: propsConfigurations): JSX.Element {
 	const { chatData: { members, admin } } = useContext(ChatContext);
 	const userData = useContext(UserData).user;
-	console.log("Meu id: ", userData.id);
 
 	return (
 		<div className="position-absolute bg-dark text-center rounded h-100 w-50 overflow-auto top-0 end-0">
@@ -33,11 +32,7 @@ export default function Configurations(props: propsConfigurations): JSX.Element 
 				numberMembers={members.length}
 			/>
 			<Rules rules={rules} />
-			{admin.map((adm) => {
-				if (adm.id === userData.id) {
-					return <AllButtons />
-				}
-			})}
+			{admin.find((item) => item.id === userData.id) ? <AllButtons /> : null}
 		</div>
 	);
 }

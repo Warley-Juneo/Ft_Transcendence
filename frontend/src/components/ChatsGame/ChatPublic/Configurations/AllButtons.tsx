@@ -20,7 +20,7 @@ type UsersGame = {
 }
 
 export default function AllButtons(): JSX.Element {
-	const { chatData: { name, id }, setDataChat } = useContext(ChatContext);
+	const { chatData: { name, id } } = useContext(ChatContext);
 	const dataUser = useContext(UserData).user;
 	const [playersGame, setPlayersGame] = useState<UsersGame[]>([]);
 
@@ -130,7 +130,7 @@ export default function AllButtons(): JSX.Element {
 		})
 	}
 	return (
-		<div className="p-3 text-start">
+		<div className="p-3 text-start position-relative">
 			<Button
 				Icon={AiOutlineUserAdd}
 				content="Adicionar Pessoas"

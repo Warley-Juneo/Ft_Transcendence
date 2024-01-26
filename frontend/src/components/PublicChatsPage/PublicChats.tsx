@@ -79,6 +79,12 @@ export default function PageChats(props: propsPageChats) {
 
 	function createNewChat(form: FormData) {
 		setShowCreateChat(false);
+		const nameChatValue = form.get('nameChat');
+		const name = nameChatValue?.toString() || '';
+
+		if (name.length <= 0) {
+			return ;
+		}
 		const obj = {
 			my_id: user_id,
 			name: form.get('nameChat'),

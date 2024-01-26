@@ -6,7 +6,7 @@ export default function AlterPassword({ funcChange }: {
 }): JSX.Element {
 	//TODO: Alterar modal do bootstrap para modal lib
 	return (
-		<div>
+		<div className="position-relative z-10">
 			<h5 className="p-2 hover" data-bs-toggle="modal" data-bs-target="#modalConfirmPassword">
 				<RiLockPasswordLine className="foto-list-friends bg-light text-black me-3 p-1 z-10" size={30} />
 				Alterar Senha
