@@ -41,7 +41,6 @@ interface rooms {
 		}
 	}
 )
-
 export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
 
 	queue: queue[] = [];
