@@ -21,14 +21,20 @@ class GBall {
   directionX: number;
   directionY: number;
   angle: number;
+  size: number;
+  max_angle: number;
+  path: number;
 
-  constructor(positionX: number, positionY: number, velocity: number, directionX: number, directionY: number ,angle: number) {
-    this.positionX = positionX;
-    this.positionY = positionY;
+  constructor(velocity: number) {
+    this.positionX = 0;
+    this.positionY = 0;
     this.velocity = velocity;
-    this.directionX = directionX;
-    this.directionY = directionY;
-    this.angle = angle;
+    this.directionX = 0;
+    this.directionY = 0;
+    this.angle = 0;
+    this.size = 4;
+    this.max_angle = 70;
+    this.path = 5;
   }
 }
 
@@ -44,7 +50,7 @@ class Paddle {
     this.positionX = positionX;
     this.positionY = positionY;
     this.velocity = velocity;
-    this.width = width;
+    this.width = width
     this.height = height;
   }
 }
@@ -59,8 +65,8 @@ class Player {
 }
 
 export class GGame {
-  player1: Player;
-  player2: Player;
+  player_left: Player;
+  player_right: Player;
   placarLeft: number;
   placarRight: number;
 
@@ -73,25 +79,36 @@ export class GGame {
 
   roomID: string;
   winner: string;
+  loser:  string;
 
   gameStatus: boolean;
   pixelIncrement: number;
 
-  constructor(player1, player2) {
-    this.player1.user = player1;
-    this.player2.user = player2;
+  constructor(player_left, player_right) {
+    this.player_left.user = player_left;
+    this.player_right.user = player_right;
     this.window = new GWindow(800, 600);
-    this.ball = new GBall(400, 300, 5, 0, 0, 0);
+    this.ball = new GBall(5);
     this.paddleLeft = new Paddle(0, 50, 5, 0, 20);
     this.paddleRight = new Paddle(100, 50, 5, 5, 20);
     this.roomID = randomUUID();
     this.placarLeft = 0;
     this.placarRight = 0;
     this.winner = "";
+    this.loser = "";
     this.pixelIncrement = 5;
 
-    this.paddleLeft.positionX = this.paddleLeft.positionX + this.paddleLeft.width;
-    this.paddleRight.positionX = this.paddleRight.positionX - this.paddleRight.width;
+    this.paddleLeft.width = (this.paddleLeft.width/100) * this.window.width;
+    this.paddleLeft.height = (this.paddleLeft.height/100) * this.window.height;
+    this.paddleLeft.positionX = (this.paddleLeft.width / 2) ;
+
+    this.paddleRight.width = (this.paddleRight.width/100) * this.window.width;
+    this.paddleRight.height = (this.paddleRight.height/100) * this.window.height;
+    this.paddleRight.positionX = this.window.width - (this.paddleRight.width / 2);
+    
     this.ball.directionX = Math.random() < 0.5 ? -1 : 1;
+    this.ball.positionX = this.window.width / 2;
+    this.ball.positionY = this.window.height / 2;
+    this.ball.size = (this.ball.size / 100) * this.window.height;
   }
 }
