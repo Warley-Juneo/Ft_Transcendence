@@ -4,9 +4,11 @@ import Cookies from 'js-cookie';
 import { AuthLogin } from './authLogin';
 import { useNavigate } from 'react-router';
 import './style.css';
+import { Button, Modal } from 'react-bootstrap';
 
 export function Login() {
 	const navigate = useNavigate();
+	const [showModal, setShowModal] = useState<boolean>(false);
 
 	//ACCESS BACKEND AFTER GET THE CODE AT
 	async function axios_connect(): Promise<void> {
@@ -22,7 +24,6 @@ export function Login() {
 					console.log("RENDERIZAR PAGINA DE LOGIN")
 					Cookies.set('jwtToken', response.data._access_token);// set expires time
 					Cookies.set('email', response.data._email);
-					navigate('/game')
 				}
 				else {
 					console.log("RENDERIZAR PAGINA LOGIN INFORMANDO O ERRO");
@@ -33,17 +34,52 @@ export function Login() {
 		}
 	}
 
-	//THIS FUNCTION IS EXECUTED EVERY TIME THE PAGE IS LOADED
+	const verifyTwoFA = () => {
+		let token = document.getElementById('input-token') as HTMLInputElement;
+		if (token.value === '') return;
+
+		axios.post(`${process.env.REACT_APP_HOST_URL}/2FA/validate`, {
+			token: token.value,
+		}, {
+			headers: {
+				Authorization: Cookies.get('jwtToken'),
+				"ngrok-skip-browser-warning": "69420"
+			},
+			timeout: 10000,
+		}).then((res) => {
+			if (res.data === true)
+				navigate('/game')
+		}).catch((err) => {
+			console.log(err);
+		});
+	}
+
+	const verifyEnabled = () => {
+		axios.get(`${process.env.REACT_APP_HOST_URL}/2FA/verifyStatus`, {
+			headers: {
+				Authorization: Cookies.get('jwtToken'),
+				"ngrok-skip-browser-warning": "69420"
+			},
+		}).then((res) => {
+			if (res.data === true) {
+				setShowModal(true);
+			} else {
+				navigate('/game')
+			}
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+
+
 	useEffect(() => {
 		if (Cookies.get('jwtToken')) {
-			console.log("entrei")
-			navigate('/game')
+			verifyEnabled()
 		}
 		else {
 			axios_connect();
 		}
 	}, []);
-
 
 	return (
 		<div className="login  ">
@@ -55,6 +91,22 @@ export function Login() {
 					</div>
 				</form>
 			</div>
+			<Modal show={showModal} onHide={() => setShowModal(false)}>
+				<Modal.Header closeButton>
+					<Modal.Title>Habilitar Two Factor Authenticator</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<input id='input-token' type="text" className="form-control" placeholder="Digite o codigo de verificação" aria-label="Recipient's username" aria-describedby="basic-addon2" />
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={() => setShowModal(false)}>
+						Fechar modal
+					</Button>
+					<Button variant="primary" onClick={verifyTwoFA}>
+						Salvar alterações
+					</Button>
+				</Modal.Footer>
+			</Modal>
 		</div>
 	);
 }

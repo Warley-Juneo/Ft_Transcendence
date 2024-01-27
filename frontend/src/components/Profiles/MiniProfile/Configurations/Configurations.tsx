@@ -13,7 +13,6 @@ import { IoIosClose } from "react-icons/io";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useEffect } from 'react';
-import { TIMEOUT } from 'dns';
 
 type propsConfigurationGame = {
 	closed: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,34 +28,30 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 	const [handleOption, setHandleOption] = useState<boolean>(false);
 	const [QRCODE, setQRCODE] = useState<string>('');
 	const [show, setShow] = useState(false);
-	const handleClose = () => setShow(false);
+	const dataUser = useContext(UserData);
 
 	const handleShow = () => {
 		const checkbox = document.querySelector('#flexSwitchCheckDefault') as HTMLInputElement;
 		if (!checkbox || !checkbox.checked) {
-			console.log("Desabilitar 2FA")
-			axios.post(`${process.env.REACT_APP_HOST_URL}/2FA/clear`, {}, {
+			return axios.post(`${process.env.REACT_APP_HOST_URL}/2FA/clear`, {}, {
 				headers: {
 					Authorization: Cookies.get('jwtToken'),
 					"ngrok-skip-browser-warning": "69420"
 				},
 			}).then((res) => {
-				console.log(res);
 				setTfaEnabled(false);
 			}).catch((err) => {
 				console.log(err);
 			})
-			return;
 		}
 		getQRCODE();
 		setShow(true);
 	}
 
 	useEffect(() => {
-		  verifyEnabled();
+		verifyEnabled();
 	}, []);
 
-	const dataUser = useContext(UserData);
 	function sendInfosUserBack(info: infoUpdate) {
 		if (dataUser.user.twoFA === false && info.twoFA === true) {
 			getQRCODE();
@@ -95,7 +90,6 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 			}
 			reader.readAsDataURL(avatarFile);
 		}
-		console.log(nickname);
 		let info: infoUpdate = {
 			nickname: nickname ? nickname.toString() : '',
 			avatar: fileBase64 ? fileBase64 : '',
@@ -119,7 +113,8 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 			return <ButtonEdit setEditProfile={setHandleOption} />
 		}
 		return (
-			<ButtonsConf addedInputNameDef180={() => { setHandleOption(!handleOption) }}
+			<ButtonsConf
+				addedInputNameDef180={() => { setHandleOption(!handleOption) }}
 				content='Edit'
 			/>
 		)
@@ -155,7 +150,7 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 		}).then((res) => {
 			if (res.data === true) {
 				setTfaEnabled(true);
-				handleClose();
+				setShow(false);
 			}
 		}).catch((err) => {
 			console.log(err);
@@ -198,18 +193,19 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 					</div>
 					<AudioRanger />
 					<div className="d-flex form-check form-switch">
-					<input
-						className="form-check-input"
-						type="checkbox"
-						id="flexSwitchCheckDefault"
-						onClick={handleShow}
-						checked={tfaEnabled}
-					/>
+						<input
+							className="form-check-input"
+							type="checkbox"
+							id="flexSwitchCheckDefault"
+							onClick={handleShow}
+							checked={tfaEnabled}
+						/>
 						<label className="form-check-label" htmlFor="flexSwitchCheckDefault">Deseja habilitar a atutenticação de 2 fatores?</label>
 					</div>
 				</form>
 			</div>
-			<Modal show={show} onHide={handleClose}>
+
+			<Modal show={show} onHide={() => setShow(false)}>
 				<Modal.Header closeButton>
 					<Modal.Title>Habilitar Two Factor Authenticator</Modal.Title>
 				</Modal.Header>
@@ -220,7 +216,7 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 					<input id='input-token' type="text" className="form-control" placeholder="Digite o codigo de verificação" aria-label="Recipient's username" aria-describedby="basic-addon2" />
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={handleClose}>
+					<Button variant="secondary" onClick={() => setShow(false)}>
 						Fechar modal
 					</Button>
 					<Button variant="primary" onClick={verifyTwoFA}>
@@ -228,6 +224,7 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 					</Button>
 				</Modal.Footer>
 			</Modal>
+
 			<FolderSettingsGame />
 		</div>
 	)
