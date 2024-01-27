@@ -44,5 +44,6 @@ export class GameSocket {
     const game = await this.jogoService.updateGame(roomID);
     client.to(game.roomID).emit('updateGame', game);
   }
+ 
   
 }

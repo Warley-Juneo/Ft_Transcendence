@@ -7,11 +7,11 @@ import { User } from "@prisma/client";
 
 @Injectable()
 export class JogoService {
-  rooms: GGame[] = [];
+  static rooms: GGame[] = [];
 	
   async startGame(player1: User, player2: User) {
     const game = new GGame(player1, player2);
-    this.rooms.push(game);
+    JogoService.rooms.push(game);
     return game;
   }
   
@@ -166,7 +166,7 @@ export class JogoService {
   }
 
   async updateGame(gameID: string) {
-    let game = this.rooms.find(game => game.roomID == gameID);
+    let game = JogoService.rooms.find(game => game.roomID == gameID);
     if (this.verifyCollisionPaddles(game)) {
       this.resetGame(game);
     }
