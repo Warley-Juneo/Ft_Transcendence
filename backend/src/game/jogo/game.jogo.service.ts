@@ -15,32 +15,6 @@ export class JogoService {
     return game;
   }
   
-  async calculeAngle(game: GGame, curret_paddleleftX: number) {
-    game.ball.velocity = game.ball.velocity + 1;
-
-    if (game.ball.positionX == curret_paddleleftX) {
-      game.ball.angle = 0;
-    }
-    else if (game.ball.positionX > curret_paddleleftX) {
-      let diff = game.ball.positionX - curret_paddleleftX;
-      if (diff <= 2) {
-        game.ball.angle = 1;
-      }
-      else if (diff <= 4) {
-        game.ball.angle = 2;
-      }
-      else if (diff <= 6) {
-        game.ball.angle = 3;
-      }
-      else if (diff <= 8) {
-        game.ball.angle = 4;
-      }
-      else if (diff <= 10) {
-        game.ball.angle = 5;
-      }
-    }
-  }
-
   async verifyCollisionPaddles(game: GGame) {
     let verifyCollisionPaddleLeft = () => {
       let curret_paddleleftX = game.paddleLeft.positionX;
@@ -48,8 +22,8 @@ export class JogoService {
       let diff_paddleLefft_down = game.paddleLeft.positionX + game.paddleLeft.height / 2;
   
       if (game.ball.positionX >= diff_paddleLeft_up && game.ball.positionX <= diff_paddleLefft_down) {
-        game.ball.direction = game.ball.direction * -1;
-        this.calculeAngle(game, curret_paddleleftX);
+        game.ball.directionX = game.ball.directionX * -1;
+        game.ball.directionY = game.ball.directionY * -1; // Isso aqui não funciona
         return true;
       }
     }
@@ -60,8 +34,8 @@ export class JogoService {
       let diff_paddleRight_down = game.paddleRight.positionX + game.paddleRight.height / 2;
 
       if (game.ball.positionX >= diff_paddleRight_up && game.ball.positionX <= diff_paddleRight_down) {
-        game.ball.direction = game.ball.direction * -1;
-        this.calculeAngle(game, curret_paddleRightX);
+        game.ball.directionX = game.ball.directionX * -1;
+        game.ball.directionY = game.ball.directionY * -1; // Isso aqui não funciona
         return true;
       }
     }
@@ -159,7 +133,8 @@ export class JogoService {
     game.ball.positionX = game.window.width / 2;
     game.ball.positionY = game.window.height / 2;
     game.ball.velocity = 5;
-    game.ball.direction = 1;
+    game.ball.directionX = 1;
+    game.ball.directionY = 1;
     game.ball.angle = Math.random() < 0.5 ? -1 : 1;
     game.paddleLeft.positionY = game.window.height / 2;
     game.paddleRight.positionY = game.window.height / 2;
@@ -167,21 +142,18 @@ export class JogoService {
 
   async updateGame(gameID: string) {
     let game = JogoService.rooms.find(game => game.roomID == gameID);
-    if (this.verifyCollisionPaddles(game)) {
-      this.resetGame(game);
-    }
-    else if (this.verifyCollisionWall(game)) {
-      if (this.checkScore(game)) {
-        this.checkWinner(game);
-      }
-      else {
-        this.resetGame(game);
-      }
-    }
-
-    if (this.CheckDisconnectUser) {
-
-    }
+    if (!this.verifyCollisionPaddles(game)){
+        if (this.verifyCollisionWall(game)) {
+          if (this.checkScore(game)) {
+            this.checkWinner(game);
+          }
+          else {
+            this.resetGame(game);
+          }
+        }
+    } 
+    game.ball.positionX += (game.pixelIncrement * game.ball.directionX);
+    game.ball.positionY = game.ball.angle * game.ball.positionX ; // Acho que angle e directionY é a mesma coisa.
   }
 }
 
