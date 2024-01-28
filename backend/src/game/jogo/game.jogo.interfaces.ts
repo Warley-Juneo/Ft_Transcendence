@@ -17,24 +17,26 @@ class GWindow {
 class GBall {
   positionX: number;
   positionY: number;
-  velocity: number;
   directionX: number;
   directionY: number;
   angle: number;
   size: number;
   max_angle: number;
   path: number;
+  velocity: number;
+  acceleration_ratio: number;
 
-  constructor(velocity: number) {
+  constructor(velocity: number, acceleration_ratio: number) {
     this.positionX = 0;
     this.positionY = 0;
-    this.velocity = velocity;
     this.directionX = 0;
     this.directionY = 0;
     this.angle = 0;
     this.size = 4;
     this.max_angle = 70;
     this.path = 5;
+    this.velocity = velocity;
+    this.acceleration_ratio = acceleration_ratio;
   }
 }
 
@@ -83,12 +85,14 @@ export class GGame {
 
   gameStatus: boolean;
   pixelIncrement: number;
+  paddle_hits: number;
+  hits_for_accelaration: number;
 
-  constructor(player_left, player_right) {
+  constructor(player_left, player_right, hits_per_acceleration) {
     this.player_left.user = player_left;
     this.player_right.user = player_right;
     this.window = new GWindow(800, 600);
-    this.ball = new GBall(5);
+    this.ball = new GBall(5, 12);
     this.paddleLeft = new Paddle(0, 50, 5, 0, 20);
     this.paddleRight = new Paddle(100, 50, 5, 5, 20);
     this.roomID = randomUUID();
@@ -97,6 +101,8 @@ export class GGame {
     this.winner = "";
     this.loser = "";
     this.pixelIncrement = 5;
+    this.paddle_hits = 0;
+    this.hits_for_accelaration = hits_per_acceleration;
 
     this.paddleLeft.width = (this.paddleLeft.width/100) * this.window.width;
     this.paddleLeft.height = (this.paddleLeft.height/100) * this.window.height;

@@ -23,8 +23,7 @@ export class JogoService {
       let half_ball_size = game.ball.size / 2;
       
       if (game.ball.positionX <= game.paddleLeft.positionX) {
-        
-        
+
         if ((game.ball.positionY + half_ball_size) < (game.paddleLeft.positionY - half_paddle_size)) {
           game.placarRight++;
           return false
@@ -36,8 +35,9 @@ export class JogoService {
         
         //Muda direção em X, mudando o sinal do numero
         game.ball.directionX*= -1;
+        game.paddle_hits++;
+
         //Cálculo do ângulo
-        
         if (game.ball.positionY >= game.paddleLeft.positionY)
         {
           let paddle_hit = (game.ball.positionY - game.paddleLeft.positionY) / half_paddle_size;
@@ -72,8 +72,9 @@ export class JogoService {
         
         //Muda direção em X, mudando o sinal do numero
         game.ball.directionX*= -1;
+        game.paddle_hits++;
+
         //Cálculo do ângulo
-        
         if (game.ball.positionY >= game.paddleRight.positionY)
         {
           let paddle_hit = (game.ball.positionY - game.paddleRight.positionY) / half_paddle_size;
@@ -191,6 +192,11 @@ export class JogoService {
     
     game.ball.positionX += game.ball.path *game.ball.directionX;
     game.ball.positionY = game.ball.positionX / Math.tan(game.ball.angle);
+
+    if(game.paddle_hits % game.hits_for_accelaration == 0) {
+      game.ball.velocity += game.ball.velocity * (game.ball.acceleration_ratio / 100);
+    }
+
     return game;
   }
 }
