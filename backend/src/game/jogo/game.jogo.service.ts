@@ -9,8 +9,8 @@ import { User } from "@prisma/client";
 export class JogoService {
   static rooms: GGame[] = [];
 	
-  async startGame(player1: User, player2: User) {
-    const game = new GGame(player1, player2);
+  async startGame(player1: User, player2: User, hits_for_acceleration: number) {
+    const game = new GGame(player1, player2, hits_for_acceleration);
     JogoService.rooms.push(game);
     return game;
   }

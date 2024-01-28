@@ -88,7 +88,7 @@ export class GGame {
   paddle_hits: number;
   hits_for_accelaration: number;
 
-  constructor(player_left, player_right, hits_per_acceleration) {
+  constructor(player_left, player_right, hits_for_acceleration) {
     this.player_left.user = player_left;
     this.player_right.user = player_right;
     this.window = new GWindow(800, 600);
@@ -102,7 +102,7 @@ export class GGame {
     this.loser = "";
     this.pixelIncrement = 5;
     this.paddle_hits = 0;
-    this.hits_for_accelaration = hits_per_acceleration;
+    this.hits_for_accelaration = hits_for_acceleration;
 
     this.paddleLeft.width = (this.paddleLeft.width/100) * this.window.width;
     this.paddleLeft.height = (this.paddleLeft.height/100) * this.window.height;

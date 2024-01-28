@@ -27,7 +27,7 @@ export class GameSocket {
       let player1 = GameSocket.queues[0];
       let player2 = GameSocket.queues[1];
       GameSocket.queues.splice(0, 2);
-      const game = await this.jogoService.startGame(player1, player2);
+      const game = await this.jogoService.startGame(player1, player2, 5);
       client.to(game.roomID).emit('joinRoom', game);
     } else {
       client.join('Você entrou na fila!');
