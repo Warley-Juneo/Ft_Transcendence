@@ -58,7 +58,7 @@ class Paddle {
 }
 
 class Player {
-  user: User;
+  id: string;
   status: boolean;
 
   constructor() {
@@ -89,8 +89,8 @@ export class GGame {
   hits_for_accelaration: number;
 
   constructor(player_left, player_right, hits_for_acceleration) {
-    this.player_left.user = player_left;
-    this.player_right.user = player_right;
+    this.player_left.id = player_left.id;
+    this.player_right.id = player_right.id;
     this.window = new GWindow(800, 600);
     this.ball = new GBall(5, 12);
     this.paddleLeft = new Paddle(0, 50, 5, 0, 20);

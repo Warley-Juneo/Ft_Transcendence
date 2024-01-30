@@ -3,6 +3,12 @@ import { User } from "@prisma/client";
 import { Socket, Server } from "socket.io";
 import { JogoService } from "./game.jogo.service";
 
+type  player = {
+  id: String,
+  socket: Socket,
+}
+
+
 @WebSocketGateway(
 	{
 		cors: {
@@ -12,25 +18,26 @@ import { JogoService } from "./game.jogo.service";
 		}
 	}
 )
-  
+
 export class GameSocket {
   constructor(private readonly jogoService: JogoService) {}
 
-  static queues: User[] = [];
+  static queues: player[] = [];
   @WebSocketServer() server: Server;
 
   @SubscribeMessage('joinRoom')
-  async handleJoinRoom(client: Socket, user: User) {
-    GameSocket.queues.push(user)
+  async handleJoinRoom(client: Socket, userId: String) {
+
+    GameSocket.queues.push({id: userId, socket: client});
     
     if (GameSocket.queues.length >= 2) {
       let player1 = GameSocket.queues[0];
       let player2 = GameSocket.queues[1];
       GameSocket.queues.splice(0, 2);
       const game = await this.jogoService.startGame(player1, player2, 5);
-      client.to(game.roomID).emit('joinRoom', game);
-    } else {
-      client.join('Você entrou na fila!');
+      player1.socket.join(game.roomID);
+      player2.socket.join(game.roomID); 
+      this.server.to(game.roomID).emit('joinRoom', game);
     }
   }
 
