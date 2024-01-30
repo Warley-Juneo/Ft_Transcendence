@@ -3,11 +3,10 @@ import { User } from "@prisma/client";
 import { Socket, Server } from "socket.io";
 import { JogoService } from "./game.jogo.service";
 
-type  player = {
-  id: String,
-  socket: Socket,
+type Player = {
+	id: String,
+	socket: Socket,
 }
-
 
 @WebSocketGateway(
 	{
@@ -18,39 +17,38 @@ type  player = {
 		}
 	}
 )
-
 export class GameSocket {
-  constructor(private readonly jogoService: JogoService) {}
+	constructor(private readonly jogoService: JogoService) { }
 
-  static queues: player[] = [];
-  @WebSocketServer() server: Server;
+	static queues: Player[] = [];
+	@WebSocketServer() server: Server;
 
-  @SubscribeMessage('joinRoom')
-  async handleJoinRoom(client: Socket, userId: String) {
+	@SubscribeMessage('joinRoom')
+	async handleJoinRoom(client: Socket, userId: String) {
+		GameSocket.queues.push({ id: userId, socket: client });
 
-    GameSocket.queues.push({id: userId, socket: client});
-    
-    if (GameSocket.queues.length >= 2) {
-      let player1 = GameSocket.queues[0];
-      let player2 = GameSocket.queues[1];
-      GameSocket.queues.splice(0, 2);
-      const game = await this.jogoService.startGame(player1, player2, 5);
-      player1.socket.join(game.roomID);
-      player2.socket.join(game.roomID); 
-      this.server.to(game.roomID).emit('joinRoom', game);
-    }
-  }
 
-  @SubscribeMessage('leaveRoom')
-  async handleLeaveRoom(client: Socket, payload: any) {
-    client.leave(payload.room);
-  }
+		if (GameSocket.queues.length >= 2) {
+			let player1 = GameSocket.queues[0];
+			let player2 = GameSocket.queues[1];
+			GameSocket.queues.splice(0, 2);
+			const game = await this.jogoService.startGame(player1.id, player2.id, 5);
+			player1.socket.join(game.roomID);
+			player2.socket.join(game.roomID);
+			this.server.to(game.roomID).emit('startGame', game);
+		}
+	}
 
-  @SubscribeMessage('updateGame')
-  async handleUpdateGame(client: Socket, roomID: string) {
-    const game = await this.jogoService.updateGame(roomID);
-    client.to(game.roomID).emit('updateGame', game);
-  }
- 
-  
+	@SubscribeMessage('leaveRoom')
+	async handleLeaveRoom(client: Socket, payload: any) {
+		client.leave(payload.room);
+	}
+
+	@SubscribeMessage('updateGame')
+	async handleUpdateGame(client: Socket, roomID: string) {
+		const game = await this.jogoService.updateGame(roomID);
+		client.to(game.roomID).emit('updateGame', game);
+	}
+
+
 }
