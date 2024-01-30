@@ -94,7 +94,7 @@ export class GGame {
 		this.player_right = new Player(player_right.id);
 		this.window = new GWindow(800, 600);
 		this.ball = new GBall(5, 12);
-		this.paddleLeft = new Paddle(0, 50, 5, 0, 20);
+		this.paddleLeft = new Paddle(0, 50, 5, 5, 20);
 		this.paddleRight = new Paddle(100, 50, 5, 5, 20);
 		this.roomID = randomUUID();
 		this.placarLeft = 0;
