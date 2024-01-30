@@ -22,7 +22,8 @@ export default function ModelsGame(): JSX.Element {
 
 	useEffect(() => {
 		socket.on('startGame', (data: any) => {
-			navigate(`/game/pong/${data.room}`, { state: { data: data } })
+			console.log(data);
+			// navigate(`/game/pong/${data.room}`, { state: { data: data } })
 		})
 		return () => {
 			socket.off('starGame')

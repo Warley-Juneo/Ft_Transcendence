@@ -41,13 +41,14 @@ export default function ButtonModelsGame(props: propsButtonPlay): JSX.Element {
 		if (userData.nickname === 'bla')
 			userData.id = '1234'
 
+		console.log("Vou enviar ")
 		const objectQueue = {
 			id: userData.id,
-			nickname: userData.nickname,
-			model: props.model,
-			bar: '',
+			// nickname: userData.nickname,
+			// model: props.model,
+			// bar: '',
 		}
-		socket.emit('queueGame', objectQueue)
+		socket.emit('joinRoom', objectQueue)
 	}
 
 	return (

@@ -4,7 +4,7 @@ import InicialPage from './components/InitialPage/InitialPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginFake from './components/LoginPage/LoginFake';
 import Game from './components/GamePage/Game/Game';
-import GamePong from './components/GamePage/GamePong/GamePong';
+import GameWW from './components/GamePage/Game/GameWW';
 
 export default function App() {
 	return (
@@ -15,7 +15,7 @@ export default function App() {
 					<Route path="/fake" element={<LoginFake />} />
 					<Route path="/game/" element={<InicialPage />}>
 						<Route index element={<Game />} />
-						<Route path="pong/:room" element={<GamePong />} />
+						<Route path="pong/:room" element={<GameWW />} />
 					</Route>
 				</Routes>
 			</BrowserRouter>
