@@ -110,7 +110,7 @@ export class JogoService {
 		}
 
 		verifyCollisionWallUp();
-		verifyCollisionWallDown()
+		verifyCollisionWallDown();
 	}
 
 	moveBall(game: GGame) {

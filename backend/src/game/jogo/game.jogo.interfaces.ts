@@ -107,11 +107,13 @@ export class GGame {
 
 		this.paddleLeft.width = (this.paddleLeft.width / 100) * this.window.width;
 		this.paddleLeft.height = (this.paddleLeft.height / 100) * this.window.height;
-		this.paddleLeft.positionX = (this.paddleLeft.width / 2);
+		this.paddleLeft.positionX = this.paddleLeft.width / 2;
+		this.paddleLeft.positionY = this.window.height / 2;
 
 		this.paddleRight.width = (this.paddleRight.width / 100) * this.window.width;
 		this.paddleRight.height = (this.paddleRight.height / 100) * this.window.height;
 		this.paddleRight.positionX = this.window.width - (this.paddleRight.width / 2);
+		this.paddleRight.positionY = this.window.height / 2;
 
 		this.ball.directionX = Math.random() < 0.5 ? -1 : 1;
 		this.ball.positionX = this.window.width / 2;
