@@ -11,9 +11,10 @@ import { JwtMiddleware } from './middleware/auth.middleware';
 import { LandingPageModule } from './landing-page/landingPage.module';
 import { ChatroomModule } from './chatroom/chatroom.module';
 import { TFAModule } from './2FA/2FA.module';
+import { JogoModule } from './game/jogo/game.jogo.module';
 
 @Module({
-  imports: [UsersModule, AuthModule, GameModule, LandingPageModule, ChatroomModule, TFAModule],
+  imports: [UsersModule, AuthModule, GameModule, LandingPageModule, ChatroomModule, TFAModule, JogoModule],
   controllers: [],
   providers: [],
 })
