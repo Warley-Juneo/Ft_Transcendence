@@ -96,7 +96,8 @@ export class GGame {
 		this.ball = new GBall(5, 12);
 		this.paddleLeft = new Paddle(0, 50, 5, 5, 20);
 		this.paddleRight = new Paddle(100, 50, 5, 5, 20);
-		this.roomID = randomUUID();
+		// this.roomID = randomUUID();
+		this.roomID = '123';
 		this.placarLeft = 0;
 		this.placarRight = 0;
 		this.winner = "";

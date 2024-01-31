@@ -27,7 +27,6 @@ export class GameSocket {
 	async handleJoinRoom(client: Socket, userId: String) {
 		GameSocket.queues.push({ id: userId, socket: client });
 
-
 		if (GameSocket.queues.length >= 2) {
 			let player1 = GameSocket.queues[0];
 			let player2 = GameSocket.queues[1];
@@ -47,8 +46,6 @@ export class GameSocket {
 	@SubscribeMessage('updateGame')
 	async handleUpdateGame(client: Socket, roomID: string) {
 		const game = await this.jogoService.updateGame(roomID);
-		client.to(game.roomID).emit('updateGame', game);
+		this.server.to(game.roomID).emit('updateGame', game);
 	}
-
-
 }

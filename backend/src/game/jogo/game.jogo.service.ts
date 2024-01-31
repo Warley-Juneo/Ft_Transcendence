@@ -173,26 +173,42 @@ export class JogoService {
 	}
 
 	updateGame(gameID: string) {
-		let game = JogoService.rooms.find(game => game.roomID == gameID);
-
-		if (this.verifyCollisionPaddles(game) == false) {
-			if (this.checkScore(game)) {
-				this.checkWinner(game);
+		let index = 0;
+		if (JogoService.rooms.length == 0) {
+			return;
+		}
+		for (let game of JogoService.rooms) {
+			if (game.roomID == gameID) {
+				break;
 			}
-			this.resetGame(game);
+			index++
+		}
+
+		if (this.verifyCollisionPaddles(JogoService.rooms[index]) == false) {
+			if (this.checkScore(JogoService.rooms[index])) {
+				this.checkWinner(JogoService.rooms[index]);
+			}
+			this.resetGame(JogoService.rooms[index]);
 		}
 		else {
-			this.verifyCollisionWall(game);
+			this.verifyCollisionWall(JogoService.rooms[index]);
 		}
 
-		game.ball.positionX += game.ball.path * game.ball.directionX;
-		game.ball.positionY = game.ball.positionX / Math.tan(game.ball.angle);
+		console.log("old position", JogoService.rooms[index].ball.positionX);
+		console.log("old position", JogoService.rooms[index].ball.positionY);
 
-		if (game.paddle_hits % game.hits_for_accelaration == 0) {
-			game.ball.velocity += game.ball.velocity * (game.ball.acceleration_ratio / 100);
+		JogoService.rooms[index].ball.positionX += JogoService.rooms[index].ball.path * JogoService.rooms[index].ball.directionX;
+		JogoService.rooms[index].ball.positionY = JogoService.rooms[index].ball.positionX / Math.tan(JogoService.rooms[index].ball.angle);
+
+		console.log("depois position", JogoService.rooms[index].ball.positionX);
+		console.log("depois position", JogoService.rooms[index].ball.positionY);
+
+		if (JogoService.rooms[index].paddle_hits % JogoService.rooms[index].hits_for_accelaration == 0) {
+			JogoService.rooms[index].ball.velocity += JogoService.rooms[index].ball.velocity * (JogoService.rooms[index].ball.acceleration_ratio / 100);
 		}
 
-		return game;
+
+		return JogoService.rooms[index];
 	}
 }
 

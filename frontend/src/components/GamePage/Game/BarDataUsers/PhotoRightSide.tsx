@@ -3,6 +3,7 @@ export default function PhotoRightSide({ nickname }: { nickname: string }): JSX.
 		height: 'calc(100vh* 0.05)',
 		width: 'calc(100vh* 0.05)',
 	}
+
 	return (
 		<div className="d-flex w-50 justify-content-center align-items-center">
 			<p className="fs-5 me-5">{nickname}</p>
