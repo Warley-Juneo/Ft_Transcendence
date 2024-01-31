@@ -43,6 +43,7 @@ class Paddle {
 	positionY: number;
 	positionX: number;
 	velocity: number;
+	position_front: number;
 
 	width: number;
 	height: number;
@@ -53,6 +54,7 @@ class Paddle {
 		this.velocity = velocity;
 		this.width = width
 		this.height = height;
+		this.position_front = positionY + (height / 2);
 	}
 }
 
