@@ -179,45 +179,40 @@ export class JogoService {
 	}
 
 	updateGame(gameID: string) {
-		let index = 0;
-		if (JogoService.rooms.length == 0) {
-			return;
-		}
-		for (let game of JogoService.rooms) {
-			if (game.roomID == gameID) {
-				break;
-			}
-			index++
-		}
+		if (JogoService.rooms.length == 0) return;
 
-		if (this.verifyCollisionPaddles(JogoService.rooms[index]) == false) {
-			if (this.checkScore(JogoService.rooms[index])) {
-				this.checkWinner(JogoService.rooms[index]);
+		let game = JogoService.rooms.find(game => game.roomID == gameID);
+		if (this.verifyCollisionPaddles(game) == false) {
+			if (this.checkScore(game)) {
+				this.checkWinner(game);
 			}
-			this.resetGame(JogoService.rooms[index]);
+			this.resetGame(game);
 		}
 		else {
-			this.verifyCollisionWall(JogoService.rooms[index]);
+			this.verifyCollisionWall(game);
 		}
 
-		JogoService.rooms[index].ball.positionX += JogoService.rooms[index].ball.path * JogoService.rooms[index].ball.directionX;
+		game.ball.positionX += game.ball.path * game.ball.directionX;
 
-		if (JogoService.rooms[index].ball.angle != 0) {
-			let tan = Math.tan(JogoService.rooms[index].ball.angle);
-			JogoService.rooms[index].ball.positionY = JogoService.rooms[index].ball.positionX / tan;
+		if (game.ball.angle != 0) {
+			let tan = Math.tan(game.ball.angle);
+			game.ball.positionY = (game.ball.positionX / tan);
+		}
+		if (game.paddleRight.positionY === 300) {
+			game.paddleRight.positionY += 20;
 		}
 
-		console.log("depois position", JogoService.rooms[index].ball.positionX);
-		console.log("depois position", JogoService.rooms[index].ball.positionY);
+		// console.log("depois position", game.ball.positionX);
+		// console.log("depois position", game.ball.positionY);
+		console.log("depois position", game.paddleRight.positionY);
 
-		if (JogoService.rooms[index].paddle_hits % JogoService.rooms[index].hits_for_accelaration == 0) {
-			JogoService.rooms[index].ball.velocity += JogoService.rooms[index].ball.velocity * (JogoService.rooms[index].ball.acceleration_ratio / 100);
+		if (game.paddle_hits % game.hits_for_accelaration == 0) {
+			game.ball.velocity += game.ball.velocity * (game.ball.acceleration_ratio / 100);
 		}
 
-		JogoService.rooms[index].paddleLeft.position_front = JogoService.rooms[index].paddleLeft.positionY + (JogoService.rooms[index].paddleLeft.height / 2);
-		JogoService.rooms[index].paddleLeft.position_front = JogoService.rooms[index].paddleRight.positionY + (JogoService.rooms[index].paddleRight.height / 2);
-
-		return JogoService.rooms[index];
+		game.paddleLeft.position_front = game.paddleLeft.positionY - (game.paddleLeft.height / 2);
+		game.paddleRight.position_front = game.paddleRight.positionY - (game.paddleRight.height / 2);
+		return game;
 	}
 }
 
