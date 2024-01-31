@@ -10,6 +10,7 @@ export class JogoService {
 	static rooms: GGame[] = [];
 
 	async startGame(player1: String, player2: String, hits_for_acceleration: number) {
+		console.log("\nentrei startGame\n");
 		const game = new GGame(player1, player2, hits_for_acceleration);
 		JogoService.rooms.push(game);
 		return game;
@@ -86,7 +87,12 @@ export class JogoService {
 			return true;
 		}
 
-		if (!verifyCollisionPaddleLeft() || !verifyCollisionPaddleRight()) {
+		if (verifyCollisionPaddleLeft() == false) {
+			console.log("entrei");
+			return false
+		}
+		if (verifyCollisionPaddleRight() == false) {
+			console.log("entrei3");
 			return false
 		}
 		return true;
@@ -198,7 +204,11 @@ export class JogoService {
 		console.log("old position", JogoService.rooms[index].ball.positionY);
 
 		JogoService.rooms[index].ball.positionX += JogoService.rooms[index].ball.path * JogoService.rooms[index].ball.directionX;
-		JogoService.rooms[index].ball.positionY = JogoService.rooms[index].ball.positionX / Math.tan(JogoService.rooms[index].ball.angle);
+		let tan = Math.tan(JogoService.rooms[index].ball.angle);
+		if (tan == 0) {
+			tan =1;
+		}
+		JogoService.rooms[index].ball.positionY = JogoService.rooms[index].ball.positionX / tan;
 
 		console.log("depois position", JogoService.rooms[index].ball.positionX);
 		console.log("depois position", JogoService.rooms[index].ball.positionY);
