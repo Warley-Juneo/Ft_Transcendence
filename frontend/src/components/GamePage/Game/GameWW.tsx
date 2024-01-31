@@ -5,8 +5,8 @@ import { useLocation, useParams } from "react-router-dom"
 
 type GamePongProps = {
 	ball: { positionX: number, positionY: number, size: number },
-	paddleLeft: { positionX: number, positionY: number, height: number, width: number }
-	paddleRight: { positionX: number, positionY: number, height: number, width: number }
+	paddleLeft: { positionX: number, positionY: number, height: number, width: number, velocity: number}
+	paddleRight: { positionX: number, positionY: number, height: number, width: number, velocity: number }
 	placarLeft: number,
 	placarRight: number,
 	winner: string,
@@ -28,8 +28,8 @@ const cssPage: React.CSSProperties = {
 export default function GameWW(): JSX.Element {
 	const [fakeGame, setFakeGame] = useState<GamePongProps>({
 		ball: { positionX: 400, positionY: 300, size: 24 },
-		paddleLeft: { positionX: 0, positionY: 50, height: 120, width: 40 },
-		paddleRight: { positionX: 100, positionY: 50, height: 120, width: 40 },
+		paddleLeft: { positionX: 20, positionY: 300, height: 120, width: 40, velocity: 5 },
+		paddleRight: { positionX: 780, positionY: 300, height: 120, width: 40, velocity: 5 },
 		placarLeft: 0,
 		placarRight: 0,
 		winner: '',
@@ -65,11 +65,9 @@ export default function GameWW(): JSX.Element {
 
 
 	useEffect(() => {
-		// const intervalId = setInterval(() => {
+		const intervalId = setInterval(() => {
 			socket.emit('updateGame', '123')
-			socket.emit('updateGame', '123')
-			socket.emit('updateGame', '123')
-		// }, 500);
+		}, 1000);
 	}, [])
 
 	const paddleLeft: React.CSSProperties = {
@@ -87,7 +85,17 @@ export default function GameWW(): JSX.Element {
 		backgroundColor: 'white',
 		position: 'absolute',
 		top: fakeGame.paddleRight.positionY,
-		right: 100 - fakeGame.paddleRight.positionX,// Espelhar o jogo seus ou eu converto
+		left: fakeGame.paddleRight.positionX,
+	}
+
+	const ball: React.CSSProperties = {
+		height: fakeGame.ball.size,
+		width: fakeGame.ball.size,
+		backgroundColor: 'white',
+		position: 'absolute',
+		top: fakeGame.ball.positionY,
+		left: fakeGame.ball.positionX,
+		borderRadius: '50%',
 	}
 
 	return (
@@ -105,6 +113,7 @@ export default function GameWW(): JSX.Element {
 					<div style={divFilds}></div>
 					<div style={paddleLeft}></div>
 					<div style={paddleRight}></div>
+					<div style={ball}></div>
 
 					<div className="d-flex">
 						<div className="w-50 text-white text-center">

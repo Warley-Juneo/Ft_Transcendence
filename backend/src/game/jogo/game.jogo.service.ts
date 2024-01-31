@@ -200,9 +200,6 @@ export class JogoService {
 			this.verifyCollisionWall(JogoService.rooms[index]);
 		}
 
-		console.log("old position", JogoService.rooms[index].ball.positionX);
-		console.log("old position", JogoService.rooms[index].ball.positionY);
-
 		JogoService.rooms[index].ball.positionX += JogoService.rooms[index].ball.path * JogoService.rooms[index].ball.directionX;
 		let tan = Math.tan(JogoService.rooms[index].ball.angle);
 		if (tan == 0) {
