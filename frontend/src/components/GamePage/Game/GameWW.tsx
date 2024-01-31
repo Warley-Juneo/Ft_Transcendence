@@ -5,8 +5,8 @@ import { useLocation, useParams } from "react-router-dom"
 
 type GamePongProps = {
 	ball: { positionX: number, positionY: number, size: number },
-	paddleLeft: { positionX: number, positionY: number, height: number, width: number, velocity: number}
-	paddleRight: { positionX: number, positionY: number, height: number, width: number, velocity: number }
+	paddleLeft: { positionX: number, position_front: number, height: number, width: number, velocity: number}
+	paddleRight: { positionX: number, position_front: number, height: number, width: number, velocity: number }
 	placarLeft: number,
 	placarRight: number,
 	winner: string,
@@ -28,8 +28,8 @@ const cssPage: React.CSSProperties = {
 export default function GameWW(): JSX.Element {
 	const [fakeGame, setFakeGame] = useState<GamePongProps>({
 		ball: { positionX: 400, positionY: 300, size: 24 },
-		paddleLeft: { positionX: 20, positionY: 300, height: 120, width: 40, velocity: 5 },
-		paddleRight: { positionX: 780, positionY: 300, height: 120, width: 40, velocity: 5 },
+		paddleLeft: { positionX: 20, position_front: 300, height: 120, width: 40, velocity: 5 },
+		paddleRight: { positionX: 780, position_front: 300, height: 120, width: 40, velocity: 5 },
 		placarLeft: 0,
 		placarRight: 0,
 		winner: '',
@@ -67,7 +67,7 @@ export default function GameWW(): JSX.Element {
 	useEffect(() => {
 		const intervalId = setInterval(() => {
 			socket.emit('updateGame', '123')
-		}, 1000);
+		}, );
 	}, [])
 
 	const paddleLeft: React.CSSProperties = {
@@ -75,7 +75,7 @@ export default function GameWW(): JSX.Element {
 		width: fakeGame.paddleLeft.width,
 		backgroundColor: 'white',
 		position: 'absolute',
-		top: fakeGame.paddleLeft.positionY,
+		top: fakeGame.paddleLeft.position_front,
 		left: fakeGame.paddleLeft.positionX,
 	}
 
@@ -84,7 +84,7 @@ export default function GameWW(): JSX.Element {
 		width: fakeGame.paddleRight.width,
 		backgroundColor: 'white',
 		position: 'absolute',
-		top: fakeGame.paddleRight.positionY,
+		top: fakeGame.paddleRight.position_front,
 		left: fakeGame.paddleRight.positionX,
 	}
 
