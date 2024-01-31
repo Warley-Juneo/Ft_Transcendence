@@ -201,11 +201,11 @@ export class JogoService {
 		}
 
 		JogoService.rooms[index].ball.positionX += JogoService.rooms[index].ball.path * JogoService.rooms[index].ball.directionX;
-		let tan = Math.tan(JogoService.rooms[index].ball.angle);
-		if (tan == 0) {
-			tan =1;
+
+		if (JogoService.rooms[index].ball.angle != 0) {
+			let tan = Math.tan(JogoService.rooms[index].ball.angle);
+			JogoService.rooms[index].ball.positionY = JogoService.rooms[index].ball.positionX / tan;
 		}
-		JogoService.rooms[index].ball.positionY = JogoService.rooms[index].ball.positionX / tan;
 
 		console.log("depois position", JogoService.rooms[index].ball.positionX);
 		console.log("depois position", JogoService.rooms[index].ball.positionY);
