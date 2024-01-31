@@ -214,6 +214,8 @@ export class JogoService {
 			JogoService.rooms[index].ball.velocity += JogoService.rooms[index].ball.velocity * (JogoService.rooms[index].ball.acceleration_ratio / 100);
 		}
 
+		JogoService.rooms[index].paddleLeft.position_front = JogoService.rooms[index].paddleLeft.positionY + (JogoService.rooms[index].paddleLeft.height / 2);
+		JogoService.rooms[index].paddleLeft.position_front = JogoService.rooms[index].paddleRight.positionY + (JogoService.rooms[index].paddleRight.height / 2);
 
 		return JogoService.rooms[index];
 	}
