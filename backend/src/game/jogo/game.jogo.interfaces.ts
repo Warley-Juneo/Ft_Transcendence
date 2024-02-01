@@ -28,8 +28,8 @@ class GBall {
 	constructor(velocity: number, acceleration_ratio: number) {
 		this.positionX = 0;
 		this.positionY = 0;
-		this.directionX = 0;
-		this.directionY = 0;
+		this.directionX = 1;
+		this.directionY = 1;
 		this.angle = 0;
 		this.size = 4;
 		this.max_angle = 70;
@@ -90,6 +90,8 @@ export class GGame {
 	pixelIncrement: number;
 	paddle_hits: number;
 	hits_for_accelaration: number;
+	ball_refX: number;
+	ball_refY: number;
 
 	constructor(player_left, player_right, hits_for_acceleration) {
 		this.player_left = new Player(player_left.id);
@@ -118,9 +120,12 @@ export class GGame {
 		this.paddleRight.positionX = this.window.width - (this.paddleRight.width / 2);
 		this.paddleRight.positionY = this.window.height / 2;
 
-		this.ball.directionX = Math.random() < 0.5 ? -1 : 1;
+		// this.ball.directionX = Math.random() < 0.5 ? -1 : 1;
+		this.ball.directionX = -1;
 		this.ball.positionX = this.window.width / 2;
 		this.ball.positionY = this.window.height / 2;
 		this.ball.size = (this.ball.size / 100) * this.window.height;
+		this.ball_refX = this.ball.positionX;
+		this.ball_refY = this.ball.positionY;
 	}
 }
