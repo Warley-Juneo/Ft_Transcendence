@@ -24,6 +24,7 @@ class GBall {
 	path: number;
 	velocity: number;
 	acceleration_ratio: number;
+	hit_positionY: number;
 
 	constructor(velocity: number, acceleration_ratio: number) {
 		this.positionX = 0;
@@ -36,6 +37,7 @@ class GBall {
 		this.path = 5;
 		this.velocity = velocity;
 		this.acceleration_ratio = acceleration_ratio;
+		this.hit_positionY = 0;
 	}
 }
 
@@ -121,9 +123,10 @@ export class GGame {
 		this.paddleRight.positionY = this.window.height / 2;
 
 		// this.ball.directionX = Math.random() < 0.5 ? -1 : 1;
-		this.ball.directionX = -1;
+		this.ball.directionX = 1;
 		this.ball.positionX = this.window.width / 2;
 		this.ball.positionY = this.window.height / 2;
+		this.ball.hit_positionY = this.ball.positionY;
 		this.ball.size = (this.ball.size / 100) * this.window.height;
 		this.ball_refX = this.ball.positionX;
 		this.ball_refY = this.ball.positionY;
