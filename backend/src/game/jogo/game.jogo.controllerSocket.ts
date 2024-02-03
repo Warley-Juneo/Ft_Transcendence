@@ -48,4 +48,10 @@ export class GameSocket {
 		const game = await this.jogoService.updateGame(roomID);
 		this.server.to(game?.roomID).emit('updateGame', game);
 	}
+
+
+	@SubscribeMessage('updatePaddle')
+	async handleUpdatePaddle(client: Socket, isLeft: boolean, paddle: any) {
+		const game = await this.jogoService.movePaddle(roomID, isLeft, paddle);
+	}
 }

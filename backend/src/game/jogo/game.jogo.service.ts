@@ -165,20 +165,15 @@ export class JogoService {
 		// game.ball.positionY += game.ball.angle;
 	}
 
-	movePaddle(game: GGame, player: string, move: string) {
-		if (player == "left") {
-			if (move == "up") {
-				game.paddleLeft.positionY += game.paddleLeft.velocity;
-			} else if (move == "down") {
-				game.paddleLeft.positionY -= game.paddleLeft.velocity;
-			}
+	movePaddle(roomID: string, isLeft: boolean, paddle: any) {
+		let game = JogoService.rooms.find(game => game.roomID == roomID);
+		if (isLeft == true) {
+			game.paddleLeft.positionY = paddle.PositionY
+			game.paddleLeft.positionX = paddle.PositionX
 		}
-		else if (player == "right") {
-			if (move == "up") {
-				game.paddleRight.positionY += game.paddleRight.velocity;
-			} else if (move == "down") {
-				game.paddleRight.positionY -= game.paddleRight.velocity;
-			}
+		else {
+			game.paddleRight.positionY = paddle.PositionY
+			game.paddleRight.positionX = paddle.PositionX
 		}
 	}
 
