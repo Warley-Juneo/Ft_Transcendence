@@ -51,7 +51,7 @@ export class GameSocket {
 
 
 	@SubscribeMessage('updatePaddle')
-	async handleUpdatePaddle(client: Socket, isLeft: boolean, paddle: any) {
+	async handleUpdatePaddle(client: Socket, roomID: string, isLeft: boolean, paddle: any) {
 		const game = await this.jogoService.movePaddle(roomID, isLeft, paddle);
 	}
 }
