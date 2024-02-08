@@ -54,6 +54,7 @@ export class JogoService {
 				if (game.ball.positionY < game.paddleLeft.positionY) {
 
 					let hit_pos = (game.paddleLeft.positionY - game.ball.positionY) / 1.00;
+					
 					// console.log("hi_pos: ", hit_pos);
 					let paddle_half_size =game.paddleLeft.height / 2;
 					let paddle_hit = ((hit_pos * 100) / paddle_half_size) / 1.00;
@@ -227,8 +228,8 @@ export class JogoService {
 		game.ball.directionX = -1;
 		game.ball.directionY = 1;
 		game.ball.angle = 0;
-		game.paddleLeft.positionY = game.window.height / 2;
-		game.paddleRight.positionY = game.window.height / 2;
+		// game.paddleLeft.positionY = game.window.height / 2;
+		// game.paddleRight.positionY = game.window.height / 2;
 	}
 
 	updateGame(gameID: string) {
@@ -275,13 +276,6 @@ export class JogoService {
 				game.ball.positionY = 0;
 			}
 		}
-		if (game.paddleRight.positionY === 300) {
-			game.paddleRight.positionY += 40;
-		}
-		if (game.paddleLeft.positionY === 300) {
-			game.paddleLeft.positionY -= 10;
-		}
-		
 
 		if (game.paddle_hits % game.hits_for_accelaration == 0) {
 			game.ball.velocity += game.ball.velocity * (game.ball.acceleration_ratio / 100);
@@ -290,5 +284,3 @@ export class JogoService {
 		return game;
 	}
 }
-
-
