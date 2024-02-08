@@ -82,7 +82,6 @@ export class AuthService {
 
     const accessToken: string = await this.validateUserApi42(authLoginDto);
     const userInfo = await this.getUserInfoApi42(accessToken);
-    console.log("entrei");
     const user = await this.verifyUser(userInfo);
     let jwt_token = await this.jwtSign(user);
 

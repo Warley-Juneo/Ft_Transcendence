@@ -116,8 +116,6 @@ export class ChatroomRepository {
 
 	async kickChatroom(data_filter: any): Promise<any> {
 
-		console.log("\n\nEntrei kickMember Repository\n\n");
-
 		let chat = await this.prisma.kickedChatroom.create({
 			data: data_filter,
 		});
@@ -126,13 +124,11 @@ export class ChatroomRepository {
 
 
 	async cleanKickedUserChatroom(where_filter: any): Promise<any> {
-		console.log("\n\nEntrei delete many\n\n");
 		await this.prisma.kickedChatroom.deleteMany({
 			where: where_filter,
 		});
 
 		let chat = await this.prisma.kickedChatroom.findMany();
-		console.log("\n\nclean_chat\n", chat);
 
 		return chat;
 	}
@@ -163,8 +159,6 @@ export class ChatroomRepository {
 
 	async muteChatroom(data_filter: any): Promise<any> {
 
-		console.log("\n\nEntrei muteMember Repository\n\n");
-
 		let chat = await this.prisma.muttedChatroom.create({
 			data: data_filter,
 		});
@@ -177,7 +171,6 @@ export class ChatroomRepository {
 		});
 
 		let chat = await this.prisma.muttedChatroom.findMany();
-		console.log("\n\nclean_Mutted_Chatroom\n", chat);
 
 		return chat;
 	}

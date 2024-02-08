@@ -73,7 +73,6 @@ export class UniqueChatroomDto {
 	message: OutputMessageDto[];
 
 	constructor(obj: any) {
-		console.log("obj: ", obj);
 		this.id = obj.id;
 		this.name = obj.name;
 		this.type = obj.type;

@@ -8,9 +8,9 @@ import { User } from "@prisma/client";
 @Injectable()
 export class JogoService {
 	static rooms: GGame[] = [];
+	static  x: number = 0;
 
 	async startGame(player1: String, player2: String, hits_for_acceleration: number) {
-		console.log("\nentrei startGame\n");
 		const game = new GGame(player1, player2, hits_for_acceleration);
 		JogoService.rooms.push(game);
 		return game;
@@ -24,15 +24,13 @@ export class JogoService {
 			let half_ball_size = game.ball.size / 2;
 
 			if (game.ball.positionX <= game.paddleLeft.positionX) {
-				console.log("\n\nCOLIDIU LEFT\n\n")
+
 				if ((game.ball.positionY + half_ball_size) < (game.paddleLeft.positionY - half_paddle_size)) {
 					game.placarRight++;
-					console.log("\n\nNÃO COLIDIU LEFT\n\n");
 					return false
 				}
 				if ((game.ball.positionY - half_ball_size) > (game.paddleLeft.positionY + half_paddle_size)) {
 					game.placarRight++;
-					console.log("\n\nNÃO COLIDIU LEFT\n\n");
 					return false
 				}
 
@@ -42,17 +40,18 @@ export class JogoService {
 
 				//Cálculo do ângulo
 				if (game.ball.positionY >= game.paddleLeft.positionY) {
-					console.log("ball >=\n\n")
 					let hit_pos = (game.ball.positionY - game.paddleLeft.positionY) / 1.00;
 					let paddle_half_size =game.paddleLeft.height / 2;
 					let paddle_hit = ((hit_pos * 100) / paddle_half_size) / 1.00;
 					let paddle_hit_perc = (paddle_hit / 100) / 1.00;
 					game.ball.angle = game.ball.max_angle * paddle_hit_perc;
+					if (game.ball.angle > game.ball.max_angle) {
+						game.ball.angle = game.ball.max_angle;
+					}
 					game.ball.directionY = -1;
 
 				}
 				if (game.ball.positionY < game.paddleLeft.positionY) {
-					console.log("ball <\n")
 
 					let hit_pos = (game.paddleLeft.positionY - game.ball.positionY) / 1.00;
 					// console.log("hi_pos: ", hit_pos);
@@ -61,6 +60,9 @@ export class JogoService {
 					// console.log("paddle_hit: ", paddle_hit, "\n");
 					let paddle_hit_perc = (paddle_hit / 100) / 1.00;
 					game.ball.angle = game.ball.max_angle * paddle_hit_perc;
+					if (game.ball.angle > game.ball.max_angle) {
+						game.ball.angle = game.ball.max_angle;
+					}
 					game.ball.directionY = 1;
 				}
 				game.ball_refX = 0;
@@ -75,15 +77,13 @@ export class JogoService {
 			let half_ball_size = game.ball.size / 2;
 			
 			if (game.ball.positionX >= game.paddleRight.positionX) {
-				console.log("\n\nCOLIDIU RIGHT\n\n")
+
 				if ((game.ball.positionY + half_ball_size) < (game.paddleRight.positionY - half_paddle_size)) {
 					game.placarLeft++;
-					console.log("\n\nNÃO COLIDIU RIGHT\n\n");
 					return false
 				}
 				if ((game.ball.positionY - half_ball_size) > (game.paddleRight.positionY + half_paddle_size)) {
 					game.placarLeft++;
-					console.log("\n\nNÃO COLIDIU RIGHT\n\n");
 					return false
 				}
 
@@ -103,6 +103,9 @@ export class JogoService {
 					// console.log("padle hit perc", paddle_hit_perc);
 					game.ball.angle = game.ball.max_angle * paddle_hit_perc;
 					// console.log("ball angle", game.ball.angle, "\n\n");
+					if (game.ball.angle > game.ball.max_angle) {
+						game.ball.angle = game.ball.max_angle;
+					}
 					game.ball.directionY = -1;
 				}
 				if (game.ball.positionY < game.paddleRight.positionY) {
@@ -111,6 +114,9 @@ export class JogoService {
 					let paddle_hit = ((hit_pos * 100) / paddle_half_size) / 1.00;
 					let paddle_hit_perc = (paddle_hit / 100) / 1.00;
 					game.ball.angle = game.ball.max_angle * paddle_hit_perc;
+					if (game.ball.angle > game.ball.max_angle) {
+						game.ball.angle = game.ball.max_angle;
+					}
 					game.ball.directionY = 1;
 				}
 				game.ball_refX = 0;
@@ -132,7 +138,6 @@ export class JogoService {
 	verifyCollisionWall(game: GGame) {
 		let verifyCollisionWallUp = () => {
 			if (game.ball.positionY <= 0) {
-				console.log("\n\nColision UP WALL\n\n");
 				// game.ball.angle = 180 - game.ball.angle;
 				game.ball.directionY *= -1;
 				game.ball_refX = game.ball.positionX;
@@ -146,7 +151,6 @@ export class JogoService {
 
 		let verifyCollisionWallDown = () => {
 			if (game.ball.positionY >= game.window.height) {
-				console.log("\n\nColision DOWN WALL\n\n");
 				// game.ball.angle = 180 - game.ball.angle;
 				game.ball.directionY *= -1;
 				game.ball_refX = 0;
@@ -165,15 +169,27 @@ export class JogoService {
 		// game.ball.positionY += game.ball.angle;
 	}
 
-	movePaddle(roomID: string, isLeft: boolean, paddle: any) {
+	movePaddle(roomID: string, isLeft: boolean, isUp: boolean) {
 		let game = JogoService.rooms.find(game => game.roomID == roomID);
 		if (isLeft == true) {
-			game.paddleLeft.positionY = paddle.PositionY
-			game.paddleLeft.positionX = paddle.PositionX
+			if (isUp == true) {
+				game.paddleLeft.positionY -= game.paddleLeft.velocity;
+				game.paddleLeft.position_front -= game.paddleLeft.velocity; 
+			}
+			else {
+				game.paddleLeft.positionY += game.paddleLeft.velocity;
+				game.paddleLeft.position_front += game.paddleLeft.velocity;
+			}
 		}
 		else {
-			game.paddleRight.positionY = paddle.PositionY
-			game.paddleRight.positionX = paddle.PositionX
+			if (isUp == true) {
+				game.paddleRight.positionY -= game.paddleRight.velocity;
+				game.paddleRight.position_front -= game.paddleRight.velocity;
+			}
+			else {
+				game.paddleRight.positionY += game.paddleRight.velocity;
+				game.paddleRight.position_front += game.paddleRight.velocity;
+			}
 		}
 	}
 
@@ -233,9 +249,14 @@ export class JogoService {
 		// console.log("ball directionX", game.ball.directionX);
 		// console.log("ball directionY", game.ball.directionY);
 		
-		game.ball.positionX += game.ball.path * game.ball.directionX;
-		game.ball_refX += game.ball.path;
 		
+		if (JogoService.x % 7 == 0) {
+			game.ball.positionX += game.ball.path * game.ball.directionX;
+			game.ball_refX += game.ball.path;
+			JogoService.x = 0;
+		}
+		JogoService.x++;
+
 		// console.log("ball positionX", game.ball.positionX);
 		// console.log("ball refX", game.ball_refX);
 		
@@ -266,9 +287,6 @@ export class JogoService {
 			game.ball.velocity += game.ball.velocity * (game.ball.acceleration_ratio / 100);
 		}
 
-
-		game.paddleLeft.position_front = game.paddleLeft.positionY - (game.paddleLeft.height / 2);
-		game.paddleRight.position_front = game.paddleRight.positionY - (game.paddleRight.height / 2);
 		return game;
 	}
 }

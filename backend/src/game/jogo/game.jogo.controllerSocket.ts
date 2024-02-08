@@ -51,7 +51,8 @@ export class GameSocket {
 
 
 	@SubscribeMessage('updatePaddle')
-	async handleUpdatePaddle(client: Socket, roomID: string, isLeft: boolean, isUp: any) {
-		const game = await this.jogoService.movePaddle(roomID, isLeft, paddle);
+	async handleUpdatePaddle(client: Socket, paddle_status: any) {
+	console.log("roomId: ", paddle_status.roomID, "\n isLeft: ", paddle_status.isLeft, "\n isUp: ", paddle_status.isUp);
+		const game = await this.jogoService.movePaddle(paddle_status.roomID, paddle_status.isLeft, paddle_status.isUp);
 	}
 }

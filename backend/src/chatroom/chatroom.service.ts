@@ -104,7 +104,6 @@ export class ChatroomService {
 				lte: now,
 			},
 		};
-		console.log("Open Mutted: ");
 		let test = await this.chatroomRepository.cleanMuttedUserChatroom(mute_where_filter);
 
 
@@ -114,7 +113,6 @@ export class ChatroomService {
 			throw new UnauthorizedException("You were banned of this chat!!!")
 		}
 
-		chat.kicked.map((item) => console.log("kicked: ", item));
 		if (chat.kicked.find((item) => item.userId.find((item) => item.id == userId))) {
 			throw new UnauthorizedException("Você foi temporariamente kickado desse chat!!!")
 		}
@@ -233,7 +231,7 @@ export class ChatroomService {
 	}
 
 	async addMemberChatroom(userId: string, dto: WebsocketDto): Promise<UniqueChatroomDto> {
-		console.log("add member");
+
 		let chat = await this.findUniqueChatroom(dto.chat_name);
 
 		if (chat.type == "private") {
@@ -440,7 +438,6 @@ export class ChatroomService {
 
 		let response = await this.findUniqueChatroom(dto.chat_name);
 		response.password = '';
-		console.log("\nbKickMember Function: ", response);
 		return response;
 	}
 
@@ -560,7 +557,6 @@ export class ChatroomService {
 		};
 
 		let response = await this.chatroomRepository.updateDirectChatroom(name, dto);
-		console.log("Blocked: ", response);
 	}
 
 	async findAllDirectMessage(name: string): Promise<OutputDirectMessageDto[]> {

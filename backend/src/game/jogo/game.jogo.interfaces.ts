@@ -98,10 +98,10 @@ export class GGame {
 	constructor(player_left, player_right, hits_for_acceleration) {
 		this.player_left = new Player(player_left.id);
 		this.player_right = new Player(player_right.id);
-		this.window = new GWindow(800, 600);
-		this.ball = new GBall(5, 12);
-		this.paddleLeft = new Paddle(0, 50, 5, 5, 20);
-		this.paddleRight = new Paddle(100, 50, 5, 5, 20);
+		this.window = new GWindow(800, 400);
+		this.ball = new GBall(1, 12);
+		this.paddleLeft = new Paddle(0, 50, 8, 2, 20);
+		this.paddleRight = new Paddle(100, 50, 8, 2, 20);
 		// this.roomID = randomUUID();
 		this.roomID = '123';
 		this.placarLeft = 0;
@@ -130,5 +130,8 @@ export class GGame {
 		this.ball.size = (this.ball.size / 100) * this.window.height;
 		this.ball_refX = this.ball.positionX;
 		this.ball_refY = this.ball.positionY;
+
+		this.paddleLeft.position_front = this.paddleLeft.positionY - (this.paddleLeft.height / 2);
+		this.paddleRight.position_front = this.paddleRight.positionY - (this.paddleRight.height / 2);
 	}
 }

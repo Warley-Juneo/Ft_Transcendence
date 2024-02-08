@@ -21,7 +21,6 @@ export class TwoFactorauthenticationController {
 
 	@Post('clear')
 	clearTwoFactorAuthenticationSecret(@Req() request) {
-		console.log("HAHA");
 		return this.TwoFactorauthenticationService.clearTwoFactorAuthenticationSecret(request.user.sub);
 	}
 

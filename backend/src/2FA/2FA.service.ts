@@ -29,8 +29,6 @@ export class TwoFactorauthenticationService {
 				encoding: 'base32',
 				token,
 			});
-
-			console.log('Response: ', response)
 			if (response === true) {
 				return true;
 			}

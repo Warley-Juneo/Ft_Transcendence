@@ -9,7 +9,6 @@ export class AllExceptionFilter implements ExceptionFilter {
 		const response = context.getResponse();
 		const request = context.getRequest();
 
-		// console.log("Enter on AllExceptionsFilter");
 		if (exception instanceof Prisma.PrismaClientKnownRequestError && exception.code === 'P2002') {
 			let target = exception.meta.target;
 			response
