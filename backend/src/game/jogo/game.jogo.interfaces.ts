@@ -18,6 +18,7 @@ class GBall {
 	positionY: number;
 	directionX: number;
 	directionY: number;
+	directionY_up: boolean;
 	angle: number;
 	size: number;
 	max_angle: number;
@@ -31,6 +32,7 @@ class GBall {
 		this.positionY = 0;
 		this.directionX = 1;
 		this.directionY = 1;
+		this.directionY_up = false;
 		this.angle = 0;
 		this.size = 4;
 		this.max_angle = 70;
@@ -94,6 +96,7 @@ export class GGame {
 	hits_for_accelaration: number;
 	ball_refX: number;
 	ball_refY: number;
+	pause: boolean;
 
 	constructor(player_left, player_right, hits_for_acceleration) {
 		this.player_left = new Player(player_left.id);
@@ -133,5 +136,7 @@ export class GGame {
 
 		this.paddleLeft.position_front = this.paddleLeft.positionY - (this.paddleLeft.height / 2);
 		this.paddleRight.position_front = this.paddleRight.positionY - (this.paddleRight.height / 2);
+		
+		this.pause = false;
 	}
 }

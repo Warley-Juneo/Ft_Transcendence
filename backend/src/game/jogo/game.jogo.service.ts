@@ -24,7 +24,7 @@ export class JogoService {
 			let half_ball_size = game.ball.size / 2;
 
 			if (game.ball.positionX <= game.paddleLeft.positionX) {
-
+				// console.log("\n\n\n\nHit Paddle Left: ");
 				if ((game.ball.positionY + half_ball_size) < (game.paddleLeft.positionY - half_paddle_size)) {
 					game.placarRight++;
 					return false
@@ -34,41 +34,48 @@ export class JogoService {
 					return false
 				}
 
-				//Muda direção em X, mudando o sinal do numero
+				//Muda direção em X, mudando o sinal do número
 				game.ball.directionX *= -1;
 				game.paddle_hits++;
-
+				game.ball_refX = 0;
+				game.ball_refY = 0;
+				game.ball.hit_positionY = game.ball.positionY;
+				
 				//Cálculo do ângulo
 				if (game.ball.positionY >= game.paddleLeft.positionY) {
+					// console.log("ball > paddle\n\n");
+					// console.log("padle positionY: ", game.paddleRight.positionY);
+					// console.log("ball positionY: ", game.ball.positionY);
 					let hit_pos = (game.ball.positionY - game.paddleLeft.positionY) / 1.00;
-					let paddle_half_size =game.paddleLeft.height / 2;
-					let paddle_hit = ((hit_pos * 100) / paddle_half_size) / 1.00;
-					let paddle_hit_perc = (paddle_hit / 100) / 1.00;
-					game.ball.angle = game.ball.max_angle * paddle_hit_perc;
-					if (game.ball.angle > game.ball.max_angle) {
-						game.ball.angle = game.ball.max_angle;
-					}
-					game.ball.directionY = -1;
-
-				}
-				if (game.ball.positionY < game.paddleLeft.positionY) {
-
-					let hit_pos = (game.paddleLeft.positionY - game.ball.positionY) / 1.00;
-					
-					// console.log("hi_pos: ", hit_pos);
+					// console.log("padle hit position: ", hit_pos);
 					let paddle_half_size =game.paddleLeft.height / 2;
 					let paddle_hit = ((hit_pos * 100) / paddle_half_size) / 1.00;
 					// console.log("paddle_hit: ", paddle_hit, "\n");
 					let paddle_hit_perc = (paddle_hit / 100) / 1.00;
+					// console.log("padle hit perc", paddle_hit_perc);
 					game.ball.angle = game.ball.max_angle * paddle_hit_perc;
-					if (game.ball.angle > game.ball.max_angle) {
-						game.ball.angle = game.ball.max_angle;
-					}
+					// console.log("ball angle", game.ball.angle, "\n\n");
 					game.ball.directionY = 1;
+					// game.ball.directionY_up == false
+
 				}
-				game.ball_refX = 0;
-				game.ball_refY = 0;
-				game.ball.hit_positionY = game.ball.positionY;
+				if (game.ball.positionY < game.paddleLeft.positionY) {
+					// console.log("ball < paddle\n\n");
+					// console.log("padle positionY: ", game.paddleRight.positionY);
+					// console.log("ball positionY: ", game.ball.positionY);
+					let hit_pos = (game.paddleLeft.positionY - game.ball.positionY) / 1.00;
+					// console.log("padle hit position: ", hit_pos);
+					let paddle_half_size =game.paddleLeft.height / 2;
+					let paddle_hit = ((hit_pos * 100) / paddle_half_size) / 1.00;
+					// console.log("paddle_hit: ", paddle_hit, "\n");
+					let paddle_hit_perc = (paddle_hit / 100) / 1.00;
+					// console.log("padle hit perc", paddle_hit_perc);
+					game.ball.angle = game.ball.max_angle * paddle_hit_perc;
+					// console.log("ball angle", game.ball.angle, "\n\n");
+					game.ball.directionY = -1;
+					// game.ball.directionY_up == true
+
+				}
 			}
 			return true;
 		}
@@ -78,7 +85,7 @@ export class JogoService {
 			let half_ball_size = game.ball.size / 2;
 			
 			if (game.ball.positionX >= game.paddleRight.positionX) {
-
+				// console.log("\n\n\n\nHit Paddle Right:  ");
 				if ((game.ball.positionY + half_ball_size) < (game.paddleRight.positionY - half_paddle_size)) {
 					game.placarLeft++;
 					return false
@@ -87,42 +94,47 @@ export class JogoService {
 					game.placarLeft++;
 					return false
 				}
-
+				
 				//Muda direção em X, mudando o sinal do numero
 				game.ball.directionX *= -1;
 				game.paddle_hits++;
-
+				game.ball_refX = 0;
+				game.ball_refY = 0;
+				game.ball.hit_positionY = game.ball.positionY;
+				
 				//Cálculo do ângulo
 				if (game.ball.positionY >= game.paddleRight.positionY) {
+					// console.log("ball > paddle\n\n");
 					// console.log("padle positionY: ", game.paddleRight.positionY);
 					// console.log("ball positionY: ", game.ball.positionY);
 					let hit_pos = (game.ball.positionY - game.paddleRight.positionY) / 1.00;
 					// console.log("padle hit position: ", hit_pos);
 					let paddle_half_size =game.paddleRight.height / 2;
 					let paddle_hit = (hit_pos * 100 / paddle_half_size) / 1.00;
+					// console.log("paddle_hit: ", paddle_hit, "\n");
 					let paddle_hit_perc = (paddle_hit / 100) / 1.00;
 					// console.log("padle hit perc", paddle_hit_perc);
 					game.ball.angle = game.ball.max_angle * paddle_hit_perc;
 					// console.log("ball angle", game.ball.angle, "\n\n");
-					if (game.ball.angle > game.ball.max_angle) {
-						game.ball.angle = game.ball.max_angle;
-					}
-					game.ball.directionY = -1;
+					game.ball.directionY = 1;
+					// game.ball.directionY_up == true
 				}
 				if (game.ball.positionY < game.paddleRight.positionY) {
+					// console.log("ball < paddle\n\n");
+					// console.log("padle positionY: ", game.paddleRight.positionY);
+					// console.log("ball positionY: ", game.ball.positionY);
 					let hit_pos = (game.paddleRight.positionY - game.ball.positionY) / 1.00;
+					// console.log("padle hit position: ", hit_pos);
 					let paddle_half_size =game.paddleRight.height / 2;
 					let paddle_hit = ((hit_pos * 100) / paddle_half_size) / 1.00;
+					// console.log("paddle_hit: ", paddle_hit, "\n");
 					let paddle_hit_perc = (paddle_hit / 100) / 1.00;
+					// console.log("padle hit perc", paddle_hit_perc);
 					game.ball.angle = game.ball.max_angle * paddle_hit_perc;
-					if (game.ball.angle > game.ball.max_angle) {
-						game.ball.angle = game.ball.max_angle;
-					}
-					game.ball.directionY = 1;
+					// console.log("ball angle", game.ball.angle, "\n\n");
+					game.ball.directionY = -1;
+					// game.ball.directionY_up == false;
 				}
-				game.ball_refX = 0;
-				game.ball_refY = 0;
-				game.ball.hit_positionY = game.ball.positionY;
 			}
 			return true;
 		}
@@ -140,7 +152,7 @@ export class JogoService {
 		let verifyCollisionWallUp = () => {
 			if (game.ball.positionY <= 0) {
 				// game.ball.angle = 180 - game.ball.angle;
-				game.ball.directionY *= -1;
+				game.ball.directionY = 1;
 				game.ball_refX = game.ball.positionX;
 				game.ball_refY = game.ball.positionY;
 				game.ball_refX = 0;
@@ -153,7 +165,7 @@ export class JogoService {
 		let verifyCollisionWallDown = () => {
 			if (game.ball.positionY >= game.window.height) {
 				// game.ball.angle = 180 - game.ball.angle;
-				game.ball.directionY *= -1;
+				game.ball.directionY = -1;
 				game.ball_refX = 0;
 				game.ball_refY = 0;
 				game.ball.hit_positionY = game.ball.positionY;
@@ -170,7 +182,7 @@ export class JogoService {
 		// game.ball.positionY += game.ball.angle;
 	}
 
-	movePaddle(roomID: string, isLeft: boolean, isUp: boolean) {
+	movePaddle(roomID: string, isLeft: boolean, isUp: boolean, pause: boolean) {
 		let game = JogoService.rooms.find(game => game.roomID == roomID);
 		if (isLeft == true) {
 			if (isUp == true) {
@@ -191,6 +203,11 @@ export class JogoService {
 				game.paddleRight.positionY += game.paddleRight.velocity;
 				game.paddleRight.position_front += game.paddleRight.velocity;
 			}
+		}
+		if (pause == true) {
+			game.pause = true;
+		} else {
+			game.pause = false;
 		}
 	}
 
@@ -246,11 +263,12 @@ export class JogoService {
 			this.verifyCollisionWall(game);
 		}
 		
+		
+	if (!game.pause) {
 		// console.log("ball angle", game.ball.angle);
 		// console.log("ball directionX", game.ball.directionX);
 		// console.log("ball directionY", game.ball.directionY);
-		
-		
+
 		if (JogoService.x % 7 == 0) {
 			game.ball.positionX += game.ball.path * game.ball.directionX;
 			game.ball_refX += game.ball.path;
@@ -262,9 +280,12 @@ export class JogoService {
 		// console.log("ball refX", game.ball_refX);
 		
 		if (game.ball.angle != 0) {
-			let tan = Math.tan(game.ball.angle);
+			let tan = Math.tan((game.ball.angle * Math.PI) / 180);
 			// console.log("tangente angle: ", tan);
-			game.ball_refY = (game.ball_refX / tan);
+			game.ball_refY = game.ball_refX * tan;
+			if (game.ball_refY < 0) {
+				game.ball_refY *= -1;
+			}
 			// console.log("ball hitY", game.ball.hit_positionY);
 			// console.log("ball refY", game.ball_refY);
 			game.ball.positionY = game.ball.hit_positionY + (game.ball_refY * game.ball.directionY);
@@ -280,7 +301,7 @@ export class JogoService {
 		if (game.paddle_hits % game.hits_for_accelaration == 0) {
 			game.ball.velocity += game.ball.velocity * (game.ball.acceleration_ratio / 100);
 		}
-
+	}
 		return game;
 	}
 }

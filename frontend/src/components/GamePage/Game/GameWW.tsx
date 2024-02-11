@@ -102,15 +102,21 @@ export default function GameWW(): JSX.Element {
 
 	const movePaddleLeft = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key == 'w') {
-			socket.emit('updatePaddle', { roomID: room, isLeft: true, isUp: true })
+			socket.emit('updatePaddle', { roomID: room, isLeft: true, isUp: true, pause: false })
 		}
 		else if (e.key == 's') {
-			socket.emit('updatePaddle', { roomID: room, isLeft: true, isUp: false })
+			socket.emit('updatePaddle', { roomID: room, isLeft: true, isUp: false, pause: false })
 		} else if (e.key == 'ArrowUp') {
-			socket.emit('updatePaddle', { roomID: room, isLeft: false, isUp: true })
+			socket.emit('updatePaddle', { roomID: room, isLeft: false, isUp: true, pause: false })
 		}
 		else if (e.key == 'ArrowDown') {
-			socket.emit('updatePaddle', { roomID: room, isLeft: false, isUp: false })
+			socket.emit('updatePaddle', { roomID: room, isLeft: false, isUp: false, pause: false })
+		}
+		else if (e.key == 'p') {
+			socket.emit('updatePaddle', { roomID: room, isLeft: false, isUp: false, pause: true })
+		}
+		else if (e.key == 'l') {
+			socket.emit('updatePaddle', { roomID: room, isLeft: false, isUp: false, pause: false })
 		}
 	}
 
