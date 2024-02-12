@@ -186,22 +186,30 @@ export class JogoService {
 		let game = JogoService.rooms.find(game => game.roomID == roomID);
 		if (isLeft == true) {
 			if (isUp == true) {
-				game.paddleLeft.positionY -= game.paddleLeft.velocity;
-				game.paddleLeft.position_front -= game.paddleLeft.velocity; 
+				if (game.paddleLeft.position_front > 0) {
+					game.paddleLeft.positionY -= game.paddleLeft.velocity;
+					game.paddleLeft.position_front -= game.paddleLeft.velocity; 
+				}
 			}
 			else {
-				game.paddleLeft.positionY += game.paddleLeft.velocity;
-				game.paddleLeft.position_front += game.paddleLeft.velocity;
+				if ((game.paddleLeft.position_front + game.paddleLeft.height) < game.window.height) {
+					game.paddleLeft.positionY += game.paddleLeft.velocity;
+					game.paddleLeft.position_front += game.paddleLeft.velocity;
+				}
 			}
 		}
 		else {
 			if (isUp == true) {
-				game.paddleRight.positionY -= game.paddleRight.velocity;
-				game.paddleRight.position_front -= game.paddleRight.velocity;
+				if (game.paddleRight.position_front > 0) {
+					game.paddleRight.positionY -= game.paddleRight.velocity;
+					game.paddleRight.position_front -= game.paddleRight.velocity;
+				}
 			}
 			else {
-				game.paddleRight.positionY += game.paddleRight.velocity;
-				game.paddleRight.position_front += game.paddleRight.velocity;
+				if ((game.paddleRight.position_front + game.paddleRight.height) < game.window.height) {
+					game.paddleRight.positionY += game.paddleRight.velocity;
+					game.paddleRight.position_front += game.paddleRight.velocity;
+				}
 			}
 		}
 		if (pause == true) {
