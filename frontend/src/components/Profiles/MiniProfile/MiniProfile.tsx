@@ -58,11 +58,9 @@ export default function MiniProfile(props: propsMiniProfile) {
 
 	return (
 		<>
-			{showConfigurations ? <ConfigurationGame closed={setShowConfigurations} /> : null}
 			<div className='position-absolute top-0 end-0 h-100' style={cssMiniprfile}>
 				<MiniPerfilUser
 					showMiniPerfil={props.showMiniPerfil}
-					showConfigurations={setShowConfigurations}
 				/>
 				<hr className='m-0 w-100 text-white'></hr>
 				<Options getPlayers={getPlayers} />

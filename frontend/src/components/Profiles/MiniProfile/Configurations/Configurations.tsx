@@ -173,7 +173,7 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 	}
 
 	return (
-		<div className='position-absolute top-50 start-50 translate-middle p-2 rounded'
+		<div className='position-fixed top-50 start-50 translate-middle p-2 rounded'
 			style={{ backgroundColor: '#653b1e', width: '600px' }}
 		>
 			<IoIosClose

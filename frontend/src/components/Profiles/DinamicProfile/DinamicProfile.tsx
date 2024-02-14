@@ -18,7 +18,7 @@ export default function DinamicProfile(props: propsDinamicProfile): JSX.Element 
 	}
 
 	return (
-		<div className="text-white h-75 w-75 p-2 bg-degrader position-absolute top-50 start-50 translate-middle" style={cssBackgroundTerra}>
+		<div className="text-white h-75 w-75 p-2 bg-degrader position-fixed top-50 start-50 translate-middle" style={cssBackgroundTerra}>
 			<div className="d-flex flex-column h-100 position-relative p-5">
 				<ButtonClosed backgroundColor="" backgroundShadow="" closed={props.openDinamicProfile} />
 				<div style={{height: '35%'}}>
