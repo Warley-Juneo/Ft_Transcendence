@@ -58,15 +58,15 @@ export default function GameWW(): JSX.Element {
 
 	useEffect(() => {
 		socket.on('updateGame', (data: GamePongProps) => {
-			console.log("RECEBENDO: ", data);
 			setFakeGame(data)
+			console.log(data);
 		})
 	}, [])
 
 
 	useEffect(() => {
 		const intervalId = setInterval(() => {
-			socket.emit('updateGame', '123')
+			socket.emit('updateGame', room)
 		});
 
 		return () => clearInterval(intervalId);
@@ -120,6 +120,9 @@ export default function GameWW(): JSX.Element {
 		}
 	}
 
+	if (fakeGame.winner) {
+		return <div>Acabou crl</div>
+	}
 	return (
 		<div style={cssPage} tabIndex={0} onKeyDown={movePaddleLeft}>
 

@@ -105,8 +105,8 @@ export class GGame {
 		this.ball = new GBall(1, 12);
 		this.paddleLeft = new Paddle(0, 50, 8, 2, 20);
 		this.paddleRight = new Paddle(100, 50, 8, 2, 20);
-		// this.roomID = randomUUID();
-		this.roomID = '123';
+		this.roomID = randomUUID();
+		// this.roomID = '123';
 		this.placarLeft = 0;
 		this.placarRight = 0;
 		this.winner = "";
@@ -136,7 +136,7 @@ export class GGame {
 
 		this.paddleLeft.position_front = this.paddleLeft.positionY - (this.paddleLeft.height / 2);
 		this.paddleRight.position_front = this.paddleRight.positionY - (this.paddleRight.height / 2);
-		
+
 		this.pause = false;
 	}
 }
