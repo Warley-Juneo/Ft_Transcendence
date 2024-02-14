@@ -120,7 +120,7 @@ export default function GameWW(): JSX.Element {
 		}
 	}
 
-	if (fakeGame.winner) {
+	if (fakeGame.winner != "") {
 		return <div>Acabou crl</div>
 	}
 	return (

@@ -219,19 +219,21 @@ export class JogoService {
 		}
 	}
 
-	checkScore(game: GGame) {
+	checkScore(game: GGame): Boolean {
 		if (game.placarLeft == 10 || game.placarRight == 10) {
-			return 'left';
+			return true;
 		}
 		return false;
 	}
 
 	checkWinner(game: GGame) {
 		if (game.placarLeft == 10) {
-			return game.player_left;
+			game.winner = game.player_left.nickname;
+			game.loser = game.player_right.nickname;
 		}
 		else if (game.placarRight == 10) {
-			return game.player_right;
+			game.winner = game.player_right.nickname;
+			game.loser = game.player_left.nickname;
 		}
 	}
 
@@ -261,9 +263,19 @@ export class JogoService {
 		if (JogoService.rooms.length == 0) return;
 
 		let game = JogoService.rooms.find(game => game.roomID == gameID);
+		if (game == undefined) {
+			return;
+		}
 		if (this.verifyCollisionPaddles(game) == false) {
 			if (this.checkScore(game)) {
 				this.checkWinner(game);
+				console.log("Winner: ", game.winner);	
+				//remover game do array de games
+				// const index = JogoService.rooms.indexOf(game, 0);
+				// JogoService.rooms.splice(index, 1);
+				
+				//atualizar banco de dados
+				return game;
 			}
 			this.resetGame(game);
 		}

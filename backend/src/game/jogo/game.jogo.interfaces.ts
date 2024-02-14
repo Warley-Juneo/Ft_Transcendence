@@ -63,10 +63,11 @@ class Paddle {
 }
 
 class Player {
-	id: String;
+	id: string;
+	nickname: string;
 	status: boolean;
 
-	constructor(id: String) {
+	constructor(id: string) {
 		this.id = id;
 		this.status = true;
 	}
