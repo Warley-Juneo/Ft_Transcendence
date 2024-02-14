@@ -16,6 +16,7 @@ export default function DinamicProfile(props: propsDinamicProfile): JSX.Element 
 		backgroundSize: 'cover',
 		backgroundPosition: 'contain',
 		backgroundRepeat: 'no-repeat',
+		zIndex: 1000
 	}
 
 	return (
