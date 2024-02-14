@@ -17,14 +17,12 @@ export default function MiniProfile(props: propsMiniProfile) {
 	const [showConfigurations, setShowConfigurations] = useState<boolean>(false);
 
 	function getPlayers(route: string) {
-		console.log('getPlayers: ', route)
 		axios.get(route, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
 				"ngrok-skip-browser-warning": "69420"
 			}
 		}).then((res) => {
-			console.log('getPlayers: ', res.data)
 			setPlayers(res.data);
 		}).catch((err) => {
 			console.log(err);

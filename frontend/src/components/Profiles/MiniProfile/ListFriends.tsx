@@ -21,10 +21,18 @@ export default function ListFriends(props: PropsListFriends) {
 	const [chatPrivate, setChatPrivate] = useState(false);
 	const [dataOpenDirect, setDataOpenDirect] = useState({ nickname: '', avatart: '' });
 	const [dinamicProfile, setDinamicProfile] = useState<string>("");
+	const [profileData, setProfileData] = useState<{ id: string, nickname: string }>(
+		{ id: '', nickname: '' }
+	);
 
 	function handleOpenChatPrivate(nickname: string, avatar: string) {
 		setChatPrivate(!chatPrivate)
 		setDataOpenDirect({ nickname: nickname, avatart: avatar })
+	}
+
+	function clickPhoto(id: string, nickName: string) {
+		setDinamicProfile("open")
+		setProfileData({ id: id, nickname: nickName })
 	}
 
 	let type = typeof props.players;
@@ -40,27 +48,34 @@ export default function ListFriends(props: PropsListFriends) {
 	return (
 		<div className='p-2 text-white overflow-auto'>
 			{!chatPrivate ? null : <ChatPrivate nick_name={dataOpenDirect.nickname} avatar={dataOpenDirect.avatart} />}
-			{props.players.map((play: Players) => {
-				return (
-					<div className='d-flex hover' key={play.id}>
-						{!dinamicProfile ? null :
-							<DinamicProfile
-								openDinamicProfile={setDinamicProfile}
-								nickName={play.nickname}
-								id={play.id}
-							/>}
-						<img className="foto-list-friends" src={play.avatar} alt='foto' onClick={() => setDinamicProfile("open")} />
-						<div className='d-flex w-100' onClick={() => handleOpenChatPrivate(play.nickname, play.avatar)}>
-							<Status
-								is_active={play.is_active}
-								name={play.nickname} my_id={play.id}
-								mute={props.mute ? props.mute : []}
-								admin={props.admin ? props.admin : []}
+			{!dinamicProfile ? null :
+				<DinamicProfile
+					openDinamicProfile={setDinamicProfile}
+					nickName={profileData.nickname}
+					id={profileData.id}
+				/>
+			}
+			{
+				props.players.map((play: Players) => {
+					return (
+						<div className='d-flex hover' key={play.id}>
+							<img
+								className="foto-list-friends"
+								src={play.avatar}
+								alt='foto'
+								onClick={() => clickPhoto(play.id, play.nickname)}
 							/>
+							<div className='d-flex w-100' onClick={() => handleOpenChatPrivate(play.nickname, play.avatar)}>
+								<Status
+									is_active={play.is_active}
+									name={play.nickname} my_id={play.id}
+									mute={props.mute ? props.mute : []}
+									admin={props.admin ? props.admin : []}
+								/>
+							</div>
 						</div>
-					</div>
-				)
-			})}
+					)
+				})}
 
 		</div>
 	);

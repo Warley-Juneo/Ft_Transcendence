@@ -7,24 +7,18 @@ import HandleRank from "../RankMapings";
 import Rank from "../ProfilePage/Perfil/rank";
 import Pointer from "../ProfilePage/Perfil/pontos";
 
-// export type InfosUserPerfil = {
-// 	nickname: string;
-// 	wins: number;
-// 	draws: number;
-// 	loses: number;
-// 	avatar: string;
-// }
-
 export default function InfosUser({ nickName }: { nickName: string }): JSX.Element {
 	const [infosUser, setInfosUser] = useState<InfosUserPerfil>({} as InfosUserPerfil);
 
 	const getProfile = (): void => {
+		console.log("nickName" , nickName)
 		axios.get(`${process.env.REACT_APP_HOST_URL}/users/profile/?nick_name=${nickName}`, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
 				"ngrok-skip-browser-warning": "69420",
 			}
 		}).then((response) => {
+			console.log(response.data);
 			setInfosUser(response.data);
 		}
 		).catch((error) => {
@@ -41,7 +35,6 @@ export default function InfosUser({ nickName }: { nickName: string }): JSX.Eleme
 	let aux = infosUser.wins + infosUser.draws;
 	let kda: number = aux === 0 ? infosUser.loses : aux / infosUser.loses;
 
-	const cssPointers = 'col-4 ps-4 h-100';
 	return (
 		<div className="row g-0 align-items-center text-center h-100">
 			<div className="col-4 h-100">

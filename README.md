@@ -85,7 +85,7 @@ website.
 - [ ] Everything has to be launch by a single call to: docker-compose up --build
 When your computers in clusters run under Linux, you will use
 Docker in rootless mode for security reasons. This comes with 2
-sideways: 
+sideways:
 1) your Docker runtime files must be located in /goinfre
 or /sgoinfre.
 2) you can’t use so called “bind-mount volumes”
@@ -137,20 +137,20 @@ Google Authenticator or sending a text message to their phone.
 	- [ ] in a game
 	- [ ] and so forth.
 
-- [ ] Stats (such as: 
+- [ ] Stats (such as:
 	- [x] wins
 	- [x] losses
 	- [x] ladder
 	- [x] level
 	- [x] achievements
-	- [ ] and so forth) 
+	- [ ] and so forth)
 have to be displayed on the user profile.
 
 - [ ] Each user should have a Match History including:
 	- [x] 1v1 games
 	- [x] ladder
 	- [x] and any thing else useful
-	- [ ] Anyone who is logged in should be able to consult it. Clicar na foto
+	- [x] Anyone who is logged in should be able to consult it. Clicar na foto
 	em qualuer lugar do jogo, abre o profile.
 
 II.4
@@ -181,8 +181,8 @@ until they leave it.
 A user who is an administrator of a channel:
 	- [x] can kick
 	- [x] ban
-	- [x] mute 
-	(for alimited time) 
+	- [x] mute
+	(for alimited time)
 	- [x] other users, but not the channel owners.
 
 - [ ] The user should be able to invite other users to play a Pong game through the chat
