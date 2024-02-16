@@ -38,6 +38,15 @@ export class GameSocket {
 		}
 	}
 
+	@SubscribeMessage('createMatch')
+	async handleCreateMatch(player1: Player, player2: Player) {
+
+		const game = await this.jogoService.startGame(player1.id, player2.id, 5);
+		player1.socket.join(game.roomID);
+		player2.socket.join(game.roomID);
+		this.server.to(game.roomID).emit('startGame', game);
+	}
+
 	@SubscribeMessage('leaveRoom')
 	async handleLeaveRoom(client: Socket, payload: any) {
 		client.leave(payload.room);
