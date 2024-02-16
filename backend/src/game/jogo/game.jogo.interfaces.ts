@@ -140,4 +140,33 @@ export class GGame {
 
 		this.pause = false;
 	}
+
+	copy(ggame: GGame): GGame {
+		let response: GGame =  new GGame(this.player_left, this.player_right, this.hits_for_accelaration);
+		response.player_left = ggame.player_left;
+		response.player_right = ggame.player_right;
+		response.placarLeft = ggame.placarLeft;
+		response.placarRight = ggame.placarRight;
+
+		response.window = ggame.window;
+
+		response.ball = ggame.ball;
+
+		response.paddleLeft = ggame.paddleLeft;
+		response.paddleRight = ggame.paddleRight;
+
+		response.roomID = ggame.roomID;
+		response.winner = ggame.winner;
+		response.loser = ggame.loser;
+
+		response.gameStatus = ggame.gameStatus;
+		response.pixelIncrement = ggame.pixelIncrement;
+		response.paddle_hits = ggame.paddle_hits;
+		response.hits_for_accelaration = ggame.hits_for_accelaration;
+		response.ball_refX = ggame.ball_refX;
+		response.ball_refY = ggame.ball_refY;
+		response.pause = ggame.pause;
+		return response;
+	}
+	
 }

@@ -270,12 +270,13 @@ export class JogoService {
 			if (this.checkScore(game)) {
 				this.checkWinner(game);
 				console.log("Winner: ", game.winner);	
+				let response = game.copy(game);
 				//remover game do array de games
-				// const index = JogoService.rooms.indexOf(game, 0);
-				// JogoService.rooms.splice(index, 1);
+				const index = JogoService.rooms.indexOf(game, 0);
+				JogoService.rooms.splice(index, 1);
 				
 				//atualizar banco de dados
-				return game;
+				return response;
 			}
 			this.resetGame(game);
 		}
