@@ -276,14 +276,16 @@ export class JogoService {
 			if (this.checkScore(game)) {
 				this.checkWinner(game);
 				console.log("Winner: ", game.winner);	
+				/*ATUALIZAR BANCO DE DADOS*/
 				let dto = new MatchDto(game);
 				await this.gameRepository.addMatch(dto);
+				await this.gameRepository.updateMatchStatus(game.player_left.id, game.player_right.id, "NONE");
+				
+				/*REMOVER GAME DO ARRAY DE GAMES*/
 				let response = game.copy(game);
-				//remover game do array de games
 				const index = JogoService.rooms.indexOf(game, 0);
 				JogoService.rooms.splice(index, 1);
 				
-				//atualizar banco de dados
 				return response;
 			}
 			this.resetGame(game);
