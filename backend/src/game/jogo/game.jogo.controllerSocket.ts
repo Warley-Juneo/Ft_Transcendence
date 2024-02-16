@@ -4,7 +4,7 @@ import { Socket, Server } from "socket.io";
 import { JogoService } from "./game.jogo.service";
 
 type Player = {
-	id: String,
+	id: string,
 	socket: Socket,
 }
 
@@ -24,7 +24,7 @@ export class GameSocket {
 	@WebSocketServer() server: Server;
 
 	@SubscribeMessage('joinRoom')
-	async handleJoinRoom(client: Socket, userId: String) {
+	async handleJoinRoom(client: Socket, userId: string) {
 		GameSocket.queues.push({ id: userId, socket: client });
 
 		if (GameSocket.queues.length >= 2) {

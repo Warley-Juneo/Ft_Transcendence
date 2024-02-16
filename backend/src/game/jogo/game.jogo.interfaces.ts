@@ -142,7 +142,7 @@ export class GGame {
 	}
 
 	copy(ggame: GGame): GGame {
-		let response: GGame =  new GGame(this.player_left, this.player_right, this.hits_for_accelaration);
+		let response: GGame =  new GGame(this.player_left.id, this.player_right.id, this.hits_for_accelaration);
 		response.player_left = ggame.player_left;
 		response.player_right = ggame.player_right;
 		response.placarLeft = ggame.placarLeft;

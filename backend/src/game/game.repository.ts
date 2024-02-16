@@ -148,6 +148,6 @@ export class GameRepository {
       data: {
         match_status: status,
       },
-    }),
+    });
   }
 }
