@@ -31,9 +31,10 @@ model User {
 
   match_as_player_1   Match[]             @relation(name: "player_1")
   match_as_player_2   Match[]             @relation(name: "player_2")
-
   match_wins          Match[]             @relation(name: "winner")
   match_loses         Match[]             @relation(name: "loser")
+  match_status        Status              
+
 
   chat_owner          ChatRoom[]          @relation(name: "owner")
   chat_admin          ChatRoom[]          @relation(name: "admin")
@@ -56,6 +57,12 @@ model User {
 
   @@map("user")
 }
+
+enum Status {
+  WATCHING
+  PLAYING
+}
+
 
 model Match {
   id String @id @default(uuid())

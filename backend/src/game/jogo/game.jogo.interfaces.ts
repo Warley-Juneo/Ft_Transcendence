@@ -99,9 +99,9 @@ export class GGame {
 	ball_refY: number;
 	pause: boolean;
 
-	constructor(player_left, player_right, hits_for_acceleration) {
-		this.player_left = new Player(player_left.id);
-		this.player_right = new Player(player_right.id);
+	constructor(player_left_id: string, player_right_id: string, hits_for_acceleration) {
+		this.player_left = new Player(player_left_id);
+		this.player_right = new Player(player_right_id);
 		this.window = new GWindow(800, 400);
 		this.ball = new GBall(1, 12);
 		this.paddleLeft = new Paddle(0, 50, 8, 2, 20);

@@ -62,7 +62,4 @@ export class GameService {
 		return this.gameRepository.updateStatusUser(data);
 	}
 
-	async addMatch(dto: MatchDto): Promise <void> {
-		return await this.gameRepository.addMatch(dto);
-	}
 }

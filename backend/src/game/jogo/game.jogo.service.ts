@@ -6,17 +6,19 @@ import { GGame } from "./game.jogo.interfaces";
 import { User } from "@prisma/client";
 import { MatchDto } from "../dtos/input.dto";
 import { GameService } from "../game.service";
+import { GameRepository } from "../game.repository";
 
 @Injectable()
 export class JogoService {
 
-	constructor(private readonly gameService: GameService) {};
+	constructor(private readonly gameRepository: GameRepository) {};
 	static rooms: GGame[] = [];
 	static  x: number = 0;
 
-	async startGame(player1: String, player2: String, hits_for_acceleration: number) {
-		const game = new GGame(player1, player2, hits_for_acceleration);
+	async startGame(player1_id: string, player2_id: string, hits_for_acceleration: number) {
+		const game = new GGame(player1_id, player2_id, hits_for_acceleration);
 		JogoService.rooms.push(game);
+		await this.gameRepository.updateMatchStatus(player1_id, player2_id, "PLAYING");
 		return game;
 	}
 
@@ -275,7 +277,7 @@ export class JogoService {
 				this.checkWinner(game);
 				console.log("Winner: ", game.winner);	
 				let dto = new MatchDto(game);
-				await this.gameService.addMatch(dto);
+				await this.gameRepository.addMatch(dto);
 				let response = game.copy(game);
 				//remover game do array de games
 				const index = JogoService.rooms.indexOf(game, 0);
