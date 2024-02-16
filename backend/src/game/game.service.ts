@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { GameRepository } from './game.repository';
 import { UserMatchDto } from './dtos/output.dto';
-import { DisconnectDto, InputUserDto } from './dtos/input.dto';
+import { DisconnectDto, InputUserDto, MatchDto } from './dtos/input.dto';
 import * as fs from 'fs';
 import path from 'path';
 
@@ -60,5 +60,9 @@ export class GameService {
 
 	async disconnect(data: DisconnectDto): Promise<void> {
 		return this.gameRepository.updateStatusUser(data);
+	}
+
+	async addMatch(dto: MatchDto): Promise <void> {
+		return await this.gameRepository.addMatch(dto);
 	}
 }

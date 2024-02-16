@@ -4,9 +4,13 @@
 import { Injectable } from "@nestjs/common";
 import { GGame } from "./game.jogo.interfaces";
 import { User } from "@prisma/client";
+import { MatchDto } from "../dtos/input.dto";
+import { GameService } from "../game.service";
 
 @Injectable()
 export class JogoService {
+
+	constructor(private readonly gameService: GameService) {};
 	static rooms: GGame[] = [];
 	static  x: number = 0;
 
@@ -220,20 +224,20 @@ export class JogoService {
 	}
 
 	checkScore(game: GGame): Boolean {
-		if (game.placarLeft == 10 || game.placarRight == 10) {
+		if (game.placarLeft == 2 || game.placarRight == 2) {
 			return true;
 		}
 		return false;
 	}
 
 	checkWinner(game: GGame) {
-		if (game.placarLeft == 10) {
-			game.winner = game.player_left.nickname;
-			game.loser = game.player_right.nickname;
+		if (game.placarLeft == 2) {
+			game.winner = game.player_left.id;
+			game.loser = game.player_right.id;
 		}
-		else if (game.placarRight == 10) {
-			game.winner = game.player_right.nickname;
-			game.loser = game.player_left.nickname;
+		else if (game.placarRight == 2) {
+			game.winner = game.player_right.id;
+			game.loser = game.player_left.id;
 		}
 	}
 
@@ -259,7 +263,7 @@ export class JogoService {
 		// game.paddleRight.positionY = game.window.height / 2;
 	}
 
-	updateGame(gameID: string) {
+	async updateGame(gameID: string): Promise<any> {
 		if (JogoService.rooms.length == 0) return;
 
 		let game = JogoService.rooms.find(game => game.roomID == gameID);
@@ -270,6 +274,8 @@ export class JogoService {
 			if (this.checkScore(game)) {
 				this.checkWinner(game);
 				console.log("Winner: ", game.winner);	
+				let dto = new MatchDto(game);
+				await this.gameService.addMatch(dto);
 				let response = game.copy(game);
 				//remover game do array de games
 				const index = JogoService.rooms.indexOf(game, 0);

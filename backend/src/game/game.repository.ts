@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Match } from '@prisma/client';
 import e from 'express';
 import { PrismaService } from 'src/database/prisma.service';
-import { DisconnectDto } from './dtos/input.dto';
+import { DisconnectDto, MatchDto } from './dtos/input.dto';
 
 @Injectable()
 export class GameRepository {
@@ -115,5 +115,20 @@ export class GameRepository {
 		is_active: is_active,
 	  },
 	});
+  }
+
+  async addMatch(dto: MatchDto): Promise <void> {
+    console.log("\n\nCreate Match\n\n");
+    await this.prisma.match.create({
+      data: {
+        player1_id: dto.player1_id,
+        score_p1: dto.score_p1,
+        player2_id: dto.player2_id,
+        score_p2: dto.score_p2,
+        winner_id: dto.winner_id,
+        loser_id: dto.loser_id,
+        draws: false,
+      },
+    });
   }
 }
