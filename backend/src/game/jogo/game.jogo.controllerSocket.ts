@@ -24,8 +24,9 @@ export class GameSocket {
 	@WebSocketServer() server: Server;
 
 	@SubscribeMessage('joinRoom')
-	async handleJoinRoom(client: Socket, userId: string) {
-		GameSocket.queues.push({ id: userId, socket: client });
+	async handleJoinRoom(client: Socket, userId: any) {
+		//Conversar com Wagraton. Frontend enviando um objet userId, não uma string
+		GameSocket.queues.push({ id: userId.id, socket: client });
 
 		if (GameSocket.queues.length >= 2) {
 			let player1 = GameSocket.queues[0];
