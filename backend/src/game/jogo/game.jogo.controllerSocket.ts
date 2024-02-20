@@ -48,9 +48,11 @@ export class GameSocket {
 		this.server.to(game.roomID).emit('startGame', game);
 	}
 
-	@SubscribeMessage('leaveRoom')
-	async handleLeaveRoom(client: Socket, payload: any) {
-		client.leave(payload.room);
+	@SubscribeMessage('disconnectUser')
+	async handleDisconnectUser(client: Socket, dto: any): Promise<any> {
+		const game = await this.jogoService.disconnectUser(dto.roomID, dto.isLeft);
+		//Perguntar para o Frontend qual websocket devemos emitir a resposta.
+		this.server.to(game?.roomID).emit("updateGame", game);
 	}
 
 	@SubscribeMessage('updateGame')
@@ -58,7 +60,6 @@ export class GameSocket {
 		const game = await this.jogoService.updateGame(roomID);
 		this.server.to(game?.roomID).emit('updateGame', game);
 	}
-
 
 	@SubscribeMessage('updatePaddle')
 	async handleUpdatePaddle(client: Socket, paddle_status: any) {
