@@ -325,44 +325,56 @@ export class JogoService {
 		}
 		
 		
-	if (!game.pause) {
-		// console.log("ball angle", game.ball.angle);
-		// console.log("ball directionX", game.ball.directionX);
-		// console.log("ball directionY", game.ball.directionY);
+		if (!game.pause) {
+			// console.log("ball angle", game.ball.angle);
+			// console.log("ball directionX", game.ball.directionX);
+			// console.log("ball directionY", game.ball.directionY);
 
-		if (JogoService.x % 7 == 0) {
-			game.ball.positionX += game.ball.path * game.ball.directionX;
-			game.ball_refX += game.ball.path;
-			JogoService.x = 0;
-		}
-		JogoService.x++;
+			if (JogoService.x % 7 == 0) {
+				game.ball.positionX += game.ball.path * game.ball.directionX;
+				game.ball_refX += game.ball.path;
+				JogoService.x = 0;
+			}
+			JogoService.x++;
 
-		// console.log("ball positionX", game.ball.positionX);
-		// console.log("ball refX", game.ball_refX);
-		
-		if (game.ball.angle != 0) {
-			let tan = Math.tan((game.ball.angle * Math.PI) / 180);
-			// console.log("tangente angle: ", tan);
-			game.ball_refY = game.ball_refX * tan;
-			if (game.ball_refY < 0) {
-				game.ball_refY *= -1;
-			}
-			// console.log("ball hitY", game.ball.hit_positionY);
-			// console.log("ball refY", game.ball_refY);
-			game.ball.positionY = game.ball.hit_positionY + (game.ball_refY * game.ball.directionY);
-			// console.log("ball positionY", game.ball.positionY, "\n");
-			if (game.ball.positionY > game.window.height) {	
-				game.ball.positionY = game.window.height;
-			}
-			if (game.ball.positionY < 0) {	
-				game.ball.positionY = 0;
-			}
-		}
+			// console.log("ball positionX", game.ball.positionX);
+			// console.log("ball refX", game.ball_refX);
 
-		if (game.paddle_hits % game.hits_for_accelaration == 0) {
-			game.ball.velocity += game.ball.velocity * (game.ball.acceleration_ratio / 100);
+			if (game.ball.angle != 0) {
+				let tan = Math.tan((game.ball.angle * Math.PI) / 180);
+				// console.log("tangente angle: ", tan);
+				game.ball_refY = game.ball_refX * tan;
+				if (game.ball_refY < 0) {
+					game.ball_refY *= -1;
+				}
+				// console.log("ball hitY", game.ball.hit_positionY);
+				// console.log("ball refY", game.ball_refY);
+				game.ball.positionY = game.ball.hit_positionY + (game.ball_refY * game.ball.directionY);
+				// console.log("ball positionY", game.ball.positionY, "\n");
+				if (game.ball.positionY > game.window.height) {	
+					game.ball.positionY = game.window.height;
+				}
+				if (game.ball.positionY < 0) {	
+					game.ball.positionY = 0;
+				}
+			}
+
+			if (game.paddle_hits % game.hits_for_accelaration == 0) {
+				game.ball.velocity += game.ball.velocity * (game.ball.acceleration_ratio / 100);
+			}
 		}
+			return game;
 	}
+
+	async watchMatch(playerId: string, watcherId: string): Promise<GGame> {
+
+		let game = JogoService.rooms.find(game => game.player_left.id == playerId);
+		if (game == undefined) {
+			game = JogoService.rooms.find(game => game.player_right.id == playerId);
+			if (game == undefined) return null
+		}
+		await this.gameRepository.updateMatchStatus(watcherId, "WATCHING");
+		game.participants.push(watcherId);
 		return game;
 	}
 }

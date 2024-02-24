@@ -71,4 +71,13 @@ export class GameSocket {
 		// console.log("roomId: ", paddle_status.roomID, "\n isLeft: ", paddle_status.isLeft, "\n isUp: ", paddle_status.isUp);
 		const game = await this.jogoService.movePaddle(paddle_status.roomID, paddle_status.isLeft, paddle_status.isUp, paddle_status.pause);
 	}
+
+	@SubscribeMessage('watch-match')
+	async handleWatchMatch(client: Socket, playerId: string, watcherId: string) {
+		
+		let game = await this.jogoService.watchMatch(playerId, watcherId);
+		client.join(game.roomID);
+		client.emit('startGame', game);
+		this.server.emit('checkStatus', '');
+	}
 }
