@@ -22,6 +22,7 @@ export default function OptionsMiniProfile(props: propsSelectConfiuration): JSX.
 		let aux = {
 			user_id: props.id,
 			is_active: false,
+			msg: "entrei/sai"
 		}
 		socket.emit('check-status', aux);
 		Cookies.remove('jwtToken');

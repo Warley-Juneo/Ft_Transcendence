@@ -12,15 +12,18 @@ export class DisconnectDto {
 
 	@IsNotEmpty()
 	is_active:	boolean;
+
+	@IsNotEmpty()
+	msg:	string;
 }
 
 export class MatchDto {
 	player1_id: string;
 	score_p1:   number;
-  
+
 	player2_id: string;
 	score_p2:   number;
-  
+
 	winner_id: 	string;
 	loser_id:	string;
 	draws:		boolean;

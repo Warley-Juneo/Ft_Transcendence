@@ -19,6 +19,7 @@ export default function InicialPage() {
 		let aux = {
 			user_id: id,
 			is_active: true,
+			msg: "entrei/sai"
 		}
 		socket.emit('check-status', aux);
 	}

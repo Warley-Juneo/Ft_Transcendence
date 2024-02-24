@@ -159,8 +159,10 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 
 	@SubscribeMessage('check-status')
 	async checkStatus(client: Socket, dto: DisconnectDto) {
-		await this.gameService.disconnect(dto);
-		this.server.emit('checkStatus', 'Desconectado com sucesso!');
+		if (dto.msg == "entrei/sai") {
+			await this.gameService.disconnect(dto);
+		}
+		this.server.emit('checkStatus', dto.msg);
 	}
 
 	@SubscribeMessage('queueGame')
