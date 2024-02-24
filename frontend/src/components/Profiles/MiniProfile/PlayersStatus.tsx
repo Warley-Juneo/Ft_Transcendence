@@ -74,7 +74,7 @@ export default function Status(props: PropsStatus): JSX.Element {
 				{!(props.match_status === "WATCHING") ? null :
 					<FaEye style={cssWatch}/>
 				}
-				{!(props.match_status === "NONE") ? null :
+				{!(props.match_status === "PLAYING") ? null :
 					<FaTableTennisPaddleBall style={cssWatch} onClick={handleWatchPath}
 					/>
 				}

@@ -32,7 +32,7 @@ export class UsersRepository implements UsersRepositoryInterface {
   //       },
   //       data: {
   //         avatar: dto.avatar,
-          
+
   //       },
   //     });
   //   return response;
@@ -71,6 +71,7 @@ export class UsersRepository implements UsersRepositoryInterface {
         avatar: true,
         nickname: true,
         is_active: true,
+		match_status: true,
       },
     });
     return response;
