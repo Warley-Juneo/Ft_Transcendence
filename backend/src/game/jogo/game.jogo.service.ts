@@ -49,7 +49,7 @@ export class JogoService {
 				game.ball_refX = 0;
 				game.ball_refY = 0;
 				game.ball.hit_positionY = game.ball.positionY;
-				
+
 				//Cálculo do ângulo
 				if (game.ball.positionY >= game.paddleLeft.positionY) {
 					// console.log("ball > paddle\n\n");
@@ -92,7 +92,7 @@ export class JogoService {
 		let verifyCollisionPaddleRight = () => {
 			let half_paddle_size = game.paddleRight.height / 2;
 			let half_ball_size = game.ball.size / 2;
-			
+
 			if (game.ball.positionX >= game.paddleRight.positionX) {
 				// console.log("\n\n\n\nHit Paddle Right:  ");
 				if ((game.ball.positionY + half_ball_size) < (game.paddleRight.positionY - half_paddle_size)) {
@@ -103,14 +103,14 @@ export class JogoService {
 					game.placarLeft++;
 					return false
 				}
-				
+
 				//Muda direção em X, mudando o sinal do numero
 				game.ball.directionX *= -1;
 				game.paddle_hits++;
 				game.ball_refX = 0;
 				game.ball_refY = 0;
 				game.ball.hit_positionY = game.ball.positionY;
-				
+
 				//Cálculo do ângulo
 				if (game.ball.positionY >= game.paddleRight.positionY) {
 					// console.log("ball > paddle\n\n");
@@ -197,7 +197,7 @@ export class JogoService {
 			if (isUp == true) {
 				if (game.paddleLeft.position_front > 0) {
 					game.paddleLeft.positionY -= game.paddleLeft.velocity;
-					game.paddleLeft.position_front -= game.paddleLeft.velocity; 
+					game.paddleLeft.position_front -= game.paddleLeft.velocity;
 				}
 			}
 			else {
@@ -272,7 +272,7 @@ export class JogoService {
 		let response = game.copy(game);
 		const index = JogoService.rooms.indexOf(game, 0);
 		JogoService.rooms.splice(index, 1);
-		
+
 		return response;
 	}
 
@@ -300,22 +300,22 @@ export class JogoService {
 		if (this.verifyCollisionPaddles(game) == false) {
 			if (this.checkScore(game)) {
 				this.checkWinner(game);
-				// console.log("Winner: ", game.winner);	
+				// console.log("Winner: ", game.winner);
 				/*ATUALIZAR BANCO DE DADOS*/
 				let dto = new MatchDto(game);
 				await this.gameRepository.addMatch(dto);
-				
+
 				//Seria melhor colocar essa informação em um cookie no frontend??
 				for (let id of game.participants) {
 					console.log("id: ", id)
 					await this.gameRepository.updateMatchStatus(id, "NONE");
 				}
-				
+
 				/*REMOVER GAME DO ARRAY DE GAMES*/
 				let response = game.copy(game);
 				const index = JogoService.rooms.indexOf(game, 0);
 				JogoService.rooms.splice(index, 1);
-				
+
 				return response;
 			}
 			this.resetGame(game);
@@ -323,8 +323,8 @@ export class JogoService {
 		else {
 			this.verifyCollisionWall(game);
 		}
-		
-		
+
+
 		if (!game.pause) {
 			// console.log("ball angle", game.ball.angle);
 			// console.log("ball directionX", game.ball.directionX);
@@ -351,10 +351,10 @@ export class JogoService {
 				// console.log("ball refY", game.ball_refY);
 				game.ball.positionY = game.ball.hit_positionY + (game.ball_refY * game.ball.directionY);
 				// console.log("ball positionY", game.ball.positionY, "\n");
-				if (game.ball.positionY > game.window.height) {	
+				if (game.ball.positionY > game.window.height) {
 					game.ball.positionY = game.window.height;
 				}
-				if (game.ball.positionY < 0) {	
+				if (game.ball.positionY < 0) {
 					game.ball.positionY = 0;
 				}
 			}
@@ -367,11 +367,9 @@ export class JogoService {
 	}
 
 	async watchMatch(playerId: string, watcherId: string): Promise<GGame> {
-
-		let game = JogoService.rooms.find(game => game.player_left.id == playerId);
+		let game = JogoService.rooms.find(game => game.participants.find(id => id == playerId));
 		if (game == undefined) {
-			game = JogoService.rooms.find(game => game.player_right.id == playerId);
-			if (game == undefined) return null
+			return null;
 		}
 		await this.gameRepository.updateMatchStatus(watcherId, "WATCHING");
 		game.participants.push(watcherId);

@@ -69,10 +69,12 @@ export default function ListFriends(props: PropsListFriends) {
 							<div className='d-flex w-100' onClick={() => handleOpenChatPrivate(play.nickname, play.avatar)}>
 								<Status
 									is_active={play.is_active}
-									name={play.nickname} play_id={play.id}
+									name={play.nickname}
+									my_id={play.id}
 									mute={props.mute ? props.mute : []}
 									admin={props.admin ? props.admin : []}
 									match_status={play.match_status}
+									player_id={play.id}
 								/>
 							</div>
 						</div>

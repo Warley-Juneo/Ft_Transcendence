@@ -73,11 +73,11 @@ export class GameSocket {
 	}
 
 	@SubscribeMessage('watch-match')
-	async handleWatchMatch(client: Socket, playerId: string, watcherId: string) {
-		console.log("watch-match: ", playerId, watcherId);
-		let game = await this.jogoService.watchMatch(playerId, watcherId);
+	async handleWatchMatch(client: Socket, ids: { playerId: string, watcherId: string }) {
+		let game = await this.jogoService.watchMatch(ids.playerId, ids.watcherId);
 		client.join(game.roomID);
 		client.emit('startGame', game);
 		this.server.emit('checkStatus', '');
 	}
+
 }
