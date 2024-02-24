@@ -62,7 +62,7 @@ export class GameSocket {
 		const game = await this.jogoService.updateGame(roomID);
 		if (game && game.winner) {
 			this.server.emit('checkStatus', '');
-		}	
+		}
 		this.server.to(game?.roomID).emit('updateGame', game);
 	}
 
@@ -74,7 +74,7 @@ export class GameSocket {
 
 	@SubscribeMessage('watch-match')
 	async handleWatchMatch(client: Socket, playerId: string, watcherId: string) {
-		
+		console.log("watch-match: ", playerId, watcherId);
 		let game = await this.jogoService.watchMatch(playerId, watcherId);
 		client.join(game.roomID);
 		client.emit('startGame', game);

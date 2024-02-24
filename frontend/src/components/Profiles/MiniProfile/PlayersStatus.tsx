@@ -2,6 +2,7 @@ import { FaEye } from "react-icons/fa";
 import React from "react";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { FaTableTennisPaddleBall } from "react-icons/fa6";
+import { UserData, socket } from '../../InitialPage/Contexts/Contexts';
 
 import { GoMute } from "react-icons/go";
 import { Players } from "./ListFriends";
@@ -34,7 +35,7 @@ const CSSOffline: React.CSSProperties = {
 
 type PropsStatus = {
 	name: string,
-	my_id: string,
+	play_id: string,
 	admin: Players[],
 	mute: { id: string }[]
 	is_active: boolean,
@@ -42,10 +43,14 @@ type PropsStatus = {
 }
 
 export default function Status(props: PropsStatus): JSX.Element {
+	const user = useContext(UserData).user;
 	const handleWatchPath = (e: React.MouseEvent<SVGElement, MouseEvent>): void => {
 		e.stopPropagation();
-		console.log('watch path');
+		console.log("props.id: ", props.play_id)
+		console.log("user.id: ", user.id)
+		socket.emit('watch-match', props.play_id, user.id);
 	}
+
 	const getIcons = (): JSX.Element => {
 
 		const cssSecond: React.CSSProperties = {
