@@ -35,12 +35,6 @@ export default function MiniProfile(props: propsMiniProfile) {
 
 	useEffect(() => {
 		socket.on('checkStatus', (data: any) => {
-			if (String(data) === 'desconectado') {
-				getPlayers(`${process.env.REACT_APP_HOST_URL}/users/friends`);
-			} else {
-				console.log("Vou assistir a partida");
-			}
-
 			getPlayers(`${process.env.REACT_APP_HOST_URL}/users/friends`);
 		})
 		// return () => {

@@ -8,6 +8,7 @@ export type Players = {
 	id: string,
 	nickname: string,
 	is_active: boolean,
+	match_status: string
 }
 
 type PropsListFriends = {
@@ -71,6 +72,7 @@ export default function ListFriends(props: PropsListFriends) {
 									name={play.nickname} my_id={play.id}
 									mute={props.mute ? props.mute : []}
 									admin={props.admin ? props.admin : []}
+									match_status={play.match_status}
 								/>
 							</div>
 						</div>

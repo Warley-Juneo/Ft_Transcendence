@@ -35,9 +35,8 @@ export class GameSocket {
 			const game = await this.jogoService.startGame(player1.id, player2.id, 5);
 			player1.socket.join(game.roomID);
 			player2.socket.join(game.roomID);
-			// this.server.to(game.roomID).emit('startGame', game);
-			this.server.emit('checkStatus', 'StartGame');
-			console.log("Game started")
+			this.server.to(game.roomID).emit('startGame', game);
+			this.server.emit('checkStatus', '');
 		}
 	}
 
@@ -47,6 +46,8 @@ export class GameSocket {
 		player1.socket.join(game.roomID);
 		player2.socket.join(game.roomID);
 		this.server.to(game.roomID).emit('startGame', game);
+		this.server.emit('checkStatus', '');
+
 	}
 
 	@SubscribeMessage('disconnectUser')

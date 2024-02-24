@@ -1,6 +1,8 @@
 import { FaEye } from "react-icons/fa";
 import React from "react";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
+import { FaTableTennisPaddleBall } from "react-icons/fa6";
+
 import { GoMute } from "react-icons/go";
 import { Players } from "./ListFriends";
 
@@ -36,6 +38,7 @@ type PropsStatus = {
 	admin: Players[],
 	mute: { id: string }[]
 	is_active: boolean,
+	match_status: string
 }
 
 export default function Status(props: PropsStatus): JSX.Element {
@@ -68,7 +71,13 @@ export default function Status(props: PropsStatus): JSX.Element {
 				{!props.admin.find((item) => item.id === props.my_id) ? null :
 					<MdOutlineAdminPanelSettings key={props.my_id} style={cssSecond} />
 				}
-				<FaEye  style={cssWatch} onClick={handleWatchPath} />
+				{!(props.match_status === "WATCHING") ? null :
+					<FaEye style={cssWatch}/>
+				}
+				{!(props.match_status === "NONE") ? null :
+					<FaTableTennisPaddleBall style={cssWatch} onClick={handleWatchPath}
+					/>
+				}
 			</>
 		)
 	}
