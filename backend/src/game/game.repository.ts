@@ -131,18 +131,10 @@ export class GameRepository {
     });
   }
 
-  async updateMatchStatus(player1_id: string, player2_id: string, status: string) {
+  async updateMatchStatus(participant_id: string, status: string) {
     await this.prisma.user.update({
       where: {
-        id: player1_id,
-      },
-      data: {
-        match_status: status,
-      },
-    });
-    await this.prisma.user.update({
-      where: {
-        id: player2_id,
+        id: participant_id,
       },
       data: {
         match_status: status,

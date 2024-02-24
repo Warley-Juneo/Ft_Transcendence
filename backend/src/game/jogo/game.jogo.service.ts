@@ -18,7 +18,10 @@ export class JogoService {
 	async startGame(player1_id: string, player2_id: string, hits_for_acceleration: number) {
 		const game = new GGame(player1_id, player2_id, hits_for_acceleration);
 		JogoService.rooms.push(game);
-		await this.gameRepository.updateMatchStatus(player1_id, player2_id, "PLAYING");
+		console.log("\n\nStartGame Function\n\n id1: ", player1_id, "\n id2: ", player2_id);
+
+		await this.gameRepository.updateMatchStatus(player1_id, "PLAYING");
+		await this.gameRepository.updateMatchStatus(player2_id, "PLAYING");
 		return game;
 	}
 
@@ -262,7 +265,8 @@ export class JogoService {
 		let dto = new MatchDto(game);
 		await this.gameRepository.addMatch(dto);
 		//Seria melhor colocar essa informação em um cookie no frontend??
-		await this.gameRepository.updateMatchStatus(game.player_left.id, game.player_right.id, "NONE");
+		await this.gameRepository.updateMatchStatus(game.player_left.id, "NONE");
+		await this.gameRepository.updateMatchStatus(game.player_right.id, "NONE");
 
 		/*REMOVER GAME DO ARRAY DE GAMES*/
 		let response = game.copy(game);
@@ -300,8 +304,12 @@ export class JogoService {
 				/*ATUALIZAR BANCO DE DADOS*/
 				let dto = new MatchDto(game);
 				await this.gameRepository.addMatch(dto);
+				
 				//Seria melhor colocar essa informação em um cookie no frontend??
-				await this.gameRepository.updateMatchStatus(game.player_left.id, game.player_right.id, "NONE");
+				for (let id of game.participants) {
+					console.log("id: ", id)
+					await this.gameRepository.updateMatchStatus(id, "NONE");
+				}
 				
 				/*REMOVER GAME DO ARRAY DE GAMES*/
 				let response = game.copy(game);

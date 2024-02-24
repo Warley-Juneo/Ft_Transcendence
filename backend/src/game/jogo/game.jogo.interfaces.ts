@@ -80,6 +80,8 @@ export class GGame {
 	placarLeft: number;
 	placarRight: number;
 
+	participants: Array<string>;
+
 	window: GWindow;
 
 	ball: GBall;
@@ -140,6 +142,10 @@ export class GGame {
 
 		this.pause = false;
 		this.winner = "";
+		
+		this.participants = [];
+		this.participants.push(player_left_id);
+		this.participants.push(player_right_id);
 	}
 
 	copy(ggame: GGame): GGame {
