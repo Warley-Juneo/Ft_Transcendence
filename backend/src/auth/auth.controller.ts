@@ -10,7 +10,6 @@ export class AuthController {
 
   @Post()
   async mainLogin(@Body() code: AuthLoginDto): Promise<OutputLoginDto> {
-    console.log("\nAQUI\n");
     return await this.service.mainLogin(code);
   }
 

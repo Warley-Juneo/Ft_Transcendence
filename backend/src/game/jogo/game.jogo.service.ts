@@ -243,14 +243,33 @@ export class JogoService {
 		}
 	}
 
-	CheckDisconnectUser(game: GGame, player: User) {
-		if (game.player_left.id == player.id) {
-			game.player_left.status = false;
-			return true;
-		} else if (game.player_right.id == player.id) {
-			game.player_right.status = false;
-			return true;
+	//trocar de aba disconecta do websocket??
+	async disconnectUser(gameID: string, isLeft: boolean): Promise<any> {
+		if (JogoService.rooms.length == 0) return;
+
+		let game = JogoService.rooms.find(game => game.roomID == gameID);
+		if (game == undefined) {
+			return;
 		}
+		if (isLeft == true) {
+			game.winner = game.player_left.id;
+			game.placarLeft = 10;
+		}
+		else {
+			game.winner = game.player_right.id;
+			game.placarRight = 10;
+		}
+		let dto = new MatchDto(game);
+		await this.gameRepository.addMatch(dto);
+		//Seria melhor colocar essa informação em um cookie no frontend??
+		await this.gameRepository.updateMatchStatus(game.player_left.id, game.player_right.id, "NONE");
+
+		/*REMOVER GAME DO ARRAY DE GAMES*/
+		let response = game.copy(game);
+		const index = JogoService.rooms.indexOf(game, 0);
+		JogoService.rooms.splice(index, 1);
+		
+		return response;
 	}
 
 	resetGame(game: GGame) {
@@ -279,6 +298,7 @@ export class JogoService {
 				/*ATUALIZAR BANCO DE DADOS*/
 				let dto = new MatchDto(game);
 				await this.gameRepository.addMatch(dto);
+				//Seria melhor colocar essa informação em um cookie no frontend??
 				await this.gameRepository.updateMatchStatus(game.player_left.id, game.player_right.id, "NONE");
 				
 				/*REMOVER GAME DO ARRAY DE GAMES*/

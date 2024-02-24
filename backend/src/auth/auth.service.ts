@@ -80,14 +80,13 @@ export class AuthService {
 
   async mainLogin(authLoginDto: AuthLoginDto): Promise<OutputLoginDto> {
     const accessToken: string = await this.validateUserApi42(authLoginDto);
-    console.log("\nAQUI\n");
     const userInfo = await this.getUserInfoApi42(accessToken);
     const user = await this.verifyUser(userInfo);
     let jwt_token = await this.jwtSign(user);
 
     const outputLoginDto = new OutputLoginDto();
     outputLoginDto._access_token = jwt_token;
-    console.log("auth: ", outputLoginDto._access_token);
+    // console.log("auth: ", outputLoginDto._access_token);
     return outputLoginDto;
   }
 
