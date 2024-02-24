@@ -17,7 +17,7 @@ type Player = {
 		}
 	}
 )
-export class GameSocket {
+export class GameSocket implements OnGatewayDisconnect {
 	constructor(private readonly jogoService: JogoService) { }
 
 	static queues: Player[] = [];
@@ -40,6 +40,11 @@ export class GameSocket {
 		}
 	}
 
+
+	handleDisconnect(client: Socket) {
+
+	}
+
 	@SubscribeMessage('createMatch')
 	async handleCreateMatch(player1: Player, player2: Player) {
 		const game = await this.jogoService.startGame(player1.id, player2.id, 5);
@@ -53,7 +58,6 @@ export class GameSocket {
 	@SubscribeMessage('disconnectUser')
 	async handleDisconnectUser(client: Socket, dto: any): Promise<any> {
 		const game = await this.jogoService.disconnectUser(dto.roomID, dto.isLeft);
-		//Perguntar para o Frontend qual websocket devemos emitir a resposta.
 		this.server.to(game?.roomID).emit("updateGame", game);
 	}
 
