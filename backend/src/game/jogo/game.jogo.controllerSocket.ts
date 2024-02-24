@@ -60,6 +60,9 @@ export class GameSocket {
 	@SubscribeMessage('updateGame')
 	async handleUpdateGame(client: Socket, roomID: string) {
 		const game = await this.jogoService.updateGame(roomID);
+		if (game && game.winner) {
+			this.server.emit('checkStatus', '');
+		}	
 		this.server.to(game?.roomID).emit('updateGame', game);
 	}
 

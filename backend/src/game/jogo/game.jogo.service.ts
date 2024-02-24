@@ -285,16 +285,18 @@ export class JogoService {
 	}
 
 	async updateGame(gameID: string): Promise<any> {
-		if (JogoService.rooms.length == 0) return;
+		if (JogoService.rooms.length == 0) {
+			return null;
+		}
 
 		let game = JogoService.rooms.find(game => game.roomID == gameID);
 		if (game == undefined) {
-			return;
+			return null;
 		}
 		if (this.verifyCollisionPaddles(game) == false) {
 			if (this.checkScore(game)) {
 				this.checkWinner(game);
-				console.log("Winner: ", game.winner);	
+				// console.log("Winner: ", game.winner);	
 				/*ATUALIZAR BANCO DE DADOS*/
 				let dto = new MatchDto(game);
 				await this.gameRepository.addMatch(dto);

@@ -139,6 +139,7 @@ export class GGame {
 		this.paddleRight.position_front = this.paddleRight.positionY - (this.paddleRight.height / 2);
 
 		this.pause = false;
+		this.winner = "";
 	}
 
 	copy(ggame: GGame): GGame {
