@@ -60,7 +60,6 @@ export class UsersService {
 		for (const obj of Data) {
 			outputUsersResumeDto.push(new UserResumeDto(obj));
 		};
-
 		return outputUsersResumeDto;
 	}
 

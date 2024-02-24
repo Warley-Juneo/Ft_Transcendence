@@ -29,18 +29,19 @@ export class UserProfileDto {
 }
 
 export class UserResumeDto {
-  id: string;
-  nickname: string;
-  avatar: string;
-  is_active: boolean;
-  twoFA: boolean;
-
+  id:              string;
+  nickname:        string;
+  avatar:          string;
+  is_active:       boolean;
+  twoFA:           boolean;
+  match_status:    string;
   constructor(obj: any) {
-	this.id = obj.id;
-	this.nickname = obj.nickname;
-	this.avatar = obj.avatar;
-	this.is_active = obj.is_active;
-	this.twoFA = obj.twoFA;
+	  this.id = obj.id;
+	  this.nickname = obj.nickname;
+	  this.avatar = obj.avatar;
+	  this.is_active = obj.is_active;
+	  this.twoFA = obj.twoFA;
+    this.match_status = obj.match_status;
   }
 }
 
