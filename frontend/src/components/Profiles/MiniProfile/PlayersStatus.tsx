@@ -1,3 +1,4 @@
+import { FaEye } from "react-icons/fa";
 import React from "react";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { GoMute } from "react-icons/go";
@@ -33,33 +34,48 @@ type PropsStatus = {
 	name: string,
 	my_id: string,
 	admin: Players[],
-	mute: {id: string}[]
+	mute: { id: string }[]
 	is_active: boolean,
 }
 
 export default function Status(props: PropsStatus): JSX.Element {
-
-	const cssIcons: React.CSSProperties = {
-		marginLeft: '6px',
-		marginBottom: '2px'
+	const handleWatchPath = (e: React.MouseEvent<SVGElement, MouseEvent>): void => {
+		e.stopPropagation();
+		console.log('watch path');
 	}
+	const getIcons = (): JSX.Element => {
 
-	const cssSecond: React.CSSProperties = {
-		marginLeft: '2px',
-		marginBottom: '2px'
-	}
-	return (
-		<div className="p-1">
-			<div className="d-flex align-items-end">
-				<p>{props.name}</p>
+		const cssSecond: React.CSSProperties = {
+			marginLeft: '2px',
+			marginBottom: '2px'
+		}
+
+		const cssIcons: React.CSSProperties = {
+			marginLeft: '6px',
+			marginBottom: '2px'
+		}
+
+		const cssWatch: React.CSSProperties = {
+			...cssIcons,
+			zIndex: '1',
+		}
+
+		return (
+			<>
 				{!props.mute.find((item) => item.id === props.my_id) ? null :
-					<GoMute key={props.my_id + '1'} style={cssIcons}/>
+					<GoMute key={props.my_id + '1'} style={cssIcons} />
 				}
 				{!props.admin.find((item) => item.id === props.my_id) ? null :
-					<MdOutlineAdminPanelSettings key={props.my_id} style={cssSecond}/>
+					<MdOutlineAdminPanelSettings key={props.my_id} style={cssSecond} />
 				}
-			</div>
-			{props.is_active ? (
+				<FaEye  style={cssWatch} onClick={handleWatchPath} />
+			</>
+		)
+	}
+
+	const getStatusONorOFF = (status: boolean): JSX.Element => {
+		if (status) {
+			return (
 				<div className='d-flex align-items-center'>
 					<div style={cssOnlineBorder}
 						className='d-flex justify-content-center align-items-center'>
@@ -68,16 +84,26 @@ export default function Status(props: PropsStatus): JSX.Element {
 					<p>Online</p>
 				</div>
 			)
-				: (
-					<div className='d-flex align-items-center'>
-						<div style={CSSOfflineBorder}
-							className='d-flex justify-content-center align-items-center'>
-							<div style={CSSOffline}></div>
-						</div>
-						<p>Online</p>
-					</div>
-				)
-			}
+		}
+		return (
+			<div className='d-flex align-items-center'>
+				<div style={CSSOfflineBorder}
+					className='d-flex justify-content-center align-items-center'>
+					<div style={CSSOffline}></div>
+				</div>
+				<p>Offline</p>
+			</div>
+		)
+	}
+
+	return (
+		<div className="p-1">
+			<div className="d-flex align-items-end">
+				<p>{props.name}</p>
+				{getIcons()}
+			</div>
+			{getStatusONorOFF(props.is_active)}
+
 		</div>
 	);
 }

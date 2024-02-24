@@ -43,9 +43,9 @@ export default function MiniProfile(props: propsMiniProfile) {
 
 			getPlayers(`${process.env.REACT_APP_HOST_URL}/users/friends`);
 		})
-		return () => {
-			socket.off('checkStatus');
-		}
+		// return () => {
+		// 	socket.off('checkStatus');
+		// }
 	}, [socket])
 
 	const cssMiniprfile: React.CSSProperties = {
