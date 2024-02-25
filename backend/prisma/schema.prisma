@@ -55,6 +55,8 @@ model User {
   //TODO: Remover esse campo
   tfaOpen 			      Boolean? 		      @default(false)
 
+  socket              String?           @unique       
+
   @@map("user")
 }
 

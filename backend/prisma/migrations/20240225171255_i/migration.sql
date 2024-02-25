@@ -14,7 +14,8 @@ CREATE TABLE "user" (
     "points" INTEGER NOT NULL DEFAULT 0,
     "match_status" TEXT NOT NULL DEFAULT 'NONE',
     "tokenTFA" TEXT,
-    "tfaOpen" BOOLEAN DEFAULT false
+    "tfaOpen" BOOLEAN DEFAULT false,
+    "socket" TEXT
 );
 
 -- CreateTable
@@ -164,6 +165,9 @@ CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "user_nickname_key" ON "user"("nickname");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "user_socket_key" ON "user"("socket");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "direct_chat_room_name_key" ON "direct_chat_room"("name");

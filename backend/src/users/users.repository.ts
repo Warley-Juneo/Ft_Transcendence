@@ -221,4 +221,13 @@ export class UsersRepository implements UsersRepositoryInterface {
     });
     return response;
   }
+
+  async findUserBySocket(user_socket: string): Promise<string> {
+    let user = await this.prisma.user.findUnique({
+      where: {
+        socket: user_socket,
+      },
+    });
+    return user.id;
+  }
 }

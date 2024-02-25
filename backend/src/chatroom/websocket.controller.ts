@@ -6,6 +6,7 @@ import { AddChatUserDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirec
 import { ChatroomService } from "./chatroom.service";
 import { DisconnectDto } from "src/game/dtos/input.dto";
 import { GameService } from "src/game/game.service";
+import { UsersService } from "src/users/users.service";
 
 interface queue {
 	id: string,
@@ -48,6 +49,7 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 	constructor(private readonly service: ChatroomService
 		, private readonly gameService: GameService
 		, private readonly chatroomService: ChatroomService
+		, private readonly userService: UsersService
 	) { }
 
 	@WebSocketServer() server: Server;
@@ -57,10 +59,12 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 	}
 
 	handleConnection(client: Socket, ...args: any[]) {
+		this.userService.updateUser(client.id);
 		console.log("Client connected: ", client.id)
 	}
 
 	handleDisconnect(client: Socket) {
+
 		client.emit('desconectado', 'Desconectado com sucesso!');
 	}
 

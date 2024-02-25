@@ -119,4 +119,16 @@ export class UsersService {
 		};
 		return outputLadderDto;
 	}
+
+	async updateUser(user_socket: string): Promise<any> {
+		let userId = await this.userRepository.findUserBySocket(user_socket)
+
+		let data_filter: any = {
+			socket: "",
+			is_active: false,
+			match_status: "NONE",
+		};
+		let user = await this.userRepository.updateUser(userId, data_filter)
+		console.log("Disconnected USer: ", user);
+	}
 }

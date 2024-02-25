@@ -373,6 +373,7 @@ export class JogoService {
 			game = JogoService.rooms.find(game => game.player_right.id == playerId);
 			if (game == undefined) return null
 		}
+		console.log("xxxxxxx:", game);
 		await this.gameRepository.updateMatchStatus(watcherId, "WATCHING");
 		game.participants.push(watcherId);
 		return game;
