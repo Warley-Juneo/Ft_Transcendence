@@ -7,6 +7,7 @@ import { ChatroomService } from "./chatroom.service";
 import { DisconnectDto } from "src/game/dtos/input.dto";
 import { GameService } from "src/game/game.service";
 import { UsersService } from "src/users/users.service";
+import { Console } from "console";
 
 interface queue {
 	id: string,
@@ -58,14 +59,18 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 		console.log('Initialized!');
 	}
 
-	handleConnection(client: Socket, ...args: any[]) {
-		this.userService.updateUser(client.id);
+	handleConnection(client: Socket, ...args: any[]) {	
 		console.log("Client connected: ", client.id)
 	}
 
 	handleDisconnect(client: Socket) {
 
 		client.emit('desconectado', 'Desconectado com sucesso!');
+	}
+
+	@SubscribeMessage('save-socket')
+	async saveSocket(client: Socket, userId: string) {
+		console.log("userId: ", userId, "\nsocketId: ", client.id);
 	}
 
 	@SubscribeMessage('create-group')

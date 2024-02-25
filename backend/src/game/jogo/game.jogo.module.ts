@@ -9,7 +9,7 @@ import { GameRepository } from '../game.repository';
 @Module({
   imports: [],
   controllers: [],
-  providers: [JogoService, PrismaService, GameSocket, GameRepository],
+  providers: [JogoService, PrismaService, GameSocket, GameRepository, GameSocket],
   exports: [],
 })
 export class JogoModule {}

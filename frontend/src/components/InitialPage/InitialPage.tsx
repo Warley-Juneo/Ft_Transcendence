@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import axios from "axios";
 import Cookies from "js-cookie";
-import { UserData, socket, t_dataUser } from './Contexts/Contexts';
+import { UserData, sendSocketBackend, socket, t_dataUser } from './Contexts/Contexts';
 
 export default function InicialPage() {
 	let timeForNewRequestAxios: number = 10000;
@@ -36,6 +36,7 @@ export default function InicialPage() {
 			}
 			setGetInfoUser(res.data);
 			setStatusOnline(res.data.id);
+			sendSocketBackend(res.data.id);
 		}).catch(() => {
 			timeout++
 			if (timeout === 5) {

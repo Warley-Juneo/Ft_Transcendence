@@ -31,3 +31,14 @@ export const socket = io(`${process.env.REACT_APP_HOST_URL}/`, {
 socket.on('connect', () => {
 	console.log('Conectado ao socket game');
 })
+
+let sending: boolean = false;
+export function sendSocketBackend(userId: string) {
+	if (sending == true) {
+		return;
+	}
+	else {
+		socket.emit('save-socket', userId);
+		sending = true;
+	}
+}
