@@ -35,20 +35,22 @@ const CSSOffline: React.CSSProperties = {
 
 type PropsStatus = {
 	name: string,
-	play_id: string,
+	my_id: string,
 	admin: Players[],
 	mute: { id: string }[]
 	is_active: boolean,
 	match_status: string
+	player_id: string
 }
 
 export default function Status(props: PropsStatus): JSX.Element {
-	const user = useContext(UserData).user;
 	const handleWatchPath = (e: React.MouseEvent<SVGElement, MouseEvent>): void => {
 		e.stopPropagation();
-		console.log("props.id: ", props.play_id)
-		console.log("user.id: ", user.id)
-		socket.emit('watch-match', props.play_id, user.id);
+		let obj = {
+			playerId: props.my_id,
+			watcherId: props.player_id
+		}
+		socket.emit('watch-match', obj);
 	}
 
 	const getIcons = (): JSX.Element => {

@@ -29,7 +29,15 @@ export default function MiniPerfilUser(props: propsMiniProfile) {
 			{showConfigurations ? <ConfigurationGame closed={setShowConfigurations} /> : null}
 			<div className='h-100 d-flex align-items-center'>
 				<img className="rounded-circle h-100 w-100 me-3" src={userData.avatar} alt='foto' />
-				<Status is_active={true} name={userData.nickname} my_id={userData.id} admin={[]} mute={[]} match_status={''} />
+				<Status
+					is_active={true}
+					name={userData.nickname}
+					my_id={userData.id}
+					admin={[]}
+					mute={[]}
+					match_status={''}
+					player_id={''}
+				/>
 			</div>
 			<div className='ms-auto'>
 				<IoMdArrowDropdown
