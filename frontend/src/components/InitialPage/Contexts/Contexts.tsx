@@ -26,7 +26,10 @@ export const UserData = createContext<{
 export const socket = io(`${process.env.REACT_APP_HOST_URL}/`, {
 	extraHeaders: {
 		'ngrok-skip-browser-warning': 'true'
-	}
+	},
+	auth: {
+		user_id: "Coloque aqui o id do usuário!!",
+	},
 });
 socket.on('connect', () => {
 	console.log('Conectado ao socket game');
