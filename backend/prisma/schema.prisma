@@ -146,6 +146,8 @@ model kickedChatroom {
   chatroom        ChatRoom[]  @relation(name: "kicked_chatroom")
 
   kicked_time     DateTime
+
+  @@map("kicked_chatroom")
 }
 
 model muttedChatroom {
@@ -155,6 +157,8 @@ model muttedChatroom {
   chatroom        ChatRoom[]  @relation(name: "mutted_chatroom")
 
   mutted_time     DateTime
+
+  @@map("mutted_chatroom")
 }
 
 model Message {
