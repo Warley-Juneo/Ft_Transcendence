@@ -86,8 +86,7 @@ website.
 When your computers in clusters run under Linux, you will use
 Docker in rootless mode for security reasons. This comes with 2
 sideways:
-1) your Docker runtime files must be located in /goinfre
-or /sgoinfre.
+1) your Docker runtime files must be located in /goinfre or /sgoinfre.
 2) you can’t use so called “bind-mount volumes”
 between the host and the container if non-root UIDs are used in the
 container. Depending on the project, your situation and the context,
@@ -109,7 +108,7 @@ have to tackle:
 - [x] You must implement some kind of server-side validation for forms and any user
 input.
 
-- [ ] Please make sure you use a strong password hashing algorithm
+- [x] Please make sure you use a strong password hashing algorithm
 
 - [ ] For obvious security reasons, any credentials, API keys, env
 variables etc... must be saved locally in a .env file and ignored by
@@ -128,25 +127,25 @@ website.
 - [ ] The user should be able to upload an avatar. If the user doesn’t upload an avatar,
 a default one must be set.
 
-- [ ] The user should be able to enable two-factor authentication. For instance,
+- [x] The user should be able to enable two-factor authentication. For instance,
 Google Authenticator or sending a text message to their phone.
 
-- [ ] The user should be able to add other users as friends and see their current status
+- [x] The user should be able to add other users as friends and see their current status
 	- [x] online
 	- [x] offline
-	- [ ] in a game
-	- [ ] and so forth.
+	- [x] in a game
+	- [x] and so forth.
 
 - [ ] Stats (such as:
 	- [x] wins
 	- [x] losses
-	- [x] ladder
+	- [ ] ladder/ ranking
 	- [x] level
 	- [x] achievements
 	- [ ] and so forth)
 have to be displayed on the user profile.
 
-- [ ] Each user should have a Match History including:
+- [x] Each user should have a Match History including:
 	- [x] 1v1 games
 	- [x] ladder
 	- [x] and any thing else useful
@@ -167,8 +166,9 @@ or private, or protected by a password.
 - [x] The user should be able to block other users. This way, they will see no more
 messages from the account they blocked.
 
-- [x] The user who has created a new channel is automatically set as the channel owner
-until they leave it.
+- [ ] The user who has created a new channel is automatically set as the channel owner
+until they leave it. 
+# (no nosso jogo owner não pode deixar o canal ele pode somente excluir o canal).
 
 - [x]  The channel owner can set a password required to access the channel.
 	- [ ] change it.
@@ -188,20 +188,20 @@ A user who is an administrator of a channel:
 - [ ] The user should be able to invite other users to play a Pong game through the chat
 interface.
 
-- [ ] The user should be able to access other players profiles through the chat interface.
+- [x] The user should be able to access other players profiles through the chat interface.
 
 
 II.5
 Game
 The main purpose of this website is to play Pong versus other players.
 
-- [ ] Therefore, users should be able to play a live Pong game versus another player
+- [x] Therefore, users should be able to play a live Pong game versus another player
 directly on the website.
 
-- [ ] There must be a matchmaking system: the user can join a queue until they get
+- [x] There must be a matchmaking system: the user can join a queue until they get
 automatically matched with someone else.
 
-- [ ] It can be a canvas game, or it can be a game rendered in 3D, it can also be ugly,
+- [x] It can be a canvas game, or it can be a game rendered in 3D, it can also be ugly,
 but in any case, it must be faithful to the original Pong (1972).
 
 - [ ] You must offer some customization options (for example, power-ups or different
