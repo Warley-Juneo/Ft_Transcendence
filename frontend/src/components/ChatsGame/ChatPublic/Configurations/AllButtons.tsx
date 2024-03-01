@@ -115,10 +115,22 @@ export default function AllButtons(): JSX.Element {
 	const removePassword = (event: React.KeyboardEvent<HTMLInputElement>) => {
 		if (event.key !== "Enter") return;
 		console.log(event.currentTarget.value)
+		axios.post(`${process.env.REACT_APP_HOST_URL}/chatroom/remove-password-group`, {
+			chat_name: name,
+			password: event.currentTarget.value,
+		}, {
+			headers: {
+				Authorization: Cookies.get("jwtToken"),
+				"ngrok-skip-browser-warning": "69420"
+			}
+		}).then((res) => {
+			console.log("Resposta alter senha: ", res.data);
+		}).catch((err) => {
+			console.log("Resposta alter Error: ", err);
+		})
 
 	}
 	const changePassword = (event: FormEvent<HTMLFormElement>): void => {
-		console.log("change-password-group")
 		event.preventDefault();
 		const form = new FormData(event.currentTarget);
 		axios.post(`${process.env.REACT_APP_HOST_URL}/chatroom/change-password-group`, {
