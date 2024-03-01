@@ -11,6 +11,8 @@ import AlterPassword from "./AlterPassword";
 import GetUsersGame from "./GetUsersGame";
 import { UserData, socket } from "../../../InitialPage/Contexts/Contexts";
 import ButtonTime from "./KickMember";
+import { IoIosRemoveCircleOutline } from "react-icons/io";
+
 
 type UsersGame = {
 	id: string;
@@ -110,6 +112,11 @@ export default function AllButtons(): JSX.Element {
 		socket.emit('delete-group', obj);
 	}
 
+	const removePassword = (event: React.KeyboardEvent<HTMLInputElement>) => {
+		if (event.key !== "Enter") return;
+		console.log(event.currentTarget.value)
+
+	}
 	const changePassword = (event: FormEvent<HTMLFormElement>): void => {
 		console.log("change-password-group")
 		event.preventDefault();
@@ -163,23 +170,19 @@ export default function AllButtons(): JSX.Element {
 				route="kick-member-group"
 			/>
 
-			<ButtonTime
-				Icon={MdBlock}
-				content="Mutar Tripulante"
-				getUserId={getUserId}
-				my_id={dataUser.id}
-				chat_name={name}
-				chat_id={id}
-				id={"mute"}
-				route="mute-member-group"
-			/>
-
 			<AlterPassword funcChange={changePassword} />
 			<Button
 				Icon={MdDeleteSweep}
 				content="Apagar Grupo"
 				function={deleteChat}
 			/>
+
+			<Button
+				Icon={IoIosRemoveCircleOutline}
+				content="remover senha"
+				function={removePassword}
+			/>
+
 		</div>
 	)
 }
