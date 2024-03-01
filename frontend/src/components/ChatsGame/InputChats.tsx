@@ -24,9 +24,8 @@ export default function InputChats(props: PropsInputChats) {
 			props.obj.content = event.currentTarget.value;
 			props.socket.emit(props.obj.route, props.obj);
 			event.currentTarget.value = '';
-		} else if (event.key === ' ') {
-			event.preventDefault(); // Impede a ação padrão do espaço (por exemplo, a submissão do formulário)
 		}
+		event.stopPropagation();
 	}
 
 	const getInput = (): JSX.Element => {
