@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/
 import { UsersService } from 'src/users/users.service';
 import { ChatroomRepository } from './chatroom.repository';
 import { DirectChatRoom } from '@prisma/client';
-import { ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, DeleteChatroomDto, InputChatroomDto, InputChatroomMessageDto, WebsocketDto, WebsocketWithTimeDto } from './dto/input.dto';
+import { ChangePasswordDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, DeleteChatroomDto, InputChatroomDto, InputChatroomMessageDto, RemovePasswordDto, WebsocketDto, WebsocketWithTimeDto } from './dto/input.dto';
 import { ChatroomsDto, DirectChatRoomDto, OutputDirectMessageDto, OutputMessageDto, OutputValidateDto, UniqueChatroomDto } from './dto/output.dto';
 import * as bcrypt from 'bcrypt';
 import { map } from 'rxjs';
@@ -159,15 +159,15 @@ export class ChatroomService {
 		await await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 	}
 
-	async removePassword(userId: string, dto: ChangePasswordDto): Promise<any> {
+	async removePassword(userId: string, dto: RemovePasswordDto): Promise<any> {
 
 		let chat = await this.findUniqueChatroom(dto.chat_name);
 
-		if (!dto.new_password || !dto.new_password) {
+		if (!dto.password || !dto.password) {
 			throw new BadRequestException('Invalid password.')
 		}
 		let data_validation: OutputValidateDto = {} as OutputValidateDto;
-		data_validation.validate_password = dto.old_password;
+		data_validation.validate_password = dto.password;
 		data_validation.password = chat.password;
 		data_validation.new_password = ""; // necessario para validate function
 		data_validation.confirm_password = ""; // necessario para validate function
