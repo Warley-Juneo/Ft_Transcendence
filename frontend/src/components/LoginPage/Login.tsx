@@ -76,9 +76,7 @@ export function Login() {
 		if (Cookies.get('jwtToken')) {
 			verifyEnabled()
 		}
-		else {
-			axios_connect();
-		}
+		axios_connect();
 	}, []);
 
 	return (
