@@ -159,6 +159,42 @@ export class ChatroomService {
 		await await this.chatroomRepository.updateChatroom(where_filter, data_filter);
 	}
 
+	async removePassword(userId: string, dto: ChangePasswordDto): Promise<any> {
+
+		let chat = await this.findUniqueChatroom(dto.chat_name);
+
+		if (!dto.new_password || !dto.new_password) {
+			throw new BadRequestException('Invalid password.')
+		}
+		let data_validation: OutputValidateDto = {} as OutputValidateDto;
+		data_validation.validate_password = dto.old_password;
+		data_validation.password = chat.password;
+		data_validation.new_password = ""; // necessario para validate function
+		data_validation.confirm_password = ""; // necessario para validate function
+		data_validation.owner_id = chat.owner_id;
+		data_validation.validate_owner_id = userId;
+		await this.validate(data_validation);
+
+		let where_filter = {
+			name: chat.name,
+		};
+		
+		let data_filter
+		if (chat.type == "private") {
+			data_filter = {
+				password: "",
+			};
+		}
+		if (chat.type == "protected") {
+			data_filter = {
+				password: "",
+				type: "public"
+			};
+		}
+
+		await await this.chatroomRepository.updateChatroom(where_filter, data_filter);
+	}
+
 	async addAdmChatroom(userId: string, dto: WebsocketDto): Promise<UniqueChatroomDto> {
 
 		let chat = await this.findUniqueChatroom(dto.chat_name);

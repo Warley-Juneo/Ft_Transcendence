@@ -54,6 +54,14 @@ export class ChangePasswordDto {
 	confirm_password:	string;
 }
 
+export class RemovePasswordDto {
+	@IsNotEmpty({message: 'chat_name can not be empty.'})
+	chat_name:			string;
+
+	@IsNotEmpty({message: 'old_password can not be empty.'})
+	password:		string;
+}
+
 export class AddChatUserDto {
 	@IsNotEmpty({message: 'User id can not be empty.'})
 	add_id:			string;
