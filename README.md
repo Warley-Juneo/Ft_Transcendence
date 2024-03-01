@@ -166,13 +166,13 @@ or private, or protected by a password.
 - [x] The user should be able to block other users. This way, they will see no more
 messages from the account they blocked.
 
-- [ ] The user who has created a new channel is automatically set as the channel owner
+- [x] The user who has created a new channel is automatically set as the channel owner
 until they leave it. 
 # (no nosso jogo owner não pode deixar o canal ele pode somente excluir o canal).
 
 - [x]  The channel owner can set a password required to access the channel.
-	- [ ] change it.
-	- [ ] remove it.
+	- [x] change it.
+	- [x] remove it.
 
 - [x] The channel owner is a channel administrator.
 

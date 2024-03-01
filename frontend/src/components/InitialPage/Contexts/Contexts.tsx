@@ -39,6 +39,7 @@ function get_socket() {
 				},
 				auth: {
 					user_id: res.data.id,
+					user: res.data.nickname,
 				},
 			})
 		)

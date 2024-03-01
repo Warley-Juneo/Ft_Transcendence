@@ -2,6 +2,7 @@ import { SubscribeMessage, OnGatewayInit, OnGatewayConnection, OnGatewayDisconne
 import { User } from "@prisma/client";
 import { Socket, Server } from "socket.io";
 import { JogoService } from "./game.jogo.service";
+import { UsersService } from "src/users/users.service";
 
 type Player = {
 	id: string,
@@ -18,7 +19,8 @@ type Player = {
 	}
 )
 export class GameSocket implements OnGatewayDisconnect {
-	constructor(private readonly jogoService: JogoService) { }
+	constructor(private readonly jogoService: JogoService,
+				private readonly userService: UsersService) { }
 
 	static queues: Player[] = [];
 	@WebSocketServer() server: Server;
@@ -41,8 +43,12 @@ export class GameSocket implements OnGatewayDisconnect {
 	}
 
 
-	handleDisconnect(client: Socket) {
-
+	async handleDisconnect(client: Socket) {
+		client.emit('desconectado', 'Desconectado com sucesso!');
+		if (client.handshake.auth.user_id) {
+			await this.userService.userSocketDisconnect(client.handshake.auth.user_id);
+		}
+		this.server.emit('checkStatus', '');
 	}
 
 	@SubscribeMessage('createMatch')

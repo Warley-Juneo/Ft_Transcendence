@@ -38,11 +38,9 @@ export class UsersRepository implements UsersRepositoryInterface {
   //   return response;
   // }
 
-  async updateUser(userId: string, data_filter: any): Promise<User> {
+  async updateUser(where_filter: any, data_filter: any): Promise<User> {
     let response = await this.prisma.user.update({
-      where: {
-        id: userId,
-      },
+      where: where_filter,
       data: data_filter,
     });
     return response;
