@@ -111,6 +111,7 @@ export default function AllButtons(): JSX.Element {
 	}
 
 	const changePassword = (event: FormEvent<HTMLFormElement>): void => {
+		console.log("change-password-group")
 		event.preventDefault();
 		const form = new FormData(event.currentTarget);
 		axios.post(`${process.env.REACT_APP_HOST_URL}/chatroom/change-password-group`, {

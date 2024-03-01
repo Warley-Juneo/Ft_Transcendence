@@ -11,7 +11,6 @@ export default function AlterPassword({ funcChange }: {
 	const [openChat, setOpenChat] = useState<boolean>(false);
 	//TODO: Alterar modal do bootstrap para modal lib
 	const hadleAlterPassword = (e: React.MouseEvent<HTMLDivElement>) => {
-		e.stopPropagation()
 		setOpenChat(true)
 	}
 
@@ -44,10 +43,10 @@ export default function AlterPassword({ funcChange }: {
 								<input name='confirmNewPassword' type="password" className="form-control" id="confirmNewPassword" placeholder="Confirme Nova Password" />
 							</div>
 						</div>
-					</form>
 					<div className='w-100 d-flex justify-content-end pe-3'>
-						<Button > enviar </Button>
+						<Button type='submit' onClick={() => setOpenChat(false)}> enviar </Button>
 					</div>
+					</form>
 				</Modal.Body>
 			</Modal>
 		</>
