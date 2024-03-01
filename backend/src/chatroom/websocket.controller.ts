@@ -59,15 +59,19 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 		console.log('Initialized!');
 	}
 
-	handleConnection(client: Socket, ...args: any[]) {	
+	handleConnection(client: Socket, ...args: any[]) {
+		if (!client.handshake.auth.user_id) {
+			client.disconnect();
+			return ;
+		}
 		console.log("Client connected: ", client.id)
-		console.log("handleConnection id do usuário: ", client.handshake.auth.user_id);	
+		console.log("handleConnection id do usuário: ", client.handshake.auth.user_id);
 	}
 
 	handleDisconnect(client: Socket) {
 		client.emit('desconectado', 'Desconectado com sucesso!');
 		console.log("Client disconnected: ", client.id)
-		console.log("handleDisonnect id do usuário: ", client.handshake.auth.user_id);	
+		console.log("handleDisonnect id do usuário: ", client.handshake.auth.user_id);
 
 	}
 

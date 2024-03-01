@@ -1,3 +1,5 @@
+import axios from "axios";
+import Cookies from "js-cookie";
 import { createContext } from "react";
 import { io } from "socket.io-client";
 
@@ -23,26 +25,34 @@ export const UserData = createContext<{
 	updateDataUser: () => { },
 })
 
-export const socket = io(`${process.env.REACT_APP_HOST_URL}/`, {
-	extraHeaders: {
-		'ngrok-skip-browser-warning': 'true'
-	},
-	auth: {
-		user_id: "Coloque aqui o id do usuário!!",
-	},
-});
-
-socket.on('connect', () => {
-	console.log('Conectado ao socket game');
-})
-
-let sending: boolean = false;
-export function sendSocketBackend(userId: string) {
-	if (sending == true) {
-		return;
-	}
-	else {
-		socket.emit('save-socket', userId);
-		sending = true;
-	}
+function get_socket() {
+	axios.get(`${process.env.REACT_APP_HOST_URL}/landing-page`, {
+		headers: {
+			Authorization: Cookies.get('jwtToken'),
+			"ngrok-skip-browser-warning": "69420"
+		}, timeout: 5000
+	}).then((res) => {
+		return (
+			io(`${process.env.REACT_APP_HOST_URL}/`, {
+				extraHeaders: {
+					'ngrok-skip-browser-warning': 'true'
+				},
+				auth: {
+					user_id: res.data.id,
+				},
+			})
+		)
+	})
+	return (
+		io(`${process.env.REACT_APP_HOST_URL}/`, {
+			extraHeaders: {
+				'ngrok-skip-browser-warning': 'true'
+			},
+			auth: {
+				user_id: ""
+			},
+		})
+	)
 }
+
+export const socket = get_socket();

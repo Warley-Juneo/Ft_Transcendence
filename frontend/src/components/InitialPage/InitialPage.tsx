@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import axios from "axios";
 import Cookies from "js-cookie";
-import { UserData, sendSocketBackend, socket, t_dataUser } from './Contexts/Contexts';
+import { UserData, socket, t_dataUser } from './Contexts/Contexts';
 
 export default function InicialPage() {
 	let timeForNewRequestAxios: number = 10000;
 	let timeout: number = 0;
+	const [createSocket, setCreateSocket] = useState(false);
 	const [infoUser, setGetInfoUser] = useState<t_dataUser>({
 		nickname: '',
 		coins: 0,
@@ -36,7 +37,6 @@ export default function InicialPage() {
 			}
 			setGetInfoUser(res.data);
 			setStatusOnline(res.data.id);
-			sendSocketBackend(res.data.id);
 		}).catch(() => {
 			timeout++
 			if (timeout === 5) {
@@ -49,6 +49,10 @@ export default function InicialPage() {
 
 	useEffect(() => {
 		getInfoUser();
+		if (!createSocket) {
+			socket.connect();
+			setCreateSocket(true);
+		}
 	}, [])
 	return (
 		<UserData.Provider value={{ user: infoUser, updateDataUser: getInfoUser }}>
