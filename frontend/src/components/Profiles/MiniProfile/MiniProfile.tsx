@@ -6,7 +6,6 @@ import Options from './options';
 import ListFriends from './ListFriends';
 import { Players } from './ListFriends';
 import { socket } from '../../InitialPage/Contexts/Contexts';
-import ConfigurationGame from './Configurations/Configurations';
 
 type propsMiniProfile = {
 	showMiniPerfil: React.Dispatch<React.SetStateAction<string>>;
@@ -14,7 +13,6 @@ type propsMiniProfile = {
 
 export default function MiniProfile(props: propsMiniProfile) {
 	const [players, setPlayers] = useState<Players[]>([]);
-	const [showConfigurations, setShowConfigurations] = useState<boolean>(false);
 
 	function getPlayers(route: string) {
 		axios.get(route, {
