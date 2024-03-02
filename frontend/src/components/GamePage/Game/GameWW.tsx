@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import BarDataUsers from "./BarDataUsers/BarDataUsers"
 import { socket } from "../../InitialPage/Contexts/Contexts"
-import { useLocation, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 
 type GamePongProps = {
 	ball: { positionX: number, positionY: number, size: number },
@@ -69,8 +69,11 @@ export default function GameWW(): JSX.Element {
 			socket.emit('updateGame', room)
 		});
 
-		return () => clearInterval(intervalId);
-	}, [])
+		return () => {
+			clearInterval(intervalId);
+			console.log("Caiu no return do useEffect do GameWW.tsx")
+		}
+	}, [room])
 
 	const paddleLeft: React.CSSProperties = {
 		height: fakeGame.paddleLeft.height,
@@ -101,26 +104,26 @@ export default function GameWW(): JSX.Element {
 	}
 
 	const movePaddleLeft = (e: React.KeyboardEvent<HTMLDivElement>) => {
-		if (e.key == 'w') {
+		if (e.key === 'w') {
 			socket.emit('updatePaddle', { roomID: room, isLeft: true, isUp: true, pause: false })
 		}
-		else if (e.key == 's') {
+		else if (e.key === 's') {
 			socket.emit('updatePaddle', { roomID: room, isLeft: true, isUp: false, pause: false })
-		} else if (e.key == 'ArrowUp') {
+		} else if (e.key === 'ArrowUp') {
 			socket.emit('updatePaddle', { roomID: room, isLeft: false, isUp: true, pause: false })
 		}
-		else if (e.key == 'ArrowDown') {
+		else if (e.key === 'ArrowDown') {
 			socket.emit('updatePaddle', { roomID: room, isLeft: false, isUp: false, pause: false })
 		}
-		else if (e.key == 'p') {
+		else if (e.key === 'p') {
 			socket.emit('updatePaddle', { roomID: room, isLeft: false, isUp: false, pause: true })
 		}
-		else if (e.key == 'l') {
+		else if (e.key === 'l') {
 			socket.emit('updatePaddle', { roomID: room, isLeft: false, isUp: false, pause: false })
 		}
 	}
 
-	if (fakeGame.winner != "") {
+	if (fakeGame.winner !== "") {
 		return <div>Acabou crl</div>
 	}
 	return (
