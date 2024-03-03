@@ -8,7 +8,7 @@ import { MdBlock } from "react-icons/md";
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { UserData, socket } from "../../InitialPage/Contexts/Contexts";
+import { UserData } from "../../InitialPage/Contexts/Contexts";
 
 const URLS_MiniPerfilPlayers = {
 	'personal': `${process.env.REACT_APP_HOST_URL}/users/friends`,
@@ -19,7 +19,7 @@ function Options({ getPlayers }: { getPlayers: (route: string) => void }) {
 	const [showADDFriend, setShowAddFriend] = useState(false);
 	const [showDLTFriend, setShowDLTFriend] = useState(false);
 	const [showBLOKFriend, setShowBLOKFriend] = useState(false);
-	const userData = useContext(UserData);
+	const userData = useContext(UserData).user;
 	//todo criar um componente botão pra nao precisar ficar criando varios use stage
 
 
@@ -58,10 +58,10 @@ function Options({ getPlayers }: { getPlayers: (route: string) => void }) {
 	function BlockUser(event: React.KeyboardEvent<HTMLInputElement>) {
 		if (event.key === 'Enter') {
 			let obj = {
-				my_nickname: userData.user.nickname,
+				my_nickname: userData.nickname,
 				other_nickname: event.currentTarget.value
 			}
-			socket.emit("direct-block", obj)
+			userData.socket?.emit("direct-block", obj)
 		}
 	}
 

@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { IconType } from "react-icons";
 import InputButton from "./InputButton";
-import { socket } from "../../../InitialPage/Contexts/Contexts";
+import { UserData } from "../../../InitialPage/Contexts/Contexts";
 
 type KickMemberProps = {
 	Icon: IconType;
@@ -18,6 +18,7 @@ export default function ButtonTime(props: KickMemberProps): JSX.Element {
 	const [showInput, setShowInput] = useState<boolean>(false);
 	const kickHour = useRef<HTMLInputElement>(null);
 	const kickDay = useRef<HTMLInputElement>(null);
+	const userData = useContext(UserData).user;
 
 	const kickedMember = (event: React.KeyboardEvent<HTMLInputElement>): void => {
 		if (event.key !== 'Enter') return;
@@ -30,7 +31,7 @@ export default function ButtonTime(props: KickMemberProps): JSX.Element {
 			chat_id: props.chat_id,
 			time: kickHour.current?.checked ? 1 : 24,
 		}
-		socket.emit(props.route, obj);
+		userData.socket?.emit(props.route, obj);
 	}
 
 	return (

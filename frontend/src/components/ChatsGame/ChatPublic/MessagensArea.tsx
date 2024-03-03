@@ -1,17 +1,18 @@
 import  { useContext, useEffect, useState } from "react";
 import { ChatContext, Messages } from "./ChatPublic";
 import InputChats from "../InputChats";
-import { UserData, socket } from '../../InitialPage/Contexts/Contexts';
+import { UserData } from '../../InitialPage/Contexts/Contexts';
 import FormatMessages from "../FormatMessagens/FormatMessagens";
+import { Socket } from "socket.io-client";
 
 export default function MessagensArea(): JSX.Element {
 	const { chatData: {id, message, name} } = useContext(ChatContext);
 
 	const [messages, setMessages] = useState<Messages[]>(message);
-	const user = useContext(UserData);
+	const userData = useContext(UserData).user;
 
 	useEffect(() => {
-		socket.on('chatMessage', (data) => {
+		userData.socket?.on('chatMessage', (data: any) => {
 			try {
 				data = JSON.parse(data) as Messages;
 				setMessages((prevMessagens) => [...prevMessagens, data]);
@@ -20,14 +21,14 @@ export default function MessagensArea(): JSX.Element {
 			}
 		});
 		return () => {
-			socket.emit('close-group', {chatId: id});
-			socket.off('chatMessage');
+			userData.socket?.emit('close-group', {chatId: id});
+			userData.socket?.off('chatMessage');
 		}
-	}, [socket]);
+	}, [userData.socket]);
 
 	let obj = {
 		chatId: id,
-		user_id: user.user.id,
+		user_id: userData.id,
 		content: '',
 		route: 'group-message',
 		chat_name: name,
@@ -36,11 +37,11 @@ export default function MessagensArea(): JSX.Element {
 	return (
 		<>
 			<FormatMessages messagens={messages}
-				user={user.user}
+				user={userData}
 				messageErr={""}
 			/>
 			<InputChats
-				socket={socket}
+				socket={userData.socket as Socket}
 				obj={obj}
 				disable={false}
 			/>

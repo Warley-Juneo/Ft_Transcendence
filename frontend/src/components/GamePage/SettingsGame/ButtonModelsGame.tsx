@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import { UserData, socket } from "../../InitialPage/Contexts/Contexts"
+import { UserData } from "../../InitialPage/Contexts/Contexts"
 
 type propsButtonPlay = {
 	photo: string,
@@ -47,7 +47,7 @@ export default function ButtonModelsGame(props: propsButtonPlay): JSX.Element {
 			// model: props.model,
 			// bar: '',
 		}
-		socket.emit('joinRoom', objectQueue)
+		userData.socket?.emit('joinRoom', objectQueue)
 	}
 
 	return (

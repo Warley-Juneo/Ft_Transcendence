@@ -43,7 +43,7 @@ interface rooms {
 		}
 	}
 )
-export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 
 	queue: queue[] = [];
 
@@ -66,12 +66,12 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 		}
 	}
 
-	async handleDisconnect(client: Socket) {
-		client.emit('desconectado', 'Desconectado com sucesso!');
-		if (client.handshake.auth.user_id) {
-			await this.userService.userSocketDisconnect(client.handshake.auth.user_id);
-		}
-	}
+	// async handleDisconnect(client: Socket) {
+	// 	client.emit('desconectado', 'Desconectado com sucesso!');
+	// 	if (client.handshake.auth.user_id) {
+	// 		await this.userService.userSocketDisconnect(client.handshake.auth.user_id);
+	// 	}
+	// }
 
 	@SubscribeMessage('save-socket')
 	async saveSocket(client: Socket, userId: string) {

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import MiniPerfilUser from './MiniPerfilUser';
 import Options from './options';
 import ListFriends from './ListFriends';
 import { Players } from './ListFriends';
-import { socket } from '../../InitialPage/Contexts/Contexts';
+import { UserData } from '../../InitialPage/Contexts/Contexts';
 
 type propsMiniProfile = {
 	showMiniPerfil: React.Dispatch<React.SetStateAction<string>>;
@@ -13,6 +13,7 @@ type propsMiniProfile = {
 
 export default function MiniProfile(props: propsMiniProfile) {
 	const [players, setPlayers] = useState<Players[]>([]);
+	const userData = useContext(UserData).user;
 
 	function getPlayers(route: string) {
 		axios.get(route, {
@@ -32,13 +33,13 @@ export default function MiniProfile(props: propsMiniProfile) {
 	}, []);
 
 	useEffect(() => {
-		socket.on('checkStatus', (data: any) => {
+		userData.socket?.on('checkStatus', (data: any) => {
 			getPlayers(`${process.env.REACT_APP_HOST_URL}/users/friends`);
 		})
 		// return () => {
 		// 	socket.off('checkStatus');
 		// }
-	}, [socket])
+	}, [userData.socket])
 
 	const cssMiniprfile: React.CSSProperties = {
 		display: 'flex',

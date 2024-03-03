@@ -21,7 +21,7 @@ import Ranking from "../../Rankingpage/Ranking";
 import PageChats from "../../PublicChatsPage/PublicChats";
 import DinamicProfile from "../../Profiles/DinamicProfile/DinamicProfile";
 import MiniProfile from "../../Profiles/MiniProfile/MiniProfile";
-import { UserData, socket } from "../../InitialPage/Contexts/Contexts";
+import { UserData } from "../../InitialPage/Contexts/Contexts";
 import { ModalConvite } from "./ModalConvite";
 
 export default function Game(): JSX.Element {
@@ -30,7 +30,7 @@ export default function Game(): JSX.Element {
 	const userData = useContext(UserData).user;
 	const [openModalConvite, setOpenModalConvite] = useState<boolean>(false);
 	useEffect(() => {
-		socket.on("receiveConvite", (data: any) => {
+		userData.socket?.on("receiveConvite", (data: any) => {
 			console.log("data: ", data)
 			console.log("UserData: ", userData.id)
 			if (data === userData.id)

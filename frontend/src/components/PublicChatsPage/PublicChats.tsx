@@ -8,7 +8,7 @@ import axios from 'axios';
 import './PublicChats.css';
 import ButtonClosed from '../GamePage/Game/ButtonClosed';
 import ChatPublic from '../ChatsGame/ChatPublic/ChatPublic';
-import { UserData, socket } from '../InitialPage/Contexts/Contexts';
+import { UserData } from '../InitialPage/Contexts/Contexts';
 
 export type t_chat = {
 	id: string;
@@ -25,7 +25,7 @@ type propsPageChats = {
 }
 
 export default function PageChats(props: propsPageChats) {
-	const user_id = useContext(UserData).user.id;
+	const userData = useContext(UserData).user;
 	const [chatList, setChatList] = useState<t_chat[]>([]);
 	const [showCreateChat, setShowCreateChat] = useState(false);
 	const [selectedChat, setSelectedChat] = useState({ click: false, chatName: '' });
@@ -86,7 +86,7 @@ export default function PageChats(props: propsPageChats) {
 			return ;
 		}
 		const obj = {
-			my_id: user_id,
+			my_id: userData.id,
 			name: form.get('nameChat'),
 			type: 'public',
 			password: form.get('passwordChat'),
@@ -96,7 +96,7 @@ export default function PageChats(props: propsPageChats) {
 		if (form.get('privateChat') === 'private') obj.type = 'private'
 		else if (form.get('protectChat') === 'protected') obj.type = 'protected'
 
-		socket.emit('create-group', obj);
+		userData.socket?.emit('create-group', obj);
 	}
 
 	useEffect(() => {
@@ -104,13 +104,13 @@ export default function PageChats(props: propsPageChats) {
 	}, [])
 
 	useEffect(() => {
-		socket.on("creatChat", (data: any) => {
+		userData.socket?.on("creatChat", (data: any) => {
 			getListPublicChats()
 		})
 		return () => {
-			socket.off("creatChat")
+			userData.socket?.off("creatChat")
 		}
-	}, [socket])
+	}, [userData.socket])
 
 	const cssDivChats: React.CSSProperties = {
 		backgroundImage: `url(${bgChats})`,

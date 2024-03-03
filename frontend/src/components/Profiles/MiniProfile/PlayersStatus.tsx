@@ -1,8 +1,8 @@
 import { FaEye } from "react-icons/fa";
-import React from "react";
+import React, { useContext } from "react";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { FaTableTennisPaddleBall } from "react-icons/fa6";
-import { UserData, socket } from '../../InitialPage/Contexts/Contexts';
+import { UserData } from '../../InitialPage/Contexts/Contexts';
 
 import { GoMute } from "react-icons/go";
 import { Players } from "./ListFriends";
@@ -44,13 +44,15 @@ type PropsStatus = {
 }
 
 export default function Status(props: PropsStatus): JSX.Element {
+	const userData = useContext(UserData).user;
+
 	const handleWatchPath = (e: React.MouseEvent<SVGElement, MouseEvent>): void => {
 		e.stopPropagation();
 		let obj = {
 			playerId: props.my_id,
 			watcherId: props.player_id
 		}
-		socket.emit('watch-match', obj);
+		userData.socket?.emit('watch-match', obj);
 	}
 
 	const getIcons = (): JSX.Element => {

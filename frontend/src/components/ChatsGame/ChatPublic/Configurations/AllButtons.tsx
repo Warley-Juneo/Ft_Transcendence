@@ -9,7 +9,7 @@ import Cookies from "js-cookie";
 import { ChatContext } from "../ChatPublic";
 import AlterPassword from "./AlterPassword";
 import GetUsersGame from "./GetUsersGame";
-import { UserData, socket } from "../../../InitialPage/Contexts/Contexts";
+import { UserData } from "../../../InitialPage/Contexts/Contexts";
 import ButtonTime from "./KickMember";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 
@@ -25,6 +25,7 @@ export default function AllButtons(): JSX.Element {
 	const { chatData: { name, id } } = useContext(ChatContext);
 	const dataUser = useContext(UserData).user;
 	const [playersGame, setPlayersGame] = useState<UsersGame[]>([]);
+	const userData = useContext(UserData).user;
 
 	useEffect(() => {
 		GetUsersGame().then((res) => {
@@ -48,7 +49,7 @@ export default function AllButtons(): JSX.Element {
 				chat_name: name,
 				chat_id: id,
 			}
-			socket.emit('add-member-group', obj);
+			userData.socket?.emit('add-member-group', obj);
 		}
 	}
 
@@ -63,7 +64,7 @@ export default function AllButtons(): JSX.Element {
 					chat_name: name,
 					chat_id: id,
 				}
-				socket.emit('add-adm-group', obj);
+				userData.socket?.emit('add-adm-group', obj);
 			}
 		}
 	}
@@ -78,7 +79,7 @@ export default function AllButtons(): JSX.Element {
 				chat_name: name,
 				chat_id: id,
 			}
-			socket.emit('remove-adm-group', obj);
+			userData.socket?.emit('remove-adm-group', obj);
 		}
 	}
 
@@ -95,7 +96,7 @@ export default function AllButtons(): JSX.Element {
 				chat_id: id,
 			}
 			console.log("obj: ", obj);
-			socket.emit('ban-member-group', obj);
+			userData.socket?.emit('ban-member-group', obj);
 		}
 	}
 
@@ -109,7 +110,7 @@ export default function AllButtons(): JSX.Element {
 			chatId: id,
 		}
 		console.log(obj);
-		socket.emit('delete-group', obj);
+		userData.socket?.emit('delete-group', obj);
 	}
 
 	const removePassword = (event: React.KeyboardEvent<HTMLInputElement>) => {

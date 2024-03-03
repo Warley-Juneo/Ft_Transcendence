@@ -121,7 +121,7 @@ export class UsersService {
 	}
 
 	async userSocketConnect(userId: string): Promise<any> {
-		
+
 		let where_filter = {
 			id: userId,
 		};
@@ -134,7 +134,7 @@ export class UsersService {
 	}
 
 	async userSocketDisconnect(userId: string): Promise<any> {
-		
+
 		let where_filter = {
 			id: userId,
 		};

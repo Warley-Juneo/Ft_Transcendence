@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import BarDataUsers from "./BarDataUsers/BarDataUsers"
-import { socket } from "../../InitialPage/Contexts/Contexts"
 import { useParams } from "react-router-dom"
+import { UserData } from "../../InitialPage/Contexts/Contexts"
 
 type GamePongProps = {
 	ball: { positionX: number, positionY: number, size: number },
@@ -26,6 +26,8 @@ const cssPage: React.CSSProperties = {
 }
 
 export default function GameWW(): JSX.Element {
+	const userData = useContext(UserData).user;
+
 	const [fakeGame, setFakeGame] = useState<GamePongProps>({
 		ball: { positionX: 400, positionY: 300, size: 24 },
 		paddleLeft: { positionX: 20, position_front: 300, height: 120, width: 40, velocity: 5 },
@@ -57,7 +59,7 @@ export default function GameWW(): JSX.Element {
 	}
 
 	useEffect(() => {
-		socket.on('updateGame', (data: GamePongProps) => {
+		userData.socket?.on('updateGame', (data: GamePongProps) => {
 			setFakeGame(data)
 			console.log(data);
 		})
@@ -66,7 +68,7 @@ export default function GameWW(): JSX.Element {
 
 	useEffect(() => {
 		const intervalId = setInterval(() => {
-			socket.emit('updateGame', room)
+			userData.socket?.emit('updateGame', room)
 		});
 
 		return () => {
@@ -105,21 +107,21 @@ export default function GameWW(): JSX.Element {
 
 	const movePaddleLeft = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === 'w') {
-			socket.emit('updatePaddle', { roomID: room, isLeft: true, isUp: true, pause: false })
+			userData.socket?.emit('updatePaddle', { roomID: room, isLeft: true, isUp: true, pause: false })
 		}
 		else if (e.key === 's') {
-			socket.emit('updatePaddle', { roomID: room, isLeft: true, isUp: false, pause: false })
+			userData.socket?.emit('updatePaddle', { roomID: room, isLeft: true, isUp: false, pause: false })
 		} else if (e.key === 'ArrowUp') {
-			socket.emit('updatePaddle', { roomID: room, isLeft: false, isUp: true, pause: false })
+			userData.socket?.emit('updatePaddle', { roomID: room, isLeft: false, isUp: true, pause: false })
 		}
 		else if (e.key === 'ArrowDown') {
-			socket.emit('updatePaddle', { roomID: room, isLeft: false, isUp: false, pause: false })
+			userData.socket?.emit('updatePaddle', { roomID: room, isLeft: false, isUp: false, pause: false })
 		}
 		else if (e.key === 'p') {
-			socket.emit('updatePaddle', { roomID: room, isLeft: false, isUp: false, pause: true })
+			userData.socket?.emit('updatePaddle', { roomID: room, isLeft: false, isUp: false, pause: true })
 		}
 		else if (e.key === 'l') {
-			socket.emit('updatePaddle', { roomID: room, isLeft: false, isUp: false, pause: false })
+			userData.socket?.emit('updatePaddle', { roomID: room, isLeft: false, isUp: false, pause: false })
 		}
 	}
 

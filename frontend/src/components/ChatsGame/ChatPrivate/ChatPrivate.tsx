@@ -5,8 +5,9 @@ import InputChats from '../InputChats';
 import './ChatPrivate.css'
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { UserData, socket } from '../../InitialPage/Contexts/Contexts';
+import { UserData } from '../../InitialPage/Contexts/Contexts';
 import TitleChatPrivate from './Title';
+import { Socket } from 'socket.io-client';
 
 type propsChatPrivate = {
 	nick_name: string,
@@ -16,11 +17,11 @@ type propsChatPrivate = {
 export default function ChatPrivate(props: propsChatPrivate) {
 	const [messages, setMessages] = useState<Messages[]>([]);
 	const [messageErr, setMessageErr] = useState<String>("");
-	const user = useContext(UserData);
+	const userData = useContext(UserData).user;
 
 	const OpenDirectChat = () => {
 		axios.post(`${process.env.REACT_APP_HOST_URL}/chatroom/open-direct`, {
-			my_nickname: user.user.nickname,
+			my_nickname: userData.nickname,
 			other_nickname: props.nick_name
 		}, {
 			headers: {
@@ -39,7 +40,7 @@ export default function ChatPrivate(props: propsChatPrivate) {
 	}, [])
 
 	useEffect(() => {
-		socket.on('directChatMessage', data => {
+		userData.socket?.on('directChatMessage', (data: any) => {
 			try {
 				data = JSON.parse(data);
 				setMessages((messages) => [...messages, data]);
@@ -48,13 +49,13 @@ export default function ChatPrivate(props: propsChatPrivate) {
 			}
 		});
 		return () => {
-			socket.off('directChatMessage');
+			userData.socket?.off('directChatMessage');
 		}
-	}, [socket])
+	}, [userData.socket])
 
 
 	let obj = {
-		my_nickname: user.user.nickname,
+		my_nickname: userData.nickname,
 		other_nickname: props.nick_name,
 		content: '',
 		route: 'direct-message',
@@ -64,9 +65,9 @@ export default function ChatPrivate(props: propsChatPrivate) {
 		<div className='text-white chat d-flex flex-column bg-degrader rounded'>
 			<TitleChatPrivate nickname={props.nick_name} avatar={props.avatar} />
 			<div className='p-2 overflow-auto mt-auto text-black' id='messagens-chat'>
-				<FormatMessages messagens={messages} user={user.user} messageErr={messageErr}/>
+				<FormatMessages messagens={messages} user={userData} messageErr={messageErr}/>
 			</div>
-			<InputChats socket={socket} obj={obj} disable={messageErr !== ""} />
+			<InputChats socket={userData.socket as Socket} obj={obj} disable={messageErr !== ""} />
 		</div>
 	);
 }

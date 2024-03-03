@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import ChatPrivate from '../../ChatsGame/ChatPrivate/ChatPrivate';
 import DinamicProfile from '../DinamicProfile/DinamicProfile';
 import { IoGameControllerOutline } from "react-icons/io5";
-import { UserData, socket } from '../../InitialPage/Contexts/Contexts';
+import { UserData } from '../../InitialPage/Contexts/Contexts';
 
 export type Players = {
 	avatar: string,
@@ -45,7 +45,7 @@ export default function ListFriends(props: PropsListFriends) {
 			idPlayer: idFriend,
 			msg: "convite"
 		}
-		socket.emit("sendInvite", obj)
+		useData.socket?.emit("sendInvite", obj)
 	}
 
 	let type = typeof props.players;

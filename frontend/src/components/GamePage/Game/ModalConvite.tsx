@@ -1,11 +1,12 @@
 import { Modal } from "react-bootstrap";
-import { UserData, socket } from "../../InitialPage/Contexts/Contexts";
+import { UserData } from "../../InitialPage/Contexts/Contexts";
 import { useContext } from "react";
 
 type propsModalConvite = {
 	setOpenChat: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export function ModalConvite(props: propsModalConvite): JSX.Element {
+	const userData = useContext(UserData).user;
 	const cssBackgroundModal: React.CSSProperties = {
 		backgroundImage: "url('https://i.pinimg.com/736x/81/60/74/816074bad774e6731e6d9d0d09ce30a6.jpg')",
 		backgroundSize: "cover",
@@ -19,7 +20,7 @@ export function ModalConvite(props: propsModalConvite): JSX.Element {
 			idOther: "idOther",
 			msg: "response"
 		}
-		socket.emit("sendInvite", obj)
+		userData.socket?.emit("sendInvite", obj)
 		props.setOpenChat(false);
 	}
 

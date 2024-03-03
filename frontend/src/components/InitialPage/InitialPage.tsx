@@ -2,31 +2,35 @@ import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import axios from "axios";
 import Cookies from "js-cookie";
-import { UserData, socket, t_dataUser } from './Contexts/Contexts';
+import { UserData, t_dataUser } from './Contexts/Contexts';
+import { io } from 'socket.io-client';
 
 export default function InicialPage() {
 	let timeForNewRequestAxios: number = 10000;
 	let timeout: number = 0;
-	const [createSocket, setCreateSocket] = useState(false);
 	const [infoUser, setGetInfoUser] = useState<t_dataUser>({
 		nickname: '',
 		coins: 0,
 		avatar: '',
 		id: '',
 		twoFA: false,
+		socket: undefined,
 	});
 
-	function setStatusOnline(id: string) {
-		let aux = {
-			user_id: id,
-			is_active: true,
-			msg: "entrei/sai"
-		}
-		socket.emit('check-status', aux);
+	function createSocketConnection(id: string, user: string) {
+		return io(`${process.env.REACT_APP_HOST_URL}/`, {
+			extraHeaders: {
+				'ngrok-skip-browser-warning': 'true'
+			},
+			auth: {
+				user_id: id,
+				user: user,
+			},
+		})
 	}
 
-	function getInfoUser() {
-		axios.get(`${process.env.REACT_APP_HOST_URL}/landing-page`, {
+	function getUserData() {
+		return axios.get(`${process.env.REACT_APP_HOST_URL}/landing-page`, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
 				"ngrok-skip-browser-warning": "69420"
@@ -35,8 +39,26 @@ export default function InicialPage() {
 			if (!res.data.avatar) {
 				res.data.avatar = "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg";
 			}
-			setGetInfoUser(res.data);
-			setStatusOnline(res.data.id);
+			return res.data;
+		})
+	}
+
+	function setStatusOnline(res: t_dataUser) {
+		let aux = {
+			user_id: res.id,
+			is_active: true,
+			msg: "entrei/sai"
+		}
+		res.socket?.emit('check-status', aux);
+	}
+
+	function getInfoUser() {
+		getUserData().then((res) => {
+			let socket = createSocketConnection(res.id, res.nickname);
+			res.socket = socket;
+			setGetInfoUser(res);
+			setStatusOnline(res);
+
 		}).catch(() => {
 			timeout++
 			if (timeout === 5) {
@@ -49,10 +71,6 @@ export default function InicialPage() {
 
 	useEffect(() => {
 		getInfoUser();
-		if (!createSocket) {
-			socket.connect();
-			setCreateSocket(true);
-		}
 	}, [])
 	return (
 		<UserData.Provider value={{ user: infoUser, updateDataUser: getInfoUser }}>

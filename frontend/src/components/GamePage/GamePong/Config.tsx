@@ -2,8 +2,9 @@ import Phaser from 'phaser';
 import barInitial from '../../../assets/game/bar/barInitial.png';
 import ball from '../../../assets/game/ball2.png';
 import { Socket } from 'socket.io-client';
-import { socket } from '../../InitialPage/Contexts/Contexts';
-
+import { useContext } from 'react';
+import { UserData } from '../../InitialPage/Contexts/Contexts';
+const userData = useContext(UserData).user;
 interface DataRoom {
 	Player1: string,
 	Player2: string,
@@ -47,7 +48,7 @@ export class CustomScene extends Phaser.Scene {
 	constructor(data: DataRoom, isLider: boolean) {
 		super('CustomScene');
 		this.ball = {} as Phaser.Physics.Arcade.Sprite;
-		this.socket = socket;
+		this.socket = userData.socket as Socket;
 		this.isLider = isLider;
 		this.dataBallGame = { x: 0, y: 0, lastpaddle: '' };
 		this.onePercenteX = 0;

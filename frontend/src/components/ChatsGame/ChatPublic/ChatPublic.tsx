@@ -5,11 +5,10 @@ import { createContext, useContext, useEffect } from "react";
 import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { UserData, socket } from "../../InitialPage/Contexts/Contexts";
+import { UserData } from "../../InitialPage/Contexts/Contexts";
 import bgChatPublic from "../../../assets/game/bgChatPublic.png";
 import RightSide from "./RightSide";
 import ModalIsBanned from "./ModalIsBanned";
-import { useNavigate } from "react-router-dom";
 
 type User = {
 	nickname: string,
@@ -60,7 +59,7 @@ export default function ChatPublic(props: propsPageChats) {
 	const [chatData, setDataChat] = useState<ChatData>({} as ChatData);
 	const [dinamicProfile, setDinamicProfile] = useState<DinamicProfile>({} as DinamicProfile);
 	const [showDinamicProfile, setShowDinamicProfile] = useState<string>('');
-	const myUser = useContext(UserData).user;
+	const userData = useContext(UserData).user;
 	const [showModal, setShowModal] = useState<{ show: boolean, msg: String }>({ show: false, msg: "" });
 
 	const createMutedList = (muttedList: any[]) => {
@@ -69,21 +68,21 @@ export default function ChatPublic(props: propsPageChats) {
 
 	function addNewMember(chat_id: String, data: ChatData) {
 		data.mutted = createMutedList(data.mutted)
-		if (data.members.map((member) => member.nickname).includes(myUser.nickname)) {
+		if (data.members.map((member) => member.nickname).includes(userData.nickname)) {
 			return
-		} else if (data.banned.map((member) => member.nickname).includes(myUser.nickname)) {
+		} else if (data.banned.map((member) => member.nickname).includes(userData.nickname)) {
 			return
-		} else if (data.kicked.map((member) => member.nickname).includes(myUser.nickname)) {
+		} else if (data.kicked.map((member) => member.nickname).includes(userData.nickname)) {
 			return
 		}
 
 		let obj = {
-			my_id: myUser.id,
-			other_id: myUser.id,
+			my_id: userData.id,
+			other_id: userData.id,
 			chat_name: props.chatName,
 			chat_id: chat_id,
 		}
-		socket.emit("add-member-group", obj);
+		userData.socket?.emit("add-member-group", obj);
 	}
 
 	//TODO: Show modal when delete chat
@@ -98,7 +97,7 @@ export default function ChatPublic(props: propsPageChats) {
 		}).then((response) => {
 			setDataChat(response.data)
 			addNewMember(response.data.id, response.data)
-			socket.emit("open-group", { chatId: response.data.id });
+			userData.socket?.emit("open-group", { chatId: response.data.id });
 		}).catch((error) => {
 			console.log(error)
 		})
@@ -115,7 +114,7 @@ export default function ChatPublic(props: propsPageChats) {
 	}, [dinamicProfile])
 
 	const getIsMyId = (id: String, msg: String) => {
-		if (myUser.id == id)
+		if (userData.id == id)
 			setShowModal({ show: true, msg: msg });
 		getDataChat();
 	}
@@ -123,34 +122,34 @@ export default function ChatPublic(props: propsPageChats) {
 	//TODO: verificar se o usuario foi banido e manda ele sair
 	//Sockets
 	useEffect(() => {
-		socket.on('checkStatus', (data: any) => {
+		userData.socket?.on('checkStatus', (data: any) => {
 			getDataChat();
 		})
-		socket.on('updateChat', (data: any) => {
+		userData.socket?.on('updateChat', (data: any) => {
 			console.log("update");
 			getDataChat();
 		})
 
-		socket.on('deleteChat', (message: any) => {
+		userData.socket?.on('deleteChat', (message: any) => {
 			props.openPageChats("")
 			setShowModal({ show: true, msg: message });
 		})
 
-		socket.on('banMember', (obj: any) => {
+		userData.socket?.on('banMember', (obj: any) => {
 			getIsMyId(obj.id, obj.msg)
 		})
 
-		socket.on('kickMember', (obj: any) => {
+		userData.socket?.on('kickMember', (obj: any) => {
 			getIsMyId(obj.id, obj.msg)
 		})
 		return () => {
-			socket.off('checkStatus')
-			socket.off('updateChat')
-			socket.off('deleteChat')
-			socket.off('banMember')
-			socket.off('kickMember')
+			userData.socket?.off('checkStatus')
+			userData.socket?.off('updateChat')
+			userData.socket?.off('deleteChat')
+			userData.socket?.off('banMember')
+			userData.socket?.off('kickMember')
 		}
-	}, [socket])
+	}, [userData.socket])
 	//##############################################################
 
 	if (!chatData.name) return <div>Não ha chats</div>

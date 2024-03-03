@@ -1,9 +1,10 @@
 import { MdModeEdit } from 'react-icons/md';
 import { AiOutlineClose } from 'react-icons/ai';
 import { IoMdExit } from 'react-icons/io';
-import { socket } from '../../InitialPage/Contexts/Contexts';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserData } from '../../InitialPage/Contexts/Contexts';
 
 type propsSelectConfiuration = {
 	showMiniPerfil: React.Dispatch<React.SetStateAction<string>>;
@@ -13,6 +14,7 @@ type propsSelectConfiuration = {
 
 export default function OptionsMiniProfile(props: propsSelectConfiuration): JSX.Element  {
 	const navitaion = useNavigate();
+	const userData = useContext(UserData).user;
 
 	const cursoPointer: React.CSSProperties = {
 		cursor: 'pointer',
@@ -24,7 +26,7 @@ export default function OptionsMiniProfile(props: propsSelectConfiuration): JSX.
 			is_active: false,
 			msg: "entrei/sai"
 		}
-		socket.emit('check-status', aux);
+		userData.socket?.emit('check-status', aux);
 		Cookies.remove('jwtToken');
 		navitaion('/');
 	}

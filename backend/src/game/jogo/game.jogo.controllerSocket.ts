@@ -1,5 +1,4 @@
-import { SubscribeMessage, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
-import { User } from "@prisma/client";
+import { SubscribeMessage, OnGatewayDisconnect, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Socket, Server } from "socket.io";
 import { JogoService } from "./game.jogo.service";
 import { UsersService } from "src/users/users.service";
@@ -46,9 +45,8 @@ export class GameSocket implements OnGatewayDisconnect {
 		}
 	}
 
-
 	async handleDisconnect(client: Socket) {
-		client.emit('desconectado', 'Desconectado com sucesso!');
+		console.log("\n\nsocket: ", client.handshake.auth.user_id);
 		if (client.handshake.auth.user_id) {
 			await this.userService.userSocketDisconnect(client.handshake.auth.user_id);
 		}
