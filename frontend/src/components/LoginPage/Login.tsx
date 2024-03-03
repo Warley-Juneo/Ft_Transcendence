@@ -11,27 +11,25 @@ export function Login() {
 	const [showModal, setShowModal] = useState<boolean>(false);
 
 	//ACCESS BACKEND AFTER GET THE CODE AT
-	async function axios_connect(): Promise<void> {
+	function axios_connect() {
 		let paramters = new URLSearchParams(window.location.search);
 		let code = paramters.get('code');
 		if (code) {
-			await axios.post(`${process.env.REACT_APP_HOST_URL}/auth`, {
+			axios.post(`${process.env.REACT_APP_HOST_URL}/auth`, {
 				authCode: code,
 			}, {
 				timeout: 5000,
 			}).then((response) => {
-				if (response.status === 201) {
-					console.log("RENDERIZAR PAGINA DE LOGIN")
-					Cookies.set('jwtToken', response.data._access_token);// set expires time
-					Cookies.set('email', response.data._email);
-				}
-				else {
-					console.log("RENDERIZAR PAGINA LOGIN INFORMANDO O ERRO");
-				}
+				Cookies.set('jwtToken', response.data._access_token);// set expires time
+				Cookies.set('email', response.data._email);
+				return response.data
+			}).then((data) => {
+				verifyEnabled()
 			}).catch((err) => {
 				console.log(err);
 			})
 		}
+		return undefined;
 	}
 
 	const verifyTwoFA = () => {
@@ -55,6 +53,7 @@ export function Login() {
 	}
 
 	const verifyEnabled = () => {
+		console.log("verifyEnabled")
 		axios.get(`${process.env.REACT_APP_HOST_URL}/2FA/verifyStatus`, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
@@ -74,9 +73,7 @@ export function Login() {
 
 	useEffect(() => {
 		axios_connect();
-		if (Cookies.get('jwtToken')) {
-			verifyEnabled()
-		}
+
 	}, []);
 
 	return (
