@@ -19,8 +19,12 @@ type Player = {
 	}
 )
 export class GameSocket implements OnGatewayDisconnect {
+	matchs: {
+		[key: string]: Player;
+	} = {};
+
 	constructor(private readonly jogoService: JogoService,
-				private readonly userService: UsersService) { }
+		private readonly userService: UsersService) { }
 
 	static queues: Player[] = [];
 	@WebSocketServer() server: Server;
@@ -88,6 +92,20 @@ export class GameSocket implements OnGatewayDisconnect {
 		client.join(game.roomID);
 		client.emit('startGame', game);
 		this.server.emit('checkStatus', '');
+	}
+
+	@SubscribeMessage('sendInvite')
+	async sendInvite(client: Socket, obj: { myId: string, idOther: string, msg: string }) {
+		console.log("\n\nDto: ", obj)
+		if (obj.msg == "convite") {
+			this.matchs[obj.idOther] = { id: obj.myId, socket: client };
+			this.server.emit('receiveConvite', obj.idOther);
+		}
+		else if (obj.msg == "response") {
+			let player1: Player = {id : obj.myId, socket: client}
+			let player2: Player = this.matchs[obj.myId];
+			this.handleCreateMatch(player1, player2)
+		}
 	}
 
 }

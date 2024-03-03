@@ -1,7 +1,9 @@
 import Status from './PlayersStatus';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import ChatPrivate from '../../ChatsGame/ChatPrivate/ChatPrivate';
 import DinamicProfile from '../DinamicProfile/DinamicProfile';
+import { IoGameControllerOutline } from "react-icons/io5";
+import { UserData, socket } from '../../InitialPage/Contexts/Contexts';
 
 export type Players = {
 	avatar: string,
@@ -19,6 +21,7 @@ type PropsListFriends = {
 }
 
 export default function ListFriends(props: PropsListFriends) {
+	const useData = useContext(UserData).user;
 	const [chatPrivate, setChatPrivate] = useState(false);
 	const [dataOpenDirect, setDataOpenDirect] = useState({ nickname: '', avatart: '' });
 	const [dinamicProfile, setDinamicProfile] = useState<string>("");
@@ -34,6 +37,15 @@ export default function ListFriends(props: PropsListFriends) {
 	function clickPhoto(id: string, nickName: string) {
 		setDinamicProfile("open")
 		setProfileData({ id: id, nickname: nickName })
+	}
+
+	function createMatch(idFriend: string) {
+		const obj = {
+			myId: useData.id,
+			idPlayer: idFriend,
+			msg: "convite"
+		}
+		socket.emit("sendInvite", obj)
 	}
 
 	let type = typeof props.players;
@@ -77,6 +89,11 @@ export default function ListFriends(props: PropsListFriends) {
 									player_id={play.id}
 								/>
 							</div>
+							<IoGameControllerOutline
+								size={30}
+								className='text-warning'
+								onClick={() => createMatch(play.id)}
+							/>
 						</div>
 					)
 				})}

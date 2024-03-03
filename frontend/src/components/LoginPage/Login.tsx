@@ -73,10 +73,10 @@ export function Login() {
 
 
 	useEffect(() => {
+		axios_connect();
 		if (Cookies.get('jwtToken')) {
 			verifyEnabled()
 		}
-		axios_connect();
 	}, []);
 
 	return (

@@ -55,9 +55,7 @@ export default function MiniProfile(props: propsMiniProfile) {
 	return (
 		<>
 			<div className='position-absolute top-0 end-0 h-100' style={cssMiniprfile}>
-				<MiniPerfilUser
-					showMiniPerfil={props.showMiniPerfil}
-				/>
+				<MiniPerfilUser showMiniPerfil={props.showMiniPerfil} />
 				<hr className='m-0 w-100 text-white'></hr>
 				<Options getPlayers={getPlayers} />
 				<ListFriends players={players} getPlayers={getPlayers} />
