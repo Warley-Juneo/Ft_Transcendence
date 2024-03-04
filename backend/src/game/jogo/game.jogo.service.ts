@@ -31,7 +31,7 @@ export class JogoService {
 
 		const game = new GGame(player1_id, player2_id, hits_for_acceleration);
 		JogoService.rooms.push(game);
-		console.log("\n\nStartGame Function\n\n id1: ", player1_id, "\n id2: ", player2_id);
+		// console.log("\n\nStartGame Function\n\n id1: ", player1_id, "\n id2: ", player2_id);
 
 		await this.gameRepository.updateMatchStatus(player1_id, "PLAYING");
 		await this.gameRepository.updateMatchStatus(player2_id, "PLAYING");

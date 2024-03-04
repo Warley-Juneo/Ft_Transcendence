@@ -15,7 +15,7 @@ export function ModalConvite(props: propsModalConvite): JSX.Element {
 		backgroundPosition: "center",
 		color: "white"
 	}
-	const myId = useContext(UserData).user.id;
+	const myId = userData.id;
 	const sendResponse = () => {
 		let obj = {
 			myId: myId,

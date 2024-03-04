@@ -130,7 +130,7 @@ export class UsersService {
 			match_status: "NONE",
 		};
 		let user = await this.userRepository.updateUser(where_filter, data_filter);
-		console.log("UserSocketConnect: ", user);
+		// console.log("UserSocketConnect: ", user);
 	}
 
 	async userSocketDisconnect(userId: string): Promise<any> {
@@ -143,6 +143,6 @@ export class UsersService {
 			match_status: "NONE",
 		};
 		let user = await this.userRepository.updateUser(where_filter, data_filter);
-		console.log("UserSocketConnect: ", user);
+		// console.log("UserSocketConnect: ", user);
 	}
 }
