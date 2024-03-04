@@ -24,18 +24,25 @@ import MiniProfile from "../../Profiles/MiniProfile/MiniProfile";
 import { UserData } from "../../InitialPage/Contexts/Contexts";
 import { ModalConvite } from "./ModalConvite";
 
+export type dataConvite = {
+	otherId: string,
+	myNickname: string,
+}
+
 export default function Game(): JSX.Element {
+
 	let [collisionPnt, setCollisionPnt] = useState<string>('');
 	const gameContainerRef = useRef<HTMLDivElement>(null);
 	const userData = useContext(UserData).user;
 	const [openModalConvite, setOpenModalConvite] = useState<boolean>(false);
+	const [dataConvite, setDataConvite] = useState<dataConvite>({} as dataConvite);
+
 	useEffect(() => {
-		userData.socket?.on("receiveConvite", (data: any) => {
-			console.log("data: ", data)
-			console.log("UserData: ", userData.id)
+		userData.socket?.on("receiveConvite", (data: dataConvite) => {
 			if (data.otherId === userData.id)
-				setOpenModalConvite(true)
-		})
+				setOpenModalConvite(true);
+				setDataConvite(data);
+			})
 	});
 
 	useEffect(() => {
@@ -234,7 +241,7 @@ export default function Game(): JSX.Element {
 			{collisionPnt === 'base' ? <Ranking openStore={setCollisionPnt} /> : null}
 			{collisionPnt === 'Lua' ? <DinamicProfile openDinamicProfile={setCollisionPnt}
 			 nickName={userData.nickname} id={userData.id} /> : null}
-			{openModalConvite ? <ModalConvite setOpenChat={setOpenModalConvite}/> : null}
+			{openModalConvite ? <ModalConvite setOpenChat={setOpenModalConvite} dataConvite={dataConvite}/> : null}
 		</div>
 	)
 }

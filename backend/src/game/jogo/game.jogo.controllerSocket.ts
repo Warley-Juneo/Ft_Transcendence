@@ -47,12 +47,12 @@ export class GameSocket {
 
 	@SubscribeMessage('createMatch')
 	async handleCreateMatch(player1: Player, player2: Player) {
+		console.log("Create Match: \nplayer1: ", player1.id, "\nplayer2: ", player2.id );
 		const game = await this.jogoService.startGame(player1.id, player2.id, 5);
-		player1.socket.join(game.roomID);
-		player2.socket.join(game.roomID);
-		this.server.to(game.roomID).emit('startGame', game);
+		player1.socket.join(game?.roomID);
+		player2.socket.join(game?.roomID);
+		this.server.to(game?.roomID).emit('startGame', game);
 		this.server.emit('checkStatus', '');
-
 	}
 
 	@SubscribeMessage('disconnectUser')
@@ -86,7 +86,6 @@ export class GameSocket {
 
 	@SubscribeMessage('sendInvite')
 	async sendInvite(client: Socket, obj: { myId: string, myNickname: string, otherId: string,  msg: string }) {
-		console.log("\n\nDto: ", obj)
 		if (obj.msg == "convite") {
 			this.matchs[obj.otherId] = { id: obj.myId, socket: client };
 			this.server.emit('receiveConvite', obj);
@@ -94,7 +93,9 @@ export class GameSocket {
 		else if (obj.msg == "response") {
 			let player1: Player = {id : obj.myId, socket: client}
 			let player2: Player = this.matchs[obj.myId];
-			// this.handleCreateMatch(player1, player2)
+			console.log('player1: ', player1.id, " socket id: ", player1.socket.id);
+			console.log('player2: ', player2.id, " socket id: ", player2.socket.id);
+			this.handleCreateMatch(player1, player2)
 		}
 	}
 

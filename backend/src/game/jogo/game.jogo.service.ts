@@ -16,6 +16,19 @@ export class JogoService {
 	static  x: number = 0;
 
 	async startGame(player1_id: string, player2_id: string, hits_for_acceleration: number) {
+	
+		if (JogoService.rooms.length != 0) {
+		
+			let check = JogoService.rooms.find(game => game.participants.find(id => id = player1_id));
+			if (check) {
+				return null;
+			}
+			check = JogoService.rooms.find(game => game.participants.find(id => id = player2_id));
+			if (check) {
+				return null;
+			}
+		}
+
 		const game = new GGame(player1_id, player2_id, hits_for_acceleration);
 		JogoService.rooms.push(game);
 		console.log("\n\nStartGame Function\n\n id1: ", player1_id, "\n id2: ", player2_id);
