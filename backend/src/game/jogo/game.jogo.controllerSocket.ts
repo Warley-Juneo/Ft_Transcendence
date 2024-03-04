@@ -17,7 +17,7 @@ type Player = {
 		}
 	}
 )
-export class GameSocket implements OnGatewayDisconnect {
+export class GameSocket {
 	matchs: {
 		[key: string]: Player;
 	} = {};
@@ -43,14 +43,6 @@ export class GameSocket implements OnGatewayDisconnect {
 			this.server.to(game.roomID).emit('startGame', game);
 			this.server.emit('checkStatus', '');
 		}
-	}
-
-	async handleDisconnect(client: Socket) {
-		console.log("\n\nsocket: ", client.handshake.auth.user_id);
-		if (client.handshake.auth.user_id) {
-			await this.userService.userSocketDisconnect(client.handshake.auth.user_id);
-		}
-		this.server.emit('checkStatus', '');
 	}
 
 	@SubscribeMessage('createMatch')
