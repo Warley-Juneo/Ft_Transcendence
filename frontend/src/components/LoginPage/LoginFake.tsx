@@ -23,17 +23,18 @@ export default function LoginFake(): JSX.Element {
 			last_name: 'last_name',
 		}, {
 			headers: {
-				Authorization: Cookies.get("jwtToken"),
 				"ngrok-skip-browser-warning": "69420"
 			}
 		},
 		).then((res) => {
+			console.log("\n\nresponse fake\n\n");
+			Cookies.set('jwtToken', res.data._access_token);// set expires time
 			Cookies.set('email', res.data._email);
+			navigate('/game/', { replace: true });
 		}
 		).catch((err) => {
 			console.log("eror: ", err);
 		})
-		navigate('/game/', { replace: true });
 	}
 
 	return (
