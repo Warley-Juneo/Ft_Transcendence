@@ -33,7 +33,7 @@ export default function Game(): JSX.Element {
 		userData.socket?.on("receiveConvite", (data: any) => {
 			console.log("data: ", data)
 			console.log("UserData: ", userData.id)
-			if (data === userData.id)
+			if (data.otherId === userData.id)
 				setOpenModalConvite(true)
 		})
 	});

@@ -85,16 +85,16 @@ export class GameSocket {
 	}
 
 	@SubscribeMessage('sendInvite')
-	async sendInvite(client: Socket, obj: { myId: string, idOther: string, msg: string }) {
+	async sendInvite(client: Socket, obj: { myId: string, myNickname: string, otherId: string,  msg: string }) {
 		console.log("\n\nDto: ", obj)
 		if (obj.msg == "convite") {
-			this.matchs[obj.idOther] = { id: obj.myId, socket: client };
-			this.server.emit('receiveConvite', obj.idOther);
+			this.matchs[obj.otherId] = { id: obj.myId, socket: client };
+			this.server.emit('receiveConvite', obj);
 		}
 		else if (obj.msg == "response") {
 			let player1: Player = {id : obj.myId, socket: client}
 			let player2: Player = this.matchs[obj.myId];
-			this.handleCreateMatch(player1, player2)
+			// this.handleCreateMatch(player1, player2)
 		}
 	}
 

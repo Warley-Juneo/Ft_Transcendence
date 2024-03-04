@@ -42,7 +42,8 @@ export default function ListFriends(props: PropsListFriends) {
 	function createMatch(idFriend: string) {
 		const obj = {
 			myId: useData.id,
-			idPlayer: idFriend,
+			myNickname: useData.nickname,
+			otherId: idFriend,
 			msg: "convite"
 		}
 		useData.socket?.emit("sendInvite", obj)
