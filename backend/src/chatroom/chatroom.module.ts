@@ -8,9 +8,10 @@ import { PrismaService } from 'src/database/prisma.service';
 import { GameService } from 'src/game/game.service';
 import { GameRepository } from 'src/game/game.repository';
 import { ChatroomGateway } from './websocket.controller';
+import { JogoService } from 'src/game/jogo/game.jogo.service';
 
 @Module({
   controllers: [ChatroomController ],
-  providers: [ChatroomService, ChatroomRepository, UsersService, UsersRepository, PrismaService, GameService, GameRepository, ChatroomGateway]
+  providers: [JogoService, ChatroomService, ChatroomRepository, UsersService, UsersRepository, PrismaService, GameService, GameRepository, ChatroomGateway]
 })
 export class ChatroomModule {}

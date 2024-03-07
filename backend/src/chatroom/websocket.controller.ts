@@ -8,6 +8,7 @@ import { DisconnectDto } from "src/game/dtos/input.dto";
 import { GameService } from "src/game/game.service";
 import { UsersService } from "src/users/users.service";
 import { Console } from "console";
+import { JogoService } from "src/game/jogo/game.jogo.service";
 
 interface queue {
 	id: string,
@@ -34,6 +35,11 @@ interface rooms {
 	isLider: boolean,
 }
 
+type Player = {
+	id: string,
+	socket: Socket,
+}
+
 @WebSocketGateway(
 	{
 		cors: {
@@ -51,6 +57,7 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 		, private readonly gameService: GameService
 		, private readonly chatroomService: ChatroomService
 		, private readonly userService: UsersService
+		, private readonly jogoService: JogoService
 	) { }
 
 	@WebSocketServer() server: Server;
@@ -66,12 +73,14 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 		}
 	}
 
-	// async handleDisconnect(client: Socket) {
+	async handleDisconnect(client: Socket) {
 	// 	client.emit('desconectado', 'Desconectado com sucesso!');
-	// 	if (client.handshake.auth.user_id) {
-	// 		await this.userService.userSocketDisconnect(client.handshake.auth.user_id);
-	// 	}
-	// }
+		let user;
+		if (client.handshake.auth.user_id) {
+			user = await this.userService.userSocketDisconnect(client.handshake.auth.user_id);
+		}
+		console.log("Client disconnect: ",	user);
+	}
 
 	@SubscribeMessage('save-socket')
 	async saveSocket(client: Socket, userId: string) {
@@ -212,4 +221,86 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 
 		this.server.to(room).emit('startGame', dto);
 	}
+
+	
+
+
+
+	
+	matchs: {
+		[key: string]: Player;
+	} = {};	
+	static queues: Player[] = [];
+	@SubscribeMessage('joinRoom')
+	async handleJoinRoom(client: Socket, userId: any) {
+		//Conversar com Wagraton. Frontend enviando um objet userId, não uma string
+		ChatroomGateway.queues.push({ id: userId.id, socket: client });
+
+		if (ChatroomGateway.queues.length >= 2) {
+			let player1 = ChatroomGateway.queues[0];
+			let player2 = ChatroomGateway.queues[1];
+			ChatroomGateway.queues.splice(0, 2);
+			const game = await this.jogoService.startGame(player1.id, player2.id, 5);
+			player1.socket.join(game.roomID);
+			player2.socket.join(game.roomID);
+			this.server.to(game.roomID).emit('startGame', game);
+			this.server.emit('checkStatus', '');
+		}
+	}
+
+	@SubscribeMessage('createMatch')
+	async handleCreateMatch(player1: Player, player2: Player) {
+		// console.log("Create Match: \nplayer1: ", player1.id, "\nplayer2: ", player2.id );
+		const game = await this.jogoService.startGame(player1.id, player2.id, 5);
+		console.log("GAME HandleCreate MAtch: ", game);
+		player1.socket.join(game?.roomID);
+		player2.socket.join(game?.roomID);
+		this.server.to(game?.roomID).emit('startGame', game);
+		this.server.emit('checkStatus', '');
+	}
+
+	@SubscribeMessage('disconnectUser')
+	async handleDisconnectUser(client: Socket, dto: any): Promise<any> {
+		const game = await this.jogoService.disconnectUser(dto.roomID, dto.isLeft);
+		this.server.to(game?.roomID).emit("updateGame", game);
+	}
+
+	@SubscribeMessage('updateGame')
+	async handleUpdateGame(client: Socket, roomID: string) {
+		const game = await this.jogoService.updateGame(roomID);
+		if (game && game.winner) {
+			this.server.emit('checkStatus', '');
+		}
+		this.server.to(game?.roomID).emit('updateGame', game);
+	}
+
+	@SubscribeMessage('updatePaddle')
+	async handleUpdatePaddle(client: Socket, paddle_status: any) {
+		// console.log("roomId: ", paddle_status.roomID, "\n isLeft: ", paddle_status.isLeft, "\n isUp: ", paddle_status.isUp);
+		const game = await this.jogoService.movePaddle(paddle_status.roomID, paddle_status.isLeft, paddle_status.isUp, paddle_status.pause);
+	}
+
+	@SubscribeMessage('watch-match')
+	async handleWatchMatch(client: Socket, ids: { playerId: string, watcherId: string }) {
+		let game = await this.jogoService.watchMatch(ids.playerId, ids.watcherId);
+		client.join(game.roomID);
+		client.emit('startGame', game);
+		this.server.emit('checkStatus', '');
+	}
+
+	@SubscribeMessage('sendInvite')
+	async sendInvite(client: Socket, obj: { myId: string, myNickname: string, otherId: string,  msg: string }) {
+		if (obj.msg == "convite") {
+			this.matchs[obj.otherId] = { id: obj.myId, socket: client };
+			this.server.emit('receiveConvite', obj);
+		}
+		else if (obj.msg == "response") {
+			let player1: Player = {id : obj.myId, socket: client}
+			let player2: Player = this.matchs[obj.myId];
+			// console.log('player1: ', player1.id, " socket id: ", player1.socket.id);
+			// console.log('player2: ', player2.id, " socket id: ", player2.socket.id);
+			this.handleCreateMatch(player1, player2)
+		}
+	}
+
 }
