@@ -16,9 +16,6 @@ export default function FormatMessages(props: propsFormatMessages): JSX.Element 
 	const showDinamicProfile = (nickname: string, id: string) => {
 		setDinamicProfile({ nickName: nickname, id: id });
 	}
-
-	console.log("message: ", props.messageErr);
-
 	return (
 		<div className="h-100 text-black p-3 overflow-auto">
 			{props.messagens.map((message: Messages) => {
