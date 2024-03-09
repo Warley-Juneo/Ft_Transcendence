@@ -21,7 +21,7 @@ type PropsListFriends = {
 }
 
 export default function ListFriends(props: PropsListFriends) {
-	const useData = useContext(UserData).user;
+	const userData = useContext(UserData).user;
 	const [chatPrivate, setChatPrivate] = useState(false);
 	const [dataOpenDirect, setDataOpenDirect] = useState({ nickname: '', avatart: '' });
 	const [dinamicProfile, setDinamicProfile] = useState<string>("");
@@ -41,12 +41,12 @@ export default function ListFriends(props: PropsListFriends) {
 
 	function createMatch(idFriend: string) {
 		const obj = {
-			myId: useData.id,
-			myNickname: useData.nickname,
+			myId: userData.id,
+			myNickname: userData.nickname,
 			otherId: idFriend,
 			msg: "convite"
 		}
-		useData.socket?.emit("sendInvite", obj)
+		userData.socket?.emit("sendInvite", obj)
 	}
 
 	let type = typeof props.players;
@@ -71,7 +71,7 @@ export default function ListFriends(props: PropsListFriends) {
 			}
 			{
 				props.players.map((play: Players) => {
-					if (play.id === useData.id) return null
+					if (play.id === userData.id) return null
 					return (
 						<div className='d-flex hover' key={play.id}>
 							<img
@@ -84,7 +84,7 @@ export default function ListFriends(props: PropsListFriends) {
 								<Status
 									is_active={play.is_active}
 									name={play.nickname}
-									my_id={play.id}
+									my_id={userData.id}
 									mute={props.mute ? props.mute : []}
 									admin={props.admin ? props.admin : []}
 									match_status={play.match_status}

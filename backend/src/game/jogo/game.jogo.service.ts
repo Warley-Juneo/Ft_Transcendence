@@ -16,9 +16,9 @@ export class JogoService {
 	static  x: number = 0;
 
 	async startGame(player1_id: string, player2_id: string, hits_for_acceleration: number) {
-	
+
 		if (JogoService.rooms.length != 0) {
-		
+
 			let check = JogoService.rooms.find(game => game.participants.find(id => id = player1_id));
 			if (check) {
 				return null;
@@ -380,13 +380,12 @@ export class JogoService {
 	}
 
 	async watchMatch(playerId: string, watcherId: string): Promise<GGame> {
-		let game = JogoService.rooms.find(game => game.participants.find(id => id == playerId));
-		if (game == undefined) {
-			return null;
-		}
-		console.log("xxxxxxx:", game);
-		await this.gameRepository.updateMatchStatus(watcherId, "WATCHING");
-		game.participants.push(watcherId);
+		let game = JogoService.rooms.find(game => game.participants.find(id => id == watcherId));
+		if (game == undefined) return null;
+
+		await this.gameRepository.updateMatchStatus(playerId, "WATCHING");
+		game.participants.push(playerId);
+		game.watchs.push(playerId);
 		return game;
 	}
 }

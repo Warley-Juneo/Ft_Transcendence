@@ -101,6 +101,8 @@ export class GGame {
 	ball_refY: number;
 	pause: boolean;
 
+	watchs: Array<string>;
+
 	constructor(player_left_id: string, player_right_id: string, hits_for_acceleration) {
 		this.player_left = new Player(player_left_id);
 		this.player_right = new Player(player_right_id);
@@ -109,7 +111,6 @@ export class GGame {
 		this.paddleLeft = new Paddle(0, 50, 8, 2, 20);
 		this.paddleRight = new Paddle(100, 50, 8, 2, 20);
 		this.roomID = randomUUID();
-		// this.roomID = '123';
 		this.placarLeft = 0;
 		this.placarRight = 0;
 		this.winner = "";
@@ -142,8 +143,9 @@ export class GGame {
 
 		this.pause = false;
 		this.winner = "";
-		
+
 		this.participants = [];
+		this.watchs = [];
 		this.participants.push(player_left_id);
 		this.participants.push(player_right_id);
 	}
@@ -175,5 +177,5 @@ export class GGame {
 		response.pause = ggame.pause;
 		return response;
 	}
-	
+
 }

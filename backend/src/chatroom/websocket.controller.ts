@@ -51,7 +51,10 @@ type Player = {
 )
 export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 
-	queue: queue[] = [];
+	matchs: {
+		[key: string]: Player;
+	} = {};
+	static queues: Player[] = [];
 
 	constructor(private readonly service: ChatroomService
 		, private readonly gameService: GameService
@@ -188,68 +191,22 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 		this.server.emit('checkStatus', dto.msg);
 	}
 
-	@SubscribeMessage('queueGame')
-	async queueGame(client: Socket, dto: queue) {
-		dto.client = client;
-		if (this.queue.length == 0) {
-			this.queue.push(dto);
-		}
-		else if (this.queue[0].id != dto.id) {
-			this.queue.push(dto);
-		}
-		if (this.queue.length >= 2) {
-			let response: responseQueue = {
-				Player1: this.queue[0].id,
-				Player2: this.queue[1].id,
-				Player1Bar: this.queue[0].bar,
-				Player2Bar: this.queue[1].bar,
-				lider: this.queue[0].id,
-				room: this.queue[0].id + this.queue[1].id
-			}
-
-			this.queue[0].client.join(response.room);
-			this.queue[1].client.join(response.room);
-
-			this.server.to(response.room).emit('startGame', response);
-			this.queue.splice(0, 2);
-		}
-	}
-
 	@SubscribeMessage('rooms')
 	async rooms(client: Socket, dto: rooms) {
 		const room = dto.room
 
 		this.server.to(room).emit('startGame', dto);
 	}
-	matchs: {
-		[key: string]: Player;
-	} = {};
-	static queues: Player[] = [];
+
 	@SubscribeMessage('joinRoom')
 	async handleJoinRoom(client: Socket, userId: any) {
-		//Conversar com Wagraton. Frontend enviando um objet userId, não uma string
 		ChatroomGateway.queues.push({ id: userId.id, socket: client });
 
 		if (ChatroomGateway.queues.length >= 2) {
 			let player1 = ChatroomGateway.queues[0];
 			let player2 = ChatroomGateway.queues[1];
 			ChatroomGateway.queues.splice(0, 2);
-			const game = await this.jogoService.startGame(player1.id, player2.id, 5);
-			player1.socket.join(game.roomID);
-			player2.socket.join(game.roomID);
-			this.server.to(game.roomID).emit('startGame', game);
-			this.server.emit('checkStatus', '');
-		}
-	}
-
-	@SubscribeMessage('createMatch')
-	async handleCreateMatch(player1: Player, player2: Player) {
-		const game = await this.jogoService.startGame(player1.id, player2.id, 5);
-		if (game) {
-			player1.socket.join(game.roomID);
-			player2.socket.join(game.roomID);
-			this.server.to(game.roomID).emit('startGame', game);
-			this.server.emit('checkStatus', '');
+			this.handleCreateMatch(player1, player2);
 		}
 	}
 
@@ -263,6 +220,17 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 			let player1: Player = {id : obj.myId, socket: client}
 			let player2: Player = this.matchs[obj.myId];
 			this.handleCreateMatch(player1, player2)
+		}
+	}
+
+	@SubscribeMessage('createMatch')
+	async handleCreateMatch(player1: Player, player2: Player) {
+		const game = await this.jogoService.startGame(player1.id, player2.id, 5);
+		if (game) {
+			player1.socket.join(game.roomID);
+			player2.socket.join(game.roomID);
+			this.server.to(game.roomID).emit('startGame', game);
+			this.server.emit('checkStatus', '');
 		}
 	}
 
@@ -290,8 +258,10 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 	@SubscribeMessage('watch-match')
 	async handleWatchMatch(client: Socket, ids: { playerId: string, watcherId: string }) {
 		let game = await this.jogoService.watchMatch(ids.playerId, ids.watcherId);
-		client.join(game.roomID);
-		client.emit('startGame', game);
-		this.server.emit('checkStatus', '');
+		if (game) {
+			client.join(game.roomID);
+			client.emit('startGame', game);
+			this.server.emit('checkStatus', '');
+		}
 	}
 }

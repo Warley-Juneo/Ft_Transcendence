@@ -13,6 +13,7 @@ type GamePongProps = {
 	window: { height: number, width: number }
 	player_left: { id: string, status: boolean, nickname: string },
 	player_right: { id: string, status: boolean, nickname: string },
+	watchs: []
 }
 
 const cssPage: React.CSSProperties = {
@@ -38,6 +39,7 @@ export default function GameWW(): JSX.Element {
 		window: { height: 600, width: 800 },
 		player_left: { id: '123', status: true, nickname: "Luffytaro" },
 		player_right: { id: '1234', status: true, nickname: "Zorotaro" },
+		watchs: []
 	})
 
 	const room = useParams().room
@@ -46,7 +48,6 @@ export default function GameWW(): JSX.Element {
 		width: fakeGame.window.width,
 		boxShadow: '0px 0px 15px 5px white',
 		position: 'relative',
-
 	}
 
 	const divFilds: React.CSSProperties = {
@@ -61,7 +62,6 @@ export default function GameWW(): JSX.Element {
 	useEffect(() => {
 		userData.socket?.on('updateGame', (data: GamePongProps) => {
 			setFakeGame(data)
-			console.log(data);
 		})
 	}, [])
 
@@ -105,23 +105,26 @@ export default function GameWW(): JSX.Element {
 		borderRadius: '50%',
 	}
 
+	function hadleMovie(key: string) {
+		if (key !== 'w' && key !== 's') return
+
+		let isLeft = fakeGame.player_left.id === userData.id ? true : false
+		let isUp = key === 'w' ? true : false
+		userData.socket?.emit('updatePaddle', { roomID: room, isLeft: isLeft, isUp: isUp, pause: false })
+	}
+
 	const movePaddleLeft = (e: React.KeyboardEvent<HTMLDivElement>) => {
-		if (e.key === 'w') {
-			userData.socket?.emit('updatePaddle', { roomID: room, isLeft: true, isUp: true, pause: false })
-		}
-		else if (e.key === 's') {
-			userData.socket?.emit('updatePaddle', { roomID: room, isLeft: true, isUp: false, pause: false })
-		} else if (e.key === 'ArrowUp') {
-			userData.socket?.emit('updatePaddle', { roomID: room, isLeft: false, isUp: true, pause: false })
-		}
-		else if (e.key === 'ArrowDown') {
-			userData.socket?.emit('updatePaddle', { roomID: room, isLeft: false, isUp: false, pause: false })
-		}
-		else if (e.key === 'p') {
+		if (fakeGame.winner !== "") return null
+		if (fakeGame.watchs.find(id => id === userData.id)) return null
+
+		if (e.key === 'p') {
 			userData.socket?.emit('updatePaddle', { roomID: room, isLeft: false, isUp: false, pause: true })
 		}
 		else if (e.key === 'l') {
 			userData.socket?.emit('updatePaddle', { roomID: room, isLeft: false, isUp: false, pause: false })
+		}
+		else {
+			hadleMovie(e.key)
 		}
 	}
 
