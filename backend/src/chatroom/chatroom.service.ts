@@ -536,7 +536,8 @@ export class ChatroomService {
 
 	async createChatroomMessage(dto: InputChatroomMessageDto): Promise<OutputMessageDto> {
 
-		if (this.chatroomRepository.findMutedUserChatroom(dto.user_id, dto.chatId)) {
+		let mutted = await this.chatroomRepository.findMutedUserChatroom(dto.user_id, dto.chatId)
+		if (mutted.length != 0) {
 			throw new UnauthorizedException("Você esta temporariamente mutado!!")
 		}
 		let msg = await this.chatroomRepository.createChatroomMessage(dto);
