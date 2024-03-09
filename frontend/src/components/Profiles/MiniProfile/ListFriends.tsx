@@ -71,6 +71,7 @@ export default function ListFriends(props: PropsListFriends) {
 			}
 			{
 				props.players.map((play: Players) => {
+					if (play.id === useData.id) return null
 					return (
 						<div className='d-flex hover' key={play.id}>
 							<img
