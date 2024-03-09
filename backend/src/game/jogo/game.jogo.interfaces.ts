@@ -90,7 +90,7 @@ export class AumentarPaddle extends Power {
 	}
 
 	apply(paddle: Paddle) {
-		paddle.height = paddle.height + 5;
+		paddle.height = paddle.height + 15;
 	}
 }
 
@@ -100,7 +100,7 @@ export class DiminuirPaddle extends Power {
 	}
 
 	apply(paddle: Paddle) {
-		paddle.height = paddle.height - 5;
+		paddle.height = paddle.height - 15;
 	}
 }
 
@@ -134,7 +134,7 @@ export class GGame {
 	pause: boolean;
 	power: Power;
 	watchs: Array<string>;
-
+	lastPaddleHitted: string;
 
 	constructor(player_left_id: string, player_right_id: string, hits_for_acceleration) {
 		this.player_left = new Player(player_left_id);
@@ -182,6 +182,7 @@ export class GGame {
 		this.power = null;
 		this.participants.push(player_left_id);
 		this.participants.push(player_right_id);
+		this.lastPaddleHitted = "";
 	}
 
 	copy(ggame: GGame): GGame {

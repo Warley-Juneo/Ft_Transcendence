@@ -6,6 +6,7 @@ import { GGame } from "./game.jogo.interfaces";
 import { MatchDto } from "../dtos/input.dto";
 import { GameRepository } from "../game.repository";
 import { AumentarPaddle, DiminuirPaddle } from "./game.jogo.interfaces";
+import { last } from "rxjs";
 
 @Injectable()
 export class JogoService {
@@ -54,6 +55,7 @@ export class JogoService {
 					game.placarRight++;
 					return false
 				}
+				game.lastPaddleHitted = "left";
 
 				//Muda direção em X, mudando o sinal do número
 				game.ball.directionX *= -1;
@@ -116,6 +118,7 @@ export class JogoService {
 					return false
 				}
 
+				game.lastPaddleHitted = "right";
 				//Muda direção em X, mudando o sinal do numero
 				game.ball.directionX *= -1;
 				game.paddle_hits++;
@@ -374,10 +377,10 @@ export class JogoService {
 	}
 
 	async CreatePower(game: GGame) {
-		let position_x = Math.random() * game.window.width;
-		let position_y = Math.random() * game.window.height;
-		console.log("Math.random(): ", Math.floor(Math.random()))
-		switch (Math.floor(Math.random())) {
+		let position_x = Math.floor(Math.random() * game.window.width);
+		let position_y = Math.floor(Math.random() * game.window.height);
+		console.log("Math.random(): ", position_x, " - ", position_y);
+		switch (Math.round(Math.random())) {
 			case (0):
 				game.power = new AumentarPaddle(position_x, position_y);
 				break;
@@ -392,16 +395,14 @@ export class JogoService {
 
 		if (game.power) {
 			//	if( game.ball.positionX == game.power.x + game.ball.size && game.ball.positionY == game.power.y + game.ball.size ) {
-			if (game.ball.directionX == 1)
+			if (game.lastPaddleHitted == "left")
 				game.power.apply(game.paddleLeft);
-			else
+			else if (game.lastPaddleHitted == "right")
 				game.power.apply(game.paddleRight);
 			console.log(game.power.x, game.power.y);
 			game.power = null;
 			//	}
-		}
-
-		if (total_placar % 2 == 0) {
+		}else if (total_placar % 2 == 0) {
 			this.CreatePower(game);
 		}
 	}
