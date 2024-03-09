@@ -301,6 +301,8 @@ export class JogoService {
 		game.ball.angle = 0;
 		// game.paddleLeft.positionY = game.window.height / 2;
 		// game.paddleRight.positionY = game.window.height / 2;
+		game.paddleLeft.height = game.paddleInitialSize;
+		game.paddleRight.height = game.paddleInitialSize;
 	}
 
 	async updateGame(gameID: string): Promise<any> {

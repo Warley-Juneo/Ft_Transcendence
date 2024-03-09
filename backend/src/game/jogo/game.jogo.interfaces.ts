@@ -121,6 +121,7 @@ export class GGame {
 	ball: GBall;
 
 	paddleLeft: Paddle;
+	paddleInitialSize: number;
 	paddleRight: Paddle;
 
 	roomID: string;
@@ -155,12 +156,14 @@ export class GGame {
 		this.hits_for_accelaration = hits_for_acceleration;
 
 		this.paddleLeft.width = (this.paddleLeft.width / 100) * this.window.width;
-		this.paddleLeft.height = (this.paddleLeft.height / 100) * this.window.height;
+
+		this.paddleInitialSize = (this.paddleLeft.height / 100) * this.window.height;
+		this.paddleLeft.height = this.paddleInitialSize;
 		this.paddleLeft.positionX = 0;
 		this.paddleLeft.positionY = this.window.height / 2;
 
 		this.paddleRight.width = (this.paddleRight.width / 100) * this.window.width;
-		this.paddleRight.height = (this.paddleRight.height / 100) * this.window.height;
+		this.paddleRight.height = this.paddleInitialSize;
 		this.paddleRight.positionX = this.window.width - (this.paddleRight.width);
 		this.paddleRight.positionY = this.window.height / 2;
 
