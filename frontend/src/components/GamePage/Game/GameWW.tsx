@@ -13,7 +13,8 @@ type GamePongProps = {
 	window: { height: number, width: number }
 	player_left: { id: string, status: boolean, nickname: string },
 	player_right: { id: string, status: boolean, nickname: string },
-	watchs: []
+	watchs: [],
+	power: { x: number, y: number, size: number }
 }
 
 const cssPage: React.CSSProperties = {
@@ -39,7 +40,8 @@ export default function GameWW(): JSX.Element {
 		window: { height: 600, width: 800 },
 		player_left: { id: '123', status: true, nickname: "Luffytaro" },
 		player_right: { id: '1234', status: true, nickname: "Zorotaro" },
-		watchs: []
+		watchs: [],
+		power: { x: 0, y: 0, size: 0 }
 	})
 
 	const room = useParams().room
@@ -61,6 +63,7 @@ export default function GameWW(): JSX.Element {
 
 	useEffect(() => {
 		userData.socket?.on('updateGame', (data: GamePongProps) => {
+			console.log(data)
 			setFakeGame(data)
 		})
 	}, [])
@@ -131,6 +134,21 @@ export default function GameWW(): JSX.Element {
 	if (fakeGame.winner !== "") {
 		return <div>Acabou crl</div>
 	}
+
+	let power: React.CSSProperties =  {}
+
+	if (fakeGame.power) {
+		power = {
+			height: fakeGame.power.size,
+			width: fakeGame.power.size,
+			backgroundColor: 'white',
+			position: 'absolute',
+			top: fakeGame.power.y,
+			left: fakeGame.power.x,
+			borderRadius: '50%',
+		}
+	}
+
 	return (
 		<div style={cssPage} tabIndex={0} onKeyDown={movePaddleLeft}>
 
@@ -147,6 +165,7 @@ export default function GameWW(): JSX.Element {
 					<div style={paddleLeft}></div>
 					<div style={paddleRight}></div>
 					<div style={ball}></div>
+					{fakeGame.power ? <div style={power}></div>: null}
 
 					<div className="d-flex">
 						<div className="w-50 text-white text-center">
