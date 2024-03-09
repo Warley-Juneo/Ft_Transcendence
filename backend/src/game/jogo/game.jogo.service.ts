@@ -394,14 +394,14 @@ export class JogoService {
 		let total_placar = game.placarLeft + game.placarRight;
 
 		if (game.power) {
-			//	if( game.ball.positionX == game.power.x + game.ball.size && game.ball.positionY == game.power.y + game.ball.size ) {
-			if (game.lastPaddleHitted == "left")
-				game.power.apply(game.paddleLeft);
-			else if (game.lastPaddleHitted == "right")
-				game.power.apply(game.paddleRight);
-			console.log(game.power.x, game.power.y);
-			game.power = null;
-			//	}
+			if( (game.ball.positionX >= game.power.x - (game.power.size/2)  && game.ball.positionX <= game.power.x + (game.power.size/2)) && game.ball.positionY == game.power.y + game.ball.size ) {
+				if (game.lastPaddleHitted == "left")
+					game.power.apply(game.paddleLeft);
+				else if (game.lastPaddleHitted == "right")
+					game.power.apply(game.paddleRight);
+				console.log(game.power.x, game.power.y);
+				game.power = null;
+			}
 		}else if (total_placar % 2 == 0) {
 			this.CreatePower(game);
 		}

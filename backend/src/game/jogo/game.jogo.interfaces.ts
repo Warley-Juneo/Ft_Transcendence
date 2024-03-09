@@ -75,10 +75,12 @@ class Player {
 abstract class Power {
 	x: number;
 	y: number;
+	size: number
 
 	constructor(x: number, y: number) {
 		this.x = x;
 		this.y = y;
+		this.size = 20;
 	}
 
 	abstract apply(paddle: Paddle): void;
