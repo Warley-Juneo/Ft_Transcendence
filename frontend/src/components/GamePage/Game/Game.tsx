@@ -23,6 +23,7 @@ import DinamicProfile from "../../Profiles/DinamicProfile/DinamicProfile";
 import MiniProfile from "../../Profiles/MiniProfile/MiniProfile";
 import { UserData } from "../../InitialPage/Contexts/Contexts";
 import { ModalConvite } from "./ModalConvite";
+import { useNavigate } from "react-router-dom";
 
 export type dataConvite = {
 	otherId: string,
@@ -41,8 +42,8 @@ export default function Game(): JSX.Element {
 		userData.socket?.on("receiveConvite", (data: dataConvite) => {
 			if (data.otherId === userData.id)
 				setOpenModalConvite(true);
-				setDataConvite(data);
-			})
+			setDataConvite(data);
+		})
 	});
 
 	useEffect(() => {
@@ -223,13 +224,23 @@ export default function Game(): JSX.Element {
 		return () => {
 			game.destroy(true);
 		};
-	}, []); // A dependência vazia garante que isso só seja executado uma vez
+	}, []);
 
 	const cssGameContainer: React.CSSProperties = {
 		height: '100vh !important',
 		width: '100vw !important',
 	}
 
+	//Ativando o scoket para iniciar uma partipa
+	const navigate = useNavigate()
+	useEffect(() => {
+		userData.socket?.on('startGame', (data: any) => {
+			navigate(`/game/pong/${data.roomID}`)
+		})
+		return () => {
+			userData.socket?.off('starGame')
+		}
+	}, [userData.socket])
 
 
 	return (
@@ -240,8 +251,8 @@ export default function Game(): JSX.Element {
 			{collisionPnt === 'satelite' ? <PageChats openPageChats={setCollisionPnt} /> : null}
 			{collisionPnt === 'base' ? <Ranking openStore={setCollisionPnt} /> : null}
 			{collisionPnt === 'Lua' ? <DinamicProfile openDinamicProfile={setCollisionPnt}
-			 nickName={userData.nickname} id={userData.id} /> : null}
-			{openModalConvite ? <ModalConvite setOpenChat={setOpenModalConvite} dataConvite={dataConvite}/> : null}
+				nickName={userData.nickname} id={userData.id} /> : null}
+			{openModalConvite ? <ModalConvite setOpenChat={setOpenModalConvite} dataConvite={dataConvite} /> : null}
 		</div>
 	)
 }
