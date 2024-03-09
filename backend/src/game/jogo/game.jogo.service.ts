@@ -3,17 +3,16 @@
 
 import { Injectable } from "@nestjs/common";
 import { GGame } from "./game.jogo.interfaces";
-import { User } from "@prisma/client";
 import { MatchDto } from "../dtos/input.dto";
-import { GameService } from "../game.service";
 import { GameRepository } from "../game.repository";
+import { AumentarPaddle, DiminuirPaddle } from "./game.jogo.interfaces";
 
 @Injectable()
 export class JogoService {
 
-	constructor(private readonly gameRepository: GameRepository) {};
+	constructor(private readonly gameRepository: GameRepository) { };
 	static rooms: GGame[] = [];
-	static  x: number = 0;
+	static x: number = 0;
 
 	async startGame(player1_id: string, player2_id: string, hits_for_acceleration: number) {
 
@@ -70,7 +69,7 @@ export class JogoService {
 					// console.log("ball positionY: ", game.ball.positionY);
 					let hit_pos = (game.ball.positionY - game.paddleLeft.positionY) / 1.00;
 					// console.log("padle hit position: ", hit_pos);
-					let paddle_half_size =game.paddleLeft.height / 2;
+					let paddle_half_size = game.paddleLeft.height / 2;
 					let paddle_hit = ((hit_pos * 100) / paddle_half_size) / 1.00;
 					// console.log("paddle_hit: ", paddle_hit, "\n");
 					let paddle_hit_perc = (paddle_hit / 100) / 1.00;
@@ -87,7 +86,7 @@ export class JogoService {
 					// console.log("ball positionY: ", game.ball.positionY);
 					let hit_pos = (game.paddleLeft.positionY - game.ball.positionY) / 1.00;
 					// console.log("padle hit position: ", hit_pos);
-					let paddle_half_size =game.paddleLeft.height / 2;
+					let paddle_half_size = game.paddleLeft.height / 2;
 					let paddle_hit = ((hit_pos * 100) / paddle_half_size) / 1.00;
 					// console.log("paddle_hit: ", paddle_hit, "\n");
 					let paddle_hit_perc = (paddle_hit / 100) / 1.00;
@@ -131,7 +130,7 @@ export class JogoService {
 					// console.log("ball positionY: ", game.ball.positionY);
 					let hit_pos = (game.ball.positionY - game.paddleRight.positionY) / 1.00;
 					// console.log("padle hit position: ", hit_pos);
-					let paddle_half_size =game.paddleRight.height / 2;
+					let paddle_half_size = game.paddleRight.height / 2;
 					let paddle_hit = (hit_pos * 100 / paddle_half_size) / 1.00;
 					// console.log("paddle_hit: ", paddle_hit, "\n");
 					let paddle_hit_perc = (paddle_hit / 100) / 1.00;
@@ -147,7 +146,7 @@ export class JogoService {
 					// console.log("ball positionY: ", game.ball.positionY);
 					let hit_pos = (game.paddleRight.positionY - game.ball.positionY) / 1.00;
 					// console.log("padle hit position: ", hit_pos);
-					let paddle_half_size =game.paddleRight.height / 2;
+					let paddle_half_size = game.paddleRight.height / 2;
 					let paddle_hit = ((hit_pos * 100) / paddle_half_size) / 1.00;
 					// console.log("paddle_hit: ", paddle_hit, "\n");
 					let paddle_hit_perc = (paddle_hit / 100) / 1.00;
@@ -242,7 +241,7 @@ export class JogoService {
 	}
 
 	checkScore(game: GGame): Boolean {
-		if (game.placarLeft == 2 || game.placarRight == 2) {
+		if (game.placarLeft == 10 || game.placarRight == 10) {
 			return true;
 		}
 		return false;
@@ -313,18 +312,14 @@ export class JogoService {
 		if (this.verifyCollisionPaddles(game) == false) {
 			if (this.checkScore(game)) {
 				this.checkWinner(game);
-				// console.log("Winner: ", game.winner);
-				/*ATUALIZAR BANCO DE DADOS*/
 				let dto = new MatchDto(game);
 				await this.gameRepository.addMatch(dto);
 
-				//Seria melhor colocar essa informação em um cookie no frontend??
 				for (let id of game.participants) {
 					console.log("id: ", id)
 					await this.gameRepository.updateMatchStatus(id, "NONE");
 				}
 
-				/*REMOVER GAME DO ARRAY DE GAMES*/
 				let response = game.copy(game);
 				const index = JogoService.rooms.indexOf(game, 0);
 				JogoService.rooms.splice(index, 1);
@@ -332,17 +327,13 @@ export class JogoService {
 				return response;
 			}
 			this.resetGame(game);
+			this.verifyPower(game);
 		}
 		else {
 			this.verifyCollisionWall(game);
 		}
 
-
 		if (!game.pause) {
-			// console.log("ball angle", game.ball.angle);
-			// console.log("ball directionX", game.ball.directionX);
-			// console.log("ball directionY", game.ball.directionY);
-
 			if (JogoService.x % 7 == 0) {
 				game.ball.positionX += game.ball.path * game.ball.directionX;
 				game.ball_refX += game.ball.path;
@@ -350,20 +341,13 @@ export class JogoService {
 			}
 			JogoService.x++;
 
-			// console.log("ball positionX", game.ball.positionX);
-			// console.log("ball refX", game.ball_refX);
-
 			if (game.ball.angle != 0) {
 				let tan = Math.tan((game.ball.angle * Math.PI) / 180);
-				// console.log("tangente angle: ", tan);
 				game.ball_refY = game.ball_refX * tan;
 				if (game.ball_refY < 0) {
 					game.ball_refY *= -1;
 				}
-				// console.log("ball hitY", game.ball.hit_positionY);
-				// console.log("ball refY", game.ball_refY);
 				game.ball.positionY = game.ball.hit_positionY + (game.ball_refY * game.ball.directionY);
-				// console.log("ball positionY", game.ball.positionY, "\n");
 				if (game.ball.positionY > game.window.height) {
 					game.ball.positionY = game.window.height;
 				}
@@ -376,7 +360,7 @@ export class JogoService {
 				game.ball.velocity += game.ball.velocity * (game.ball.acceleration_ratio / 100);
 			}
 		}
-			return game;
+		return game;
 	}
 
 	async watchMatch(playerId: string, watcherId: string): Promise<GGame> {
@@ -388,4 +372,39 @@ export class JogoService {
 		game.watchs.push(playerId);
 		return game;
 	}
+
+	async CreatePower(game: GGame) {
+		let position_x = Math.random() * game.window.width;
+		let position_y = Math.random() * game.window.height;
+		console.log("Math.random(): ", Math.floor(Math.random()))
+		switch (Math.floor(Math.random())) {
+			case (0):
+				game.power = new AumentarPaddle(position_x, position_y);
+				break;
+			case (1):
+				game.power = new DiminuirPaddle(position_x, position_y);
+				break;
+		}
+	}
+
+	async verifyPower(game: GGame) {
+		let total_placar = game.placarLeft + game.placarRight;
+
+		if (game.power) {
+			//	if( game.ball.positionX == game.power.x + game.ball.size && game.ball.positionY == game.power.y + game.ball.size ) {
+			if (game.ball.directionX == 1)
+				game.power.apply(game.paddleLeft);
+			else
+				game.power.apply(game.paddleRight);
+			console.log(game.power.x, game.power.y);
+			game.power = null;
+			//	}
+		}
+
+		if (total_placar % 2 == 0) {
+			this.CreatePower(game);
+		}
+	}
 }
+
+

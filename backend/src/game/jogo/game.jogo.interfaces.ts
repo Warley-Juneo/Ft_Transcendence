@@ -2,7 +2,6 @@
 
 import { randomUUID } from "crypto";
 
-
 class GWindow {
 	width: number;
 	height: number;
@@ -71,10 +70,43 @@ class Player {
 		this.id = id;
 		this.status = true;
 	}
-
 }
 
+abstract class Power {
+	x: number;
+	y: number;
+
+	constructor(x: number, y: number) {
+		this.x = x;
+		this.y = y;
+	}
+
+	abstract apply(paddle: Paddle): void;
+}
+
+export class AumentarPaddle extends Power {
+	constructor(x: number, y: number) {
+		super(x, y);
+	}
+
+	apply(paddle: Paddle) {
+		paddle.height = paddle.height + 5;
+	}
+}
+
+export class DiminuirPaddle extends Power {
+	constructor(x: number, y: number) {
+		super(x, y);
+	}
+
+	apply(paddle: Paddle) {
+		paddle.height = paddle.height - 5;
+	}
+}
+
+
 export class GGame {
+
 	player_left: Player;
 	player_right: Player;
 	placarLeft: number;
@@ -100,8 +132,9 @@ export class GGame {
 	ball_refX: number;
 	ball_refY: number;
 	pause: boolean;
-
+	power: Power;
 	watchs: Array<string>;
+
 
 	constructor(player_left_id: string, player_right_id: string, hits_for_acceleration) {
 		this.player_left = new Player(player_left_id);
@@ -146,6 +179,7 @@ export class GGame {
 
 		this.participants = [];
 		this.watchs = [];
+		this.power = null;
 		this.participants.push(player_left_id);
 		this.participants.push(player_right_id);
 	}
