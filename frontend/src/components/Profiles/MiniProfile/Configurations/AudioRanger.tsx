@@ -6,13 +6,13 @@ export default function AudioRanger(): JSX.Element {
 		<>
 			<div className='d-flex'>
 				<label htmlFor="song" className="form-label me-5">
-					<AiOutlineSound />
+					<AiOutlineSound color="black" />
 				</label>
 				<input type="range" className="form-range" min="0" max="5" step="0.5" id="song"></input>
 			</div>
 			<div className='d-flex'>
 				<label htmlFor="music" className="form-label me-5">
-					<BsSoundwave />
+					<BsSoundwave color="black"/>
 				</label>
 				<input type="range" className="form-range" min="0" max="5" step="0.5" id="music"></input>
 			</div>
