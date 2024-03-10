@@ -80,7 +80,7 @@ abstract class Power {
 	constructor(x: number, y: number) {
 		this.x = x;
 		this.y = y;
-		this.size = 20;
+		this.size = 50;
 	}
 
 	abstract apply(paddle: Paddle): void;

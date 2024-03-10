@@ -332,11 +332,20 @@ export class JogoService {
 				return response;
 			}
 			this.resetGame(game);
-			this.verifyPower(game);
+			let total_placar = game.placarLeft + game.placarRight;
+			if (total_placar % 2 == 0) {
+				this.CreatePower(game);
+				console.log("Game Power x: ", game.power.x);
+				console.log("Game Power y: ", game.power.y);
+				console.log("Game Power - size/2: ", game.power.size/2);
+				console.log("Game Power - size/2: ", game.power.y - (game.power.size/2));
+				console.log("Game Power + size/2: ", game.power.y + (game.power.size/2));
+			}
 		}
 		else {
 			this.verifyCollisionWall(game);
 		}
+		this.verifyPower(game);
 
 		if (!game.pause) {
 			if (JogoService.x % 7 == 0) {
@@ -365,6 +374,9 @@ export class JogoService {
 				game.ball.velocity += game.ball.velocity * (game.ball.acceleration_ratio / 100);
 			}
 		}
+
+		
+		
 		return game;
 	}
 
@@ -393,19 +405,22 @@ export class JogoService {
 	}
 
 	async verifyPower(game: GGame) {
-		let total_placar = game.placarLeft + game.placarRight;
 
 		if (game.power) {
-			if( (game.ball.positionX >= game.power.x - (game.power.size/2)  && game.ball.positionX <= game.power.x + (game.power.size/2)) && game.ball.positionY == game.power.y + game.ball.size ) {
-				if (game.lastPaddleHitted == "left")
+			if( ((game.ball.positionY >= (game.power.y) 
+				&& game.ball.positionY <= (game.power.y +(game.power.size))))
+				&& (game.ball.positionX >= (game.power.x - game.power.size/2)
+				&& game.ball.positionX <= (game.power.x + game.power.size/2))) {
+				
+				if (game.lastPaddleHitted == "left") {
 					game.power.apply(game.paddleLeft);
-				else if (game.lastPaddleHitted == "right")
+				}
+				else if (game.lastPaddleHitted == "right") {
 					game.power.apply(game.paddleRight);
+				}
 				console.log(game.power.x, game.power.y);
 				game.power = null;
 			}
-		}else if (total_placar % 2 == 0) {
-			this.CreatePower(game);
 		}
 	}
 }
