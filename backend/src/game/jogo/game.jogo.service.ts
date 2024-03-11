@@ -3,7 +3,7 @@
 
 import { Injectable } from "@nestjs/common";
 import { GGame } from "./game.jogo.interfaces";
-import { MatchDto } from "../dtos/input.dto";
+import { DisconnectUserDto, MatchDto } from "../dtos/input.dto";
 import { GameRepository } from "../game.repository";
 import { AumentarPaddle, DiminuirPaddle } from "./game.jogo.interfaces";
 import { last } from "rxjs";
@@ -262,26 +262,33 @@ export class JogoService {
 	}
 
 	//trocar de aba disconecta do websocket??
-	async disconnectUser(gameID: string, isLeft: boolean): Promise<any> {
+	async disconnectUser(userDto: DisconnectUserDto): Promise<any> {
 		if (JogoService.rooms.length == 0) return;
 
-		let game = JogoService.rooms.find(game => game.roomID == gameID);
+		let game = JogoService.rooms.find(game => game.roomID == userDto.room);
 		if (game == undefined) {
 			return;
 		}
-		if (isLeft == true) {
+		if (userDto.id == game.player_right.id) {
 			game.winner = game.player_left.id;
+			game.loser = game.player_right.id
 			game.placarLeft = 10;
 		}
-		else {
+		else if (userDto.id == game.player_left.id) {
 			game.winner = game.player_right.id;
+			game.loser = game.player_left.id;
 			game.placarRight = 10;
 		}
 		let dto = new MatchDto(game);
+		console.log("dto: ", dto);
 		await this.gameRepository.addMatch(dto);
 		//Seria melhor colocar essa informação em um cookie no frontend??
+		console.log("Player left: ", game.player_left);
+		console.log("Player right: ", game.player_right);
 		await this.gameRepository.updateMatchStatus(game.player_left.id, "NONE");
 		await this.gameRepository.updateMatchStatus(game.player_right.id, "NONE");
+		console.log("..Player left: ", game.player_left);
+		console.log("..Player right: ", game.player_right);
 
 		/*REMOVER GAME DO ARRAY DE GAMES*/
 		let response = game.copy(game);

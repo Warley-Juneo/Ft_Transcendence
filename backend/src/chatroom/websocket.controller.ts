@@ -4,7 +4,7 @@ import { SubscribeMessage, OnGatewayInit, OnGatewayConnection, OnGatewayDisconne
 import { Socket, Server } from "socket.io";
 import { AddChatUserDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, DeleteChatroomDto, InputChatroomDto, InputChatroomMessageDto, InputOpenChatroomDto, WebsocketDto, WebsocketWithTimeDto } from "./dto/input.dto";
 import { ChatroomService } from "./chatroom.service";
-import { DisconnectDto } from "src/game/dtos/input.dto";
+import { DisconnectDto, DisconnectUserDto } from "src/game/dtos/input.dto";
 import { GameService } from "src/game/game.service";
 import { UsersService } from "src/users/users.service";
 import { Console } from "console";
@@ -234,9 +234,10 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 		}
 	}
 
-	@SubscribeMessage('disconnectUser')
-	async handleDisconnectUser(client: Socket, dto: any): Promise<any> {
-		const game = await this.jogoService.disconnectUser(dto.roomID, dto.isLeft);
+	@SubscribeMessage('disconnect-user')
+	async handleDisconnectUser(client: Socket, dto: DisconnectUserDto): Promise<any> {
+		console.log("Disconnect-user Route");
+		const game = await this.jogoService.disconnectUser(dto);
 		this.server.to(game?.roomID).emit("updateGame", game);
 	}
 

@@ -38,3 +38,8 @@ export class MatchDto {
 		this.draws = false;
 	}
 }
+
+export class DisconnectUserDto {
+	room: 	string;
+	id: 	string;
+}

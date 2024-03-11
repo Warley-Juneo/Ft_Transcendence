@@ -76,7 +76,7 @@ export default function GameWW(): JSX.Element {
 
 		return () => {
 			clearInterval(intervalId);
-			console.log("Caiu no return do useEffect do GameWW.tsx")
+			userData.socket?.emit('disconnect-user', {room: room, id: userData.id});
 		}
 	}, [room])
 
