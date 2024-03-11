@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react"
 import BarDataUsers from "./BarDataUsers/BarDataUsers"
 import { useParams } from "react-router-dom"
 import { UserData } from "../../InitialPage/Contexts/Contexts"
+import winner from "../../../assets/game/winner.png"
 
 type GamePongProps = {
 	ball: { positionX: number, positionY: number, size: number },
@@ -15,16 +16,6 @@ type GamePongProps = {
 	player_right: { id: string, status: boolean, nickname: string },
 	watchs: [],
 	power: { x: number, y: number, size: number }
-}
-
-const cssPage: React.CSSProperties = {
-	height: '100vh',
-	width: '100vw',
-	overflow: 'hidden',
-	backgroundImage: `url(https://wallpaperaccess.com/full/2513478.jpg)`,
-	backgroundSize: 'cover',
-
-
 }
 
 export default function GameWW(): JSX.Element {
@@ -131,12 +122,17 @@ export default function GameWW(): JSX.Element {
 		}
 	}
 
-	if (fakeGame.winner !== "") {
-		return <div>Acabou crl</div>
+	const cssPage: React.CSSProperties = {
+		height: '100vh',
+		width: '100vw',
+		overflow: 'hidden',
+		backgroundImage: `url(https://wallpaperaccess.com/full/2513478.jpg)`,
+		backgroundSize: 'cover',
 	}
 
-	let power: React.CSSProperties =  {}
 
+
+	let power: React.CSSProperties = {}
 	if (fakeGame.power) {
 		power = {
 			height: fakeGame.power.size,
@@ -147,6 +143,19 @@ export default function GameWW(): JSX.Element {
 			left: fakeGame.power.x,
 			borderRadius: '50%',
 		}
+	}
+
+	const cssWinner: React.CSSProperties = {
+		backgroundImage: `url(${winner})`,
+		backgroundSize: 'cover',
+		backgroundPosition: 'center',
+	}
+	if (fakeGame.winner !== "") {
+		return (
+			<div className="vh-100 p-5" style={cssWinner}>
+				<button className="btn btn-danger">Exit Game</button>
+			</div>
+		)
 	}
 
 	return (
@@ -165,7 +174,7 @@ export default function GameWW(): JSX.Element {
 					<div style={paddleLeft}></div>
 					<div style={paddleRight}></div>
 					<div style={ball}></div>
-					{fakeGame.power ? <div style={power}></div>: null}
+					{fakeGame.power ? <div style={power}></div> : null}
 
 					<div className="d-flex">
 						<div className="w-50 text-white text-center">

@@ -15,17 +15,17 @@ export default function InputEditName(): JSX.Element {
 					<CiEdit size={35} type="button" />
 				</label>
 			</div>
-			<div className="d-flex align-items-center ms-1 w-50">
+			<div className="d-flex align-items-center ms-1 w-50"
+				onClick={() => { document.getElementsByName('avatar')[0].click() }}
+			>
 				<p style={{color: '#6b6475'}}>Photo</p>
 				<input
-					className="remove-format-input p-0 d-none"
+					className="remove-format-input p-0 d-none bg-dark"
 					type="file"
 					name="avatar"
 					placeholder='Photo'
 				/>
-				<MdOutlineAddAPhoto size={35} type="button" className="ms-auto"
-					onClick={() => { document.getElementsByName('avatar')[0].click() }}
-				/>
+				<MdOutlineAddAPhoto size={35} type="button" className="ms-auto" />
 			</div>
 		</div>
 

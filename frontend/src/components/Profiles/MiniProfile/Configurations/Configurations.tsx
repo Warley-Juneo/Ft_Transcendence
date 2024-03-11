@@ -19,7 +19,7 @@ type propsConfigurationGame = {
 }
 
 type infoUpdate = {
-	nickname: string,
+	nick_name: string,
 	avatar: string,
 	twoFA: boolean,
 }
@@ -57,7 +57,6 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 			getQRCODE();
 		}
 
-		console.log(info);
 		axios.post(`${process.env.REACT_APP_HOST_URL}/users/updateProfile`, info, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
@@ -66,9 +65,8 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 		}).then((res) => {
 			setHandleOption(!handleOption);
 			dataUser.updateDataUser();
-			console.log(res);
 		}).catch((err) => {
-			console.log(err);
+
 		})
 	}
 
@@ -76,27 +74,46 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 		event.preventDefault();
 		const form = new FormData(event.currentTarget);
 
-		const avatarInput = event.currentTarget.querySelector('input[name="avatar"]') as HTMLInputElement;
-		const avatarFile = avatarInput.files?.[0];
-
+		const avatarFile = form.get('avatar') as File;
 		const nickname = form.get('nickname');
-		const twoFA = form.get('2fa') === 'on' ? true : false;
+		const twoFA = form.get('2fa') === 'on';
+
 		let fileBase64 = null;
 
 		if (avatarFile) {
 			const reader = new FileReader();
-			reader.onloadend = () => {
-				fileBase64 = reader.result;
-			}
+			reader.onload = (event: ProgressEvent<FileReader>) => {
+				const img = new Image();
+				img.onload = () => {
+					const canvas = document.createElement('canvas');
+					const ctx = canvas.getContext('2d');
+					if (ctx) {
+						canvas.width = 600;
+						canvas.height = 600;
+						ctx.drawImage(img, 0, 0, 600, 600);
+						fileBase64 = canvas.toDataURL('image/jpeg');
+						console.log("fileBase64: ", fileBase64);
+						let info: infoUpdate = {
+							nick_name: nickname ? nickname.toString() : '',
+							avatar: fileBase64 ? fileBase64.toString() : '',
+							twoFA: twoFA,
+						};
+						sendInfosUserBack(info);
+					}
+				};
+				img.src = event.target?.result as string;
+			};
 			reader.readAsDataURL(avatarFile);
+		} else {
+			let info: infoUpdate = {
+				nick_name: nickname ? nickname.toString() : '',
+				avatar: '',
+				twoFA: twoFA,
+			};
+			sendInfosUserBack(info);
 		}
-		let info: infoUpdate = {
-			nickname: nickname ? nickname.toString() : '',
-			avatar: fileBase64 ? fileBase64 : '',
-			twoFA: twoFA,
-		}
-		sendInfosUserBack(info);
-	}
+	};
+
 
 	const getCorrectDiv = (isEditing: boolean) => {
 		if (isEditing) return <InputEditName />
@@ -194,13 +211,13 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 					<AudioRanger />
 					<div className="d-flex form-check form-switch">
 						<input
-							className="form-check-input"
+							className="form-check-input me-2"
 							type="checkbox"
 							id="flexSwitchCheckDefault"
 							onClick={handleShow}
 							checked={tfaEnabled}
 						/>
-						<label className="form-check-label" htmlFor="flexSwitchCheckDefault">Deseja habilitar a atutenticação de 2 fatores?</label>
+						<label className="ms-4 form-check-label text-black" htmlFor="flexSwitchCheckDefault">Habilitar a atutenticação de 2 fatores?</label>
 					</div>
 				</form>
 			</div>
