@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Post, Query, Req} from '@nestjs/common';
+import { Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, ParseFilePipe, Post, Query, Req, UploadedFile, UseInterceptors} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from '@prisma/client';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { UserResumeDto, UserProfileDto, UserLadderDto } from './dtos/output.dtos';
 import { AddFriendDto, ProfileDto, UpdateCoinsDto, UpdateProfileDto } from './dtos/input.dtos';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('users')
 export class UsersController {
@@ -63,4 +64,21 @@ export class UsersController {
   async ladder(): Promise<UserLadderDto[]> {
     return this.service.ladder();
   }
+
+  @Post('upload-avatar')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadAvatar(@UploadedFile(
+    new ParseFilePipe({
+      validators: [
+        new MaxFileSizeValidator({ maxSize: 10000 }),
+        // new FileTypeValidator({ fileType: 'image/png' }),
+        // new AvatarSizeValidationPipe(),
+      ]
+    })
+  ) file: Express.Multer.File) {
+    console.log("Avatar name: ", file.originalname);
+
+    await this.service.uploadAvatar(file);
+  }
 }
+

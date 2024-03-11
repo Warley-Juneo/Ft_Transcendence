@@ -6,7 +6,6 @@ CREATE TABLE "user" (
     "first_name" TEXT NOT NULL,
     "last_name" TEXT NOT NULL,
     "nickname" TEXT NOT NULL,
-    "avatar" TEXT,
     "coins" INTEGER NOT NULL DEFAULT 0,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
@@ -15,7 +14,18 @@ CREATE TABLE "user" (
     "match_status" TEXT NOT NULL DEFAULT 'NONE',
     "tokenTFA" TEXT,
     "tfaOpen" BOOLEAN DEFAULT false,
-    "socket" TEXT
+    "socket" TEXT,
+    CONSTRAINT "user_id_fkey" FOREIGN KEY ("id") REFERENCES "Avatar" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "Avatar" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "filename" TEXT NOT NULL,
+    "mimetype" TEXT NOT NULL,
+    "encoding" TEXT NOT NULL,
+    "size" INTEGER NOT NULL,
+    "user_id" TEXT
 );
 
 -- CreateTable

@@ -145,4 +145,8 @@ export class UsersService {
 		let user = await this.userRepository.updateUser(where_filter, data_filter);
 		// console.log("UserSocketConnect: ", user);
 	}
+
+	async uploadAvatar(file: Express.Multer.File): Promise<any> {
+		await this.userRepository.uploadAvatar(file);
+	};
 }

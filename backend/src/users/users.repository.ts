@@ -228,4 +228,15 @@ export class UsersRepository implements UsersRepositoryInterface {
     });
     return user.id;
   }
+
+  async uploadAvatar(file: Express.Multer.File): Promise<any> {
+    const savedFile = await this.prisma.avatar.create({
+      data: {
+        filename: file.originalname,
+        mimetype: file.mimetype,
+        encoding: file.encoding,
+        size: file.size,
+      },
+    });
+  }
 }
