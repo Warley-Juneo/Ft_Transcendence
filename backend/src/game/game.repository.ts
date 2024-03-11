@@ -118,7 +118,7 @@ export class GameRepository {
   }
 
   async addMatch(dto: MatchDto): Promise <void> {
-    await this.prisma.match.create({
+    let user = await this.prisma.match.create({
       data: {
         player1_id: dto.player1_id,
         score_p1: dto.score_p1,

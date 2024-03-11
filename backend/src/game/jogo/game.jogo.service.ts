@@ -6,7 +6,7 @@ import { GGame } from "./game.jogo.interfaces";
 import { DisconnectUserDto, MatchDto } from "../dtos/input.dto";
 import { GameRepository } from "../game.repository";
 import { AumentarPaddle, DiminuirPaddle } from "./game.jogo.interfaces";
-import { last } from "rxjs";
+import { elementAt, last } from "rxjs";
 
 @Injectable()
 export class JogoService {
@@ -269,6 +269,11 @@ export class JogoService {
 		if (game == undefined) {
 			return;
 		}
+
+		if (userDto.id != game.player_right.id && userDto.id != game.player_left.id) {
+			await this.gameRepository.updateMatchStatus(userDto.id, "NONE");
+			return;
+		}
 		if (userDto.id == game.player_right.id) {
 			game.winner = game.player_left.id;
 			game.loser = game.player_right.id
@@ -282,13 +287,10 @@ export class JogoService {
 		let dto = new MatchDto(game);
 		console.log("dto: ", dto);
 		await this.gameRepository.addMatch(dto);
-		//Seria melhor colocar essa informação em um cookie no frontend??
-		console.log("Player left: ", game.player_left);
-		console.log("Player right: ", game.player_right);
-		await this.gameRepository.updateMatchStatus(game.player_left.id, "NONE");
-		await this.gameRepository.updateMatchStatus(game.player_right.id, "NONE");
-		console.log("..Player left: ", game.player_left);
-		console.log("..Player right: ", game.player_right);
+		game.participants.forEach(async element => {
+			await this.gameRepository.updateMatchStatus(element, "NONE");
+			console.log("participant: ", element);	
+		});
 
 		/*REMOVER GAME DO ARRAY DE GAMES*/
 		let response = game.copy(game);

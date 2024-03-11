@@ -239,6 +239,7 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 		console.log("Disconnect-user Route");
 		const game = await this.jogoService.disconnectUser(dto);
 		this.server.to(game?.roomID).emit("updateGame", game);
+		this.server.emit('checkStatus', '');
 	}
 
 	@SubscribeMessage('updateGame')
