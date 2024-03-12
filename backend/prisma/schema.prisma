@@ -17,7 +17,7 @@ model User {
   first_name          String
   last_name           String
   nickname            String              @unique
-  avatar              Avatar?             @relation(name: "avatar", fields: [id], references: [id])
+  avatar              String
   coins			 	        Int                 @default(0)
 
   createdAt           DateTime            @default(now())
@@ -68,7 +68,7 @@ model Avatar {
   size      Int
 
   user_id   String?
-  user      User[]      @relation("avatar")
+  // user      User[]      @relation("avatar")
 }
 
 model Match {

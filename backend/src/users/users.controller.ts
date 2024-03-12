@@ -1,10 +1,12 @@
-import { Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, ParseFilePipe, Post, Query, Req, UploadedFile, UseInterceptors} from '@nestjs/common';
+import { Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, Post, Query, Req, Res, UploadedFile, UseInterceptors} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from '@prisma/client';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { UserResumeDto, UserProfileDto, UserLadderDto } from './dtos/output.dtos';
 import { AddFriendDto, ProfileDto, UpdateCoinsDto, UpdateProfileDto } from './dtos/input.dtos';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { multerConfig } from 'src/avatarUploads/multer.config';
+import { Response } from 'express';
 
 @Controller('users')
 export class UsersController {
@@ -66,7 +68,7 @@ export class UsersController {
   }
 
   @Post('upload-avatar')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('file', multerConfig))
   async uploadAvatar(@UploadedFile(
     new ParseFilePipe({
       validators: [
@@ -75,10 +77,22 @@ export class UsersController {
         // new AvatarSizeValidationPipe(),
       ]
     })
-  ) file: Express.Multer.File) {
+  ) file: Express.Multer.File, @Req() request, @Res() res: Response) {
     console.log("Avatar name: ", file.originalname);
+    let buffer = await this.service.uploadAvatar(file.originalname, request.user.sub);
 
-    await this.service.uploadAvatar(file);
-  }
+    // Set appropriate response headers
+		res.set({
+		  'Content-Type': file.mimetype, // Set the appropriate MIME type
+		  'Content-Length': buffer.length.toString(),
+		});
+  
+		// Send the buffer as the response
+		res.send(buffer);
+	  } catch (error) {
+		  console.error('Error retrieving file:', error);
+		  // res.status(500).send('Internal Server Error');
+	  }
+  
 }
 

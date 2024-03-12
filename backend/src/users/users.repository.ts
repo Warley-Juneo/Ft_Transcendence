@@ -229,14 +229,15 @@ export class UsersRepository implements UsersRepositoryInterface {
     return user.id;
   }
 
-  async uploadAvatar(file: Express.Multer.File): Promise<any> {
-    const savedFile = await this.prisma.avatar.create({
+  async uploadAvatar(avatar: string, userId: string): Promise<any> {
+    const user = await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
       data: {
-        filename: file.originalname,
-        mimetype: file.mimetype,
-        encoding: file.encoding,
-        size: file.size,
+        avatar: avatar,
       },
     });
+    return user;
   }
 }

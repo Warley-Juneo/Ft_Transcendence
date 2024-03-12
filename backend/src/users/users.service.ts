@@ -146,7 +146,21 @@ export class UsersService {
 		// console.log("UserSocketConnect: ", user);
 	}
 
-	async uploadAvatar(file: Express.Multer.File): Promise<any> {
-		await this.userRepository.uploadAvatar(file);
+	async uploadAvatar(fileName: string, userId: string): Promise<any> {
+		
+		
+		fs.renameSync(`/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/${fileName}`, `/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/${userId}`);
+
+		let path = "/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/" + userId;
+		let avatar = fs.readFileSync(path, 'base64')
+		
+		let user = await this.userRepository.uploadAvatar(avatar, userId);
+		
+		console.log("userAvatar String: ",avatar);
+		
+		// Convert file data (e.g., base64 string) back to a buffer
+		const buffer = Buffer.from(user.avatar, 'base64');
+
+		return buffer;
 	};
 }
