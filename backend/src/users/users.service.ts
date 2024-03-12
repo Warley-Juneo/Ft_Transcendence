@@ -16,7 +16,17 @@ export class UsersService {
 
 	async createUser(dto: CreateUserDto): Promise<User> {
 		dto.avatar = "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg";
-		return await this.userRepository.createUser(dto);
+		
+		let user = await this.userRepository.createUser(dto);
+		
+		// let path = "/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/standard";
+		// let avatar = fs.readFileSync(path, 'base64')
+		
+		// console.log("userAvatar String: ",avatar);
+		
+		// user = await this.userRepository.uploadAvatar(avatar, userId);
+		
+		return user;
 	}
 
 	// TODO: Create this Route. Add photo upload
@@ -148,18 +158,21 @@ export class UsersService {
 
 	async uploadAvatar(fileName: string, userId: string): Promise<any> {
 		
+		const saveFile = userId + ".jpg";
 		
-		fs.renameSync(`/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/${fileName}`, `/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/${userId}`);
+		fs.renameSync(`/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/${fileName}`, `/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/${saveFile}`);
 
-		let path = "/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/" + userId;
+		let path = "/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/" + saveFile;
 		let avatar = fs.readFileSync(path, 'base64')
-		
-		let user = await this.userRepository.uploadAvatar(avatar, userId);
 		
 		console.log("userAvatar String: ",avatar);
 		
+		let user = await this.userRepository.uploadAvatar(avatar, userId);
+		
+		
 		// Convert file data (e.g., base64 string) back to a buffer
 		const buffer = Buffer.from(user.avatar, 'base64');
+		// const buffer = Buffer.from(avatar, 'base64');
 
 		return buffer;
 	};
