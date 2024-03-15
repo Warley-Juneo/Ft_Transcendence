@@ -15,51 +15,19 @@ export class UsersService {
 
 
 	async createUser(dto: CreateUserDto): Promise<User> {
-		
-		dto.avatar = "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg";
-		
+		let pathfile = path.join(process.cwd(), "src/", "avatarUploads/", "standardAvatar.jpg")
+		const fileContent = fs.readFileSync(pathfile, 'base64');
+		dto.avatar = fileContent;
 		let user = await this.userRepository.createUser(dto);
-		
-		
-		// let standardAvatarPath = "/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/standard";
-		// let standardAvatardir = "/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads";
-		// let fileName = user.id + ".jpg";
-		
-		// /* READ FILE CONTENT */
-		// const fileContent = fs.readFileSync(standardAvatarPath);
-		
-		// /* CONSTRUCT THE NEW FILE PATH */
-    	// const newFilePath = path.join(standardAvatardir,fileName);
-
-    	// /* WRITE THE FILE CONTENT TO THE NEW LOCATION */
-    	// fs.writeFileSync(newFilePath, fileContent);
-		
-		// /* CONVERT FILE TO STRING */
-		// let avatar = fs.readFileSync(newFilePath, 'base64')
-		// // console.log("userAvatar String: ",avatar);
-		
-		// user = await this.userRepository.uploadAvatar(avatar, user.id);
-		
 		return user;
 	}
 
 	async uploadAvatar(fileName: string, userId: string): Promise<any> {
-		
-		const newFileName = userId + ".jpg";
-		
-		// fs.renameSync(`/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/${fileName}`, `/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/${newFileName}`);
-
-		let path = "/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/" + fileName;
-		let avatar = fs.readFileSync(path, 'base64')
-		
-		console.log("userAvatar String: ",avatar);
-		
+		let pathfile = path.join(process.cwd(), "src/", "avatarUploads/", fileName)
+		let avatar = fs.readFileSync(pathfile, 'base64')
 		let user = await this.userRepository.uploadAvatar(avatar, userId);
-		
-		// Convert file data (e.g., base64 string) back to a buffer
-		const buffer = Buffer.from(user.avatar, 'base64');
-		// const buffer = Buffer.from(avatar, 'base64');
 
+		const buffer = Buffer.from(user.avatar, 'base64');
 		return buffer;
 	};
 

@@ -5,8 +5,8 @@ import { CreateUserDto } from './dtos/createUser.dto';
 import { UserResumeDto, UserProfileDto, UserLadderDto } from './dtos/output.dtos';
 import { AddFriendDto, ProfileDto, UpdateCoinsDto, UpdateProfileDto } from './dtos/input.dtos';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { multerConfig } from 'src/avatarUploads/multer.config';
 import { Response } from 'express';
+import { multerConfig } from './multer.config';
 
 @Controller('users')
 export class UsersController {
@@ -68,17 +68,17 @@ export class UsersController {
   }
 
   @Post('upload-avatar')
-  @UseInterceptors(FileInterceptor('file', multerConfig))
+  @UseInterceptors(FileInterceptor('avatar', multerConfig))
   async uploadAvatar(@UploadedFile(
     new ParseFilePipe({
       validators: [
-        new MaxFileSizeValidator({ maxSize: 10000 }),
+        // new MaxFileSizeValidator({ maxSize: 10000 }),
         // new FileTypeValidator({ fileType: 'image/png' }),
         // new AvatarSizeValidationPipe(),
       ]
     })
   ) file: Express.Multer.File, @Req() request, @Res() res: Response) {
-    
+
     console.log("request.sub", request.user.sub);
     let buffer = await this.service.uploadAvatar(file.originalname, request.user.sub);
 
@@ -87,13 +87,13 @@ export class UsersController {
 		  'Content-Type': file.mimetype, // Set the appropriate MIME type
 		  'Content-Length': buffer.length.toString(),
 		});
-  
+
 		// Send the buffer as the response
     res.send(buffer);
 	  } catch (error) {
 		  console.error('Error retrieving file:', error);
 		  // res.status(500).send('Internal Server Error');
 	  }
-  
+
 }
 

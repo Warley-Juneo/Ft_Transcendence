@@ -74,44 +74,22 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 		event.preventDefault();
 		const form = new FormData(event.currentTarget);
 
+		// Verifique se o arquivo está sendo recuperado corretamente
 		const avatarFile = form.get('avatar') as File;
-		const nickname = form.get('nickname');
-		const twoFA = form.get('2fa') === 'on';
+		console.log('Avatar File:', avatarFile);
 
-		let fileBase64 = null;
-
-		if (avatarFile) {
-			const reader = new FileReader();
-			reader.onload = (event: ProgressEvent<FileReader>) => {
-				const img = new Image();
-				img.onload = () => {
-					const canvas = document.createElement('canvas');
-					const ctx = canvas.getContext('2d');
-					if (ctx) {
-						canvas.width = 600;
-						canvas.height = 600;
-						ctx.drawImage(img, 0, 0, 600, 600);
-						fileBase64 = canvas.toDataURL('image/jpeg');
-						console.log("fileBase64: ", fileBase64);
-						let info: infoUpdate = {
-							nick_name: nickname ? nickname.toString() : '',
-							avatar: fileBase64 ? fileBase64.toString() : '',
-							twoFA: twoFA,
-						};
-						sendInfosUserBack(info);
-					}
-				};
-				img.src = event.target?.result as string;
-			};
-			reader.readAsDataURL(avatarFile);
-		} else {
-			let info: infoUpdate = {
-				nick_name: nickname ? nickname.toString() : '',
-				avatar: '',
-				twoFA: twoFA,
-			};
-			sendInfosUserBack(info);
-		}
+		// Tente enviar FormData diretamente
+		axios.post(`${process.env.REACT_APP_HOST_URL}/users/upload-avatar`, form, {
+			headers: {
+				Authorization: Cookies.get('jwtToken'),
+				"ngrok-skip-browser-warning": "69420",
+				'Content-Type': 'multipart/form-data' // Defina o tipo de conteúdo como multipart/form-data
+			}
+		}).then((res) => {
+			console.log(res);
+		}).catch((err) => {
+			console.log(err);
+		});
 	};
 
 
