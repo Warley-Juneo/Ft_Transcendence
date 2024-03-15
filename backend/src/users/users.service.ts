@@ -16,7 +16,7 @@ export class UsersService {
 
 	async createUser(dto: CreateUserDto): Promise<User> {
 		
-		// dto.avatar = "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg";
+		dto.avatar = "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg";
 		
 		let user = await this.userRepository.createUser(dto);
 		
@@ -47,15 +47,14 @@ export class UsersService {
 		
 		const newFileName = userId + ".jpg";
 		
-		fs.renameSync(`/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/${fileName}`, `/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/${newFileName}`);
+		// fs.renameSync(`/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/${fileName}`, `/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/${newFileName}`);
 
-		let path = "/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/" + newFileName;
+		let path = "/home/fausto/42SP/ft_transcendence/backend/src/avatarUploads/" + fileName;
 		let avatar = fs.readFileSync(path, 'base64')
 		
 		console.log("userAvatar String: ",avatar);
 		
 		let user = await this.userRepository.uploadAvatar(avatar, userId);
-		
 		
 		// Convert file data (e.g., base64 string) back to a buffer
 		const buffer = Buffer.from(user.avatar, 'base64');

@@ -89,7 +89,7 @@ export class UsersController {
 		});
   
 		// Send the buffer as the response
-		res.send(buffer);
+    res.send(buffer);
 	  } catch (error) {
 		  console.error('Error retrieving file:', error);
 		  // res.status(500).send('Internal Server Error');
