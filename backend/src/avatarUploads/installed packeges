@@ -1,0 +1,51 @@
+1) VScode
+
+	sudo snap install --classic
+	
+2) Discord
+
+	sudo snap install discord
+	
+3) HTOP
+	
+	sudo apt install htop
+	
+4) gdebi (to install Chrome)
+	
+	sudo apt install gdebi
+	
+5) git
+	
+	sudo apt install git
+
+6) Nodejs
+
+	sudo apt-get install nodejs
+	sudo apt remove nodejs	
+		
+7) npm
+
+	sudo apt install npm
+	sudo apt remove npm
+	
+8) nestjs/cli
+
+	npm i -g @nestjs/cli
+
+9) curl
+
+	sudo apt install curl
+
+10) nvm
+
+	curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
+	
+11) SQLITE
+
+	sudo apt install sqlite3 -y
+	
+12) SNMPD
+	sudo apt install snmpd
+	
+13) nmap
+	sudo apt install nmap

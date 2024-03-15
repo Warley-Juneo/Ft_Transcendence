@@ -7,6 +7,7 @@ import { GameService } from 'src/game/game.service';
 import { AddFriendDto, ProfileDto, UpdateCoinsDto, UpdateProfileDto } from './dtos/input.dtos';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as sharp from 'sharp';
 
 @Injectable()
 export class UsersService {
@@ -15,16 +16,54 @@ export class UsersService {
 
 
 	async createUser(dto: CreateUserDto): Promise<User> {
-		let pathfile = path.join(process.cwd(), "src/", "avatarUploads/", "standardAvatar.jpg")
+		let pathfile = path.join(process.cwd(), "src/", "avatarUploads/", "standard.jpg")
+		console.log("pathfile: ", pathfile);
 		const fileContent = fs.readFileSync(pathfile, 'base64');
 		dto.avatar = fileContent;
 		let user = await this.userRepository.createUser(dto);
 		return user;
 	}
+	
+
+	async resizeImageTo18KB(inputImagePath: string, outputImagePath: string): Promise<string> {
+		
+		let resizedImageBuffer;
+		const targetSize = 18 * 1024; // Tamanho alvo em bytes (18 KB)
+		let imageBuffer = fs.readFileSync(inputImagePath);
+		console.log("imageBuffer length: ", imageBuffer.length);
+		// Redimensiona a imagem para tentar alcançar o tamanho alvo
+		try {
+		resizedImageBuffer = await sharp(imageBuffer)
+			.resize({ fit: 'inside', withoutEnlargement: true })
+			.toBuffer();
+			console.log("buffer lehgth: ", resizedImageBuffer.lehgth);
+		} catch (err) {
+			console.log("...ERROR: ", err);
+		}
+		// Reduza a qualidade da imagem até que o tamanho seja menor ou igual ao alvo
+		let quality = 90;
+		let iterations = 0;
+		while (resizedImageBuffer.length > targetSize && iterations < 10) {
+			resizedImageBuffer = await sharp(resizedImageBuffer)
+				.jpeg({ quality: quality })
+				.toBuffer();
+			quality -= 10; // reduz a qualidade em 10% a cada iteração
+			iterations++;
+		}
+		// Salva a imagem redimensionada
+		fs.writeFileSync(outputImagePath, resizedImageBuffer);
+		return outputImagePath;
+	}
 
 	async uploadAvatar(fileName: string, userId: string): Promise<any> {
-		let pathfile = path.join(process.cwd(), "src/", "avatarUploads/", fileName)
-		let avatar = fs.readFileSync(pathfile, 'base64')
+
+		let pathfile = path.join(process.cwd(), "src/", "avatarUploads/", fileName);
+		let newpathfile = path.join(process.cwd(), "src/", "avatarUploads/", userId)
+
+		console.log("uploadAvatar pathfile: ", pathfile);
+		let outputImagePath = await this.resizeImageTo18KB(pathfile, newpathfile);
+		
+		let avatar = fs.readFileSync(outputImagePath, 'base64')
 		let user = await this.userRepository.uploadAvatar(avatar, userId);
 
 		const buffer = Buffer.from(user.avatar, 'base64');

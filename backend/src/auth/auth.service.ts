@@ -58,6 +58,7 @@ export class AuthService {
   async verifyUser(userInfo: any): Promise<any> {
 
     let user: User = await this.usersService.findUserAuth(userInfo.email);
+    console.log("User: ", user);
     if (!user) {
       const createUserDto = new CreateUserDto();
       createUserDto.login = userInfo.login;

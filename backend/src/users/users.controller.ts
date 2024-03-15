@@ -72,8 +72,8 @@ export class UsersController {
   async uploadAvatar(@UploadedFile(
     new ParseFilePipe({
       validators: [
-        // new MaxFileSizeValidator({ maxSize: 10000 }),
-        // new FileTypeValidator({ fileType: 'image/png' }),
+        new MaxFileSizeValidator({ maxSize: 35 * 1024 }),
+        new FileTypeValidator({ fileType: 'image/' }),
         // new AvatarSizeValidationPipe(),
       ]
     })
