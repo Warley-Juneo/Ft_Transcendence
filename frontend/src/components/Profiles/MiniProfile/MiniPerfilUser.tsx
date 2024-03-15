@@ -28,7 +28,7 @@ export default function MiniPerfilUser(props: propsMiniProfile) {
 		<div className='d-flex p-3 text-white' style={{ height: '15vh' }}>
 			{showConfigurations ? <ConfigurationGame closed={setShowConfigurations} /> : null}
 			<div className='h-100 d-flex align-items-center'>
-				<img className="rounded-circle h-100 w-100 me-3" src={userData.avatar} alt='foto' />
+				<img className="rounded-circle h-100 w-100 me-3" src={`data:image/jpeg;base64, ${userData.avatar}`} alt='foto' />
 				<Status
 					is_active={true}
 					name={userData.nickname}
