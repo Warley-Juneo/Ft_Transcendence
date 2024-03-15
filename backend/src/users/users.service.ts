@@ -25,7 +25,7 @@ export class UsersService {
 	}
 	
 
-	async resizeImageTo18KB(inputImagePath: string, outputImagePath: string): Promise<string> {
+	async resizeImageTo18KB(inputImagePath: string): Promise<void> {
 		
 		let resizedImageBuffer;
 		const targetSize = 18 * 1024; // Tamanho alvo em bytes (18 KB)
@@ -47,26 +47,33 @@ export class UsersService {
 			resizedImageBuffer = await sharp(resizedImageBuffer)
 				.jpeg({ quality: quality })
 				.toBuffer();
-			quality -= 10; // reduz a qualidade em 10% a cada iteração
+			quality -= 5; // reduz a qualidade em 5% a cada iteração
 			iterations++;
 		}
 		// Salva a imagem redimensionada
-		fs.writeFileSync(outputImagePath, resizedImageBuffer);
-		return outputImagePath;
+		fs.writeFileSync(inputImagePath, resizedImageBuffer);
 	}
 
 	async uploadAvatar(fileName: string, userId: string): Promise<any> {
 
 		let pathfile = path.join(process.cwd(), "src/", "avatarUploads/", fileName);
-		let newpathfile = path.join(process.cwd(), "src/", "avatarUploads/", userId)
 
 		console.log("uploadAvatar pathfile: ", pathfile);
-		let outputImagePath = await this.resizeImageTo18KB(pathfile, newpathfile);
+		await this.resizeImageTo18KB(pathfile);
 		
-		let avatar = fs.readFileSync(outputImagePath, 'base64')
+		let avatar = fs.readFileSync(pathfile, 'base64')
 		let user = await this.userRepository.uploadAvatar(avatar, userId);
 
-		const buffer = Buffer.from(user.avatar, 'base64');
+		/* DELETE IMAGE UPLOADED FROM BACKEND */
+		fs.unlink(pathfile, (err) => {
+			if (err) {
+			  console.error('Error deleting file:', err);
+			} else {
+			  console.log('File deleted successfully');
+			}
+		  });
+		
+		  const buffer = Buffer.from(user.avatar, 'base64');
 		return buffer;
 	};
 
