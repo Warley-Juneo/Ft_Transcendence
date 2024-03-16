@@ -28,28 +28,38 @@ export class UsersService {
 	async resizeImageTo18KB(inputImagePath: string): Promise<void> {
 
 		let resizedImageBuffer;
-		const targetSize = 18 * 1024; // Tamanho alvo em bytes (18 KB)
+		const targetSize = 24 * 1024; // Tamanho alvo em bytes (18 KB)
 		let imageBuffer = fs.readFileSync(inputImagePath);
 		console.log("imageBuffer length: ", imageBuffer.length);
 		// Redimensiona a imagem para tentar alcançar o tamanho alvo
-		try {
-		resizedImageBuffer = await sharp(imageBuffer)
-			.resize({ fit: 'inside', withoutEnlargement: true })
-			.toBuffer();
-			console.log("buffer lehgth: ", resizedImageBuffer.lehgth);
-		} catch (err) {
-			console.log("...ERROR: ", err);
-		}
+		// try {
+		// resizedImageBuffer = await sharp(imageBuffer)
+		// 	.resize({ fit: 'inside', withoutEnlargement: true })
+		// 	.toBuffer();
+		// 	console.log("buffer lehgth: ", resizedImageBuffer.lehgth);
+		// } catch (err) {
+		// 	console.log("...ERROR: ", err);
+		// }
 		// Reduza a qualidade da imagem até que o tamanho seja menor ou igual ao alvo
-		let quality = 90;
-		let iterations = 0;
-		while (resizedImageBuffer.length > targetSize && iterations < 10) {
-			resizedImageBuffer = await sharp(resizedImageBuffer)
-				.jpeg({ quality: quality })
-				.toBuffer();
-			quality -= 5; // reduz a qualidade em 5% a cada iteração
-			iterations++;
-		}
+		// let quality = 90;
+		// let iterations = 0;
+		// while (resizedImageBuffer.length > targetSize && iterations < 10) {
+		// 	resizedImageBuffer = await sharp(resizedImageBuffer)
+		// 		.jpeg({ quality: quality })
+		// 		.toBuffer();
+		// 	quality -= 5; // reduz a qualidade em 5% a cada iteração
+		// 	iterations++;
+		// }
+
+		// Redimensiona a imagem para 50x50 pixels
+		resizedImageBuffer = await sharp(imageBuffer)
+        .resize({
+			width: 600,
+			height: 600,
+			fit: 'contain'
+		})
+        .toBuffer();
+
 		// Salva a imagem redimensionada
 		fs.writeFileSync(inputImagePath, resizedImageBuffer);
 	}
