@@ -28,7 +28,7 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 	const [handleOption, setHandleOption] = useState<boolean>(false);
 	const [QRCODE, setQRCODE] = useState<string>('');
 	const [show, setShow] = useState(false);
-	const dataUser = useContext(UserData);
+	const userData = useContext(UserData);
 
 	const handleShow = () => {
 		const checkbox = document.querySelector('#flexSwitchCheckDefault') as HTMLInputElement;
@@ -53,7 +53,7 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 	}, []);
 
 	function sendInfosUserBack(info: infoUpdate) {
-		if (dataUser.user.twoFA === false && info.twoFA === true) {
+		if (userData.user.twoFA === false && info.twoFA === true) {
 			getQRCODE();
 		}
 
@@ -64,7 +64,7 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 			}
 		}).then((res) => {
 			setHandleOption(!handleOption);
-			dataUser.updateDataUser();
+			userData.updateDataUser();
 		}).catch((err) => {
 
 		})
@@ -76,7 +76,6 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 
 		// Verifique se o arquivo está sendo recuperado corretamente
 		const avatarFile = form.get('avatar') as File;
-		console.log('Avatar File:', avatarFile);
 
 		// Tente enviar FormData diretamente
 		axios.post(`${process.env.REACT_APP_HOST_URL}/users/upload-avatar`, form, {
@@ -86,7 +85,7 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 				'Content-Type': 'multipart/form-data' // Defina o tipo de conteúdo como multipart/form-data
 			}
 		}).then((res) => {
-			console.log(res);
+			userData.updateDataUser();
 		}).catch((err) => {
 			console.log(err);
 		});
@@ -97,8 +96,8 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 		if (isEditing) return <InputEditName />
 		return (
 			<IdentifyInputName
-				_avatar={dataUser.user.avatar}
-				_nickname={dataUser.user.nickname}
+				_avatar={userData.user.avatar}
+				_nickname={userData.user.nickname}
 			/>
 		)
 	}
@@ -152,7 +151,7 @@ export default function ConfigurationGame(props: propsConfigurationGame): JSX.El
 		});
 	}
 
-	const [tfaEnabled, setTfaEnabled] = useState<boolean>(dataUser.user.twoFA);
+	const [tfaEnabled, setTfaEnabled] = useState<boolean>(userData.user.twoFA);
 	const verifyEnabled = () => {
 		axios.get(`${process.env.REACT_APP_HOST_URL}/2FA/verifyStatus`, {
 			headers: {

@@ -7,7 +7,8 @@ import { GameService } from 'src/game/game.service';
 import { AddFriendDto, ProfileDto, UpdateCoinsDto, UpdateProfileDto } from './dtos/input.dtos';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as sharp from 'sharp';
+const sharp = require('sharp');
+
 
 @Injectable()
 export class UsersService {
@@ -25,57 +26,33 @@ export class UsersService {
 	}
 
 
-	async resizeImageTo18KB(inputImagePath: string): Promise<void> {
-
-		let resizedImageBuffer;
-		const targetSize = 18 * 1024; // Tamanho alvo em bytes (18 KB)
-		let imageBuffer = fs.readFileSync(inputImagePath);
-		console.log("imageBuffer length: ", imageBuffer.length);
-		// Redimensiona a imagem para tentar alcançar o tamanho alvo
+	async resizeImageTo18KB(imagePath: string): Promise<void> {
 		try {
-		resizedImageBuffer = await sharp(imageBuffer)
-			.resize({ fit: 'inside', withoutEnlargement: true })
-			.toBuffer();
-			console.log("buffer lehgth: ", resizedImageBuffer.lehgth);
-		} catch (err) {
-			console.log("...ERROR: ", err);
+			const buffer = await fs.promises.readFile(imagePath);
+			const resizedBuffer = await sharp(buffer).resize({ width: 384, height: 384 }).toBuffer();
+			await fs.promises.writeFile(imagePath, resizedBuffer);
+
+		} catch (error) {
+			throw error;
 		}
-		// Reduza a qualidade da imagem até que o tamanho seja menor ou igual ao alvo
-		let quality = 90;
-		let iterations = 0;
-		while (resizedImageBuffer.length > targetSize && iterations < 10) {
-			resizedImageBuffer = await sharp(resizedImageBuffer)
-				.jpeg({ quality: quality })
-				.toBuffer();
-			quality -= 5; // reduz a qualidade em 5% a cada iteração
-			iterations++;
-		}
-		// Salva a imagem redimensionada
-		fs.writeFileSync(inputImagePath, resizedImageBuffer);
 	}
 
-	async uploadAvatar(fileName: string, userId: string): Promise<any> {
+	async uploadAvatar(fileName: string, userId: string): Promise<Buffer> {
+		try {
+			const pathToImage = path.join(process.cwd(), "src", "avatarUploads", fileName);
 
-		let pathfile = path.join(process.cwd(), "src/", "avatarUploads/", fileName);
+			await this.resizeImageTo18KB(pathToImage);
 
-		console.log("uploadAvatar pathfile: ", pathfile);
-		await this.resizeImageTo18KB(pathfile);
+			const avatarBase64 = await fs.promises.readFile(pathToImage, 'base64');
+			const user = await this.userRepository.uploadAvatar(avatarBase64, userId);
 
-		let avatar = fs.readFileSync(pathfile, 'base64')
-		let user = await this.userRepository.uploadAvatar(avatar, userId);
+			await fs.promises.unlink(pathToImage);
 
-		/* DELETE IMAGE UPLOADED FROM BACKEND */
-		fs.unlink(pathfile, (err) => {
-			if (err) {
-			  console.error('Error deleting file:', err);
-			} else {
-			  console.log('File deleted successfully');
-			}
-		  });
-
-		  const buffer = Buffer.from(user.avatar, 'base64');
-		return buffer;
-	};
+			return Buffer.from(user.avatar, 'base64');
+		} catch (error) {
+			throw error;
+		}
+	}
 
 	// TODO: Create this Route. Add photo upload
 	async uploadPhoto(user_id: string, avatar: string): Promise<void> {

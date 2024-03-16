@@ -11,7 +11,6 @@ export default function InfosUser({ nickName }: { nickName: string }): JSX.Eleme
 	const [infosUser, setInfosUser] = useState<InfosUserPerfil>({} as InfosUserPerfil);
 
 	const getProfile = (): void => {
-		console.log("nickName" , nickName)
 		axios.get(`${process.env.REACT_APP_HOST_URL}/users/profile/?nick_name=${nickName}`, {
 			headers: {
 				Authorization: Cookies.get('jwtToken'),
@@ -22,7 +21,7 @@ export default function InfosUser({ nickName }: { nickName: string }): JSX.Eleme
 			setInfosUser(response.data);
 		}
 		).catch((error) => {
-			console.log(error);
+			
 		})
 	}
 
