@@ -1,8 +1,14 @@
-FROM node:latest
+
+FROM node:21.2.0-alpine
+
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
 COPY . .
+RUN npm install
+RUN npm install --save @types/multer
 EXPOSE 3000
+
+RUN npm install pg
+RUN npm install @prisma/adapter-pg
 RUN npx prisma generate
-CMD npx prisma migrate deploy && npm start
+
+CMD ["npm", "run", "start"]

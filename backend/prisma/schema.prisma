@@ -2,11 +2,12 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -33,7 +34,7 @@ model User {
   match_as_player_2   Match[]             @relation(name: "player_2")
   match_wins          Match[]             @relation(name: "winner")
   match_loses         Match[]             @relation(name: "loser")
-  match_status        String              @default("NONE")              
+  match_status        String              @default("NONE")
 
 
   chat_owner          ChatRoom[]          @relation(name: "owner")
@@ -50,12 +51,12 @@ model User {
   direct_blocked      DirectChatRoom[]    @relation(name: "blocked")
   // others_direct_message_blocked   User[]    @relation(name: "direct_message_blocked")
   // my_direct_message_blocked       User[]    @relation(name: "direct_message_blocked")
-  
+
   tokenTFA 			      String?
   //TODO: Remover esse campo
   tfaOpen 			      Boolean? 		      @default(false)
 
-  socket              String?           @unique       
+  socket              String?           @unique
 
   @@map("user")
 }
@@ -141,7 +142,7 @@ model ChatRoom {
   banned_member     User[]              @relation(name: "banned_chatroom")
   kicked_chatroom   kickedChatroom[]    @relation(name: "kicked_chatroom")
   mutted_chatroom   muttedChatroom[]    @relation(name: "mutted_chatroom")
-  
+
   message         Message[] @relation(name: "chat_mesage")
 
   createdAt       DateTime  @default(now())
@@ -152,7 +153,7 @@ model ChatRoom {
 
 model kickedChatroom {
   id              String      @id @default(uuid())
-  
+
   userId          User[]      @relation(name: "kicked_user")
   chatroom        ChatRoom[]  @relation(name: "kicked_chatroom")
 
@@ -163,7 +164,7 @@ model kickedChatroom {
 
 model muttedChatroom {
   id              String      @id @default(uuid())
-  
+
   userId          User[]      @relation(name: "mutted_user")
   chatroom        ChatRoom[]  @relation(name: "mutted_chatroom")
 
