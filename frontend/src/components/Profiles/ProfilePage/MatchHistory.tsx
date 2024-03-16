@@ -23,8 +23,7 @@ export default function MatchHistory({ userId }: { userId: string }) {
 			}
 		}).then((response) => {
 			setMatchHistory(response.data);
-		}).catch((error) => {
-		})
+		}).catch((error) => {})
 	}
 	useEffect(() => {
 		getMatchHistory();
@@ -37,11 +36,12 @@ export default function MatchHistory({ userId }: { userId: string }) {
 			</div>
 		)
 	}
+
 	return (
 		<div>
-			{matchHistory.map((match: MatchHistoryType) => {
+			{matchHistory.map((match: MatchHistoryType, index) => {
 				return (
-					<div className='d-flex p-2 justify-content-between hover text-center' key={match.id}>
+					<div className='d-flex p-2 justify-content-between hover text-center' key={index}>
 						<div style={{ height: '4rem' }}>
 							<img className='img-fluid rounded-circle h-100' src={`data:image/jpeg;base64, ${match.opponent_avatar} `} alt={`avatar do ${match.opponent} `} />
 						</div>

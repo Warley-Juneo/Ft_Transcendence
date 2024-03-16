@@ -15,7 +15,7 @@ export class JogoService {
 	static rooms: GGame[] = [];
 	static x: number = 0;
 
-	async startGame(player1_id: string, player2_id: string, hits_for_acceleration: number) {
+	async startGame(player1_id: string, player2_id: string, isRaking: boolean, hits_for_acceleration: number) {
 
 		if (JogoService.rooms.length != 0) {
 
@@ -29,7 +29,7 @@ export class JogoService {
 			}
 		}
 
-		const game = new GGame(player1_id, player2_id, hits_for_acceleration);
+		const game = new GGame(player1_id, player2_id, isRaking, hits_for_acceleration);
 		JogoService.rooms.push(game);
 		// console.log("\n\nStartGame Function\n\n id1: ", player1_id, "\n id2: ", player2_id);
 
@@ -323,6 +323,8 @@ export class JogoService {
 		}
 		if (this.verifyCollisionPaddles(game) == false) {
 			if (this.checkScore(game)) {
+				//Adicionar aqui que if is not ranking n contar os ponto
+
 				this.checkWinner(game);
 				let dto = new MatchDto(game);
 				await this.gameRepository.addMatch(dto);

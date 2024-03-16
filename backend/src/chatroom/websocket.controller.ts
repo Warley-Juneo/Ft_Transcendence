@@ -231,7 +231,7 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 
 	@SubscribeMessage('createMatch')
 	async handleCreateMatch(player1: ObjectQueue, player2: ObjectQueue) {
-		const game = await this.jogoService.startGame(player1.id, player2.id, 5);
+		const game = await this.jogoService.startGame(player1.id, player2.id, player1.isRanking, 5);
 		if (game) {
 			player1.socket.join(game.roomID);
 			player2.socket.join(game.roomID);

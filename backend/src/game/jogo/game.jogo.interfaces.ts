@@ -138,10 +138,12 @@ export class GGame {
 	power: Power;
 	watchs: Array<string>;
 	lastPaddleHitted: string;
+	isRaking: boolean;
 
-	constructor(player_left_id: string, player_right_id: string, hits_for_acceleration) {
+	constructor(player_left_id: string, player_right_id: string, isRaking: boolean, hits_for_acceleration: any) {
 		this.player_left = new Player(player_left_id);
 		this.player_right = new Player(player_right_id);
+		this.isRaking = isRaking;
 		this.window = new GWindow(800, 400);
 		this.ball = new GBall(1, 12);
 		this.paddleLeft = new Paddle(0, 50, 8, 2, 20);
@@ -191,7 +193,7 @@ export class GGame {
 	}
 
 	copy(ggame: GGame): GGame {
-		let response: GGame =  new GGame(this.player_left.id, this.player_right.id, this.hits_for_accelaration);
+		let response: GGame =  new GGame(this.player_left.id, this.player_right.id, this.isRaking, this.hits_for_accelaration);
 		response.player_left = ggame.player_left;
 		response.player_right = ggame.player_right;
 		response.placarLeft = ggame.placarLeft;

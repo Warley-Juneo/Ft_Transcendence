@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Query,} from '@nestjs/common';
 import { GameService } from './game.service';
 import { UserMatchDto } from './dtos/output.dto';
 import { InputUserDto } from './dtos/input.dto';
@@ -11,6 +11,4 @@ export class GameController {
 	async userMatchs(@Query() dto: InputUserDto): Promise<UserMatchDto[]> {
 		return await this.gameService.userMatchs(dto);
 	}
-
-
 }
