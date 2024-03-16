@@ -4,6 +4,7 @@ import { UserData } from "../../InitialPage/Contexts/Contexts"
 type propsButtonPlay = {
 	photo: string,
 	model: string,
+	isRanking?: boolean,
 }
 
 export default function ButtonModelsGame(props: propsButtonPlay): JSX.Element {
@@ -43,9 +44,7 @@ export default function ButtonModelsGame(props: propsButtonPlay): JSX.Element {
 
 		const objectQueue = {
 			id: userData.id,
-			// nickname: userData.nickname,
-			// model: props.model,
-			// bar: '',
+			isRanking: props.isRanking ? true : false,
 		}
 		userData.socket?.emit('joinRoom', objectQueue)
 	}

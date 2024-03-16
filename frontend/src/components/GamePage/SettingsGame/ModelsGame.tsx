@@ -23,10 +23,12 @@ export default function ModelsGame(): JSX.Element {
 				<ButtonModelsGame
 					photo={playPong}
 					model="Normal"
+					isRanking={false}
 				/>
 				<ButtonModelsGame
 					photo={playPong}
 					model="Ranqueado"
+					isRanking={true}
 				/>
 				<ButtonModelsGame
 					photo={playPong}
