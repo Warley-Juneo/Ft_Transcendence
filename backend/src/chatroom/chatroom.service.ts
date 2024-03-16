@@ -72,6 +72,19 @@ export class ChatroomService {
 		return response;
 	}
 
+	async upLoadPhoto(imageBuffer:Buffer, chatId: string) {
+		const photo = imageBuffer.toString('base64');
+
+		let where_filter = {
+			name: chatId,
+		};
+		let data_filter = {
+			photo: photo,
+		};
+		await this.chatroomRepository.updateChatroom(where_filter, data_filter);
+		
+	}
+
 	async deleteChatroom(userId: string, dto: DeleteChatroomDto): Promise<any> {
 
 		let chat = await this.findUniqueChatroom(dto.chat_name);
