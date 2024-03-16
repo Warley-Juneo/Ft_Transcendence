@@ -1,6 +1,6 @@
 // WebSocket for communication chat in real time
 
-import { SubscribeMessage, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
+import { SubscribeMessage, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer, MessageBody } from "@nestjs/websockets";
 import { Socket, Server } from "socket.io";
 import { AddChatUserDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, DeleteChatroomDto, InputChatroomDto, InputChatroomMessageDto, InputOpenChatroomDto, WebsocketDto, WebsocketWithTimeDto } from "./dto/input.dto";
 import { ChatroomService } from "./chatroom.service";
@@ -96,6 +96,11 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 		this.server.emit("creatChat", "succeso");
 	}
 
+	@SubscribeMessage('upload-photo')
+	async upLoadPhoto(@MessageBody() imageBuffer: Buffer, chatId: string) {
+		this.service.upLoadPhoto(imageBuffer, chatId);
+    }
+	
 	@SubscribeMessage('delete-group')
 	async deleteChatroom(client: Socket, dto: DeleteChatroomDto) {
 		await this.chatroomService.deleteChatroom(dto.my_id, dto);
