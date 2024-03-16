@@ -27,8 +27,8 @@ export default function TopRank() {
 			}, timeout: 5000
 		}).then((res) => {
 			setRanking(res.data)
-		}
-		)
+			console.log(res.data)
+		})
 	}
 	useEffect(() => {
 		getRanking()
@@ -53,9 +53,7 @@ export default function TopRank() {
 								<p>{index + 1}</p>
 							</div>
 							<div className="col-10 h-100 p-1">
-								<AvatarAndUser avatarUrl={user.avatar}
-									nickname={user.nickname}
-								/>
+								<AvatarAndUser avatarUrl={`data:image/jpeg;base64, ${user.avatar}`} nickname={user.nickname} />
 							</div>
 						</div>
 					</div>

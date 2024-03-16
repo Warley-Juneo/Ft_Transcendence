@@ -23,10 +23,10 @@ export class UsersService {
 		let user = await this.userRepository.createUser(dto);
 		return user;
 	}
-	
+
 
 	async resizeImageTo18KB(inputImagePath: string): Promise<void> {
-		
+
 		let resizedImageBuffer;
 		const targetSize = 18 * 1024; // Tamanho alvo em bytes (18 KB)
 		let imageBuffer = fs.readFileSync(inputImagePath);
@@ -60,7 +60,7 @@ export class UsersService {
 
 		console.log("uploadAvatar pathfile: ", pathfile);
 		await this.resizeImageTo18KB(pathfile);
-		
+
 		let avatar = fs.readFileSync(pathfile, 'base64')
 		let user = await this.userRepository.uploadAvatar(avatar, userId);
 
@@ -72,7 +72,7 @@ export class UsersService {
 			  console.log('File deleted successfully');
 			}
 		  });
-		
+
 		  const buffer = Buffer.from(user.avatar, 'base64');
 		return buffer;
 	};

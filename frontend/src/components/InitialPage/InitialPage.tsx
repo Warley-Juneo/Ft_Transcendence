@@ -36,9 +36,7 @@ export default function InicialPage() {
 				"ngrok-skip-browser-warning": "69420"
 			}, timeout: 5000
 		}).then((res) => {
-			if (!res.data.avatar) {
-				res.data.avatar = "https://i.pinimg.com/originals/e7/3a/7c/e73a7c77c2430210674a0c0627d9ca76.jpg";
-			}
+			res.data.avatar = `data:image/jpeg;base64, ${res.data.avatar}`
 			return res.data;
 		})
 	}
