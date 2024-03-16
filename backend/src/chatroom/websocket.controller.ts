@@ -35,8 +35,9 @@ interface rooms {
 	isLider: boolean,
 }
 
-type Player = {
+type ObjectQueue = {
 	id: string,
+	isRanking: boolean,
 	socket: Socket,
 }
 
@@ -52,9 +53,9 @@ type Player = {
 export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 
 	matchs: {
-		[key: string]: Player;
+		[key: string]: ObjectQueue;
 	} = {};
-	static queues: Player[] = [];
+	static queues: ObjectQueue[] = [];
 
 	constructor(private readonly service: ChatroomService
 		, private readonly gameService: GameService
@@ -100,7 +101,7 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 	async upLoadPhoto(@MessageBody() imageBuffer: Buffer, chatId: string) {
 		this.service.upLoadPhoto(imageBuffer, chatId);
     }
-	
+
 	@SubscribeMessage('delete-group')
 	async deleteChatroom(client: Socket, dto: DeleteChatroomDto) {
 		await this.chatroomService.deleteChatroom(dto.my_id, dto);
@@ -204,8 +205,8 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 	}
 
 	@SubscribeMessage('joinRoom')
-	async handleJoinRoom(client: Socket, userId: any) {
-		ChatroomGateway.queues.push({ id: userId.id, socket: client });
+	async handleJoinRoom(client: Socket, dto : {id: any, isRanking: boolean}) {
+		ChatroomGateway.queues.push({ id: dto.id, isRanking: dto.isRanking, socket: client });
 
 		if (ChatroomGateway.queues.length >= 2) {
 			let player1 = ChatroomGateway.queues[0];
@@ -218,18 +219,18 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 	@SubscribeMessage('sendInvite')
 	async sendInvite(client: Socket, obj: { myId: string, myNickname: string, otherId: string,  msg: string }) {
 		if (obj.msg == "convite") {
-			this.matchs[obj.otherId] = { id: obj.myId, socket: client };
+			this.matchs[obj.otherId] = { id: obj.myId, socket: client, isRanking: false};
 			this.server.emit('receiveConvite', obj);
 		}
 		else if (obj.msg == "response") {
-			let player1: Player = {id : obj.myId, socket: client}
-			let player2: Player = this.matchs[obj.myId];
+			let player1: ObjectQueue = {id : obj.myId, socket: client, isRanking: false};
+			let player2: ObjectQueue = this.matchs[obj.myId];
 			this.handleCreateMatch(player1, player2)
 		}
 	}
 
 	@SubscribeMessage('createMatch')
-	async handleCreateMatch(player1: Player, player2: Player) {
+	async handleCreateMatch(player1: ObjectQueue, player2: ObjectQueue) {
 		const game = await this.jogoService.startGame(player1.id, player2.id, 5);
 		if (game) {
 			player1.socket.join(game.roomID);
