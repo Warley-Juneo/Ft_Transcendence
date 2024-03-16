@@ -43,7 +43,7 @@ export default function MatchHistory({ userId }: { userId: string }) {
 				return (
 					<div className='d-flex p-2 justify-content-between hover text-center' key={match.id}>
 						<div style={{ height: '4rem' }}>
-							<img className='img-fluid rounded-circle h-100' src={match.opponent_avatar} alt={`avatar do ${match.opponent} `} />
+							<img className='img-fluid rounded-circle h-100' src={`data:image/jpeg;base64, ${match.opponent_avatar} `} alt={`avatar do ${match.opponent} `} />
 						</div>
 						<div className='fs-5 col-3'>
 							<p>Oponente</p>

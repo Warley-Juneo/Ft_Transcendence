@@ -251,11 +251,11 @@ export class JogoService {
 	}
 
 	checkWinner(game: GGame) {
-		if (game.placarLeft == 2) {
+		if (game.placarLeft == 10) {
 			game.winner = game.player_left.id;
 			game.loser = game.player_right.id;
 		}
-		else if (game.placarRight == 2) {
+		else if (game.placarRight == 10) {
 			game.winner = game.player_right.id;
 			game.loser = game.player_left.id;
 		}
@@ -285,11 +285,9 @@ export class JogoService {
 			game.placarRight = 10;
 		}
 		let dto = new MatchDto(game);
-		console.log("dto: ", dto);
 		await this.gameRepository.addMatch(dto);
 		game.participants.forEach(async element => {
 			await this.gameRepository.updateMatchStatus(element, "NONE");
-			console.log("participant: ", element);	
 		});
 
 		/*REMOVER GAME DO ARRAY DE GAMES*/
@@ -344,11 +342,11 @@ export class JogoService {
 			let total_placar = game.placarLeft + game.placarRight;
 			if (total_placar % 2 == 0) {
 				this.CreatePower(game);
-				console.log("Game Power x: ", game.power.x);
-				console.log("Game Power y: ", game.power.y);
-				console.log("Game Power - size/2: ", game.power.size/2);
-				console.log("Game Power - size/2: ", game.power.y - (game.power.size/2));
-				console.log("Game Power + size/2: ", game.power.y + (game.power.size/2));
+				// console.log("Game Power x: ", game.power.x);
+				// console.log("Game Power y: ", game.power.y);
+				// console.log("Game Power - size/2: ", game.power.size/2);
+				// console.log("Game Power - size/2: ", game.power.y - (game.power.size/2));
+				// console.log("Game Power + size/2: ", game.power.y + (game.power.size/2));
 			}
 		}
 		else {
@@ -383,9 +381,6 @@ export class JogoService {
 				game.ball.velocity += game.ball.velocity * (game.ball.acceleration_ratio / 100);
 			}
 		}
-
-		
-		
 		return game;
 	}
 
@@ -416,11 +411,11 @@ export class JogoService {
 	async verifyPower(game: GGame) {
 
 		if (game.power) {
-			if( ((game.ball.positionY >= (game.power.y) 
+			if( ((game.ball.positionY >= (game.power.y)
 				&& game.ball.positionY <= (game.power.y +(game.power.size))))
 				&& (game.ball.positionX >= (game.power.x - game.power.size/2)
 				&& game.ball.positionX <= (game.power.x + game.power.size/2))) {
-				
+
 				if (game.lastPaddleHitted == "left") {
 					game.power.apply(game.paddleLeft);
 				}

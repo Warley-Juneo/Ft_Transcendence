@@ -79,7 +79,6 @@ export class UsersController {
     })
   ) file: Express.Multer.File, @Req() request, @Res() res: Response) {
 
-    console.log("request.sub", request.user.sub);
     let buffer = await this.service.uploadAvatar(file.originalname, request.user.sub);
 
     // Set appropriate response headers
