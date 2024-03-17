@@ -7,8 +7,9 @@ RUN npm install
 RUN npm install --save @types/multer
 EXPOSE 3000
 
-RUN npm install pg
 RUN npm install @prisma/adapter-pg
 RUN npx prisma generate
+# RUN npm install pg
+
 
 CMD ["npm", "run", "start"]
