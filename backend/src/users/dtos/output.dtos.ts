@@ -89,7 +89,7 @@ export class UserLadderDto {
 	this.loses = obj._count.match_loses;
 
 	this.matches = obj._count.match_as_player_1 + obj._count.match_as_player_2;
-	this.ladder = obj.lander;
+	this.ladder = obj.ladder;
 	this.draws = this.matches - (this.wins + this.loses);
   }
 }

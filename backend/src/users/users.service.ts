@@ -149,9 +149,10 @@ export class UsersService {
 
 		for (const obj of ladder) {
 			const position = ladder.findIndex(u => u.nickname === obj.nickname) + 1;
-			const objAux = { ...obj, lander: position }
+			const objAux = { ...obj, ladder: position }
 			outputLadderDto.push(new UserLadderDto(objAux));
 		};
+		console.log("RANKING DTO", outputLadderDto);
 		return outputLadderDto;
 	}
 
