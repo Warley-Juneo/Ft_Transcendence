@@ -66,7 +66,7 @@ export default function TopRank() {
 								<Score statusPart={user} />
 							</div>
 							<div className="col-2 h-100 d-flex">
-								<p className="m-auto">100</p>
+								<p className="m-auto">{user.points}</p>
 							</div>
 						</div>
 					</div>

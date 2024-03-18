@@ -5,7 +5,7 @@ export default function RightSide(): JSX.Element {
 				<p>Historico</p>
 			</div>
 			<div className="col-2">
-				<p>Prontos</p>
+				<p>Pontos</p>
 			</div>
 		</div>
 	)

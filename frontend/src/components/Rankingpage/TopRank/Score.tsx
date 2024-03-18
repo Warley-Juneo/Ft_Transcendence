@@ -15,10 +15,6 @@ export default function Score({ statusPart }: { statusPart: typeRaking }): JSX.E
 				<p className="text-primary">EMPT</p>
 				<p>{statusPart.draws}</p>
 			</div>
-			<div className='ms-3'>
-				<p className="text-primary">PTS</p>
-				<p>{statusPart.ladder}</p>
-			</div>
 		</div>
 	);
 }
