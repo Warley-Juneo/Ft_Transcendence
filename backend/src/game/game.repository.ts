@@ -118,7 +118,7 @@ export class GameRepository {
   }
 
   async addMatch(dto: MatchDto): Promise <void> {
-    let user = await this.prisma.match.create({
+    let match = await this.prisma.match.create({
       data: {
         player1_id: dto.player1_id,
         score_p1: dto.score_p1,
@@ -127,6 +127,25 @@ export class GameRepository {
         winner_id: dto.winner_id,
         loser_id: dto.loser_id,
         draws: false,
+      },
+    });
+
+  }
+
+  async setPoint(playerId: string, points: number): Promise <void> {
+    let user = await this.prisma.user.findUnique({
+      where: {
+        id: playerId,
+      },
+    });
+    let total = user.points + points;
+
+    await this.prisma.user.update({
+      where: {
+        id: playerId,
+      },
+      data: {
+        points: total,
       },
     });
   }

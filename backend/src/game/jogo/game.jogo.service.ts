@@ -261,7 +261,6 @@ export class JogoService {
 		}
 	}
 
-	//trocar de aba disconecta do websocket??
 	async disconnectUser(userDto: DisconnectUserDto): Promise<any> {
 		if (JogoService.rooms.length == 0) return;
 
@@ -285,7 +284,13 @@ export class JogoService {
 			game.placarRight = 10;
 		}
 		let dto = new MatchDto(game);
-		await this.gameRepository.addMatch(dto);
+
+		if (game.isRaking == true) {
+			await this.gameRepository.addMatch(dto);
+			await this.gameRepository.setPoint(game.winner, 3);
+			await this.gameRepository.setPoint(game.loser, 1);
+		}
+		
 		game.participants.forEach(async element => {
 			await this.gameRepository.updateMatchStatus(element, "NONE");
 		});
@@ -327,7 +332,11 @@ export class JogoService {
 
 				this.checkWinner(game);
 				let dto = new MatchDto(game);
-				await this.gameRepository.addMatch(dto);
+				if (game.isRaking == true) {
+					await this.gameRepository.addMatch(dto);
+					await this.gameRepository.setPoint(game.winner, 3);
+					await this.gameRepository.setPoint(game.loser, 1);
+				}
 
 				for (let id of game.participants) {
 					console.log("id: ", id)
@@ -342,7 +351,7 @@ export class JogoService {
 			}
 			this.resetGame(game);
 			let total_placar = game.placarLeft + game.placarRight;
-			if (total_placar % 2 == 0) {
+			if (game.isRaking == false && total_placar % 2 == 0) {
 				this.CreatePower(game);
 				// console.log("Game Power x: ", game.power.x);
 				// console.log("Game Power y: ", game.power.y);
