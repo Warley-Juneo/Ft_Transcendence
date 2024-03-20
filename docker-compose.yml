@@ -2,6 +2,7 @@ version: '3'
 services:
   postgres:
     image: postgres
+    container_name: postgres_ct
     environment:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
@@ -14,6 +15,7 @@ services:
       - pg-data:/var/lib/postgresql/data
   backend:
     build: ./backend
+    container_name: backend_ct
     ports:
       - '3000:3000'
     networks:
@@ -21,10 +23,11 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: 'postgresql://myuser:mypassword@postgres:5432/mydb'
-      HOST_URL: 'http://frontend:3001' 
+      DATABASE_URL: 'postgresql://myuser:mypassword@postgres_ct:5432/mydb'
+      HOST_URL: 'http://frontend:3001'
   frontend:
     build: ./frontend
+    container_name: frontend_ct
     ports:
       - '3001:3001'
     networks:
@@ -33,7 +36,7 @@ services:
       - backend
     environment:
       REACT_APP_AUTHCODE_URL: 'https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-d8fcb5df784cc3a53c27d5091233dac15d00fead1c6309949b472208516c8596&redirect_uri=http%3A%2F%2Flocalhost%3A3001&response_type=code'
-      REACT_APP_HOST_URL: 'http://localhost:3000'
+      REACT_APP_HOST_URL: 'http://backend_ct:3000'
 
 volumes:
   pg-data:
