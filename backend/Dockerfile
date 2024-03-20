@@ -13,5 +13,5 @@ RUN npx prisma generate
 
 EXPOSE 3000
 
-ENTRYPOINT ["npx", "prisma", "migrate", "deploy"]
+CMD ["npx", "prisma", "migrate", "deploy"]
 CMD ["npm", "run", "start"]
