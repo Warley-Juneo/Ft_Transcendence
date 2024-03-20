@@ -9,7 +9,8 @@ EXPOSE 3000
 
 RUN npm install @prisma/adapter-pg
 RUN npx prisma generate
-# RUN npm install pg
+#RUN npx prisma migrate dev
+
 
 
 CMD ["npm", "run", "start"]
