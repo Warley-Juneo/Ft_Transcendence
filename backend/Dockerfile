@@ -7,10 +7,11 @@ RUN npm install
 RUN npm install --save @types/multer
 
 #RUN npm install @prisma/adapter-pg
-# RUN npx prisma migrate dev
 RUN npx prisma generate
+# RUN npx prisma migrate deploy
 # RUN npm install pg
 
 EXPOSE 3000
 
+ENTRYPOINT ["npx", "prisma", "migrate", "deploy"]
 CMD ["npm", "run", "start"]
