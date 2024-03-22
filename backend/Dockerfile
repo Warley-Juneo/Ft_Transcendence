@@ -14,5 +14,4 @@ RUN npx prisma generate
 
 EXPOSE 3000
 
-CMD ["npx", "prisma", "migrate", "deploy"]
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start:migrate:prod"]
