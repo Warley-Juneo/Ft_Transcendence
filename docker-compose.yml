@@ -4,9 +4,9 @@ services:
     image: postgres
     container_name: postgres_ct
     environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydb
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - '5432:5432'
     networks:
@@ -23,13 +23,13 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: 'postgresql://myuser:mypassword@postgres_ct:5432/mydb'
-      API42_USER_AUTH: "https://api.intra.42.fr/oauth/token"
-      UID: "u-s4t2ud-d8fcb5df784cc3a53c27d5091233dac15d00fead1c6309949b472208516c8596"
-      SECRET: "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"
-      API42_USER_INFO: "https://api.intra.42.fr/v2/me"
-      JWT_SECRET: "paz"
-      HOST_URL: 'http://localhost:3001'
+      DATABASE_URL: ${DATABASE_URL}
+      API42_USER_AUTH: ${API42_USER_AUTH}
+      UID: ${UID}
+      SECRET: ${SECRET}
+      API42_USER_INFO: ${API42_USER_INFO} 
+      JWT_SECRET: ${JWT_SECRET}
+      HOST_URL: ${HOST_URL}
   frontend:
     build: ./frontend
     container_name: frontend_ct
@@ -40,8 +40,8 @@ services:
     depends_on:
       - backend
     environment:
-      REACT_APP_AUTHCODE_URL: 'https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-d8fcb5df784cc3a53c27d5091233dac15d00fead1c6309949b472208516c8596&redirect_uri=http%3A%2F%2Flocalhost%3A3001&response_type=code'
-      REACT_APP_HOST_URL: 'http://localhost:3000'
+      REACT_APP_AUTHCODE_URL: ${REACT_APP_AUTHCODE_URL}
+      REACT_APP_HOST_URL: ${REACT_APP_HOST_URL}
 
 volumes:
   pg-data:
