@@ -35,7 +35,7 @@ class GBall {
 		this.angle = 0;
 		this.size = 4;
 		this.max_angle = 70;
-		this.path = 5;
+		this.path = 1;
 		this.velocity = velocity;
 		this.acceleration_ratio = acceleration_ratio;
 		this.hit_positionY = 0;
@@ -144,16 +144,16 @@ export class GGame {
 		this.player_left = new Player(player_left_id);
 		this.player_right = new Player(player_right_id);
 		this.isRaking = isRaking;
-		this.window = new GWindow(800, 400);
+		this.window = new GWindow(100, 100);
 		this.ball = new GBall(1, 12);
-		this.paddleLeft = new Paddle(0, 50, 8, 2, 20);
-		this.paddleRight = new Paddle(100, 50, 8, 2, 20);
+		this.paddleLeft = new Paddle(0, 50, 1, 2, 20);
+		this.paddleRight = new Paddle(100, 50, 1, 2, 20);
 		this.roomID = randomUUID();
 		this.placarLeft = 0;
 		this.placarRight = 0;
 		this.winner = "";
 		this.loser = "";
-		this.pixelIncrement = 5;
+		this.pixelIncrement = 2;
 		this.paddle_hits = 0;
 		this.hits_for_accelaration = hits_for_acceleration;
 

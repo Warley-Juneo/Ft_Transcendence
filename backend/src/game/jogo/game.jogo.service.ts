@@ -13,7 +13,7 @@ export class JogoService {
 
 	constructor(private readonly gameRepository: GameRepository) { };
 	static rooms: GGame[] = [];
-	static x: number = 0;
+	// static x: number = 0;
 
 	async startGame(player1_id: string, player2_id: string, isRaking: boolean, hits_for_acceleration: number) {
 
@@ -366,12 +366,12 @@ export class JogoService {
 		this.verifyPower(game);
 
 		if (!game.pause) {
-			if (JogoService.x % 7 == 0) {
-				game.ball.positionX += game.ball.path * game.ball.directionX;
-				game.ball_refX += game.ball.path;
-				JogoService.x = 0;
-			}
-			JogoService.x++;
+
+			/*CALC BALL POSITION*/
+			game.ball.positionX += game.ball.path * game.ball.directionX;
+			game.ball_refX += game.ball.path;
+			// JogoService.x = 0;
+			// JogoService.x++;
 
 			if (game.ball.angle != 0) {
 				let tan = Math.tan((game.ball.angle * Math.PI) / 180);
