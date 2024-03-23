@@ -212,8 +212,10 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 
 	@SubscribeMessage('joinRoom')
 	async handleJoinRoom(client: Socket, dto : {id: any, isRanking: boolean}) {
-		ChatroomGateway.queues.push({ id: dto.id, isRanking: dto.isRanking, socket: client });
-
+		if (!ChatroomGateway.queues.find(item => item.id == dto.id)) {
+			ChatroomGateway.queues.push({ id: dto.id, isRanking: dto.isRanking, socket: client });
+		}
+		
 		if (ChatroomGateway.queues.length >= 2) {
 			let player1 = ChatroomGateway.queues[0];
 			let player2 = ChatroomGateway.queues[1];
