@@ -197,6 +197,12 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 		this.server.emit('checkStatus', dto.msg);
 	}
 
+
+
+	/* WEBSOCKET JOGO */
+
+
+
 	@SubscribeMessage('rooms')
 	async rooms(client: Socket, dto: rooms) {
 		const room = dto.room

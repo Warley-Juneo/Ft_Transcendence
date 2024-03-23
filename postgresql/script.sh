@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo pg_ctl -D /var/lib/postgresql/data -l logfile start
+
 sudo -u postgres psql << _EOF_
 
 ALTER USER postgres PASSWORD 'password';

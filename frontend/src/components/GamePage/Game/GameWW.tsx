@@ -37,15 +37,16 @@ export default function GameWW(): JSX.Element {
 
 	const room = useParams().room
 	const cssDivGame: React.CSSProperties = {
-		height: `${fakeGame.window.height} px`,
-		width: fakeGame.window.width,
+
+		height: `${fakeGame.window.height}%`,
+		width: `${fakeGame.window.width}%`,
 		boxShadow: '0px 0px 15px 5px white',
 		position: 'relative',
 	}
 
 	const divFilds: React.CSSProperties = {
-		height: fakeGame.window.height,
-		width: '5px',
+		height: `${fakeGame.window.height}%`,
+		width: '2%',
 		backgroundColor: 'white',
 		position: 'absolute',
 		top: 0,
@@ -63,7 +64,7 @@ export default function GameWW(): JSX.Element {
 	useEffect(() => {
 		const intervalId = setInterval(() => {
 			userData.socket?.emit('updateGame', room)
-		});
+		},30);
 
 		return () => {
 			clearInterval(intervalId);
@@ -72,30 +73,30 @@ export default function GameWW(): JSX.Element {
 	}, [room])
 
 	const paddleLeft: React.CSSProperties = {
-		height: fakeGame.paddleLeft.height,
-		width: fakeGame.paddleLeft.width,
+		height: `${fakeGame.paddleLeft.height}%`,
+		width: `${fakeGame.paddleLeft.width}%`,
 		backgroundColor: 'white',
 		position: 'absolute',
-		top: fakeGame.paddleLeft.position_front,
-		left: fakeGame.paddleLeft.positionX,
+		top: `${fakeGame.paddleLeft.position_front}%`,
+		left: `${fakeGame.paddleLeft.positionX}%`,
 	}
 
 	const paddleRight: React.CSSProperties = {
-		height: fakeGame.paddleRight.height,
-		width: fakeGame.paddleRight.width,
+		height: `${fakeGame.paddleRight.height}%`,
+		width: `${fakeGame.paddleRight.width}%`,
 		backgroundColor: 'white',
 		position: 'absolute',
-		top: fakeGame.paddleRight.position_front,
-		left: fakeGame.paddleRight.positionX,
+		top: `${fakeGame.paddleRight.position_front}%`,
+		left: `${fakeGame.paddleRight.positionX}%`,
 	}
 
 	const ball: React.CSSProperties = {
-		height: fakeGame.ball.size,
-		width: fakeGame.ball.size,
+		height: `${window.innerHeight * 0.03}px`,
+		width: `${window.innerHeight * 0.03}px`,
 		backgroundColor: 'white',
 		position: 'absolute',
-		top: fakeGame.ball.positionY,
-		left: fakeGame.ball.positionX,
+		top: `${fakeGame.ball.positionY}%`,
+		left: `${fakeGame.ball.positionX}%`,
 		borderRadius: '50%',
 	}
 
@@ -163,7 +164,7 @@ export default function GameWW(): JSX.Element {
 	return (
 		<div style={cssPage} tabIndex={0} onKeyDown={movePaddleLeft}>
 
-			<div className="d-flex flex-column justify-content-center align-items-center h-100 w-100">
+			<div className="d-flex flex-column justify-content-center align-items-center h-75 container">
 				<BarDataUsers
 					nicknameLeft={fakeGame.player_left.nickname}
 					nicknameRight={fakeGame.player_right.nickname}

@@ -1,12 +1,52 @@
 version: '3'
 services:
   postgres:
-    build: ./postgresql
+    image: postgres
+    container_name: postgres_ct
     environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydb
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - '5432:5432'
+    networks:
+      - 'ft_transcendence'
     volumes:
-      - ./postgresql_script.sh:/docker-entrypoint-initdb.d/script.sh
+      - pg-data:/var/lib/postgresql/data
+  backend:
+    build: ./backend
+    container_name: backend_ct
+    ports:
+      - '3000:3000'
+    networks:
+      - 'ft_transcendence'
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      API42_USER_AUTH: ${API42_USER_AUTH}
+      UID: ${UID}
+      SECRET: ${SECRET}
+      API42_USER_INFO: ${API42_USER_INFO} 
+      JWT_SECRET: ${JWT_SECRET}
+      HOST_URL: ${HOST_URL}
+  frontend:
+    build: ./frontend
+    container_name: frontend_ct
+    ports:
+      - '3001:3001'
+    networks:
+      - 'ft_transcendence'
+    depends_on:
+      - backend
+    environment:
+      REACT_APP_AUTHCODE_URL: ${REACT_APP_AUTHCODE_URL}
+      REACT_APP_HOST_URL: ${REACT_APP_HOST_URL}
+
+volumes:
+  pg-data:
+
+networks:
+  ft_transcendence:
+    driver: bridge
+    name: ft_transcendence
