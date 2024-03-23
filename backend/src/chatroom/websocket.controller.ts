@@ -1,31 +1,14 @@
 // WebSocket for communication chat in real time
 
-import { SubscribeMessage, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer, MessageBody } from "@nestjs/websockets";
+import { SubscribeMessage, OnGatewayInit, OnGatewayConnection, WebSocketGateway, WebSocketServer, MessageBody } from "@nestjs/websockets";
 import { Socket, Server } from "socket.io";
-import { AddChatUserDto, CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, DeleteChatroomDto, InputChatroomDto, InputChatroomMessageDto, InputOpenChatroomDto, WebsocketDto, WebsocketWithTimeDto } from "./dto/input.dto";
+import { CreateChatroomDto, CreateDirectChatroomDto, CreateDirectMessageDto, DeleteChatroomDto, InputChatroomMessageDto, InputOpenChatroomDto, WebsocketDto, WebsocketWithTimeDto } from "./dto/input.dto";
 import { ChatroomService } from "./chatroom.service";
 import { DisconnectDto, DisconnectUserDto } from "src/game/dtos/input.dto";
 import { GameService } from "src/game/game.service";
 import { UsersService } from "src/users/users.service";
-import { Console } from "console";
 import { JogoService } from "src/game/jogo/game.jogo.service";
 
-interface queue {
-	id: string,
-	nickname: string,
-	model: string,
-	bar: string,
-	client: Socket,
-}
-
-interface responseQueue {
-	Player1: string,
-	Player2: string,
-	Player1Bar: string,
-	Player2Bar: string,
-	lider: string,
-	room: string
-}
 
 interface rooms {
 	paddleLider: number,
@@ -56,6 +39,7 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 		[key: string]: ObjectQueue;
 	} = {};
 	static queues: ObjectQueue[] = [];
+	static rank_queues: ObjectQueue[] = [];
 
 	constructor(private readonly service: ChatroomService
 		, private readonly gameService: GameService
@@ -212,16 +196,25 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 
 	@SubscribeMessage('joinRoom')
 	async handleJoinRoom(client: Socket, dto : {id: any, isRanking: boolean}) {
-		if (!ChatroomGateway.queues.find(item => item.id == dto.id)) {
-			ChatroomGateway.queues.push({ id: dto.id, isRanking: dto.isRanking, socket: client });
+		if (ChatroomGateway.queues.find(item => item.id == dto.id) || ChatroomGateway.rank_queues.find(item => item.id == dto.id)) return
+		if (dto.isRanking) {
+			ChatroomGateway.rank_queues.push({id: dto.id, isRanking: dto.isRanking, socket: client});
+			if (ChatroomGateway.queues.length >= 2) {
+				let player1 = ChatroomGateway.queues[0];
+				let player2 = ChatroomGateway.queues[1];
+				ChatroomGateway.queues.splice(0, 2);
+				this.handleCreateMatch(player1, player2);
+			}
+			return 
 		}
-		
-		if (ChatroomGateway.queues.length >= 2) {
-			let player1 = ChatroomGateway.queues[0];
-			let player2 = ChatroomGateway.queues[1];
-			ChatroomGateway.queues.splice(0, 2);
+		ChatroomGateway.queues.push({id: dto.id, isRanking: dto.isRanking, socket: client});
+		if (ChatroomGateway.rank_queues.length >= 2) {
+			let player1 = ChatroomGateway.rank_queues[0];
+			let player2 = ChatroomGateway.rank_queues[1];
+			ChatroomGateway.rank_queues.splice(0, 2);
 			this.handleCreateMatch(player1, player2);
 		}
+
 	}
 
 	@SubscribeMessage('sendInvite')
