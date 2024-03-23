@@ -91,8 +91,8 @@ export default function GameWW(): JSX.Element {
 	}
 
 	const ball: React.CSSProperties = {
-		width: `${fakeGame.ball.size}%`,
-		height: `${fakeGame.ball.size}%`,
+		height: `${window.innerHeight * 0.03}px`,
+		width: `${window.innerHeight * 0.03}px`,
 		backgroundColor: 'white',
 		position: 'absolute',
 		top: `${fakeGame.ball.positionY}%`,
