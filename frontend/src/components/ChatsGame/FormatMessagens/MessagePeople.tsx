@@ -27,7 +27,8 @@ export default function MessagePeople(props: propsMessagePeople): JSX.Element {
 	return (
 		<div className='d-flex mb-2'>
 			<img	style={cssPhoto}
-					src={props.avatarUrl}
+					src={`data:image/jpeg;base64, ${props.avatarUrl}`}
+
 					alt='foto'
 					onClick={() => props.showDinamicProfile(props.nickname, props.id)}
 			/>

@@ -76,7 +76,7 @@ export default function ListFriends(props: PropsListFriends) {
 						<div className='d-flex hover' key={play.id}>
 							<img
 								className="foto-list-friends"
-								src={play.avatar}
+								src={`data:image/jpeg;base64, ${play.avatar}`}
 								alt='foto'
 								onClick={() => clickPhoto(play.id, play.nickname)}
 							/>
