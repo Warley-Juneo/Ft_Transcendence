@@ -111,8 +111,8 @@ export default function Game(): JSX.Element {
 			}
 
 			resize() {
-				const containerWidth = this.scale.width;
-					const containerHeight = this.scale.height;
+				const containerWidth = window.innerWidth;
+					const containerHeight = window.innerHeight;
 
 					// Redimensionar o plano de fundo
 					this.background.setScale(containerWidth / this.background.width, containerHeight / this.background.height);
@@ -143,7 +143,9 @@ export default function Game(): JSX.Element {
 				// Adiciona um ouvinte de evento para o redimensionamento da janela
 				window.addEventListener('resize', () => {
 					this.resize();
+					console.log('resize')
 				});
+
 			}
 
 			create() {
