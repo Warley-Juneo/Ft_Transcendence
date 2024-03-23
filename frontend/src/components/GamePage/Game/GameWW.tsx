@@ -37,7 +37,7 @@ export default function GameWW(): JSX.Element {
 
 	const room = useParams().room
 	const cssDivGame: React.CSSProperties = {
-		height: fakeGame.window.height,
+		height: `${fakeGame.window.height} px`,
 		width: fakeGame.window.width,
 		boxShadow: '0px 0px 15px 5px white',
 		position: 'relative',

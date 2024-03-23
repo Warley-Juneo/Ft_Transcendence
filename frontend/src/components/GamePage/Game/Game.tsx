@@ -49,6 +49,7 @@ export default function Game(): JSX.Element {
 	useEffect(() => {
 		if (!gameContainerRef.current) return
 
+
 		class GameData extends Phaser.Scene {
 			nave: Phaser.Physics.Arcade.Sprite
 			pntAnel: Phaser.Physics.Arcade.Sprite
@@ -58,10 +59,7 @@ export default function Game(): JSX.Element {
 			pntTerra: Phaser.Physics.Arcade.Sprite
 			sateleteChat: Phaser.Physics.Arcade.Sprite
 			base: Phaser.Physics.Arcade.Sprite
-
-			containerWidth: number
-			containerHeight: number
-
+			background: Phaser.GameObjects.Sprite
 			constructor() {
 				super({ key: 'MyGameScene' });
 				this.nave = {} as Phaser.Physics.Arcade.Sprite;
@@ -72,12 +70,11 @@ export default function Game(): JSX.Element {
 				this.pntTerra = {} as Phaser.Physics.Arcade.Sprite;
 				this.sateleteChat = {} as Phaser.Physics.Arcade.Sprite;
 				this.base = {} as Phaser.Physics.Arcade.Sprite;
-				this.containerHeight = window.innerHeight; // Altura do container ou da janela
-				this.containerWidth = window.innerWidth; // Largura do container ou da janela
+				this.background = {} as Phaser.GameObjects.Sprite;
 			}
 
 			calculeScaleNave(valueEixoX: number, valueEixoY: number) {
-				let percentageX = (valueEixoX * 100 / this.containerWidth) / 1000;
+				let percentageX = (valueEixoX * 100 / this.scale.width) / 1000;
 				percentageX *= percentageX > 0.06 ? 2 : 1;
 				return percentageX + 0.1;
 			}
@@ -113,13 +110,49 @@ export default function Game(): JSX.Element {
 				this.load.image('naveLateral', naveLateral);
 			}
 
+			resize() {
+				const containerWidth = this.scale.width;
+					const containerHeight = this.scale.height;
+
+					// Redimensionar o plano de fundo
+					this.background.setScale(containerWidth / this.background.width, containerHeight / this.background.height);
+					this.background.setPosition(containerWidth / 2, containerHeight / 2);
+
+					// Reposicionar todos os elementos na tela
+					this.pntTerra.x = containerWidth * 0.6;
+					this.pntTerra.y = containerHeight * 0.3;
+					this.luaTerra.x = containerWidth * 0.57;
+					this.luaTerra.y = containerHeight * 0.25;
+					this.pntLua.x = containerWidth * 0.9;
+					this.pntLua.y = containerHeight * 0.1;
+					this.pntFire.x = containerWidth * 0.1;
+					this.pntFire.y = containerHeight * 0.2;
+					this.pntAnel.x = containerWidth * 0.9;
+					this.pntAnel.y = containerHeight * 0.8;
+					this.sateleteChat.x = containerWidth * 0.6;
+					this.sateleteChat.y = containerHeight * 0.7;
+					this.base.x = containerWidth * 0.1;
+					this.base.y = containerHeight * 0.9;
+
+					// Reposicionar a nave no centro da tela
+					this.nave.x = containerWidth / 2;
+					this.nave.y = containerHeight / 2;
+			}
+
+			checkResize() {
+				// Adiciona um ouvinte de evento para o redimensionamento da janela
+				window.addEventListener('resize', () => {
+					this.resize();
+				});
+			}
+
 			create() {
-				const containerWidth = this.containerWidth;
-				const containerHeight = this.containerHeight;
+				const containerWidth = this.scale.width;
+				const containerHeight = this.scale.height;
 
 				// added background in the center of the scrren
-				const background = this.add.sprite(containerWidth / 2, containerHeight / 2, "background");
-				background.setScale(containerWidth / background.width, containerHeight / background.height); // Redimensiona o fundo para preencher a tela
+				this.background = this.add.sprite(containerWidth / 2, containerHeight / 2, "background");
+				this.background.setScale(containerWidth / this.background.width, containerHeight / this.background.height); // Redimensiona o fundo para preencher a tela
 
 				// added nave in the center of the scrren
 				this.nave = this.physics.add.sprite((containerWidth / 2), (containerHeight / 2), "naveFrente");
@@ -143,16 +176,18 @@ export default function Game(): JSX.Element {
 
 				this.physics.world.setBounds(0, 0, containerWidth, containerHeight); // Define os limites do mundo para que a nave não possa sair da tela
 				this.setupColliders(); // Configura os colisores para que possamos detectar colisões entre a nave e os planetas
+				this.checkResize();
 			}
 
 			update() {
+				// console.log(game.scale.width, game.scale.height)
 				const curso = this.input.keyboard?.createCursorKeys(); // event listener para as teclas de seta
 
 				if (!curso) return // Se não houver teclas de seta, retorne;
 
 				if (curso.down.isDown || curso.left.isDown || curso.right.isDown || curso.up.isDown) {
 					const { x, y } = this.nave;
-					const inverseSizeX = -(-this.containerWidth + x)
+					const inverseSizeX = -(-this.scale.width + x)
 					this.nave.setScale(this.calculeScaleNave(inverseSizeX, y));
 
 					if (curso.left.isDown && curso.down.isDown) {
@@ -215,10 +250,17 @@ export default function Game(): JSX.Element {
 					debug: false,
 				}
 			},
-			scene: GameData
+			scene: GameData,
+			scale: {
+				mode: Phaser.Scale.RESIZE,
+				autoCenter: Phaser.Scale.CENTER_BOTH
+			}
 		};
 
 		const game = new Phaser.Game(gameConfig);
+
+
+
 
 		// Limpeza quando o componente for desmontado
 		return () => {
