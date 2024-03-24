@@ -12,6 +12,4 @@ RUN npx prisma generate
 # RUN npx prisma migrate deploy
 # RUN npm install pg
 
-EXPOSE 3000
-
 CMD ["npm", "run", "start:migrate:prod"]

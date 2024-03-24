@@ -3,10 +3,6 @@ services:
   postgres:
     image: postgres
     container_name: postgres_ct
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - '5432:5432'
     networks:
@@ -22,14 +18,6 @@ services:
       - 'ft_transcendence'
     depends_on:
       - postgres
-    environment:
-      DATABASE_URL: ${DATABASE_URL}
-      API42_USER_AUTH: ${API42_USER_AUTH}
-      UID: ${UID}
-      SECRET: ${SECRET}
-      API42_USER_INFO: ${API42_USER_INFO} 
-      JWT_SECRET: ${JWT_SECRET}
-      HOST_URL: ${HOST_URL}
   frontend:
     build: ./frontend
     container_name: frontend_ct
@@ -39,9 +27,6 @@ services:
       - 'ft_transcendence'
     depends_on:
       - backend
-    environment:
-      REACT_APP_AUTHCODE_URL: ${REACT_APP_AUTHCODE_URL}
-      REACT_APP_HOST_URL: ${REACT_APP_HOST_URL}
 
 volumes:
   pg-data:
