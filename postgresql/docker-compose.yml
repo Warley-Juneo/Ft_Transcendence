@@ -1,0 +1,34 @@
+version: '3'
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+    # networks:
+    #   - 'ft_transcendence'
+    ports:
+      - '5432:5432'
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+  # backend:
+  #   build: ./backend
+  #   ports:
+  #     - '3000:3000'
+  #   networks:
+  #     - 'ft_transcendence'
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     DATABASE_URL: 'postgresql://myuser:mypassword@postgres:5432/mydb'
+
+volumes:
+  pg-data:
+
+# networks:
+#   ft_transcendence:
+#     driver: bridge
+#     name: ft_transcendence
