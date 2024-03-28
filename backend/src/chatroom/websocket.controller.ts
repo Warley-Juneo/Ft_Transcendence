@@ -196,25 +196,27 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection {
 
 	@SubscribeMessage('joinRoom')
 	async handleJoinRoom(client: Socket, dto : {id: any, isRanking: boolean}) {
-		if (ChatroomGateway.queues.find(item => item.id == dto.id) || ChatroomGateway.rank_queues.find(item => item.id == dto.id)) return
+		if (ChatroomGateway.queues.find(item => item.id == dto.id) || ChatroomGateway.rank_queues.find(item => item.id == dto.id)) {
+			return
+		}
 		if (dto.isRanking) {
 			ChatroomGateway.rank_queues.push({id: dto.id, isRanking: dto.isRanking, socket: client});
-			if (ChatroomGateway.queues.length >= 2) {
-				let player1 = ChatroomGateway.queues[0];
-				let player2 = ChatroomGateway.queues[1];
-				ChatroomGateway.queues.splice(0, 2);
+			if (ChatroomGateway.rank_queues.length >= 2) {
+				let player1 = ChatroomGateway.rank_queues[0];
+				let player2 = ChatroomGateway.rank_queues[1];
+				ChatroomGateway.rank_queues.splice(0, 2);
 				this.handleCreateMatch(player1, player2);
 			}
 			return 
 		}
+
 		ChatroomGateway.queues.push({id: dto.id, isRanking: dto.isRanking, socket: client});
-		if (ChatroomGateway.rank_queues.length >= 2) {
-			let player1 = ChatroomGateway.rank_queues[0];
-			let player2 = ChatroomGateway.rank_queues[1];
-			ChatroomGateway.rank_queues.splice(0, 2);
+		if (ChatroomGateway.queues.length >= 2) {
+			let player1 = ChatroomGateway.queues[0];
+			let player2 = ChatroomGateway.queues[1];
+			ChatroomGateway.queues.splice(0, 2);
 			this.handleCreateMatch(player1, player2);
 		}
-
 	}
 
 	@SubscribeMessage('sendInvite')
